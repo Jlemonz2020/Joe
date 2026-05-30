@@ -1232,6 +1232,58 @@ const defaultFrontendLayout = {
     motion: "candles"
   }
 };
+const frontendUiSettingKey = "frontend_ui_v1";
+const frontendEditorBackupKey = "frontend_editor_backup_v1";
+const defaultFrontendUi = {
+  archiveCategories: [
+    { id: "all", label: "全部", slug: "", description: "所有公开札记", countText: "", href: "/archive.html", visibleInHome: false, visibleInArchive: true, sortOrder: 0 },
+    { id: "linux", label: "Linux", slug: "linux", description: "命令、驱动、系统记录", countText: "18", href: "/archive.html?cat=linux", visibleInHome: true, visibleInArchive: true, sortOrder: 10 },
+    { id: "raspberry-pi", label: "树莓", slug: "raspberry-pi", description: "家庭服务器和小实验", countText: "12", href: "/archive.html?cat=raspberry-pi", visibleInHome: true, visibleInArchive: true, sortOrder: 20 },
+    { id: "server", label: "服务", slug: "server", description: "Nginx、Docker、备份", countText: "15", href: "/archive.html?cat=server", visibleInHome: true, visibleInArchive: true, sortOrder: 30 },
+    { id: "life", label: "生活", slug: "life", description: "不太正式的碎片", countText: "9", href: "/moments.html?kind=life", visibleInHome: true, visibleInArchive: true, sortOrder: 40 }
+  ],
+  momentKinds: [
+    { id: "all", label: "碎片", kind: "all", subLabel: "随手记", visible: true, sortOrder: 0 },
+    { id: "project", label: "项目", kind: "project", subLabel: "进度留痕", visible: true, sortOrder: 10 },
+    { id: "life", label: "生活", kind: "life", subLabel: "轻一点", visible: true, sortOrder: 20 },
+    { id: "tech", label: "技术", kind: "tech", subLabel: "慢慢补", visible: false, sortOrder: 30 }
+  ],
+  pageChips: {
+    archive: [
+      { id: "article", label: "文章", subLabel: "长记录", visible: true, sortOrder: 10 },
+      { id: "debug", label: "调试", subLabel: "可回溯", visible: true, sortOrder: 20 },
+      { id: "note", label: "笔记", subLabel: "慢慢补", visible: true, sortOrder: 30 }
+    ],
+    projects: [
+      { id: "public", label: "公开", subLabel: "只留可复盘内容", visible: true, sortOrder: 10 },
+      { id: "progress", label: "进度", subLabel: "看得见", visible: true, sortOrder: 20 },
+      { id: "next", label: "下一步", subLabel: "不丢线索", visible: true, sortOrder: 30 }
+    ],
+    about: [
+      { id: "pi5", label: "Pi5", subLabel: "常驻服务", visible: true, sortOrder: 10 },
+      { id: "linux", label: "Linux", subLabel: "边学边记", visible: true, sortOrder: 20 },
+      { id: "blog", label: "Blog", subLabel: "长期整理", visible: true, sortOrder: 30 }
+    ]
+  },
+  footer: {
+    brandBody: "Linux、Pi5、项目和图文，慢慢归档。",
+    tags: [
+      { id: "pi5", label: "Pi5", visible: true, sortOrder: 10 },
+      { id: "linux", label: "Linux", visible: true, sortOrder: 20 },
+      { id: "gallery", label: "图库", visible: true, sortOrder: 30 }
+    ]
+  },
+  searchSuggestions: [
+    { id: "project-server", label: "树莓派家庭服务器", href: "/projects.html", visible: true, sortOrder: 10 },
+    { id: "device-tree", label: "设备树绑定", href: "/moments.html", visible: true, sortOrder: 20 },
+    { id: "archive", label: "札记", href: "/archive.html", visible: true, sortOrder: 30 }
+  ],
+  sectionTitles: {
+    homeProjects: "Project",
+    homeMoments: "Moments",
+    homeCategory: "分类入口"
+  }
+};
 
 function clientFingerprint(req) {
   const raw = `${req.headers["x-forwarded-for"] || req.socket.remoteAddress || ""}|${req.headers["user-agent"] || ""}`;
@@ -1240,6 +1292,11 @@ function clientFingerprint(req) {
 
 function cleanText(value, maxLength) {
   return String(value || "").trim().replace(/\s+/g, " ").slice(0, maxLength);
+}
+
+function cleanKey(value, fallback = "") {
+  const key = String(value || "").trim().toLowerCase().replace(/[^a-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
+  return key || fallback;
 }
 
 function cleanId(value) {
@@ -1515,6 +1572,12 @@ function cleanFooterHref(value) {
   return "";
 }
 
+function cleanUiHref(value, fallback = "") {
+  const href = String(value || "").trim().slice(0, 500);
+  if (/^(https?:\/\/|mailto:|\/(?!\/))/i.test(href)) return href;
+  return fallback;
+}
+
 function normalizeFooterSections(value) {
   const sections = Array.isArray(value) ? value : [];
   return sections.slice(0, footerSectionLimit).map((section) => {
@@ -1581,12 +1644,12 @@ function normalizeFrontendLayout(value = {}) {
       showCategoryCard: pickBoolean(home.showCategoryCard, defaultFrontendLayout.home.showCategoryCard)
     },
     archive: {
-      defaultCategory: pickChoice(archive.defaultCategory, ["", "linux", "raspberry-pi", "server", "life"], defaultFrontendLayout.archive.defaultCategory),
+      defaultCategory: cleanKey(archive.defaultCategory, defaultFrontendLayout.archive.defaultCategory),
       showSearchPanel: pickBoolean(archive.showSearchPanel, defaultFrontendLayout.archive.showSearchPanel),
       showGithubPanel: pickBoolean(archive.showGithubPanel, defaultFrontendLayout.archive.showGithubPanel)
     },
     moments: {
-      defaultKind: pickChoice(moments.defaultKind, ["all", "project", "life", "tech"], defaultFrontendLayout.moments.defaultKind),
+      defaultKind: cleanKey(moments.defaultKind, defaultFrontendLayout.moments.defaultKind),
       showDraftPanel: pickBoolean(moments.showDraftPanel, defaultFrontendLayout.moments.showDraftPanel)
     },
     projects: {
@@ -1600,6 +1663,100 @@ function normalizeFrontendLayout(value = {}) {
   };
 }
 
+function normalizeSort(value, fallback = 0) {
+  return pickInteger(value, 0, 9999, fallback);
+}
+
+function normalizeUiList(value, fallback, normalizer, limit = 24) {
+  const list = Array.isArray(value) ? value : fallback;
+  const normalized = list.slice(0, limit).map((item, index) => normalizer(item, fallback[index] || {}, index)).filter(Boolean);
+  return normalized.length ? normalized.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)) : fallback;
+}
+
+function normalizeArchiveCategory(item = {}, fallback = {}, index = 0) {
+  const slug = cleanKey(item.slug ?? fallback.slug ?? "", "");
+  const id = cleanKey(item.id || slug || fallback.id, `cat-${index + 1}`);
+  const href = cleanUiHref(item.href || fallback.href || (slug ? `/archive.html?cat=${slug}` : "/archive.html"), slug ? `/archive.html?cat=${slug}` : "/archive.html");
+  return {
+    id,
+    label: cleanText(item.label ?? fallback.label ?? "分类", 40),
+    slug,
+    description: cleanText(item.description ?? fallback.description ?? "", 120),
+    countText: cleanText(item.countText ?? fallback.countText ?? "", 20),
+    href,
+    visibleInHome: pickBoolean(item.visibleInHome, fallback.visibleInHome ?? true),
+    visibleInArchive: pickBoolean(item.visibleInArchive, fallback.visibleInArchive ?? true),
+    sortOrder: normalizeSort(item.sortOrder, fallback.sortOrder ?? index * 10)
+  };
+}
+
+function normalizeMomentKind(item = {}, fallback = {}, index = 0) {
+  const kind = cleanKey(item.kind ?? fallback.kind ?? "", index === 0 ? "all" : `kind-${index + 1}`);
+  return {
+    id: cleanKey(item.id || kind || fallback.id, `kind-${index + 1}`),
+    label: cleanText(item.label ?? fallback.label ?? "类型", 40),
+    kind,
+    subLabel: cleanText(item.subLabel ?? fallback.subLabel ?? "", 60),
+    visible: pickBoolean(item.visible, fallback.visible ?? true),
+    sortOrder: normalizeSort(item.sortOrder, fallback.sortOrder ?? index * 10)
+  };
+}
+
+function normalizePageChip(item = {}, fallback = {}, index = 0) {
+  return {
+    id: cleanKey(item.id || fallback.id, `chip-${index + 1}`),
+    label: cleanText(item.label ?? fallback.label ?? "标签", 40),
+    subLabel: cleanText(item.subLabel ?? fallback.subLabel ?? "", 80),
+    visible: pickBoolean(item.visible, fallback.visible ?? true),
+    sortOrder: normalizeSort(item.sortOrder, fallback.sortOrder ?? index * 10)
+  };
+}
+
+function normalizeFooterTag(item = {}, fallback = {}, index = 0) {
+  return {
+    id: cleanKey(item.id || fallback.id, `footer-tag-${index + 1}`),
+    label: cleanText(item.label ?? fallback.label ?? "标签", 40),
+    visible: pickBoolean(item.visible, fallback.visible ?? true),
+    sortOrder: normalizeSort(item.sortOrder, fallback.sortOrder ?? index * 10)
+  };
+}
+
+function normalizeSearchSuggestion(item = {}, fallback = {}, index = 0) {
+  return {
+    id: cleanKey(item.id || fallback.id, `suggestion-${index + 1}`),
+    label: cleanText(item.label ?? fallback.label ?? "入口", 60),
+    href: cleanUiHref(item.href || fallback.href || "/index.html", "/index.html"),
+    visible: pickBoolean(item.visible, fallback.visible ?? true),
+    sortOrder: normalizeSort(item.sortOrder, fallback.sortOrder ?? index * 10)
+  };
+}
+
+function normalizeFrontendUi(value = {}) {
+  const source = value && typeof value === "object" ? value : {};
+  const pageChips = source.pageChips && typeof source.pageChips === "object" ? source.pageChips : {};
+  const footer = source.footer && typeof source.footer === "object" ? source.footer : {};
+  const sectionTitles = source.sectionTitles && typeof source.sectionTitles === "object" ? source.sectionTitles : {};
+  return {
+    archiveCategories: normalizeUiList(source.archiveCategories, defaultFrontendUi.archiveCategories, normalizeArchiveCategory, 32),
+    momentKinds: normalizeUiList(source.momentKinds, defaultFrontendUi.momentKinds, normalizeMomentKind, 20),
+    pageChips: {
+      archive: normalizeUiList(pageChips.archive, defaultFrontendUi.pageChips.archive, normalizePageChip, 12),
+      projects: normalizeUiList(pageChips.projects, defaultFrontendUi.pageChips.projects, normalizePageChip, 12),
+      about: normalizeUiList(pageChips.about, defaultFrontendUi.pageChips.about, normalizePageChip, 12)
+    },
+    footer: {
+      brandBody: cleanText(footer.brandBody ?? defaultFrontendUi.footer.brandBody, 180),
+      tags: normalizeUiList(footer.tags, defaultFrontendUi.footer.tags, normalizeFooterTag, 12)
+    },
+    searchSuggestions: normalizeUiList(source.searchSuggestions, defaultFrontendUi.searchSuggestions, normalizeSearchSuggestion, 12),
+    sectionTitles: {
+      homeProjects: cleanText(sectionTitles.homeProjects ?? defaultFrontendUi.sectionTitles.homeProjects, 40),
+      homeMoments: cleanText(sectionTitles.homeMoments ?? defaultFrontendUi.sectionTitles.homeMoments, 40),
+      homeCategory: cleanText(sectionTitles.homeCategory ?? defaultFrontendUi.sectionTitles.homeCategory, 40)
+    }
+  };
+}
+
 async function getFrontendLayout() {
   const raw = await getSetting(frontendLayoutSettingKey, "");
   if (!raw) return normalizeFrontendLayout(defaultFrontendLayout);
@@ -1608,6 +1765,40 @@ async function getFrontendLayout() {
   } catch {
     return normalizeFrontendLayout(defaultFrontendLayout);
   }
+}
+
+async function getFrontendUi() {
+  const raw = await getSetting(frontendUiSettingKey, "");
+  if (!raw) return normalizeFrontendUi(defaultFrontendUi);
+  try {
+    return normalizeFrontendUi(JSON.parse(raw));
+  } catch {
+    return normalizeFrontendUi(defaultFrontendUi);
+  }
+}
+
+async function getFrontendEditorBackup() {
+  const raw = await getSetting(frontendEditorBackupKey, "");
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+async function snapshotFrontendEditor(reason = "save") {
+  const snapshot = {
+    savedAt: new Date().toISOString(),
+    reason,
+    texts: await getFrontendTextMap(),
+    rules: await getSetting("site_text_rules", ""),
+    footerSections: await getFooterSections(),
+    layout: await getFrontendLayout(),
+    ui: await getFrontendUi()
+  };
+  await setSetting(frontendEditorBackupKey, JSON.stringify(snapshot));
+  return snapshot;
 }
 
 function footerSectionsFromBody(body) {
@@ -2165,6 +2356,18 @@ function cleanStatus(value, allowed, fallback) {
   return allowed.includes(value) ? value : fallback;
 }
 
+function cleanMomentKind(value, fallback = "life") {
+  const kind = cleanKey(value, "");
+  if (kind && kind !== "all") return kind;
+  const fallbackKind = cleanKey(fallback, "life");
+  return fallbackKind && fallbackKind !== "all" ? fallbackKind : "life";
+}
+
+function cleanMomentKindFilter(value) {
+  const kind = cleanKey(value, "");
+  return kind && kind !== "all" ? kind : "";
+}
+
 function tagsFromInput(value) {
   const raw = Array.isArray(value) ? value.join(",") : String(value || "");
   return raw.split(/[,，]/).map((item) => cleanText(item, 40)).filter(Boolean).slice(0, 12);
@@ -2272,13 +2475,52 @@ async function adminSiteTextsPayload() {
     definitions: frontendTextDefaults,
     texts: await getFrontendTextMap(),
     rules: await getSetting("site_text_rules", ""),
-    footerSections: await getFooterSections()
+    footerSections: await getFooterSections(),
+    layout: await getFrontendLayout(),
+    ui: await getFrontendUi()
   };
 }
 
 async function adminFrontendLayoutPayload() {
   return {
-    layout: await getFrontendLayout()
+    layout: await getFrontendLayout(),
+    ui: await getFrontendUi()
+  };
+}
+
+async function adminFrontendEditorPayload() {
+  const [layout, ui, texts, rules, footerSections, backup] = await Promise.all([
+    getFrontendLayout(),
+    getFrontendUi(),
+    getFrontendTextMap(),
+    getSetting("site_text_rules", ""),
+    getFooterSections(),
+    getFrontendEditorBackup()
+  ]);
+  const [posts, projects, moments, comments] = await Promise.all([
+    query("SELECT id,title,slug,summary,cover_url,status,published_at,created_at,updated_at FROM posts ORDER BY updated_at DESC,id DESC LIMIT 120"),
+    query("SELECT * FROM projects ORDER BY sort_order ASC,id ASC LIMIT 120"),
+    query("SELECT id,content,kind,tags,image_url,status,created_at,updated_at FROM moments ORDER BY created_at DESC,id DESC LIMIT 120"),
+    query(`SELECT c.id, c.target, c.author_name, c.author_email, c.content,
+        c.status, c.created_at, COALESCE(r.count, 0) AS likes
+      FROM comments c
+      LEFT JOIN reactions r ON r.target=CONCAT('comment:', c.id) AND r.kind='like'
+      ORDER BY c.created_at DESC, c.id DESC LIMIT 200`)
+  ]);
+  return {
+    definitions: frontendTextDefaults,
+    texts,
+    rules,
+    footerSections,
+    layout,
+    ui,
+    backup: backup ? { savedAt: backup.savedAt, reason: backup.reason } : null,
+    content: {
+      posts,
+      projects: projects.map(publicProject),
+      moments: moments.map(adminMoment),
+      comments
+    }
   };
 }
 
@@ -2428,12 +2670,12 @@ async function adminApi(req, res, url) {
       const where = [];
       const params = {};
       const status = url.searchParams.get("status");
-      const kind = url.searchParams.get("kind");
+      const kind = cleanMomentKindFilter(url.searchParams.get("kind"));
       if (["draft", "published"].includes(status)) {
         where.push("status=:status");
         params.status = status;
       }
-      if (["project", "life", "tech"].includes(kind)) {
+      if (kind) {
         where.push("kind=:kind");
         params.kind = kind;
       }
@@ -2449,7 +2691,7 @@ async function adminApi(req, res, url) {
       const tags = JSON.stringify(tagsFromInput(body.tagText || body.tags));
       const payload = {
         content,
-        kind: cleanStatus(body.kind, ["project", "life", "tech"], "life"),
+        kind: cleanMomentKind(body.kind, "life"),
         status: cleanStatus(body.status, ["draft", "published"], "published"),
         image_url: cleanText(body.image_url || "", 500),
         tags
@@ -2470,7 +2712,7 @@ async function adminApi(req, res, url) {
       const payload = {
         id,
         content: cleanText(body.content || current.content, 1000),
-        kind: cleanStatus(body.kind, ["project", "life", "tech"], current.kind),
+        kind: cleanMomentKind(body.kind, current.kind),
         status: cleanStatus(body.status, ["draft", "published"], current.status),
         image_url: cleanText(body.image_url || current.image_url || "", 500),
         tags: JSON.stringify(nextTags)
@@ -2591,6 +2833,14 @@ async function adminApi(req, res, url) {
         ORDER BY c.created_at DESC, c.id DESC LIMIT 200`, params);
       return json(res, { items: rows });
     }
+    if (req.method === "GET" && id) {
+      const row = await getOne(`SELECT c.id, c.target, c.author_name, c.author_email, c.content,
+          c.status, c.created_at, COALESCE(r.count, 0) AS likes
+        FROM comments c
+        LEFT JOIN reactions r ON r.target=CONCAT('comment:', c.id) AND r.kind='like'
+        WHERE c.id=:id`, { id });
+      return row ? json(res, row) : json(res, { error: "not_found" }, 404);
+    }
     if (req.method === "PUT" && id) {
       const current = await getOne("SELECT * FROM comments WHERE id=:id", { id });
       if (!current) return json(res, { error: "not_found" }, 404);
@@ -2632,6 +2882,8 @@ async function adminApi(req, res, url) {
         await setSetting(`site_text.${item.key}`, value);
       }
       await setSetting(footerSettingKey, JSON.stringify(normalizeFooterSections(body.footerSections)));
+      if (body.layout) await setSetting(frontendLayoutSettingKey, JSON.stringify(normalizeFrontendLayout(body.layout)));
+      if (body.ui) await setSetting(frontendUiSettingKey, JSON.stringify(normalizeFrontendUi(body.ui)));
       await setSetting("site_text_rules", String(body.rules || "").slice(0, 10000));
       await cacheDel("site:texts");
       return json(res, await adminSiteTextsPayload());
@@ -2644,8 +2896,41 @@ async function adminApi(req, res, url) {
       const body = await readAdminObject(req);
       const layout = normalizeFrontendLayout(body.layout || body);
       await setSetting(frontendLayoutSettingKey, JSON.stringify(layout));
+      if (body.ui) await setSetting(frontendUiSettingKey, JSON.stringify(normalizeFrontendUi(body.ui)));
       await cacheDel("site:texts");
-      return json(res, { layout });
+      return json(res, await adminFrontendLayoutPayload());
+    }
+  }
+
+  if (resource === "frontend-editor") {
+    if (req.method === "GET") return json(res, await adminFrontendEditorPayload());
+    if (req.method === "POST" && parts[3] === "restore") {
+      const backup = await getFrontendEditorBackup();
+      if (!backup) return json(res, { error: "backup_not_found", message: "没有可恢复的上一版" }, 404);
+      for (const item of frontendTextDefaults) {
+        await setSetting(`site_text.${item.key}`, String(backup.texts?.[item.key] ?? item.defaultValue).slice(0, 1200));
+      }
+      await setSetting("site_text_rules", String(backup.rules || "").slice(0, 10000));
+      await setSetting(footerSettingKey, JSON.stringify(normalizeFooterSections(backup.footerSections)));
+      await setSetting(frontendLayoutSettingKey, JSON.stringify(normalizeFrontendLayout(backup.layout)));
+      await setSetting(frontendUiSettingKey, JSON.stringify(normalizeFrontendUi(backup.ui)));
+      await cacheDel("site:texts");
+      return json(res, await adminFrontendEditorPayload());
+    }
+    if (req.method === "PUT") {
+      const body = await readAdminObject(req);
+      await snapshotFrontendEditor("frontend-editor-save");
+      const incomingTexts = body.texts && typeof body.texts === "object" ? body.texts : {};
+      for (const item of frontendTextDefaults) {
+        const value = String(incomingTexts[item.key] ?? item.defaultValue).slice(0, 1200);
+        await setSetting(`site_text.${item.key}`, value);
+      }
+      await setSetting("site_text_rules", String(body.rules || "").slice(0, 10000));
+      await setSetting(footerSettingKey, JSON.stringify(normalizeFooterSections(body.footerSections)));
+      await setSetting(frontendLayoutSettingKey, JSON.stringify(normalizeFrontendLayout(body.layout)));
+      await setSetting(frontendUiSettingKey, JSON.stringify(normalizeFrontendUi(body.ui)));
+      await cacheDel("site:texts");
+      return json(res, await adminFrontendEditorPayload());
     }
   }
 
@@ -2690,7 +2975,8 @@ async function publicApi(req, res, url) {
     const rules = parseFrontendTextRules(await getSetting("site_text_rules", ""));
     const footerSections = await getFooterSections();
     const layout = await getFrontendLayout();
-    const payload = { texts, rules, footerSections, layout };
+    const ui = await getFrontendUi();
+    const payload = { texts, rules, footerSections, layout, ui };
     await cacheSet("site:texts", payload, 60);
     return json(res, payload);
   }
@@ -2784,7 +3070,7 @@ async function publicApi(req, res, url) {
     return json(res, { ...post, content_html: markdownToHtml(post.content_md) });
   }
   if (url.pathname === "/api/moments") {
-    const kind = url.searchParams.get("kind");
+    const kind = cleanMomentKindFilter(url.searchParams.get("kind"));
     const rows = await query(
       `SELECT id, content, kind, tags, image_url, created_at FROM moments WHERE status='published' ${kind ? "AND kind=:kind" : ""} ORDER BY created_at DESC LIMIT 40`,
       kind ? { kind } : {}
@@ -2998,7 +3284,7 @@ async function adminRoutes(req, res, url) {
   if (url.pathname === "/admin/moments/save" && req.method === "POST") {
     const body = await readBody(req);
     const tags = JSON.stringify(String(body.tags || "").split(/[,，]/).map((x) => x.trim()).filter(Boolean));
-    await query("INSERT INTO moments(content,kind,tags,status,created_at,updated_at) VALUES(:content,:kind,:tags,'published',NOW(),NOW())", { content: body.content || "", kind: body.kind || "life", tags });
+    await query("INSERT INTO moments(content,kind,tags,status,created_at,updated_at) VALUES(:content,:kind,:tags,'published',NOW(),NOW())", { content: body.content || "", kind: cleanMomentKind(body.kind, "life"), tags });
     await cacheDel("site:overview");
     return redirect(res, "/admin/moments");
   }

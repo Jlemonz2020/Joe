@@ -9,8 +9,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
-  <link rel="stylesheet" href="/assets/style.css?v=layout-edit-v20260530">
-  <script src="/assets/app.js?v=layout-edit-v20260530" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=visual-editor-v20260530">
+  <script src="/assets/app.js?v=visual-editor-v20260530" defer></script>
 </head>
 <body data-page="archive">
   <header class="site-header" data-header>
@@ -40,7 +40,7 @@
           <div class="moyu-meter" data-moyu-meter hidden><span data-moyu-meter-bar></span></div>
           <small data-moyu-body>加载今日摸鱼状态...</small>
         </div>
-        <div class="hero-chips" aria-label="札记页状态">
+        <div class="hero-chips" aria-label="札记页状态" data-page-chips="archive">
           <span class="hero-chip"><span class="hero-chip-btn"><strong>文章</strong><span aria-hidden="true" class="hero-chip-glitch">文章</span><small>长记录</small></span></span>
           <span class="hero-chip"><span class="hero-chip-btn"><strong>调试</strong><span aria-hidden="true" class="hero-chip-glitch">调试</span><small>可回溯</small></span></span>
           <span class="hero-chip"><span class="hero-chip-btn"><strong>笔记</strong><span aria-hidden="true" class="hero-chip-glitch">笔记</span><small>慢慢补</small></span></span>
@@ -52,7 +52,7 @@
           <input type="search" placeholder=" " data-local-search>
           <span data-text-key="archive.search.placeholder">在札记里过滤标题...</span>
         </label>
-        <div class="chip-row">
+        <div class="chip-row" data-archive-categories>
           <a href="/archive.html">全部</a>
           <a href="/archive.html?cat=linux">Linux</a>
           <a href="/archive.html?cat=raspberry-pi">树莓</a>
@@ -132,8 +132,8 @@
           <img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true">
           <span>Jlemonz</span>
         </a>
-        <p>Linux、Pi5、项目和图文，慢慢归档。</p>
-        <div class="footer-tags" aria-label="站点标签">
+        <p data-footer-brand-body>Linux、Pi5、项目和图文，慢慢归档。</p>
+        <div class="footer-tags" aria-label="站点标签" data-footer-tags>
           <span>Pi5</span>
           <span>Linux</span>
           <span>图库</span>

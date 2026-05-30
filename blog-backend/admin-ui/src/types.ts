@@ -55,6 +55,50 @@ export interface CommentItem {
   created_at?: string | null;
 }
 
+export interface FrontendArchiveCategory {
+  id: string;
+  label: string;
+  slug: string;
+  description: string;
+  countText: string;
+  href: string;
+  visibleInHome: boolean;
+  visibleInArchive: boolean;
+  sortOrder: number;
+}
+
+export interface FrontendMomentKind {
+  id: string;
+  label: string;
+  kind: string;
+  subLabel: string;
+  visible: boolean;
+  sortOrder: number;
+}
+
+export interface FrontendChip {
+  id: string;
+  label: string;
+  subLabel: string;
+  visible: boolean;
+  sortOrder: number;
+}
+
+export interface FrontendFooterTag {
+  id: string;
+  label: string;
+  visible: boolean;
+  sortOrder: number;
+}
+
+export interface FrontendSearchSuggestion {
+  id: string;
+  label: string;
+  href: string;
+  visible: boolean;
+  sortOrder: number;
+}
+
 export interface ProjectItem {
   id: number;
   name: string;
@@ -95,6 +139,7 @@ export interface SiteTextsPayload {
   rules: string;
   footerSections: FooterSection[];
   layout?: FrontendLayout;
+  ui?: FrontendUi;
 }
 
 export interface UploadImagePayload {
@@ -118,12 +163,12 @@ export interface FrontendLayout {
     showCategoryCard: boolean;
   };
   archive: {
-    defaultCategory: "" | "linux" | "raspberry-pi" | "server" | "life";
+    defaultCategory: string;
     showSearchPanel: boolean;
     showGithubPanel: boolean;
   };
   moments: {
-    defaultKind: "all" | "project" | "life" | "tech";
+    defaultKind: string;
     showDraftPanel: boolean;
   };
   projects: {
@@ -138,4 +183,41 @@ export interface FrontendLayout {
 
 export interface FrontendLayoutPayload {
   layout: FrontendLayout;
+  ui: FrontendUi;
+}
+
+export interface FrontendUi {
+  archiveCategories: FrontendArchiveCategory[];
+  momentKinds: FrontendMomentKind[];
+  pageChips: {
+    archive: FrontendChip[];
+    projects: FrontendChip[];
+    about: FrontendChip[];
+  };
+  footer: {
+    brandBody: string;
+    tags: FrontendFooterTag[];
+  };
+  searchSuggestions: FrontendSearchSuggestion[];
+  sectionTitles: {
+    homeProjects: string;
+    homeMoments: string;
+    homeCategory: string;
+  };
+}
+
+export interface FrontendEditorPayload {
+  definitions: TextDefinition[];
+  texts: Record<string, string>;
+  rules: string;
+  footerSections: FooterSection[];
+  layout: FrontendLayout;
+  ui: FrontendUi;
+  backup: { savedAt: string; reason: string } | null;
+  content: {
+    posts: PostItem[];
+    projects: ProjectItem[];
+    moments: MomentItem[];
+    comments: CommentItem[];
+  };
 }

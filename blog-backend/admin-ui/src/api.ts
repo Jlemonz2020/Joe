@@ -2,8 +2,10 @@ import axios from "axios";
 import type {
   AdminUser,
   CommentItem,
+  FrontendEditorPayload,
   FrontendLayout,
   FrontendLayoutPayload,
+  FrontendUi,
   FooterSection,
   MomentItem,
   OverviewPayload,
@@ -115,6 +117,14 @@ export const adminApi = {
     const { data } = await http.get<{ items: CommentItem[] }>("/comments", { params });
     return data.items;
   },
+  async getComment(id: string | number) {
+    const { data } = await http.get<CommentItem>(`/comments/${id}`);
+    return data;
+  },
+  async saveComment(payload: Partial<CommentItem>) {
+    const { data } = await http.put<CommentItem>(`/comments/${payload.id}`, payload);
+    return data;
+  },
   async publishComment(id: number) {
     await http.post(`/comments/${id}/publish`);
   },
@@ -134,11 +144,23 @@ export const adminApi = {
   },
   async getFrontendLayout() {
     const { data } = await http.get<FrontendLayoutPayload>("/frontend-layout");
-    return data.layout;
+    return data;
   },
-  async saveFrontendLayout(layout: FrontendLayout) {
-    const { data } = await http.put<FrontendLayoutPayload>("/frontend-layout", { layout });
-    return data.layout;
+  async saveFrontendLayout(layout: FrontendLayout, ui?: FrontendUi) {
+    const { data } = await http.put<FrontendLayoutPayload>("/frontend-layout", { layout, ui });
+    return data;
+  },
+  async getFrontendEditor() {
+    const { data } = await http.get<FrontendEditorPayload>("/frontend-editor");
+    return data;
+  },
+  async saveFrontendEditor(payload: Pick<FrontendEditorPayload, "texts" | "rules" | "footerSections" | "layout" | "ui">) {
+    const { data } = await http.put<FrontendEditorPayload>("/frontend-editor", payload);
+    return data;
+  },
+  async restoreFrontendEditor() {
+    const { data } = await http.post<FrontendEditorPayload>("/frontend-editor/restore");
+    return data;
   },
   async getSettings() {
     const { data } = await http.get<{ githubUsername: string }>("/settings");

@@ -1791,6 +1791,11 @@ time {
   gap: 12px;
 }
 
+.category-card [data-home-categories] {
+  display: grid;
+  gap: 12px;
+}
+
 .category-card h2 {
   margin-bottom: 4px;
 }
@@ -5929,6 +5934,21 @@ input:focus-visible,
 
 [data-layout-hidden="true"] {
   display: none !important;
+}
+
+body[data-visual-editor="true"] [data-edit-target],
+body[data-visual-editor="true"] [data-text-key],
+body[data-visual-editor="true"] [data-layout-key] {
+  cursor: crosshair;
+  outline: 2px dashed color-mix(in srgb, var(--subpage-pink) 62%, transparent);
+  outline-offset: 3px;
+}
+
+body[data-visual-editor="true"] [data-edit-target]:hover,
+body[data-visual-editor="true"] [data-text-key]:hover,
+body[data-visual-editor="true"] [data-layout-key]:hover {
+  outline-style: solid;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--subpage-pink) 14%, transparent);
 }
 
 body[data-layout-width="narrow"] .page-shell,

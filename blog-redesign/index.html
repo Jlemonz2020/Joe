@@ -9,8 +9,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
-  <link rel="stylesheet" href="/assets/style.css?v=layout-edit-v20260530">
-  <script src="/assets/app.js?v=layout-edit-v20260530" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=visual-editor-v20260530">
+  <script src="/assets/app.js?v=visual-editor-v20260530" defer></script>
 </head>
 <body data-page="home">
   <header class="site-header" data-header>
@@ -111,7 +111,7 @@
               <p class="eyebrow">workbench</p>
               <div class="workbench-title">
                 <div class="loader" aria-hidden="true"></div>
-                <span>Project</span>
+                <span data-ui-text="home.section.projects" data-edit-target="ui:sectionTitles:homeProjects">Project</span>
               </div>
             </div>
           </div>
@@ -147,7 +147,7 @@
           <div class="section-head moments-head">
             <div>
               <p class="eyebrow">moments</p>
-              <h2 class="moments-title">Moments</h2>
+              <h2 class="moments-title" data-ui-text="home.section.moments" data-edit-target="ui:sectionTitles:homeMoments">Moments</h2>
             </div>
           </div>
           <div class="moment-list compact" data-moment-preview>
@@ -190,11 +190,13 @@
         </section>
 
         <section class="desk-card category-card" data-layout-key="home.categoryCard">
-          <h2>分类入口</h2>
+          <h2 data-ui-text="home.section.category" data-edit-target="ui:sectionTitles:homeCategory">分类入口</h2>
+          <div data-home-categories>
           <a href="/archive.html?cat=linux"><strong>Linux</strong><span>命令、驱动、系统记录 · 18</span></a>
           <a href="/archive.html?cat=raspberry-pi"><strong>树莓</strong><span>家庭服务器和小实验 · 12</span></a>
           <a href="/archive.html?cat=server"><strong>服务</strong><span>Nginx、Docker、备份 · 15</span></a>
           <a href="/moments.html?kind=life"><strong>生活</strong><span>不太正式的碎片 · 9</span></a>
+          </div>
         </section>
       </aside>
     </div>
@@ -221,8 +223,8 @@
           <img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true">
           <span>Jlemonz</span>
         </a>
-        <p>Linux、Pi5、项目和图文，慢慢归档。</p>
-        <div class="footer-tags" aria-label="站点标签">
+        <p data-footer-brand-body>Linux、Pi5、项目和图文，慢慢归档。</p>
+        <div class="footer-tags" aria-label="站点标签" data-footer-tags>
           <span>Pi5</span>
           <span>Linux</span>
           <span>图库</span>

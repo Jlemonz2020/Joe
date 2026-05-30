@@ -236,6 +236,56 @@ const defaultFrontendLayout = {
   }
 };
 let frontendLayout = JSON.parse(JSON.stringify(defaultFrontendLayout));
+const defaultFrontendUi = {
+  archiveCategories: [
+    { id: "all", label: "全部", slug: "", description: "所有公开札记", countText: "", href: "/archive.html", visibleInHome: false, visibleInArchive: true, sortOrder: 0 },
+    { id: "linux", label: "Linux", slug: "linux", description: "命令、驱动、系统记录", countText: "18", href: "/archive.html?cat=linux", visibleInHome: true, visibleInArchive: true, sortOrder: 10 },
+    { id: "raspberry-pi", label: "树莓", slug: "raspberry-pi", description: "家庭服务器和小实验", countText: "12", href: "/archive.html?cat=raspberry-pi", visibleInHome: true, visibleInArchive: true, sortOrder: 20 },
+    { id: "server", label: "服务", slug: "server", description: "Nginx、Docker、备份", countText: "15", href: "/archive.html?cat=server", visibleInHome: true, visibleInArchive: true, sortOrder: 30 },
+    { id: "life", label: "生活", slug: "life", description: "不太正式的碎片", countText: "9", href: "/moments.html?kind=life", visibleInHome: true, visibleInArchive: true, sortOrder: 40 }
+  ],
+  momentKinds: [
+    { id: "all", label: "碎片", kind: "all", subLabel: "随手记", visible: true, sortOrder: 0 },
+    { id: "project", label: "项目", kind: "project", subLabel: "进度留痕", visible: true, sortOrder: 10 },
+    { id: "life", label: "生活", kind: "life", subLabel: "轻一点", visible: true, sortOrder: 20 }
+  ],
+  pageChips: {
+    archive: [
+      { id: "article", label: "文章", subLabel: "长记录", visible: true, sortOrder: 10 },
+      { id: "debug", label: "调试", subLabel: "可回溯", visible: true, sortOrder: 20 },
+      { id: "note", label: "笔记", subLabel: "慢慢补", visible: true, sortOrder: 30 }
+    ],
+    projects: [
+      { id: "public", label: "公开", subLabel: "只留可复盘内容", visible: true, sortOrder: 10 },
+      { id: "progress", label: "进度", subLabel: "看得见", visible: true, sortOrder: 20 },
+      { id: "next", label: "下一步", subLabel: "不丢线索", visible: true, sortOrder: 30 }
+    ],
+    about: [
+      { id: "pi5", label: "Pi5", subLabel: "常驻服务", visible: true, sortOrder: 10 },
+      { id: "linux", label: "Linux", subLabel: "边学边记", visible: true, sortOrder: 20 },
+      { id: "blog", label: "Blog", subLabel: "长期整理", visible: true, sortOrder: 30 }
+    ]
+  },
+  footer: {
+    brandBody: "Linux、Pi5、项目和图文，慢慢归档。",
+    tags: [
+      { id: "pi5", label: "Pi5", visible: true, sortOrder: 10 },
+      { id: "linux", label: "Linux", visible: true, sortOrder: 20 },
+      { id: "gallery", label: "图库", visible: true, sortOrder: 30 }
+    ]
+  },
+  searchSuggestions: [
+    { id: "project-server", label: "树莓派家庭服务器", href: "/projects.html", visible: true, sortOrder: 10 },
+    { id: "device-tree", label: "设备树绑定", href: "/moments.html", visible: true, sortOrder: 20 },
+    { id: "archive", label: "札记", href: "/archive.html", visible: true, sortOrder: 30 }
+  ],
+  sectionTitles: {
+    homeProjects: "Project",
+    homeMoments: "Moments",
+    homeCategory: "分类入口"
+  }
+};
+let frontendUi = JSON.parse(JSON.stringify(defaultFrontendUi));
 
 const readCachedJson = (key) => {
   try {
@@ -259,6 +309,15 @@ const pickLayoutInteger = (value, min, max, fallback) => {
   if (Number.isNaN(number)) return fallback;
   return Math.min(max, Math.max(min, number));
 };
+const sortByOrder = (items) => [...items].sort((a, b) => (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0));
+const safeKey = (value, fallback = "") => {
+  const key = String(value || "").trim().toLowerCase().replace(/[^a-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
+  return key || fallback;
+};
+const safeHref = (value, fallback = "") => {
+  const href = String(value || "").trim();
+  return /^(https?:\/\/|mailto:|\/(?!\/))/i.test(href) ? href : fallback;
+};
 
 const normalizeFrontendLayout = (layout = {}) => {
   const source = layout && typeof layout === "object" ? layout : {};
@@ -281,12 +340,12 @@ const normalizeFrontendLayout = (layout = {}) => {
       showCategoryCard: pickLayoutBoolean(home.showCategoryCard, defaultFrontendLayout.home.showCategoryCard)
     },
     archive: {
-      defaultCategory: pickLayoutChoice(archive.defaultCategory, ["", "linux", "raspberry-pi", "server", "life"], defaultFrontendLayout.archive.defaultCategory),
+      defaultCategory: safeKey(archive.defaultCategory, defaultFrontendLayout.archive.defaultCategory),
       showSearchPanel: pickLayoutBoolean(archive.showSearchPanel, defaultFrontendLayout.archive.showSearchPanel),
       showGithubPanel: pickLayoutBoolean(archive.showGithubPanel, defaultFrontendLayout.archive.showGithubPanel)
     },
     moments: {
-      defaultKind: pickLayoutChoice(moments.defaultKind, ["all", "project", "life", "tech"], defaultFrontendLayout.moments.defaultKind),
+      defaultKind: safeKey(moments.defaultKind, defaultFrontendLayout.moments.defaultKind),
       showDraftPanel: pickLayoutBoolean(moments.showDraftPanel, defaultFrontendLayout.moments.showDraftPanel)
     },
     projects: {
@@ -300,11 +359,194 @@ const normalizeFrontendLayout = (layout = {}) => {
   };
 };
 
+const normalizeUiList = (value, fallback, normalizer) => {
+  const source = Array.isArray(value) ? value : fallback;
+  const normalized = source.map((item, index) => normalizer(item || {}, fallback[index] || {}, index)).filter(Boolean);
+  return normalized.length ? sortByOrder(normalized) : fallback;
+};
+
+const normalizeFrontendUi = (ui = {}) => {
+  const source = ui && typeof ui === "object" ? ui : {};
+  const pageChips = source.pageChips || {};
+  const footer = source.footer || {};
+  const sectionTitles = source.sectionTitles || {};
+  return {
+    archiveCategories: normalizeUiList(source.archiveCategories, defaultFrontendUi.archiveCategories, (item, fallback, index) => {
+      const slug = safeKey(item.slug ?? fallback.slug ?? "", "");
+      return {
+        id: safeKey(item.id || slug || fallback.id, `cat-${index + 1}`),
+        label: getSafeEditableText(item.label ?? fallback.label) || "分类",
+        slug,
+        description: getSafeEditableText(item.description ?? fallback.description, { optional: true }),
+        countText: getSafeEditableText(item.countText ?? fallback.countText, { optional: true }),
+        href: safeHref(item.href || fallback.href || (slug ? `/archive.html?cat=${slug}` : "/archive.html"), slug ? `/archive.html?cat=${slug}` : "/archive.html"),
+        visibleInHome: pickLayoutBoolean(item.visibleInHome, fallback.visibleInHome ?? true),
+        visibleInArchive: pickLayoutBoolean(item.visibleInArchive, fallback.visibleInArchive ?? true),
+        sortOrder: pickLayoutInteger(item.sortOrder, 0, 9999, fallback.sortOrder ?? index * 10)
+      };
+    }),
+    momentKinds: normalizeUiList(source.momentKinds, defaultFrontendUi.momentKinds, (item, fallback, index) => {
+      const kind = safeKey(item.kind ?? fallback.kind, index === 0 ? "all" : `kind-${index + 1}`);
+      return {
+        id: safeKey(item.id || kind || fallback.id, `kind-${index + 1}`),
+        label: getSafeEditableText(item.label ?? fallback.label) || "类型",
+        kind,
+        subLabel: getSafeEditableText(item.subLabel ?? fallback.subLabel, { optional: true }),
+        visible: pickLayoutBoolean(item.visible, fallback.visible ?? true),
+        sortOrder: pickLayoutInteger(item.sortOrder, 0, 9999, fallback.sortOrder ?? index * 10)
+      };
+    }),
+    pageChips: {
+      archive: normalizeUiList(pageChips.archive, defaultFrontendUi.pageChips.archive, normalizeChipItem),
+      projects: normalizeUiList(pageChips.projects, defaultFrontendUi.pageChips.projects, normalizeChipItem),
+      about: normalizeUiList(pageChips.about, defaultFrontendUi.pageChips.about, normalizeChipItem)
+    },
+    footer: {
+      brandBody: getSafeEditableText(footer.brandBody ?? defaultFrontendUi.footer.brandBody, { optional: true }),
+      tags: normalizeUiList(footer.tags, defaultFrontendUi.footer.tags, (item, fallback, index) => ({
+        id: safeKey(item.id || fallback.id, `footer-tag-${index + 1}`),
+        label: getSafeEditableText(item.label ?? fallback.label) || "标签",
+        visible: pickLayoutBoolean(item.visible, fallback.visible ?? true),
+        sortOrder: pickLayoutInteger(item.sortOrder, 0, 9999, fallback.sortOrder ?? index * 10)
+      }))
+    },
+    searchSuggestions: normalizeUiList(source.searchSuggestions, defaultFrontendUi.searchSuggestions, (item, fallback, index) => ({
+      id: safeKey(item.id || fallback.id, `suggestion-${index + 1}`),
+      label: getSafeEditableText(item.label ?? fallback.label) || "入口",
+      href: safeHref(item.href || fallback.href, "/index.html"),
+      visible: pickLayoutBoolean(item.visible, fallback.visible ?? true),
+      sortOrder: pickLayoutInteger(item.sortOrder, 0, 9999, fallback.sortOrder ?? index * 10)
+    })),
+    sectionTitles: {
+      homeProjects: getSafeEditableText(sectionTitles.homeProjects ?? defaultFrontendUi.sectionTitles.homeProjects) || "Project",
+      homeMoments: getSafeEditableText(sectionTitles.homeMoments ?? defaultFrontendUi.sectionTitles.homeMoments) || "Moments",
+      homeCategory: getSafeEditableText(sectionTitles.homeCategory ?? defaultFrontendUi.sectionTitles.homeCategory) || "分类入口"
+    }
+  };
+};
+
+function normalizeChipItem(item = {}, fallback = {}, index = 0) {
+  return {
+    id: safeKey(item.id || fallback.id, `chip-${index + 1}`),
+    label: getSafeEditableText(item.label ?? fallback.label) || "标签",
+    subLabel: getSafeEditableText(item.subLabel ?? fallback.subLabel, { optional: true }),
+    visible: pickLayoutBoolean(item.visible, fallback.visible ?? true),
+    sortOrder: pickLayoutInteger(item.sortOrder, 0, 9999, fallback.sortOrder ?? index * 10)
+  };
+}
+
 const setLayoutVisibility = (key, visible) => {
   document.querySelectorAll(`[data-layout-key="${CSS.escape(key)}"]`).forEach((node) => {
     node.toggleAttribute("hidden", !visible);
     node.dataset.layoutHidden = visible ? "false" : "true";
   });
+};
+
+const chipMarkup = (chip, targetPrefix) => `
+  <span class="hero-chip" data-edit-target="${targetPrefix}:${escapeHtml(chip.id)}">
+    <span class="hero-chip-btn">
+      <strong>${escapeHtml(chip.label)}</strong>
+      <span aria-hidden="true" class="hero-chip-glitch">${escapeHtml(chip.label)}</span>
+      <small>${escapeHtml(chip.subLabel || "")}</small>
+    </span>
+  </span>
+`;
+
+const renderPageChips = (name, items) => {
+  const container = document.querySelector(`[data-page-chips="${CSS.escape(name)}"]`);
+  if (!container) return;
+  const chips = sortByOrder(items || []).filter((item) => item.visible);
+  if (chips.length) container.innerHTML = chips.map((chip) => chipMarkup(chip, `ui:page-chip:${name}`)).join("");
+};
+
+const renderArchiveCategories = (categories) => {
+  const normalized = sortByOrder(categories || []);
+  const home = document.querySelector("[data-home-categories]");
+  if (home) {
+    const items = normalized.filter((item) => item.visibleInHome);
+    if (items.length) {
+      home.innerHTML = items.map((item) => `
+        <a href="${escapeHtml(item.href)}" data-edit-target="ui:archive-category:${escapeHtml(item.id)}">
+          <strong>${escapeHtml(item.label)}</strong>
+          <span>${escapeHtml([item.description, item.countText].filter(Boolean).join(" · "))}</span>
+        </a>
+      `).join("");
+    }
+  }
+  const archive = document.querySelector("[data-archive-categories]");
+  if (archive) {
+    const items = normalized.filter((item) => item.visibleInArchive);
+    if (items.length) {
+      archive.innerHTML = items.map((item) => `<a href="${escapeHtml(item.href)}" data-edit-target="ui:archive-category:${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`).join("");
+    }
+  }
+};
+
+const renderMomentKinds = (kinds) => {
+  const container = document.querySelector("[data-moment-kinds]");
+  if (!container) return;
+  const active = currentMomentFilter || "all";
+  const items = sortByOrder(kinds || []).filter((item) => item.visible);
+  if (!items.length) return;
+  container.innerHTML = items.map((item) => {
+    const isActive = item.kind === active;
+    return `
+      <button type="button" class="hero-chip${isActive ? " active" : ""}" data-filter="${escapeHtml(item.kind)}" role="tab" aria-selected="${String(isActive)}" data-edit-target="ui:moment-kind:${escapeHtml(item.id)}">
+        <span class="hero-chip-btn">
+          <strong>${escapeHtml(item.label)}</strong>
+          <span aria-hidden="true" class="hero-chip-glitch">${escapeHtml(item.label)}</span>
+          <small>${escapeHtml(item.subLabel || "")}</small>
+        </span>
+      </button>
+    `;
+  }).join("");
+};
+
+const renderFooterUi = (footer) => {
+  const body = getSafeEditableText(footer?.brandBody, { optional: true });
+  document.querySelectorAll("[data-footer-brand-body]").forEach((node) => {
+    if (body) node.textContent = body;
+    node.dataset.editTarget = "ui:footer:brandBody";
+  });
+  const tags = sortByOrder(footer?.tags || []).filter((item) => item.visible);
+  document.querySelectorAll("[data-footer-tags]").forEach((node) => {
+    if (tags.length) {
+      node.innerHTML = tags.map((item) => `<span data-edit-target="ui:footer-tag:${escapeHtml(item.id)}">${escapeHtml(item.label)}</span>`).join("");
+    }
+  });
+};
+
+const renderSearchSuggestionsUi = (items) => {
+  const suggestions = sortByOrder(items || []).filter((item) => item.visible);
+  if (!suggestions.length) return;
+  document.querySelectorAll("[data-search-results]").forEach((node) => {
+    node.innerHTML = suggestions.map((item) => `<a href="${escapeHtml(item.href)}" data-edit-target="ui:search-suggestion:${escapeHtml(item.id)}">${escapeHtml(item.label)}</a>`).join("");
+  });
+};
+
+const applyFrontendUi = (ui) => {
+  frontendUi = normalizeFrontendUi(ui || defaultFrontendUi);
+  renderArchiveCategories(frontendUi.archiveCategories);
+  renderMomentKinds(frontendUi.momentKinds);
+  renderPageChips("archive", frontendUi.pageChips.archive);
+  renderPageChips("projects", frontendUi.pageChips.projects);
+  renderPageChips("about", frontendUi.pageChips.about);
+  renderFooterUi(frontendUi.footer);
+  renderSearchSuggestionsUi(frontendUi.searchSuggestions);
+  document.querySelectorAll("[data-ui-text='home.section.projects']").forEach((node) => {
+    node.textContent = frontendUi.sectionTitles.homeProjects;
+    node.dataset.editTarget = "ui:sectionTitles:homeProjects";
+  });
+  document.querySelectorAll("[data-ui-text='home.section.moments']").forEach((node) => {
+    node.textContent = frontendUi.sectionTitles.homeMoments;
+    node.dataset.editTarget = "ui:sectionTitles:homeMoments";
+  });
+  document.querySelectorAll("[data-ui-text='home.section.category']").forEach((node) => {
+    node.textContent = frontendUi.sectionTitles.homeCategory;
+    node.dataset.editTarget = "ui:sectionTitles:homeCategory";
+  });
+  applyArchiveCategoryState();
+  if (page === "moments") applyMomentFilter(currentMomentFilter);
 };
 
 const applyFrontendLayout = (layout) => {
@@ -388,6 +630,7 @@ const applyEditableTextData = (data) => {
   });
   setSearchInputPrompt(texts["shared.search.input"]);
   applyFrontendLayout(data?.layout);
+  applyFrontendUi(data?.ui);
   (data?.rules || []).forEach((rule) => {
     if (!rule.selector) return;
     const safeValue = getSafeEditableText(rule.value, { optional: true });
@@ -429,11 +672,11 @@ const momentMarkup = (item) => {
     </div>
     ${image}
   `;
-  return `<article class="moment-item${image ? " with-image" : ""}" data-kind="${escapeHtml(item.kind || "life")}">${body}</article>`;
+  return `<article class="moment-item${image ? " with-image" : ""}" data-kind="${escapeHtml(item.kind || "life")}" data-edit-target="content:moment:${escapeHtml(item.id || "")}">${body}</article>`;
 };
 
 const projectRowMarkup = (item) => `
-  <a class="project-row${item.cover_url ? " has-cover" : ""}" href="/project.html?id=${encodeURIComponent(item.id)}">
+  <a class="project-row${item.cover_url ? " has-cover" : ""}" href="/project.html?id=${encodeURIComponent(item.id)}" data-edit-target="content:project:${escapeHtml(item.id || "")}">
     ${imageMarkup(item.cover_url, "project-row-cover", item.name)}
     <div class="project-row-copy">
       <h3>${escapeHtml(item.name)}</h3>
@@ -447,7 +690,7 @@ const projectRowMarkup = (item) => `
 `;
 
 const projectTileMarkup = (item) => `
-  <a class="desk-card project-tile" href="/project.html?id=${encodeURIComponent(item.id)}">
+  <a class="desk-card project-tile" href="/project.html?id=${encodeURIComponent(item.id)}" data-edit-target="content:project:${escapeHtml(item.id || "")}">
     ${imageMarkup(item.cover_url, "project-tile-cover", item.name)}
     <div class="tile-head"><span class="pin"></span><strong>${escapeHtml(item.name)}</strong></div>
     <p>${escapeHtml(item.status_text)}</p>
@@ -457,7 +700,7 @@ const projectTileMarkup = (item) => `
 `;
 
 const postMarkup = (item) => `
-  <a class="article-row${item.cover_url ? " has-cover" : ""}" href="/post.html?slug=${encodeURIComponent(item.slug || "")}" data-title="${escapeHtml(item.title || "")}">
+  <a class="article-row${item.cover_url ? " has-cover" : ""}" href="/post.html?slug=${encodeURIComponent(item.slug || "")}" data-title="${escapeHtml(item.title || "")}" data-edit-target="content:post:${escapeHtml(item.id || "")}">
     <div class="article-row-media">
       <time datetime="${escapeHtml(item.published_at || "")}">${formatDate(item.published_at)}</time>
       ${imageMarkup(item.cover_url, "article-row-cover", item.title)}
@@ -788,7 +1031,7 @@ document.querySelectorAll("[data-like-target]").forEach((button) => {
 });
 
 const commentMarkup = (item) => `
-  <article class="comment-item">
+  <article class="comment-item" data-edit-target="content:comment:${escapeHtml(item.id || "")}">
     <div class="comment-meta">
       <span>
         <strong>${escapeHtml(item.author_name || "路过的人")}</strong>
@@ -857,6 +1100,7 @@ const loadProjectDetail = async () => {
     const project = await apiGet(`/api/projects/${encodeURIComponent(key)}`);
     const target = `project:${project.id}`;
     document.title = `${project.name} - Jlemonz`;
+    document.querySelector(".project-detail-hero")?.setAttribute("data-edit-target", `content:project:${project.id}`);
     title.textContent = project.name;
     document.querySelector("[data-project-summary]").textContent = project.summary || project.status_text || "";
     document.querySelector("[data-project-state]").textContent = project.status_text || "进行中";
@@ -891,6 +1135,7 @@ const loadPostDetail = async () => {
     const post = await apiGet(`/api/posts/${encodeURIComponent(slug)}`);
     const target = `post:${slug}`;
     document.title = `${post.title || "札记"} - Jlemonz`;
+    document.querySelector(".post-detail-hero")?.setAttribute("data-edit-target", `content:post:${post.id || ""}`);
     title.textContent = post.title || "未命名札记";
     document.querySelector("[data-post-summary]").textContent = post.summary || "还没有摘要。";
     document.querySelector("[data-post-category]").textContent = post.category || "札记";
@@ -936,6 +1181,18 @@ document.querySelectorAll("[data-filter]").forEach((button) => {
   });
 });
 
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-filter]");
+  if (!button) return;
+  const filter = button.dataset.filter || "all";
+  document.querySelectorAll("[data-filter]").forEach((item) => {
+    const isActive = item === button;
+    item.classList.toggle("active", isActive);
+    item.setAttribute("aria-selected", String(isActive));
+  });
+  applyMomentFilter(filter);
+});
+
 document.querySelector("[data-local-search]")?.addEventListener("input", (event) => {
   const q = event.currentTarget.value.trim().toLowerCase();
   document.querySelectorAll("[data-title]").forEach((item) => {
@@ -973,7 +1230,32 @@ searchInput?.addEventListener("input", () => {
   }, 220);
 });
 
+const enableVisualEditorBridge = () => {
+  if (new URLSearchParams(window.location.search).get("editor") !== "1") return;
+  document.body.dataset.visualEditor = "true";
+  document.addEventListener("click", (event) => {
+    const target = event.target.closest("[data-edit-target],[data-text-key],[data-layout-key],[data-like-target],[data-comment-like-target]");
+    if (!target) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const editTarget = target.dataset.editTarget
+      || (target.dataset.textKey ? `text:${target.dataset.textKey}` : "")
+      || (target.dataset.layoutKey ? `layout:${target.dataset.layoutKey}` : "")
+      || (target.dataset.likeTarget ? `reaction:${target.dataset.likeTarget}` : "")
+      || (target.dataset.commentLikeTarget ? `reaction:${target.dataset.commentLikeTarget}` : "");
+    window.parent?.postMessage({
+      source: "jlemonz-frontend-editor",
+      target: editTarget,
+      page,
+      text: target.textContent?.trim() || "",
+      href: target.getAttribute("href") || ""
+    }, window.location.origin);
+  }, true);
+};
+
+enableVisualEditorBridge();
 applyFrontendLayout(frontendLayout);
+applyFrontendUi(frontendUi);
 hydrateEditableTextsFromCache();
 applyArchiveCategoryState();
 loadDynamicContent();
