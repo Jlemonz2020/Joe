@@ -2289,10 +2289,44 @@ time {
   background: var(--field);
 }
 
+.comment-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.comment-meta > span {
+  min-width: 0;
+}
+
 .comment-item strong {
   display: inline-block;
   margin-right: 8px;
   font-family: var(--serif);
+}
+
+.comment-like {
+  flex: 0 0 auto;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 101, 200, .24);
+  border-radius: 999px;
+  color: var(--text);
+  background: rgba(255, 101, 200, .08);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.comment-like.is-liked {
+  color: #241825;
+  background: var(--accent);
+}
+
+.comment-like:disabled {
+  cursor: wait;
+  opacity: .68;
 }
 
 .comment-item p {

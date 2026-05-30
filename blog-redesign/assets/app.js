@@ -627,11 +627,34 @@ document.querySelectorAll("[data-like-target]").forEach((button) => {
 
 const commentMarkup = (item) => `
   <article class="comment-item">
-    <strong>${escapeHtml(item.author_name || "路过的人")}</strong>
-    <time datetime="${escapeHtml(item.created_at || "")}">${formatDate(item.created_at)}</time>
+    <div class="comment-meta">
+      <span>
+        <strong>${escapeHtml(item.author_name || "路过的人")}</strong>
+        <time datetime="${escapeHtml(item.created_at || "")}">${formatDate(item.created_at)}</time>
+      </span>
+      <button class="comment-like" type="button" data-comment-like-target="comment:${escapeHtml(item.id || "")}" aria-label="给这条留言点赞">
+        赞 <span data-comment-like-count>${Number(item.likes) || 0}</span>
+      </button>
+    </div>
     <p>${escapeHtml(item.content || "")}</p>
   </article>
 `;
+
+document.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-comment-like-target]");
+  if (!button) return;
+  const target = button.dataset.commentLikeTarget;
+  if (!target || button.disabled) return;
+  button.disabled = true;
+  try {
+    const data = await apiPost("/api/reactions/like", { target });
+    button.querySelector("[data-comment-like-count]").textContent = data.likes || 0;
+    button.classList.add("is-liked");
+  } catch {
+  } finally {
+    button.disabled = false;
+  }
+});
 
 const loadComments = async () => {
   await Promise.all([...document.querySelectorAll("[data-comment-list]")].map(async (list) => {
