@@ -86,8 +86,8 @@ onMounted(load);
         <el-tabs tab-position="left">
           <el-tab-pane v-for="group in groups" :key="group.label" :label="group.label">
             <el-form label-position="top">
-              <el-form-item v-for="item in group.items" :key="item.key" :label="`${item.label}  ·  ${item.key}`">
-                <el-input v-model="texts[item.key]" type="textarea" :rows="2" maxlength="1200" />
+              <el-form-item v-for="item in group.items" :key="item.key" :label="item.label">
+                <el-input v-model="texts[item.key]" type="textarea" :rows="2" maxlength="1200" :placeholder="item.defaultValue" />
               </el-form-item>
             </el-form>
           </el-tab-pane>

@@ -84,3 +84,10 @@ export interface SiteTextsPayload {
   rules: string;
   footerSections: FooterSection[];
 }
+
+export interface UploadImagePayload {
+  url: string;
+  filename: string;
+  contentType: string;
+  size: number;
+}

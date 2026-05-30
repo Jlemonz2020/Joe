@@ -6,7 +6,8 @@ import type {
   OverviewPayload,
   PostItem,
   ProjectItem,
-  SiteTextsPayload
+  SiteTextsPayload,
+  UploadImagePayload
 } from "./types";
 
 export const http = axios.create({
@@ -41,6 +42,14 @@ export const adminApi = {
   },
   async syncSearch() {
     const { data } = await http.post<{ count: number }>("/sync-search");
+    return data;
+  },
+  async uploadImage(file: File) {
+    const form = new FormData();
+    form.append("file", file);
+    const { data } = await http.post<UploadImagePayload>("/uploads", form, {
+      timeout: 30000
+    });
     return data;
   },
   async listPosts(params?: { status?: string; q?: string }) {

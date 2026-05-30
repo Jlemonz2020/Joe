@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { Delete, Edit, Hide, Plus } from "@element-plus/icons-vue";
+import { Delete, Edit, Hide, Picture, Plus } from "@element-plus/icons-vue";
 import { adminApi, messageFromError } from "@/api";
 import type { MomentItem } from "@/types";
 
 const loading = ref(false);
 const saving = ref(false);
+const uploadingImage = ref(false);
+const imageInput = ref<HTMLInputElement | null>(null);
 const items = ref<MomentItem[]>([]);
 const filters = reactive({
   status: "",
@@ -17,6 +19,7 @@ const form = reactive<Partial<MomentItem> & { tagText: string }>({
   content: "",
   kind: "life",
   status: "published",
+  image_url: "",
   tagText: ""
 });
 
@@ -32,7 +35,7 @@ async function load() {
 }
 
 function resetForm() {
-  Object.assign(form, { id: undefined, content: "", kind: "life", status: "published", tagText: "" });
+  Object.assign(form, { id: undefined, content: "", kind: "life", status: "published", image_url: "", tagText: "" });
 }
 
 function editMoment(row: MomentItem) {
@@ -41,8 +44,36 @@ function editMoment(row: MomentItem) {
     content: row.content,
     kind: row.kind,
     status: row.status,
+    image_url: row.image_url || "",
     tagText: row.tags.join(", ")
   });
+}
+
+function pickImage() {
+  imageInput.value?.click();
+}
+
+async function uploadMomentImage(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    ElMessage.warning("请选择图片文件");
+    input.value = "";
+    return;
+  }
+
+  uploadingImage.value = true;
+  try {
+    const uploaded = await adminApi.uploadImage(file);
+    form.image_url = uploaded.url;
+    ElMessage.success("瞬间图片已上传");
+  } catch (error) {
+    ElMessage.error(messageFromError(error));
+  } finally {
+    uploadingImage.value = false;
+    input.value = "";
+  }
 }
 
 async function save() {
@@ -112,6 +143,14 @@ onMounted(load);
           </div>
           <el-form-item label="标签，逗号分隔">
             <el-input v-model="form.tagText" placeholder="Linux, 博客" />
+          </el-form-item>
+          <el-form-item label="展示图片">
+            <div class="image-field">
+              <el-input v-model="form.image_url" placeholder="/uploads/moment.jpg" />
+              <el-button :icon="Picture" :loading="uploadingImage" @click="pickImage">上传</el-button>
+              <input ref="imageInput" class="hidden-file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" @change="uploadMomentImage">
+            </div>
+            <img v-if="form.image_url" class="image-preview" :src="form.image_url" alt="">
           </el-form-item>
           <el-button type="primary" :icon="Plus" :loading="saving" @click="save">
             {{ form.id ? "保存瞬间" : "发布瞬间" }}

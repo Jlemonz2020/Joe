@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
-import { Back, View } from "@element-plus/icons-vue";
+import { Back, Picture, View } from "@element-plus/icons-vue";
 import { adminApi, messageFromError } from "@/api";
 import MarkdownEditor from "@/components/MarkdownEditor.vue";
 import type { PostItem } from "@/types";
@@ -11,6 +11,8 @@ const route = useRoute();
 const router = useRouter();
 const loading = ref(false);
 const saving = ref(false);
+const uploadingCover = ref(false);
+const coverInput = ref<HTMLInputElement | null>(null);
 const form = reactive<Partial<PostItem>>({
   title: "",
   slug: "",
@@ -29,6 +31,33 @@ const editorStats = computed(() => {
 
 function fillPost(post: PostItem) {
   Object.assign(form, post);
+}
+
+function pickCover() {
+  coverInput.value?.click();
+}
+
+async function uploadCover(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    ElMessage.warning("请选择图片文件");
+    input.value = "";
+    return;
+  }
+
+  uploadingCover.value = true;
+  try {
+    const uploaded = await adminApi.uploadImage(file);
+    form.cover_url = uploaded.url;
+    ElMessage.success("封面图已上传");
+  } catch (error) {
+    ElMessage.error(messageFromError(error));
+  } finally {
+    uploadingCover.value = false;
+    input.value = "";
+  }
 }
 
 async function load() {
@@ -109,8 +138,13 @@ onMounted(load);
         <el-form-item label="摘要">
           <el-input v-model="form.summary" type="textarea" :rows="5" maxlength="500" show-word-limit />
         </el-form-item>
-        <el-form-item label="封面 URL">
-          <el-input v-model="form.cover_url" placeholder="/uploads/cover.jpg" />
+        <el-form-item label="展示图 / 封面">
+          <div class="image-field">
+            <el-input v-model="form.cover_url" placeholder="/uploads/cover.jpg" />
+            <el-button :icon="Picture" :loading="uploadingCover" @click="pickCover">上传</el-button>
+            <input ref="coverInput" class="hidden-file-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" @change="uploadCover">
+          </div>
+          <img v-if="form.cover_url" class="image-preview" :src="form.cover_url" alt="">
         </el-form-item>
         <el-alert
           show-icon

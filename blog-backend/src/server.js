@@ -1137,17 +1137,16 @@ const frontendTextDefaults = [
   { group: "首页", key: "home.hero.kicker", label: "首页 Hero 小字", defaultValue: "Pi5 / Linux / Notes" },
   { group: "首页", key: "home.hero.title", label: "首页标题", defaultValue: "Jlemonz" },
   { group: "首页", key: "home.hero.lead", label: "首页主说明", defaultValue: "Linux、服务器和一些小记" },
-  { group: "首页", key: "home.status.build.title", label: "首页状态 BUILD", defaultValue: "BUILD" },
-  { group: "首页", key: "home.status.build.body", label: "BUILD 说明", defaultValue: "家庭服务器入口、博客后端和公开访问路径继续收束。" },
-  { group: "首页", key: "home.status.trace.title", label: "首页状态 TRACE", defaultValue: "TRACE" },
-  { group: "首页", key: "home.status.trace.body", label: "TRACE 说明", defaultValue: "从静态页面到 API、反代、缓存和后台配置，保留可回溯链路。" },
-  { group: "首页", key: "home.status.mode.title", label: "首页状态 MODE", defaultValue: "MODE" },
-  { group: "首页", key: "home.status.mode.body", label: "MODE 说明", defaultValue: "先把该记录的东西留下来，文章、项目和碎片都慢慢归档。" },
+  { group: "首页", key: "home.status.build.title", label: "首页状态卡 1 标题", defaultValue: "REVIEW" },
+  { group: "首页", key: "home.status.build.body", label: "首页状态卡 1 说明", defaultValue: "梳理踩坑记录，总结技术心得，说不明白=不明白，问了AI就是不会" },
+  { group: "首页", key: "home.status.trace.title", label: "首页状态卡 2 标题", defaultValue: "THINK" },
+  { group: "首页", key: "home.status.trace.body", label: "首页状态卡 2 说明", defaultValue: "真的很懂吗？底层了解吗？底层这两个字了解吗？\n爱就是爱，不爱就是不爱" },
+  { group: "首页", key: "home.status.mode.title", label: "首页状态卡 3 标题", defaultValue: "PLAIN" },
+  { group: "首页", key: "home.status.mode.body", label: "首页状态卡 3 说明", defaultValue: "两点一线，三点共面" },
   { group: "首页", key: "home.profile.body", label: "首页头像卡说明", defaultValue: "今日摸鱼模块已接入站内接口，可随机切换展示。" },
   { group: "瞬间页", key: "moments.hero.kicker", label: "瞬间页小字", defaultValue: "moments" },
   { group: "瞬间页", key: "moments.hero.title", label: "瞬间页标题", defaultValue: "瞬间" },
   { group: "瞬间页", key: "moments.hero.lead", label: "瞬间页说明", defaultValue: "短记录、项目进度和当天状态都先放在这里。文案再长也会自动换行，不再把右侧工具栏或标签挤歪。" },
-  { group: "瞬间页", key: "moments.filter.title", label: "筛选标题", defaultValue: "筛一下" },
   { group: "瞬间页", key: "moments.draft.title", label: "草稿卡标题", defaultValue: "写之前先记一" },
   { group: "瞬间页", key: "moments.draft.input", label: "草稿输入提示", defaultValue: "今天折腾了什么..." },
   { group: "瞬间页", key: "moments.draft.note", label: "草稿说明", defaultValue: "公开页只展示效果，真正发布仍走后台。" },
@@ -2059,6 +2058,60 @@ function tagsFromInput(value) {
   return raw.split(/[,，]/).map((item) => cleanText(item, 40)).filter(Boolean).slice(0, 12);
 }
 
+const uploadImageTypes = {
+  "image/jpeg": ".jpg",
+  "image/png": ".png",
+  "image/webp": ".webp",
+  "image/gif": ".gif"
+};
+
+function publicUploadUrl(relativePath) {
+  const base = config.uploads.publicPath.endsWith("/")
+    ? config.uploads.publicPath.slice(0, -1)
+    : config.uploads.publicPath;
+  return `${base}/${relativePath.replace(/\\/g, "/").replace(/^\/+/, "")}`;
+}
+
+async function saveUploadedImage(file) {
+  if (!file?.buffer?.length) {
+    const error = new Error("没有收到图片文件");
+    error.status = 400;
+    throw error;
+  }
+  if (file.buffer.length > 8 * 1024 * 1024) {
+    const error = new Error("图片不能超过 8MB");
+    error.status = 413;
+    throw error;
+  }
+
+  const contentType = String(file.contentType || "").split(";")[0].trim().toLowerCase();
+  const originalExt = path.extname(file.filename || "").toLowerCase();
+  const ext = uploadImageTypes[contentType] || (Object.values(uploadImageTypes).includes(originalExt) ? originalExt : "");
+  if (!ext) {
+    const error = new Error("只支持 JPG、PNG、WEBP、GIF 图片");
+    error.status = 415;
+    throw error;
+  }
+
+  const date = new Date();
+  const folder = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}`;
+  const dir = path.join(config.uploads.dir, folder);
+  fs.mkdirSync(dir, { recursive: true });
+
+  const base = path.basename(file.filename || "image", originalExt).replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "") || "image";
+  const name = `${Date.now()}-${crypto.randomBytes(4).toString("hex")}-${base.slice(0, 42)}${ext}`;
+  const fullPath = path.join(dir, name);
+  await fs.promises.writeFile(fullPath, file.buffer);
+
+  const relativePath = `${folder}/${name}`;
+  return {
+    url: publicUploadUrl(relativePath),
+    filename: name,
+    contentType,
+    size: file.buffer.length
+  };
+}
+
 function adminMoment(row) {
   return { ...row, tags: parseTags(row.tags) };
 }
@@ -2154,6 +2207,19 @@ async function adminApi(req, res, url) {
   if (url.pathname === "/admin/api/sync-search" && req.method === "POST") {
     const count = await syncSearchIndex();
     return json(res, { count });
+  }
+
+  if (url.pathname === "/admin/api/uploads" && req.method === "POST") {
+    try {
+      const body = await readForm(req);
+      const file = body.files?.file || body.files?.image;
+      return json(res, await saveUploadedImage(file), 201);
+    } catch (error) {
+      return json(res, {
+        error: "upload_failed",
+        message: error.message || "图片上传失败"
+      }, error.status || 400);
+    }
   }
 
   const parts = url.pathname.split("/").filter(Boolean);
