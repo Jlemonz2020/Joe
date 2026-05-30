@@ -1,0 +1,6 @@
+[Unit]
+Description=Backup Yifang Blog data
+
+[Service]
+Type=oneshot
+ExecStart=/data/blog-backend/scripts/backup.sh

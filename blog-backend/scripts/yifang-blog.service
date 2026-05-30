@@ -1,0 +1,17 @@
+[Unit]
+Description=Yifang Blog API
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/data/blog-backend
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /data/blog-backend/src/server.js
+Restart=always
+RestartSec=3
+User=pi5
+Group=pi5
+
+[Install]
+WantedBy=multi-user.target
