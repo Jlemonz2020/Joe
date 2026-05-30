@@ -1233,11 +1233,17 @@ searchInput?.addEventListener("input", () => {
 const enableVisualEditorBridge = () => {
   if (new URLSearchParams(window.location.search).get("editor") !== "1") return;
   document.body.dataset.visualEditor = "true";
+  let selectedEditorTarget = null;
   document.addEventListener("click", (event) => {
     const target = event.target.closest("[data-edit-target],[data-text-key],[data-layout-key],[data-like-target],[data-comment-like-target]");
     if (!target) return;
     event.preventDefault();
     event.stopPropagation();
+    if (selectedEditorTarget && selectedEditorTarget !== target) {
+      delete selectedEditorTarget.dataset.editorSelected;
+    }
+    selectedEditorTarget = target;
+    selectedEditorTarget.dataset.editorSelected = "true";
     const editTarget = target.dataset.editTarget
       || (target.dataset.textKey ? `text:${target.dataset.textKey}` : "")
       || (target.dataset.layoutKey ? `layout:${target.dataset.layoutKey}` : "")
@@ -1253,7 +1259,35 @@ const enableVisualEditorBridge = () => {
   }, true);
 };
 
+const enableVisualEditorPreviewPatches = () => {
+  if (new URLSearchParams(window.location.search).get("editor") !== "1") return;
+  window.addEventListener("message", (event) => {
+    if (event.origin !== window.location.origin) return;
+    const message = event.data || {};
+    if (message.source !== "jlemonz-admin-editor-preview") return;
+    const payload = message.payload || {};
+    if (payload.texts && typeof payload.texts === "object") {
+      for (const [key, value] of Object.entries(payload.texts)) {
+        document.querySelectorAll(`[data-text-key="${CSS.escape(key)}"]`).forEach((node) => {
+          const text = String(value ?? "");
+          const attrs = (node.dataset.textAttr || "").split(",").map((item) => item.trim()).filter(Boolean);
+          if (attrs.length) {
+            attrs.forEach((attr) => node.setAttribute(attr, text));
+            if ("value" in node) node.value = text;
+          } else {
+            node.textContent = text;
+          }
+        });
+      }
+    }
+    if (payload.footerSections) renderFooterSections(payload.footerSections);
+    if (payload.layout) applyFrontendLayout(payload.layout);
+    if (payload.ui) applyFrontendUi(payload.ui);
+  });
+};
+
 enableVisualEditorBridge();
+enableVisualEditorPreviewPatches();
 applyFrontendLayout(frontendLayout);
 applyFrontendUi(frontendUi);
 hydrateEditableTextsFromCache();

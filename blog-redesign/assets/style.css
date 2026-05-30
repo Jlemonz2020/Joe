@@ -5938,17 +5938,23 @@ input:focus-visible,
 
 body[data-visual-editor="true"] [data-edit-target],
 body[data-visual-editor="true"] [data-text-key],
-body[data-visual-editor="true"] [data-layout-key] {
-  cursor: crosshair;
-  outline: 2px dashed color-mix(in srgb, var(--subpage-pink) 62%, transparent);
+body[data-visual-editor="true"] [data-layout-key],
+body[data-visual-editor="true"] [data-like-target],
+body[data-visual-editor="true"] [data-comment-like-target] {
+  cursor: pointer;
+  outline: 0 solid transparent;
   outline-offset: 3px;
+  transition: outline-color .14s ease, box-shadow .14s ease, background-color .14s ease;
 }
 
 body[data-visual-editor="true"] [data-edit-target]:hover,
 body[data-visual-editor="true"] [data-text-key]:hover,
-body[data-visual-editor="true"] [data-layout-key]:hover {
-  outline-style: solid;
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--subpage-pink) 14%, transparent);
+body[data-visual-editor="true"] [data-layout-key]:hover,
+body[data-visual-editor="true"] [data-like-target]:hover,
+body[data-visual-editor="true"] [data-comment-like-target]:hover,
+body[data-visual-editor="true"] [data-editor-selected="true"] {
+  outline: 2px solid color-mix(in srgb, var(--subpage-pink) 72%, transparent);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--subpage-pink) 13%, transparent);
 }
 
 body[data-layout-width="narrow"] .page-shell,

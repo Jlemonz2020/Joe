@@ -1234,6 +1234,7 @@ const defaultFrontendLayout = {
 };
 const frontendUiSettingKey = "frontend_ui_v1";
 const frontendEditorBackupKey = "frontend_editor_backup_v1";
+const frontendEditorDraftKey = "frontend_editor_draft_v1";
 const defaultFrontendUi = {
   archiveCategories: [
     { id: "all", label: "全部", slug: "", description: "所有公开札记", countText: "", href: "/archive.html", visibleInHome: false, visibleInArchive: true, sortOrder: 0 },
@@ -1787,6 +1788,31 @@ async function getFrontendEditorBackup() {
   }
 }
 
+async function getFrontendEditorDraft() {
+  const raw = await getSetting(frontendEditorDraftKey, "");
+  if (!raw) return null;
+  try {
+    const draft = JSON.parse(raw);
+    if (!draft || typeof draft !== "object" || !draft.payload) return null;
+    return draft;
+  } catch {
+    return null;
+  }
+}
+
+async function setFrontendEditorDraft(payload) {
+  const draft = {
+    savedAt: new Date().toISOString(),
+    payload: normalizeFrontendEditorPayload(payload)
+  };
+  await setSetting(frontendEditorDraftKey, JSON.stringify(draft));
+  return draft;
+}
+
+async function clearFrontendEditorDraft() {
+  await query("DELETE FROM site_settings WHERE setting_key=:key", { key: frontendEditorDraftKey });
+}
+
 async function snapshotFrontendEditor(reason = "save") {
   const snapshot = {
     savedAt: new Date().toISOString(),
@@ -1799,6 +1825,36 @@ async function snapshotFrontendEditor(reason = "save") {
   };
   await setSetting(frontendEditorBackupKey, JSON.stringify(snapshot));
   return snapshot;
+}
+
+function normalizeFrontendEditorPayload(body = {}) {
+  const source = body && typeof body === "object" ? body : {};
+  const incomingTexts = source.texts && typeof source.texts === "object" ? source.texts : {};
+  const texts = {};
+  for (const item of frontendTextDefaults) {
+    texts[item.key] = String(incomingTexts[item.key] ?? item.defaultValue).slice(0, 1200);
+  }
+  return {
+    texts,
+    rules: String(source.rules || "").slice(0, 10000),
+    footerSections: normalizeFooterSections(source.footerSections),
+    layout: normalizeFrontendLayout(source.layout),
+    ui: normalizeFrontendUi(source.ui)
+  };
+}
+
+async function publishFrontendEditorPayload(payload, reason = "frontend-editor-publish") {
+  const normalized = normalizeFrontendEditorPayload(payload);
+  await snapshotFrontendEditor(reason);
+  for (const item of frontendTextDefaults) {
+    await setSetting(`site_text.${item.key}`, normalized.texts[item.key]);
+  }
+  await setSetting("site_text_rules", normalized.rules);
+  await setSetting(footerSettingKey, JSON.stringify(normalized.footerSections));
+  await setSetting(frontendLayoutSettingKey, JSON.stringify(normalized.layout));
+  await setSetting(frontendUiSettingKey, JSON.stringify(normalized.ui));
+  await cacheDel("site:texts");
+  return normalized;
 }
 
 function footerSectionsFromBody(body) {
@@ -2489,13 +2545,14 @@ async function adminFrontendLayoutPayload() {
 }
 
 async function adminFrontendEditorPayload() {
-  const [layout, ui, texts, rules, footerSections, backup] = await Promise.all([
+  const [layout, ui, texts, rules, footerSections, backup, draft] = await Promise.all([
     getFrontendLayout(),
     getFrontendUi(),
     getFrontendTextMap(),
     getSetting("site_text_rules", ""),
     getFooterSections(),
-    getFrontendEditorBackup()
+    getFrontendEditorBackup(),
+    getFrontendEditorDraft()
   ]);
   const [posts, projects, moments, comments] = await Promise.all([
     query("SELECT id,title,slug,summary,cover_url,status,published_at,created_at,updated_at FROM posts ORDER BY updated_at DESC,id DESC LIMIT 120"),
@@ -2515,6 +2572,7 @@ async function adminFrontendEditorPayload() {
     layout,
     ui,
     backup: backup ? { savedAt: backup.savedAt, reason: backup.reason } : null,
+    draft: draft ? { savedAt: draft.savedAt, payload: draft.payload } : null,
     content: {
       posts,
       projects: projects.map(publicProject),
@@ -2904,6 +2962,24 @@ async function adminApi(req, res, url) {
 
   if (resource === "frontend-editor") {
     if (req.method === "GET") return json(res, await adminFrontendEditorPayload());
+    if (parts[3] === "draft") {
+      if (req.method === "PUT") {
+        const body = await readAdminObject(req);
+        const draft = await setFrontendEditorDraft(body.payload || body);
+        return json(res, { ok: true, draft: { savedAt: draft.savedAt, payload: draft.payload } });
+      }
+      if (req.method === "DELETE") {
+        await clearFrontendEditorDraft();
+        return json(res, { ok: true });
+      }
+    }
+    if (req.method === "POST" && parts[3] === "publish") {
+      const body = await readAdminObject(req);
+      const draft = body.payload ? null : await getFrontendEditorDraft();
+      await publishFrontendEditorPayload(body.payload || draft?.payload || body, "frontend-editor-publish");
+      await clearFrontendEditorDraft();
+      return json(res, await adminFrontendEditorPayload());
+    }
     if (req.method === "POST" && parts[3] === "restore") {
       const backup = await getFrontendEditorBackup();
       if (!backup) return json(res, { error: "backup_not_found", message: "没有可恢复的上一版" }, 404);
@@ -2915,21 +2991,13 @@ async function adminApi(req, res, url) {
       await setSetting(frontendLayoutSettingKey, JSON.stringify(normalizeFrontendLayout(backup.layout)));
       await setSetting(frontendUiSettingKey, JSON.stringify(normalizeFrontendUi(backup.ui)));
       await cacheDel("site:texts");
+      await clearFrontendEditorDraft();
       return json(res, await adminFrontendEditorPayload());
     }
     if (req.method === "PUT") {
       const body = await readAdminObject(req);
-      await snapshotFrontendEditor("frontend-editor-save");
-      const incomingTexts = body.texts && typeof body.texts === "object" ? body.texts : {};
-      for (const item of frontendTextDefaults) {
-        const value = String(incomingTexts[item.key] ?? item.defaultValue).slice(0, 1200);
-        await setSetting(`site_text.${item.key}`, value);
-      }
-      await setSetting("site_text_rules", String(body.rules || "").slice(0, 10000));
-      await setSetting(footerSettingKey, JSON.stringify(normalizeFooterSections(body.footerSections)));
-      await setSetting(frontendLayoutSettingKey, JSON.stringify(normalizeFrontendLayout(body.layout)));
-      await setSetting(frontendUiSettingKey, JSON.stringify(normalizeFrontendUi(body.ui)));
-      await cacheDel("site:texts");
+      await publishFrontendEditorPayload(body.payload || body, "frontend-editor-save");
+      await clearFrontendEditorDraft();
       return json(res, await adminFrontendEditorPayload());
     }
   }

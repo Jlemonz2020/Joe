@@ -1,12 +1,14 @@
 {
   "name": "yifang-blog-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
     "init": "node scripts/init-db.js",
-    "sync-search": "node scripts/sync-search.js"
+    "sync-search": "node scripts/sync-search.js",
+    "admin:install": "npm --prefix admin-src install",
+    "admin:build": "npm --prefix admin-src run build"
   },
   "dependencies": {
     "mysql2": "^3.14.0"

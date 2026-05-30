@@ -1,27 +1,31 @@
-__pycache__
-*.pyc
-.vs
+# Local/editor state
+.DS_Store
+Thumbs.db
+.vs/
+.vscode/
+.idea/
+.ace-tool/
+
+# Environment and secrets
 .env
 .env.*
 !.env.example
+ADMIN-CREDENTIALS.txt
+blog-backend/.npmrc
 
+# Dependencies and build output
 node_modules/
 dist/
-dist-electron/
-release/
+.cache/
+coverage/
+*.log
 
-.metagpt/
-metagpt-collab/
-logs/
-resources/
-test_outputs/
-workspace/
+# Runtime data kept on the Raspberry Pi
+blog-backend/uploads/
+blog-backend/backups/
+blog-backend/public/admin/*
+!blog-backend/public/admin/.gitkeep
 
-/.dependencies.json
-/requirements.txt
-/app-run-*.txt
-/*.png
-/index-*.css
-/index-*.js
-/_asar-index-*.css
-/_asar-index-*.js
+# Python/helper cache
+__pycache__/
+*.pyc
