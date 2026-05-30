@@ -395,16 +395,36 @@ onBeforeUnmount(() => {
           <el-tab-pane label="分类/标签" name="ui">
             <div class="inspector-section">
               <div class="section-line"><strong>首页分类 / 小记筛选</strong><el-button size="small" :icon="Plus" @click="addCategory">添加</el-button></div>
-              <div v-for="(item, index) in ui.archiveCategories" :key="item.id" class="editable-row">
-                <el-input v-model="item.label" placeholder="名称" />
-                <el-input v-model="item.slug" placeholder="slug" />
-                <el-input v-model="item.description" placeholder="说明" />
-                <el-input v-model="item.countText" placeholder="数量文字" />
-                <el-input v-model="item.href" placeholder="链接" />
-                <el-input-number v-model="item.sortOrder" :min="0" :max="9999" />
-                <el-checkbox v-model="item.visibleInHome">首页</el-checkbox>
-                <el-checkbox v-model="item.visibleInArchive">小记</el-checkbox>
-                <el-button :icon="Delete" @click="removeAt(ui.archiveCategories, index)" />
+              <div v-for="(item, index) in ui.archiveCategories" :key="item.id" class="category-edit-card">
+                <div class="edit-field">
+                  <span>名称</span>
+                  <el-input v-model="item.label" placeholder="Linux" />
+                </div>
+                <div class="edit-field">
+                  <span>slug</span>
+                  <el-input v-model="item.slug" placeholder="linux" />
+                </div>
+                <div class="edit-field field-wide">
+                  <span>说明</span>
+                  <el-input v-model="item.description" placeholder="命令、驱动、系统记录" />
+                </div>
+                <div class="edit-field">
+                  <span>数量</span>
+                  <el-input v-model="item.countText" placeholder="18" />
+                </div>
+                <div class="edit-field field-link">
+                  <span>跳转链接</span>
+                  <el-input v-model="item.href" placeholder="/archive.html?cat=linux" />
+                </div>
+                <div class="edit-field field-sort">
+                  <span>排序</span>
+                  <el-input-number v-model="item.sortOrder" :min="0" :max="9999" />
+                </div>
+                <div class="category-flags">
+                  <el-checkbox v-model="item.visibleInHome">首页显示</el-checkbox>
+                  <el-checkbox v-model="item.visibleInArchive">小记显示</el-checkbox>
+                </div>
+                <el-button class="category-delete" :icon="Delete" @click="removeAt(ui.archiveCategories, index)" />
               </div>
             </div>
 

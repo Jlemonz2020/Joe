@@ -1263,6 +1263,55 @@ body::before {
   grid-template-columns: 1fr 1fr 1fr 100px auto auto;
 }
 
+.category-edit-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  align-items: end;
+  padding: 12px;
+  border: 1px solid rgba(132, 75, 91, .1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .76);
+}
+
+.edit-field {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+}
+
+.edit-field span {
+  color: var(--admin-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.edit-field .el-input,
+.edit-field .el-input-number {
+  width: 100%;
+}
+
+.edit-field.field-link {
+  grid-column: span 2;
+}
+
+.edit-field.field-sort {
+  grid-column: span 1;
+}
+
+.category-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: center;
+  min-height: 32px;
+}
+
+.category-delete {
+  align-self: end;
+  justify-self: end;
+}
+
 .content-picker {
   display: grid;
   gap: 10px;
@@ -1485,6 +1534,19 @@ body::before {
   .editable-row,
   .editable-row.compact-row {
     grid-template-columns: 1fr;
+  }
+
+  .category-edit-card {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-field.field-link,
+  .edit-field.field-sort {
+    grid-column: auto;
+  }
+
+  .category-delete {
+    justify-self: stretch;
   }
 
   .layout-checks {
