@@ -1192,16 +1192,6 @@ const defaultFooterSections = [
     ]
   },
   {
-    title: "站内",
-    links: [
-      { label: "首页", href: "/index.html", desc: "回到入口" },
-      { label: "小记", href: "/archive.html", desc: "文章、笔记和长记录" },
-      { label: "瞬间", href: "/moments.html", desc: "日常碎片" },
-      { label: "项目", href: "/projects.html", desc: "正在推进的事情" },
-      { label: "关于", href: "/about.html", desc: "留言和联系入口" }
-    ]
-  },
-  {
     title: "图库",
     links: [
       { label: "瞬间图文", href: "/moments.html", desc: "日常图文入口" },
@@ -1497,13 +1487,14 @@ function normalizeFooterSections(value) {
   const sections = Array.isArray(value) ? value : [];
   return sections.slice(0, footerSectionLimit).map((section) => {
     const title = cleanText(section?.title, 30);
+    if (title === "站内" || title === "站内入口") return null;
     const links = (Array.isArray(section?.links) ? section.links : []).slice(0, footerLinkLimit).map((link) => ({
       label: cleanText(link?.label, 40),
       href: cleanFooterHref(link?.href),
       desc: cleanText(link?.desc, 80)
     })).filter((link) => link.label && link.href);
     return { title, links };
-  }).filter((section) => section.title && section.links.length);
+  }).filter((section) => section?.title && section.links.length);
 }
 
 async function getFooterSections() {
@@ -1545,7 +1536,7 @@ function renderFooterSectionEditor(sections) {
     return `<section class="footer-config-section">
       <h3>页脚栏目 ${sectionIndex + 1}</h3>
       <label>栏目名</label>
-      <input name="footer_section_${sectionIndex}_title" value="${escapeAttr(section.title)}" placeholder="友链 / 站内 / 图库">
+      <input name="footer_section_${sectionIndex}_title" value="${escapeAttr(section.title)}" placeholder="友链 / 图库">
       ${links.map((link, linkIndex) => `<div class="footer-link-row">
         <div><label>链接名</label><input name="footer_section_${sectionIndex}_link_${linkIndex}_label" value="${escapeAttr(link.label)}" placeholder="GitHub"></div>
         <div><label>地址</label><input name="footer_section_${sectionIndex}_link_${linkIndex}_href" value="${escapeAttr(link.href)}" placeholder="/archive.html 或 https://example.com"></div>
@@ -2640,19 +2631,26 @@ async function publicApi(req, res, url) {
         (SELECT COUNT(*) FROM projects WHERE status='active') AS projects,
         (SELECT COUNT(*) FROM categories) AS categories
     `);
-    const latestMoments = await query("SELECT id, content, kind, created_at FROM moments WHERE status='published' ORDER BY created_at DESC LIMIT 3");
-    const data = { stats, latestMoments };
+    const latestMoments = await query("SELECT id, content, kind, tags, image_url, created_at FROM moments WHERE status='published' ORDER BY created_at DESC LIMIT 3");
+    const data = { stats, latestMoments: latestMoments.map(adminMoment) };
     await cacheSet("site:overview", data, 90);
     return json(res, data);
   }
   if (url.pathname === "/api/posts") {
+    const cat = cleanText(url.searchParams.get("cat") || "", 80).toLowerCase().replace(/[^a-z0-9_-]/g, "");
+    const params = {};
+    const filters = ["p.status='published'"];
+    if (cat) {
+      filters.push("(LOWER(c.slug)=:cat OR LOWER(c.name)=:cat)");
+      params.cat = cat;
+    }
     const posts = await query(`
-      SELECT p.id, p.title, p.slug, p.summary, p.cover_url, p.published_at, c.name AS category
+      SELECT p.id, p.title, p.slug, p.summary, p.cover_url, p.published_at, c.name AS category, c.slug AS category_slug
       FROM posts p LEFT JOIN categories c ON c.id=p.category_id
-      WHERE p.status='published'
+      WHERE ${filters.join(" AND ")}
       ORDER BY p.published_at DESC, p.id DESC
       LIMIT 30
-    `);
+    `, params);
     return json(res, { items: posts });
   }
   if (url.pathname.startsWith("/api/posts/")) {

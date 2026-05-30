@@ -146,6 +146,26 @@ const formatDate = (value) => {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 };
 
+const imageMarkup = (url, className, alt = "") => {
+  const src = String(url || "").trim();
+  if (!src || !/^(https?:\/\/|\/(?!\/))/i.test(src)) return "";
+  return `<img class="${className}" src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy">`;
+};
+
+const setOptionalImage = (selector, url, alt = "") => {
+  const image = document.querySelector(selector);
+  if (!image) return;
+  const src = String(url || "").trim();
+  const valid = src && /^(https?:\/\/|\/(?!\/))/i.test(src);
+  image.hidden = !valid;
+  if (!valid) {
+    image.removeAttribute("src");
+    return;
+  }
+  image.src = src;
+  image.alt = alt;
+};
+
 const apiGet = async (path) => {
   const response = await fetch(path, { cache: "no-store", headers: { Accept: "application/json" } });
   if (!response.ok) throw new Error(`API ${path} failed`);
@@ -292,8 +312,9 @@ const momentMarkup = (item) => {
 };
 
 const projectRowMarkup = (item) => `
-  <a class="project-row" href="/project.html?id=${encodeURIComponent(item.id)}">
-    <div>
+  <a class="project-row${item.cover_url ? " has-cover" : ""}" href="/project.html?id=${encodeURIComponent(item.id)}">
+    ${imageMarkup(item.cover_url, "project-row-cover", item.name)}
+    <div class="project-row-copy">
       <h3>${escapeHtml(item.name)}</h3>
       <p>${escapeHtml(item.status_text)}</p>
       <time>${escapeHtml(item.last_update || "")}</time>
@@ -306,6 +327,7 @@ const projectRowMarkup = (item) => `
 
 const projectTileMarkup = (item) => `
   <a class="desk-card project-tile" href="/project.html?id=${encodeURIComponent(item.id)}">
+    ${imageMarkup(item.cover_url, "project-tile-cover", item.name)}
     <div class="tile-head"><span class="pin"></span><strong>${escapeHtml(item.name)}</strong></div>
     <p>${escapeHtml(item.status_text)}</p>
     <div class="progress" aria-label="进度 ${Number(item.progress) || 0}%"><span style="width:${Number(item.progress) || 0}%"></span></div>
@@ -314,8 +336,11 @@ const projectTileMarkup = (item) => `
 `;
 
 const postMarkup = (item) => `
-  <a class="article-row" href="/post.html?slug=${encodeURIComponent(item.slug || "")}" data-title="${escapeHtml(item.title || "")}">
-    <time datetime="${escapeHtml(item.published_at || "")}">${formatDate(item.published_at)}</time>
+  <a class="article-row${item.cover_url ? " has-cover" : ""}" href="/post.html?slug=${encodeURIComponent(item.slug || "")}" data-title="${escapeHtml(item.title || "")}">
+    <div class="article-row-media">
+      <time datetime="${escapeHtml(item.published_at || "")}">${formatDate(item.published_at)}</time>
+      ${imageMarkup(item.cover_url, "article-row-cover", item.title)}
+    </div>
     <div>
       <h2>${escapeHtml(item.title || "未命名记录")}</h2>
       <p>${escapeHtml(item.summary || "还没有摘要。")}</p>
@@ -358,13 +383,26 @@ const renderMoments = (items) => {
 const renderProjects = (items) => {
   const preview = document.querySelector("[data-project-preview]");
   const board = document.querySelector("[data-project-board]");
-  if (preview && items?.length) preview.innerHTML = items.slice(0, 4).map(projectRowMarkup).join("");
-  if (board && items?.length) board.innerHTML = items.map(projectTileMarkup).join("");
+  if (preview) preview.innerHTML = items?.length ? items.slice(0, 4).map(projectRowMarkup).join("") : '<p class="muted">还没有公开项目。</p>';
+  if (board) board.innerHTML = items?.length ? items.map(projectTileMarkup).join("") : '<p class="muted">还没有公开项目。</p>';
 };
 
 const renderPosts = (items) => {
   const list = document.querySelector("[data-post-list]");
-  if (list && items?.length) list.innerHTML = items.map(postMarkup).join("");
+  if (list) list.innerHTML = items?.length ? items.map(postMarkup).join("") : '<p class="muted">这个筛选下还没有公开札记。</p>';
+};
+
+const archiveCategory = () => {
+  if (page !== "archive") return "";
+  return (new URLSearchParams(window.location.search).get("cat") || "").trim().toLowerCase();
+};
+
+const applyArchiveCategoryState = () => {
+  const active = archiveCategory();
+  document.querySelectorAll(".chip-row a").forEach((link) => {
+    const linkCategory = new URL(link.href, window.location.origin).searchParams.get("cat") || "";
+    link.classList.toggle("active", linkCategory.toLowerCase() === active);
+  });
 };
 
 const loadDynamicContent = async () => {
@@ -379,7 +417,9 @@ const loadDynamicContent = async () => {
     tasks.push(() => apiGet("/api/projects").then((data) => renderProjects(data.items)));
   }
   if (document.querySelector("[data-post-list]")) {
-    tasks.push(() => apiGet("/api/posts").then((data) => renderPosts(data.items)));
+    const cat = archiveCategory();
+    const query = cat ? `?cat=${encodeURIComponent(cat)}` : "";
+    tasks.push(() => apiGet(`/api/posts${query}`).then((data) => renderPosts(data.items)));
   }
   await Promise.all(tasks.map(runDynamicTask));
 };
@@ -700,6 +740,7 @@ const loadProjectDetail = async () => {
     document.querySelector("[data-project-state]").textContent = project.status_text || "进行中";
     document.querySelector("[data-project-progress]").style.width = `${Number(project.progress) || 0}%`;
     document.querySelector("[data-project-update]").textContent = project.last_update || "";
+    setOptionalImage("[data-project-cover]", project.cover_url, project.name || "项目展示图");
     document.querySelector("[data-project-content]").innerHTML = project.content_html || "<p>还没有详细记录。</p>";
     document.querySelectorAll("[data-comment-target]").forEach((node) => {
       node.dataset.commentTarget = target;
@@ -733,6 +774,7 @@ const loadPostDetail = async () => {
     document.querySelector("[data-post-category]").textContent = post.category || "札记";
     document.querySelector("[data-post-published]").textContent = formatDate(post.published_at);
     document.querySelector("[data-post-updated]").textContent = post.updated_at ? `更新 ${formatDate(post.updated_at)}` : "";
+    setOptionalImage("[data-post-cover]", post.cover_url, post.title || "札记展示图");
     document.querySelector("[data-post-content]").innerHTML = post.content_html || "<p>还没有详细记录。</p>";
     document.querySelectorAll("[data-comment-target]").forEach((node) => {
       node.dataset.commentTarget = target;
@@ -807,6 +849,7 @@ searchInput?.addEventListener("input", () => {
 });
 
 hydrateEditableTextsFromCache();
+applyArchiveCategoryState();
 loadDynamicContent();
 applyEditableTexts();
 renderQuote();

@@ -7,11 +7,26 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function safeMarkdownUrl(value = "") {
+  const url = String(value || "").trim();
+  if (/^(https?:\/\/|\/(?!\/))/i.test(url)) return escapeHtml(url);
+  return "";
+}
+
 function inline(value) {
   return escapeHtml(value)
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, url) => {
+      const safeUrl = safeMarkdownUrl(url);
+      return safeUrl ? `<img src="${safeUrl}" alt="${escapeHtml(alt)}" loading="lazy">` : escapeHtml(alt);
+    })
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" rel="nofollow noopener" target="_blank">$1</a>');
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, url) => {
+      const safeUrl = safeMarkdownUrl(url);
+      if (!safeUrl) return label;
+      const externalAttrs = /^https?:\/\//i.test(String(url).trim()) ? ' rel="nofollow noopener" target="_blank"' : "";
+      return `<a href="${safeUrl}"${externalAttrs}>${label}</a>`;
+    });
 }
 
 export function markdownToHtml(markdown = "") {

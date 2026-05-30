@@ -946,6 +946,42 @@ body::before {
   background: rgba(255, 117, 196, .13);
 }
 
+.frontend-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.layout-preview-card,
+.layout-rule-grid > div {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--admin-line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .64);
+}
+
+.layout-preview-card strong,
+.layout-rule-grid strong {
+  color: var(--admin-text);
+  font-size: 16px;
+}
+
+.layout-preview-card span,
+.layout-preview-card p,
+.layout-rule-grid span {
+  margin: 0;
+  color: var(--admin-muted);
+  line-height: 1.6;
+}
+
+.layout-rule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
 .login-page {
   background:
     linear-gradient(rgba(255, 246, 251, .82), rgba(255, 246, 251, .95)),

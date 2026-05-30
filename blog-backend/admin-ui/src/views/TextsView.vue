@@ -27,7 +27,7 @@ function fill(payload: SiteTextsPayload) {
   rules.value = payload.rules || "";
   footerSections.value = payload.footerSections.length
     ? payload.footerSections
-    : [{ title: "友链", links: [{ label: "", href: "", desc: "" }] }];
+    : [{ title: "友链", links: [{ label: "", href: "", desc: "" }] }, { title: "图库", links: [{ label: "", href: "", desc: "" }] }];
 }
 
 async function load() {
@@ -99,14 +99,14 @@ onMounted(load);
       <div class="panel-head">
         <div>
           <h2 class="panel-title">页脚栏目</h2>
-          <p class="panel-desc">这里只叫友链、站内、图库这类栏目，不再做显眼入口。</p>
+          <p class="panel-desc">只维护页脚里的友链和图库入口，不再输出“站内”栏目。</p>
         </div>
         <el-button :icon="Plus" @click="addSection">加栏目</el-button>
       </div>
       <div class="panel-body page-stack">
         <section v-for="(section, sectionIndex) in footerSections" :key="sectionIndex" class="footer-section-card">
           <div class="toolbar-line">
-            <el-input v-model="section.title" placeholder="栏目名，例如：友链 / 站内 / 图库" style="max-width: 340px" />
+            <el-input v-model="section.title" placeholder="栏目名，例如：友链 / 图库" style="max-width: 340px" />
             <div>
               <el-button :icon="Plus" @click="addLink(section)">加链接</el-button>
               <el-button :icon="Delete" @click="footerSections.splice(sectionIndex, 1)">删除栏目</el-button>

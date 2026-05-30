@@ -5583,6 +5583,63 @@ input:focus-visible,
   padding: clamp(22px, 2.4vw, 30px);
 }
 
+.project-row.has-cover {
+  grid-template-columns: 98px minmax(0, 1fr) minmax(190px, 300px);
+}
+
+.project-row-cover,
+.project-tile-cover,
+.article-row-cover,
+.detail-cover,
+.article-body img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  border: 1px solid color-mix(in srgb, var(--subpage-pink) 14%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel-solid) 72%, transparent);
+}
+
+.project-row-cover {
+  aspect-ratio: 4 / 3;
+}
+
+.project-tile-cover {
+  aspect-ratio: 16 / 9;
+  max-height: 116px;
+}
+
+.article-row-media {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.article-row-cover {
+  aspect-ratio: 1 / 1;
+}
+
+.detail-cover {
+  aspect-ratio: 16 / 10;
+  max-height: 220px;
+}
+
+.detail-cover[hidden] {
+  display: none;
+}
+
+.article-body img {
+  height: auto;
+  max-height: 620px;
+  margin: 16px 0;
+}
+
+.chip-row a.active {
+  border-color: color-mix(in srgb, var(--subpage-pink) 42%, var(--line));
+  color: color-mix(in srgb, var(--text) 78%, var(--subpage-pink) 22%);
+  background: color-mix(in srgb, var(--subpage-pink) 12%, white 52%);
+}
+
 @media (max-width: 680px) {
   .theme-menu {
     position: fixed;
@@ -5607,6 +5664,16 @@ input:focus-visible,
     width: 8px;
     height: 8px;
     box-shadow: 0 0 0 5px color-mix(in srgb, var(--subpage-pink) 12%, transparent);
+  }
+
+  .project-row.has-cover,
+  .article-row.has-cover {
+    grid-template-columns: 1fr;
+  }
+
+  .project-row-cover,
+  .article-row-cover {
+    max-height: 180px;
   }
 }
 

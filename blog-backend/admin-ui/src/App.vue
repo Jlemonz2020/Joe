@@ -10,7 +10,8 @@ import {
   HomeFilled,
   Link,
   Setting,
-  SwitchButton
+  SwitchButton,
+  View
 } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { useSessionStore } from "@/stores/session";
@@ -36,6 +37,7 @@ const menuGroups = [
   {
     label: "站点",
     items: [
+      { label: "前台布局", to: "/frontend-layout", icon: View },
       { label: "文案友链", to: "/texts", icon: Link },
       { label: "设置", to: "/settings", icon: Setting }
     ]

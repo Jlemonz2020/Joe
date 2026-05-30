@@ -71,6 +71,12 @@ export const router = createRouter({
       meta: { title: "站点文案" }
     },
     {
+      path: "/frontend-layout",
+      name: "frontend-layout",
+      component: () => import("@/views/FrontendLayoutView.vue"),
+      meta: { title: "前台布局" }
+    },
+    {
       path: "/settings",
       name: "settings",
       component: () => import("@/views/SettingsView.vue"),
