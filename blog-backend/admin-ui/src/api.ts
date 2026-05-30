@@ -2,6 +2,8 @@ import axios from "axios";
 import type {
   AdminUser,
   CommentItem,
+  FrontendLayout,
+  FrontendLayoutPayload,
   FooterSection,
   MomentItem,
   OverviewPayload,
@@ -129,6 +131,14 @@ export const adminApi = {
   async saveSiteTexts(payload: { texts: Record<string, string>; rules: string; footerSections: FooterSection[] }) {
     const { data } = await http.put<SiteTextsPayload>("/site-texts", payload);
     return data;
+  },
+  async getFrontendLayout() {
+    const { data } = await http.get<FrontendLayoutPayload>("/frontend-layout");
+    return data.layout;
+  },
+  async saveFrontendLayout(layout: FrontendLayout) {
+    const { data } = await http.put<FrontendLayoutPayload>("/frontend-layout", { layout });
+    return data.layout;
   },
   async getSettings() {
     const { data } = await http.get<{ githubUsername: string }>("/settings");

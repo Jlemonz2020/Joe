@@ -204,6 +204,38 @@ const getSafeEditableText = (value, { optional = false } = {}) => {
 
 const SITE_TEXT_CACHE_KEY = "jlemonz:site-texts:v1";
 const QUOTE_CACHE_KEY = "jlemonz:quote:v1";
+const defaultFrontendLayout = {
+  home: {
+    width: "balanced",
+    density: "comfortable",
+    projectPreviewLimit: 4,
+    momentPreviewLimit: 2,
+    showStatusStrip: true,
+    showProjectPreview: true,
+    showMomentPreview: true,
+    showProfileCard: true,
+    showStatsCard: true,
+    showCategoryCard: true
+  },
+  archive: {
+    defaultCategory: "",
+    showSearchPanel: true,
+    showGithubPanel: true
+  },
+  moments: {
+    defaultKind: "all",
+    showDraftPanel: true
+  },
+  projects: {
+    cardStyle: "cover",
+    showRoadmap: true,
+    showMaintain: true
+  },
+  footer: {
+    motion: "candles"
+  }
+};
+let frontendLayout = JSON.parse(JSON.stringify(defaultFrontendLayout));
 
 const readCachedJson = (key) => {
   try {
@@ -218,6 +250,94 @@ const writeCachedJson = (key, value) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {}
+};
+
+const pickLayoutChoice = (value, allowed, fallback) => allowed.includes(value) ? value : fallback;
+const pickLayoutBoolean = (value, fallback) => typeof value === "boolean" ? value : fallback;
+const pickLayoutInteger = (value, min, max, fallback) => {
+  const number = Number.parseInt(value, 10);
+  if (Number.isNaN(number)) return fallback;
+  return Math.min(max, Math.max(min, number));
+};
+
+const normalizeFrontendLayout = (layout = {}) => {
+  const source = layout && typeof layout === "object" ? layout : {};
+  const home = source.home || {};
+  const archive = source.archive || {};
+  const moments = source.moments || {};
+  const projects = source.projects || {};
+  const footer = source.footer || {};
+  return {
+    home: {
+      width: pickLayoutChoice(home.width, ["narrow", "balanced", "wide"], defaultFrontendLayout.home.width),
+      density: pickLayoutChoice(home.density, ["compact", "comfortable", "airy"], defaultFrontendLayout.home.density),
+      projectPreviewLimit: pickLayoutInteger(home.projectPreviewLimit, 1, 8, defaultFrontendLayout.home.projectPreviewLimit),
+      momentPreviewLimit: pickLayoutInteger(home.momentPreviewLimit, 1, 6, defaultFrontendLayout.home.momentPreviewLimit),
+      showStatusStrip: pickLayoutBoolean(home.showStatusStrip, defaultFrontendLayout.home.showStatusStrip),
+      showProjectPreview: pickLayoutBoolean(home.showProjectPreview, defaultFrontendLayout.home.showProjectPreview),
+      showMomentPreview: pickLayoutBoolean(home.showMomentPreview, defaultFrontendLayout.home.showMomentPreview),
+      showProfileCard: pickLayoutBoolean(home.showProfileCard, defaultFrontendLayout.home.showProfileCard),
+      showStatsCard: pickLayoutBoolean(home.showStatsCard, defaultFrontendLayout.home.showStatsCard),
+      showCategoryCard: pickLayoutBoolean(home.showCategoryCard, defaultFrontendLayout.home.showCategoryCard)
+    },
+    archive: {
+      defaultCategory: pickLayoutChoice(archive.defaultCategory, ["", "linux", "raspberry-pi", "server", "life"], defaultFrontendLayout.archive.defaultCategory),
+      showSearchPanel: pickLayoutBoolean(archive.showSearchPanel, defaultFrontendLayout.archive.showSearchPanel),
+      showGithubPanel: pickLayoutBoolean(archive.showGithubPanel, defaultFrontendLayout.archive.showGithubPanel)
+    },
+    moments: {
+      defaultKind: pickLayoutChoice(moments.defaultKind, ["all", "project", "life", "tech"], defaultFrontendLayout.moments.defaultKind),
+      showDraftPanel: pickLayoutBoolean(moments.showDraftPanel, defaultFrontendLayout.moments.showDraftPanel)
+    },
+    projects: {
+      cardStyle: pickLayoutChoice(projects.cardStyle, ["cover", "compact", "minimal"], defaultFrontendLayout.projects.cardStyle),
+      showRoadmap: pickLayoutBoolean(projects.showRoadmap, defaultFrontendLayout.projects.showRoadmap),
+      showMaintain: pickLayoutBoolean(projects.showMaintain, defaultFrontendLayout.projects.showMaintain)
+    },
+    footer: {
+      motion: pickLayoutChoice(footer.motion, ["candles", "loader", "both", "none"], defaultFrontendLayout.footer.motion)
+    }
+  };
+};
+
+const setLayoutVisibility = (key, visible) => {
+  document.querySelectorAll(`[data-layout-key="${CSS.escape(key)}"]`).forEach((node) => {
+    node.toggleAttribute("hidden", !visible);
+    node.dataset.layoutHidden = visible ? "false" : "true";
+  });
+};
+
+const applyFrontendLayout = (layout) => {
+  frontendLayout = normalizeFrontendLayout(layout || defaultFrontendLayout);
+  document.body.dataset.layoutWidth = frontendLayout.home.width;
+  document.body.dataset.layoutDensity = frontendLayout.home.density;
+  document.body.dataset.projectCardStyle = frontendLayout.projects.cardStyle;
+  document.body.dataset.footerMotion = frontendLayout.footer.motion;
+
+  setLayoutVisibility("home.statusStrip", frontendLayout.home.showStatusStrip);
+  setLayoutVisibility("home.projectPreview", frontendLayout.home.showProjectPreview);
+  setLayoutVisibility("home.momentPreview", frontendLayout.home.showMomentPreview);
+  setLayoutVisibility("home.profileCard", frontendLayout.home.showProfileCard);
+  setLayoutVisibility("home.statsCard", frontendLayout.home.showStatsCard);
+  setLayoutVisibility("home.categoryCard", frontendLayout.home.showCategoryCard);
+  setLayoutVisibility("archive.searchPanel", frontendLayout.archive.showSearchPanel);
+  setLayoutVisibility("archive.githubPanel", frontendLayout.archive.showGithubPanel);
+  setLayoutVisibility("moments.draftPanel", frontendLayout.moments.showDraftPanel);
+  setLayoutVisibility("projects.roadmap", frontendLayout.projects.showRoadmap);
+  setLayoutVisibility("projects.maintain", frontendLayout.projects.showMaintain);
+
+  if (page === "archive") applyArchiveCategoryState();
+  if (page === "moments" && typeof applyMomentFilter === "function") {
+    const urlKind = new URLSearchParams(window.location.search).get("kind");
+    const filter = urlKind || frontendLayout.moments.defaultKind || "all";
+    currentMomentFilter = filter;
+    document.querySelectorAll("[data-filter]").forEach((button) => {
+      const isActive = (button.dataset.filter || "all") === filter;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-selected", String(isActive));
+    });
+    applyMomentFilter(filter);
+  }
 };
 
 const setSearchInputPrompt = (value) => {
@@ -267,6 +387,7 @@ const applyEditableTextData = (data) => {
     });
   });
   setSearchInputPrompt(texts["shared.search.input"]);
+  applyFrontendLayout(data?.layout);
   (data?.rules || []).forEach((rule) => {
     if (!rule.selector) return;
     const safeValue = getSafeEditableText(rule.value, { optional: true });
@@ -360,7 +481,7 @@ const renderOverview = (overview) => {
 
   const preview = document.querySelector("[data-moment-preview]");
   if (preview && overview.latestMoments?.length) {
-    preview.innerHTML = overview.latestMoments.slice(0, 2).map(momentMarkup).join("");
+    preview.innerHTML = overview.latestMoments.slice(0, frontendLayout.home.momentPreviewLimit).map(momentMarkup).join("");
   }
 };
 
@@ -383,7 +504,7 @@ const renderMoments = (items) => {
 const renderProjects = (items) => {
   const preview = document.querySelector("[data-project-preview]");
   const board = document.querySelector("[data-project-board]");
-  if (preview) preview.innerHTML = items?.length ? items.slice(0, 4).map(projectRowMarkup).join("") : '<p class="muted">还没有公开项目。</p>';
+  if (preview) preview.innerHTML = items?.length ? items.slice(0, frontendLayout.home.projectPreviewLimit).map(projectRowMarkup).join("") : '<p class="muted">还没有公开项目。</p>';
   if (board) board.innerHTML = items?.length ? items.map(projectTileMarkup).join("") : '<p class="muted">还没有公开项目。</p>';
 };
 
@@ -394,7 +515,8 @@ const renderPosts = (items) => {
 
 const archiveCategory = () => {
   if (page !== "archive") return "";
-  return (new URLSearchParams(window.location.search).get("cat") || "").trim().toLowerCase();
+  const params = new URLSearchParams(window.location.search);
+  return (params.get("cat") || frontendLayout.archive.defaultCategory || "").trim().toLowerCase();
 };
 
 const applyArchiveCategoryState = () => {
@@ -790,7 +912,10 @@ const loadPostDetail = async () => {
   }
 };
 
-let currentMomentFilter = document.querySelector("[data-filter].active")?.dataset.filter || "all";
+let currentMomentFilter = document.querySelector("[data-filter].active")?.dataset.filter
+  || new URLSearchParams(window.location.search).get("kind")
+  || frontendLayout.moments.defaultKind
+  || "all";
 
 const applyMomentFilter = (filter = currentMomentFilter) => {
   currentMomentFilter = filter || "all";
@@ -848,10 +973,11 @@ searchInput?.addEventListener("input", () => {
   }, 220);
 });
 
+applyFrontendLayout(frontendLayout);
 hydrateEditableTextsFromCache();
 applyArchiveCategoryState();
 loadDynamicContent();
-applyEditableTexts();
+applyEditableTexts().then(loadDynamicContent);
 renderQuote();
 renderMoyuWidget();
 loadGithub();

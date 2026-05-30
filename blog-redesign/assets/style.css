@@ -5927,6 +5927,82 @@ input:focus-visible,
   display: none;
 }
 
+[data-layout-hidden="true"] {
+  display: none !important;
+}
+
+body[data-layout-width="narrow"] .page-shell,
+body[data-layout-width="narrow"] .content-grid,
+body[data-layout-width="narrow"] .project-board {
+  width: min(1020px, calc(100% - 36px));
+}
+
+body[data-layout-width="wide"] .page-shell,
+body[data-layout-width="wide"] .content-grid,
+body[data-layout-width="wide"] .project-board {
+  width: min(1320px, calc(100% - 32px));
+}
+
+body[data-layout-density="compact"] .main-column,
+body[data-layout-density="compact"] .sidebar {
+  gap: 16px;
+}
+
+body[data-layout-density="compact"] .desk-card,
+body[data-layout-density="compact"] .pulse-note {
+  padding: clamp(16px, 2vw, 22px);
+}
+
+body[data-layout-density="airy"] .main-column,
+body[data-layout-density="airy"] .sidebar {
+  gap: 30px;
+}
+
+body[data-layout-density="airy"] .desk-card,
+body[data-layout-density="airy"] .pulse-note {
+  padding: clamp(24px, 3vw, 34px);
+}
+
+body[data-project-card-style="compact"] .project-board {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+body[data-project-card-style="compact"] .project-tile {
+  min-height: 190px;
+}
+
+body[data-project-card-style="minimal"] .project-board {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+body[data-project-card-style="minimal"] .project-tile-cover {
+  display: none;
+}
+
+body[data-project-card-style="minimal"] .project-tile {
+  min-height: 172px;
+  background: color-mix(in srgb, var(--card-bg) 88%, white 12%);
+}
+
+body[data-footer-motion="none"] .footer-motion,
+body[data-footer-motion="loader"] .footer-motion .wrapper,
+body[data-footer-motion="candles"] .footer-motion .loader {
+  display: none;
+}
+
+body[data-footer-motion="loader"] .site-footer {
+  min-height: 280px;
+}
+
+body[data-footer-motion="none"] .site-footer {
+  min-height: 240px;
+}
+
+body[data-footer-motion="loader"] .site-footer-inner,
+body[data-footer-motion="none"] .site-footer-inner {
+  padding-bottom: 52px;
+}
+
 @media (max-width: 840px) {
   .site-footer-inner {
     grid-template-columns: 1fr;

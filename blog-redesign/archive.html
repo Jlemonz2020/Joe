@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -9,8 +9,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
-  <link rel="stylesheet" href="/assets/style.css?v=frontend-sync-v20260530">
-  <script src="/assets/app.js?v=frontend-sync-v20260530" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=layout-edit-v20260530">
+  <script src="/assets/app.js?v=layout-edit-v20260530" defer></script>
 </head>
 <body data-page="archive">
   <header class="site-header" data-header>
@@ -46,7 +46,7 @@
           <span class="hero-chip"><span class="hero-chip-btn"><strong>笔记</strong><span aria-hidden="true" class="hero-chip-glitch">笔记</span><small>慢慢补</small></span></span>
         </div>
       </div>
-      <div class="desk-card archive-search-card subpage-mini-card">
+      <div class="desk-card archive-search-card subpage-mini-card" data-layout-key="archive.searchPanel">
         <p class="eyebrow" data-text-key="archive.search.kicker">find back</p>
         <label class="uiverse-input compact search-input">
           <input type="search" placeholder=" " data-local-search>
@@ -93,7 +93,7 @@
       </div>
 
       <aside class="sidebar">
-        <section class="desk-card frequency-card">
+        <section class="desk-card frequency-card" data-layout-key="archive.githubPanel">
           <p class="eyebrow">github rhythm</p>
           <h2 data-text-key="archive.github.title">最近一年的密度</h2>
           <div class="github-source compact">
@@ -112,7 +112,7 @@
   </main>
 
   <footer class="site-footer" aria-label="站点底部">
-    <div class="footer-motion" aria-hidden="true">
+    <div class="footer-motion" aria-hidden="true" data-layout-key="footer.motion">
       <div class="loader"></div>
       <div class="wrapper">
         <div class="candles">

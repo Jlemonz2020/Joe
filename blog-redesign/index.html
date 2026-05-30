@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -9,8 +9,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
-  <link rel="stylesheet" href="/assets/style.css?v=frontend-sync-v20260530">
-  <script src="/assets/app.js?v=frontend-sync-v20260530" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=layout-edit-v20260530">
+  <script src="/assets/app.js?v=layout-edit-v20260530" defer></script>
 </head>
 <body data-page="home">
   <header class="site-header" data-header>
@@ -73,7 +73,7 @@
       </div>
     </section>
 
-    <section class="home-strip status-strip" aria-label="主页状">
+    <section class="home-strip status-strip" aria-label="主页状" data-layout-key="home.statusStrip">
       <article class="pulse-note status-note status-note-project">
         <div class="loading-wave" aria-hidden="true">
           <span class="loading-bar"></span>
@@ -105,7 +105,7 @@
 
     <div class="page-shell">
       <section class="main-column">
-        <article class="desk-card">
+        <article class="desk-card" data-layout-key="home.projectPreview">
           <div class="section-head workbench-head">
             <div>
               <p class="eyebrow">workbench</p>
@@ -143,7 +143,7 @@
           </div>
         </article>
 
-        <article class="desk-card moment-preview">
+        <article class="desk-card moment-preview" data-layout-key="home.momentPreview">
           <div class="section-head moments-head">
             <div>
               <p class="eyebrow">moments</p>
@@ -166,7 +166,7 @@
       </section>
 
       <aside class="sidebar">
-        <section class="desk-card profile-card">
+        <section class="desk-card profile-card" data-layout-key="home.profileCard">
           <img class="avatar" src="/assets/sailei/avatar.jpg" alt="一方的头像" loading="lazy">
           <div class="profile-copy">
             <h2>Jlemonz</h2>
@@ -182,14 +182,14 @@
           </div>
         </section>
 
-        <section class="desk-card stats-card" aria-label="站点统计">
+        <section class="desk-card stats-card" aria-label="站点统计" data-layout-key="home.statsCard">
           <div><i></i><span data-stat="posts">51</span><p>文章</p></div>
           <div><i></i><span data-stat="moments">128</span><p>瞬间</p></div>
           <div><i></i><span data-stat="projects">4</span><p>项目</p></div>
           <div><i></i><span data-stat="categories">4</span><p>分类</p></div>
         </section>
 
-        <section class="desk-card category-card">
+        <section class="desk-card category-card" data-layout-key="home.categoryCard">
           <h2>分类入口</h2>
           <a href="/archive.html?cat=linux"><strong>Linux</strong><span>命令、驱动、系统记录 · 18</span></a>
           <a href="/archive.html?cat=raspberry-pi"><strong>树莓</strong><span>家庭服务器和小实验 · 12</span></a>
@@ -201,7 +201,7 @@
   </main>
 
   <footer class="site-footer" aria-label="站点底部">
-    <div class="footer-motion" aria-hidden="true">
+    <div class="footer-motion" aria-hidden="true" data-layout-key="footer.motion">
       <div class="loader"></div>
       <div class="wrapper">
         <div class="candles">

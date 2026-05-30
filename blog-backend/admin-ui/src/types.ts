@@ -94,6 +94,7 @@ export interface SiteTextsPayload {
   texts: Record<string, string>;
   rules: string;
   footerSections: FooterSection[];
+  layout?: FrontendLayout;
 }
 
 export interface UploadImagePayload {
@@ -101,4 +102,40 @@ export interface UploadImagePayload {
   filename: string;
   contentType: string;
   size: number;
+}
+
+export interface FrontendLayout {
+  home: {
+    width: "narrow" | "balanced" | "wide";
+    density: "compact" | "comfortable" | "airy";
+    projectPreviewLimit: number;
+    momentPreviewLimit: number;
+    showStatusStrip: boolean;
+    showProjectPreview: boolean;
+    showMomentPreview: boolean;
+    showProfileCard: boolean;
+    showStatsCard: boolean;
+    showCategoryCard: boolean;
+  };
+  archive: {
+    defaultCategory: "" | "linux" | "raspberry-pi" | "server" | "life";
+    showSearchPanel: boolean;
+    showGithubPanel: boolean;
+  };
+  moments: {
+    defaultKind: "all" | "project" | "life" | "tech";
+    showDraftPanel: boolean;
+  };
+  projects: {
+    cardStyle: "cover" | "compact" | "minimal";
+    showRoadmap: boolean;
+    showMaintain: boolean;
+  };
+  footer: {
+    motion: "candles" | "loader" | "both" | "none";
+  };
+}
+
+export interface FrontendLayoutPayload {
+  layout: FrontendLayout;
 }

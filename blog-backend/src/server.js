@@ -1200,6 +1200,38 @@ const defaultFooterSections = [
     ]
   }
 ];
+const frontendLayoutSettingKey = "frontend_layout_v1";
+const defaultFrontendLayout = {
+  home: {
+    width: "balanced",
+    density: "comfortable",
+    projectPreviewLimit: 4,
+    momentPreviewLimit: 2,
+    showStatusStrip: true,
+    showProjectPreview: true,
+    showMomentPreview: true,
+    showProfileCard: true,
+    showStatsCard: true,
+    showCategoryCard: true
+  },
+  archive: {
+    defaultCategory: "",
+    showSearchPanel: true,
+    showGithubPanel: true
+  },
+  moments: {
+    defaultKind: "all",
+    showDraftPanel: true
+  },
+  projects: {
+    cardStyle: "cover",
+    showRoadmap: true,
+    showMaintain: true
+  },
+  footer: {
+    motion: "candles"
+  }
+};
 
 function clientFingerprint(req) {
   const raw = `${req.headers["x-forwarded-for"] || req.socket.remoteAddress || ""}|${req.headers["user-agent"] || ""}`;
@@ -1507,6 +1539,74 @@ async function getFooterSections() {
     return normalized.length ? normalized : fallback;
   } catch {
     return fallback;
+  }
+}
+
+function pickChoice(value, allowed, fallback) {
+  return allowed.includes(value) ? value : fallback;
+}
+
+function pickBoolean(value, fallback) {
+  if (typeof value === "boolean") return value;
+  if (value === "true") return true;
+  if (value === "false") return false;
+  return fallback;
+}
+
+function pickInteger(value, min, max, fallback) {
+  const number = Number.parseInt(value, 10);
+  if (Number.isNaN(number)) return fallback;
+  return Math.min(max, Math.max(min, number));
+}
+
+function normalizeFrontendLayout(value = {}) {
+  const source = value && typeof value === "object" ? value : {};
+  const home = source.home && typeof source.home === "object" ? source.home : {};
+  const archive = source.archive && typeof source.archive === "object" ? source.archive : {};
+  const moments = source.moments && typeof source.moments === "object" ? source.moments : {};
+  const projects = source.projects && typeof source.projects === "object" ? source.projects : {};
+  const footer = source.footer && typeof source.footer === "object" ? source.footer : {};
+
+  return {
+    home: {
+      width: pickChoice(home.width, ["narrow", "balanced", "wide"], defaultFrontendLayout.home.width),
+      density: pickChoice(home.density, ["compact", "comfortable", "airy"], defaultFrontendLayout.home.density),
+      projectPreviewLimit: pickInteger(home.projectPreviewLimit, 1, 8, defaultFrontendLayout.home.projectPreviewLimit),
+      momentPreviewLimit: pickInteger(home.momentPreviewLimit, 1, 6, defaultFrontendLayout.home.momentPreviewLimit),
+      showStatusStrip: pickBoolean(home.showStatusStrip, defaultFrontendLayout.home.showStatusStrip),
+      showProjectPreview: pickBoolean(home.showProjectPreview, defaultFrontendLayout.home.showProjectPreview),
+      showMomentPreview: pickBoolean(home.showMomentPreview, defaultFrontendLayout.home.showMomentPreview),
+      showProfileCard: pickBoolean(home.showProfileCard, defaultFrontendLayout.home.showProfileCard),
+      showStatsCard: pickBoolean(home.showStatsCard, defaultFrontendLayout.home.showStatsCard),
+      showCategoryCard: pickBoolean(home.showCategoryCard, defaultFrontendLayout.home.showCategoryCard)
+    },
+    archive: {
+      defaultCategory: pickChoice(archive.defaultCategory, ["", "linux", "raspberry-pi", "server", "life"], defaultFrontendLayout.archive.defaultCategory),
+      showSearchPanel: pickBoolean(archive.showSearchPanel, defaultFrontendLayout.archive.showSearchPanel),
+      showGithubPanel: pickBoolean(archive.showGithubPanel, defaultFrontendLayout.archive.showGithubPanel)
+    },
+    moments: {
+      defaultKind: pickChoice(moments.defaultKind, ["all", "project", "life", "tech"], defaultFrontendLayout.moments.defaultKind),
+      showDraftPanel: pickBoolean(moments.showDraftPanel, defaultFrontendLayout.moments.showDraftPanel)
+    },
+    projects: {
+      cardStyle: pickChoice(projects.cardStyle, ["cover", "compact", "minimal"], defaultFrontendLayout.projects.cardStyle),
+      showRoadmap: pickBoolean(projects.showRoadmap, defaultFrontendLayout.projects.showRoadmap),
+      showMaintain: pickBoolean(projects.showMaintain, defaultFrontendLayout.projects.showMaintain)
+    },
+    footer: {
+      motion: pickChoice(footer.motion, ["candles", "loader", "both", "none"], defaultFrontendLayout.footer.motion)
+    }
+  };
+}
+
+async function getFrontendLayout() {
+  const raw = await getSetting(frontendLayoutSettingKey, "");
+  if (!raw) return normalizeFrontendLayout(defaultFrontendLayout);
+  try {
+    return normalizeFrontendLayout(JSON.parse(raw));
+  } catch {
+    return normalizeFrontendLayout(defaultFrontendLayout);
   }
 }
 
@@ -2176,6 +2276,12 @@ async function adminSiteTextsPayload() {
   };
 }
 
+async function adminFrontendLayoutPayload() {
+  return {
+    layout: await getFrontendLayout()
+  };
+}
+
 async function adminApi(req, res, url) {
   if (url.pathname === "/admin/api/login" && req.method === "POST") {
     const body = await readAdminObject(req);
@@ -2532,6 +2638,17 @@ async function adminApi(req, res, url) {
     }
   }
 
+  if (resource === "frontend-layout") {
+    if (req.method === "GET") return json(res, await adminFrontendLayoutPayload());
+    if (req.method === "PUT") {
+      const body = await readAdminObject(req);
+      const layout = normalizeFrontendLayout(body.layout || body);
+      await setSetting(frontendLayoutSettingKey, JSON.stringify(layout));
+      await cacheDel("site:texts");
+      return json(res, { layout });
+    }
+  }
+
   if (resource === "settings") {
     if (req.method === "GET") {
       const githubUsername = await getSetting("github_username", config.github.username || "Jlemonz");
@@ -2572,7 +2689,8 @@ async function publicApi(req, res, url) {
     const texts = await getFrontendTextMap();
     const rules = parseFrontendTextRules(await getSetting("site_text_rules", ""));
     const footerSections = await getFooterSections();
-    const payload = { texts, rules, footerSections };
+    const layout = await getFrontendLayout();
+    const payload = { texts, rules, footerSections, layout };
     await cacheSet("site:texts", payload, 60);
     return json(res, payload);
   }
