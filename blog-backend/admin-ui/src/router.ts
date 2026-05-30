@@ -47,6 +47,12 @@ export const router = createRouter({
       meta: { title: "项目" }
     },
     {
+      path: "/comments",
+      name: "comments",
+      component: () => import("@/views/CommentsView.vue"),
+      meta: { title: "留言" }
+    },
+    {
       path: "/projects/new",
       name: "project-new",
       component: () => import("@/views/ProjectEditorView.vue"),

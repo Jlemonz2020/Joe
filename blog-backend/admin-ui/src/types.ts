@@ -44,6 +44,17 @@ export interface MomentItem {
   updated_at?: string | null;
 }
 
+export interface CommentItem {
+  id: number;
+  target: string;
+  author_name: string;
+  author_email?: string;
+  content: string;
+  status: "pending" | "published" | "hidden";
+  likes: number;
+  created_at?: string | null;
+}
+
 export interface ProjectItem {
   id: number;
   name: string;

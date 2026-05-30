@@ -29,7 +29,8 @@ const menuGroups = [
       { label: "概览", to: "/", icon: HomeFilled },
       { label: "文章", to: "/posts", icon: Document },
       { label: "瞬间", to: "/moments", icon: ChatLineRound },
-      { label: "项目", to: "/projects", icon: Collection }
+      { label: "项目", to: "/projects", icon: Collection },
+      { label: "留言", to: "/comments", icon: ChatLineRound }
     ]
   },
   {

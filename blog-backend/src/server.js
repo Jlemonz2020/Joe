@@ -1316,6 +1316,27 @@ function publicProject(row) {
   };
 }
 
+function commentLikeTarget(id) {
+  return `comment:${id}`;
+}
+
+async function publicCommentsForTarget(target) {
+  return query(`SELECT c.id, c.target, c.author_name, c.content, c.created_at,
+      COALESCE(r.count, 0) AS likes
+    FROM comments c
+    LEFT JOIN reactions r ON r.target=CONCAT('comment:', c.id) AND r.kind='like'
+    WHERE c.target=:target AND c.status='published'
+    ORDER BY c.created_at DESC, c.id DESC LIMIT 80`, { target });
+}
+
+async function deleteCommentsForTarget(target) {
+  if (!target) return;
+  await query(`DELETE FROM reactions
+    WHERE kind='like'
+      AND target IN (SELECT CONCAT('comment:', id) FROM comments WHERE target=:target)`, { target });
+  await query("DELETE FROM comments WHERE target=:target", { target });
+}
+
 async function ensureProjectSchema() {
   const statements = [
     "ALTER TABLE projects ADD COLUMN slug VARCHAR(160) NULL",
@@ -2295,7 +2316,7 @@ async function adminApi(req, res, url) {
         const target = post.slug ? `post:${post.slug}` : "";
         await query("DELETE FROM posts WHERE id=:id", { id });
         if (target) {
-          await query("DELETE FROM comments WHERE target=:target", { target });
+          await deleteCommentsForTarget(target);
           await query("DELETE FROM reactions WHERE target=:target", { target });
         }
         await cacheDel("site:overview");
@@ -2437,11 +2458,69 @@ async function adminApi(req, res, url) {
       const project = await getAdminProject(id);
       if (project) {
         const target = `project:${project.id}`;
-        await query("DELETE FROM comments WHERE target=:target", { target });
+        await deleteCommentsForTarget(target);
         await query("DELETE FROM reactions WHERE target=:target", { target });
         await query("DELETE FROM projects WHERE id=:id", { id });
         await cacheDel("site:overview");
       }
+      return json(res, { ok: true });
+    }
+  }
+
+  if (resource === "comments") {
+    if (req.method === "GET" && !id) {
+      const where = [];
+      const params = {};
+      const status = url.searchParams.get("status");
+      const target = cleanText(url.searchParams.get("target") || "", 160);
+      const q = cleanText(url.searchParams.get("q") || "", 120);
+      if (["pending", "published", "hidden"].includes(status)) {
+        where.push("c.status=:status");
+        params.status = status;
+      }
+      if (target) {
+        where.push("c.target=:target");
+        params.target = target;
+      }
+      if (q) {
+        where.push("(c.author_name LIKE :q OR c.content LIKE :q OR c.target LIKE :q)");
+        params.q = `%${q}%`;
+      }
+      const rows = await query(`SELECT c.id, c.target, c.author_name, c.author_email, c.content,
+          c.status, c.created_at, COALESCE(r.count, 0) AS likes
+        FROM comments c
+        LEFT JOIN reactions r ON r.target=CONCAT('comment:', c.id) AND r.kind='like'
+        ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
+        ORDER BY c.created_at DESC, c.id DESC LIMIT 200`, params);
+      return json(res, { items: rows });
+    }
+    if (req.method === "PUT" && id) {
+      const current = await getOne("SELECT * FROM comments WHERE id=:id", { id });
+      if (!current) return json(res, { error: "not_found" }, 404);
+      const body = await readAdminObject(req);
+      const payload = {
+        id,
+        status: cleanStatus(body.status, ["pending", "published", "hidden"], current.status),
+        author_name: cleanText(body.author_name || current.author_name || "路过的人", 80),
+        content: cleanText(body.content || current.content, 800)
+      };
+      if (payload.content.length < 2) return json(res, { error: "content_too_short", message: "留言内容太短" }, 400);
+      await query("UPDATE comments SET status=:status, author_name=:author_name, content=:content WHERE id=:id", payload);
+      const row = await getOne(`SELECT c.id, c.target, c.author_name, c.author_email, c.content,
+          c.status, c.created_at, COALESCE(r.count, 0) AS likes
+        FROM comments c
+        LEFT JOIN reactions r ON r.target=CONCAT('comment:', c.id) AND r.kind='like'
+        WHERE c.id=:id`, { id });
+      return json(res, row);
+    }
+    if (req.method === "POST" && id && ["publish", "hide"].includes(action)) {
+      const status = action === "publish" ? "published" : "hidden";
+      await query("UPDATE comments SET status=:status WHERE id=:id", { id, status });
+      return json(res, { ok: true });
+    }
+    if (req.method === "DELETE" && id) {
+      await query("DELETE FROM reactions WHERE target=:target AND kind='like'", { target: commentLikeTarget(id) });
+      await query("DELETE FROM comments WHERE id=:id", { id });
       return json(res, { ok: true });
     }
   }
@@ -2536,10 +2615,7 @@ async function publicApi(req, res, url) {
   }
   if (url.pathname === "/api/comments" && req.method === "GET") {
     const target = cleanText(url.searchParams.get("target") || "site-home", 160);
-    const rows = await query(`SELECT id, target, author_name, content, created_at
-      FROM comments WHERE target=:target AND status='published'
-      ORDER BY created_at DESC LIMIT 80`, { target });
-    return json(res, { target, items: rows });
+    return json(res, { target, items: await publicCommentsForTarget(target) });
   }
   if (url.pathname === "/api/comments" && req.method === "POST") {
     const body = await readBody(req);
@@ -2552,10 +2628,7 @@ async function publicApi(req, res, url) {
       VALUES(:target,:author_name,:author_email,:content,'published',NOW())`, {
       target, author_name, author_email, content
     });
-    const rows = await query(`SELECT id, target, author_name, content, created_at
-      FROM comments WHERE target=:target AND status='published'
-      ORDER BY created_at DESC LIMIT 80`, { target });
-    return json(res, { target, items: rows }, 201);
+    return json(res, { target, items: await publicCommentsForTarget(target) }, 201);
   }
   if (url.pathname === "/api/site/overview") {
     const cached = await cacheGet("site:overview");
@@ -2768,7 +2841,7 @@ async function adminRoutes(req, res, url) {
       const target = post.slug ? `post:${post.slug}` : "";
       await query("DELETE FROM posts WHERE id=:id", { id });
       if (target) {
-        await query("DELETE FROM comments WHERE target=:target", { target });
+        await deleteCommentsForTarget(target);
         await query("DELETE FROM reactions WHERE target=:target", { target });
       }
       await cacheDel("site:overview");
@@ -2922,7 +2995,7 @@ async function adminRoutes(req, res, url) {
     const project = await getOne("SELECT id FROM projects WHERE id=:id", { id });
     if (project) {
       const target = `project:${project.id}`;
-      await query("DELETE FROM comments WHERE target=:target", { target });
+      await deleteCommentsForTarget(target);
       await query("DELETE FROM reactions WHERE target=:target", { target });
       await query("DELETE FROM projects WHERE id=:id", { id });
       await cacheDel("site:overview");

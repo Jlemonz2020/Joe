@@ -1,6 +1,7 @@
 import axios from "axios";
 import type {
   AdminUser,
+  CommentItem,
   FooterSection,
   MomentItem,
   OverviewPayload,
@@ -107,6 +108,19 @@ export const adminApi = {
   },
   async destroyProject(id: number) {
     await http.delete(`/projects/${id}`);
+  },
+  async listComments(params?: { status?: string; target?: string; q?: string }) {
+    const { data } = await http.get<{ items: CommentItem[] }>("/comments", { params });
+    return data.items;
+  },
+  async publishComment(id: number) {
+    await http.post(`/comments/${id}/publish`);
+  },
+  async hideComment(id: number) {
+    await http.post(`/comments/${id}/hide`);
+  },
+  async destroyComment(id: number) {
+    await http.delete(`/comments/${id}`);
   },
   async getSiteTexts() {
     const { data } = await http.get<SiteTextsPayload>("/site-texts");
