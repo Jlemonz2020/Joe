@@ -645,6 +645,7 @@ button, input, textarea, select { font: inherit; }
 .md-wps-flow-lines {
   position: relative;
   z-index: 1;
+  font: inherit;
 }
 .md-wps-flow-line {
   position: relative;
@@ -656,16 +657,20 @@ button, input, textarea, select { font: inherit; }
   top: 0;
   min-width: 0;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: pre;
   text-overflow: clip;
+  outline: 0;
+  cursor: text;
+  border-radius: 4px;
+}
+.md-wps-flow-segment:focus {
+  background: rgba(255, 99, 189, 0.08);
+  box-shadow: 0 0 0 2px rgba(255, 99, 189, 0.14);
 }
 .md-wps-flow-image {
   position: absolute;
   z-index: 4;
   margin: 0;
-}
-.md-wps-flow-source {
-  display: none;
 }
 .md-image-anchor {
   position: relative;

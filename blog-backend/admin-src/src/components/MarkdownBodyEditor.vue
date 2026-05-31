@@ -11,7 +11,7 @@
       </label>
     </div>
 
-    <div class="md-document-editor" @click="activeImageIndex = -1">
+    <div ref="editorEl" class="md-document-editor" @click="activeImageIndex = -1">
       <template v-if="editorBlocks.length">
         <template v-for="block in editorBlocks" :key="block.key">
           <div
@@ -33,6 +33,10 @@
                   :key="segment.key"
                   class="md-wps-flow-segment"
                   :style="segment.style"
+                  contenteditable="true"
+                  spellcheck="false"
+                  @click.stop
+                  @blur="updateWrapSegmentText(block, $event)"
                 >{{ segment.text }}</span>
               </div>
             </div>
@@ -63,12 +67,6 @@
                 <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
               </div>
             </figure>
-            <textarea
-              class="md-wps-flow-source"
-              :value="block.text"
-              spellcheck="false"
-              @input="updateWrappedFlowBlock(block, $event)"
-            ></textarea>
           </div>
 
           <template v-else>
@@ -146,7 +144,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 
 const props = defineProps({
   modelValue: { type: String, default: "" },
@@ -158,6 +156,11 @@ const emit = defineEmits(["update:modelValue", "upload-image"]);
 const activeImageIndex = ref(-1);
 const activePointer = ref(null);
 const draftImagePatch = ref(null);
+const editorEl = ref(null);
+const editorWidth = ref(760);
+const wrapFont = ref('400 17px "Inter", "Microsoft YaHei", sans-serif');
+let resizeObserver = null;
+let measureContext = null;
 
 const images = computed(readImages);
 const editorBlocks = computed(buildEditorBlocks);
@@ -253,92 +256,137 @@ function layoutWrappedText(markdown = "", image) {
   const x = clampX(image.x, width);
   const y = clampY(image.y);
   const ratio = Number.parseFloat(image.ratio) || 1.333;
-  const fullLineChars = 58;
   const lineHeight = 32;
-  const wrapGap = 1.6;
+  const wrapGap = 16;
+  const contentWidth = Math.max(320, editorWidth.value || 760);
+  const imageLeft = Math.round((contentWidth * x) / 100);
+  const imageWidth = Math.round((contentWidth * width) / 100);
   const imageTop = y;
-  const imageHeightLines = Math.max(5, Math.min(18, Math.round((width / ratio) / 3.1)));
-  const imageBottom = imageTop + imageHeightLines * lineHeight;
+  const imageHeight = Math.max(72, Math.round(imageWidth / ratio));
+  const imageBottom = imageTop + imageHeight;
+  const tokens = tokenizeWrapText(source);
   const lines = [];
   let cursor = 0;
   let lineIndex = 0;
-  while (cursor < source.length && lineIndex < 160) {
+  while (cursor < tokens.length && lineIndex < 220) {
     const lineTop = lineIndex * lineHeight;
     const lineBottom = lineTop + lineHeight;
     const inImageRows = lineBottom > imageTop && lineTop < imageBottom;
     const line = { key: `line-${lineIndex}`, segments: [] };
+    if (tokens[cursor] === "\n") {
+      cursor += 1;
+      lines.push(line);
+      lineIndex += 1;
+      continue;
+    }
     if (inImageRows) {
-      const leftWidth = Math.max(0, x - wrapGap);
-      const rightLeft = Math.min(100, x + width + wrapGap);
-      const rightWidth = Math.max(0, 100 - rightLeft);
-      if (leftWidth >= 8) {
-        const taken = takeWrapText(source, cursor, Math.max(1, Math.floor(fullLineChars * leftWidth / 100)));
+      const leftWidth = Math.max(0, imageLeft - wrapGap);
+      const rightLeft = Math.min(contentWidth, imageLeft + imageWidth + wrapGap);
+      const rightWidth = Math.max(0, contentWidth - rightLeft);
+      if (leftWidth >= 54) {
+        const taken = takeWrapTokens(tokens, cursor, leftWidth);
         cursor = taken.end;
         const text = taken.text;
         if (text.trim()) {
           line.segments.push({
             key: `line-${lineIndex}-left`,
             text,
-            style: { left: "0%", width: `${leftWidth}%` }
+            style: { left: "0px", width: `${leftWidth}px` }
           });
         }
       }
-      if (rightWidth >= 8) {
-        const taken = takeWrapText(source, cursor, Math.max(1, Math.floor(fullLineChars * rightWidth / 100)));
+      if (rightWidth >= 54 && tokens[cursor] !== "\n") {
+        const taken = takeWrapTokens(tokens, cursor, rightWidth);
         cursor = taken.end;
         const text = taken.text;
         if (text.trim()) {
           line.segments.push({
             key: `line-${lineIndex}-right`,
             text,
-            style: { left: `${rightLeft}%`, width: `${rightWidth}%` }
+            style: { left: `${rightLeft}px`, width: `${rightWidth}px` }
           });
         }
       }
     } else {
-      const taken = takeWrapText(source, cursor, fullLineChars);
+      const taken = takeWrapTokens(tokens, cursor, contentWidth);
       cursor = taken.end;
       const text = taken.text;
       if (text.trim()) {
         line.segments.push({
           key: `line-${lineIndex}-full`,
           text,
-          style: { left: "0%", width: "100%" }
+          style: { left: "0px", width: `${contentWidth}px` }
         });
       }
     }
     lines.push(line);
     lineIndex += 1;
   }
-  return { lines, lineCount: Math.max(lines.length, Math.ceil(imageBottom / lineHeight)), imageHeightLines };
+  const imageLineCount = Math.ceil(Math.max(0, imageBottom) / lineHeight);
+  return { lines, lineCount: Math.max(lines.length, imageLineCount), imageHeight };
 }
 
 function plainTextForWrap(markdown = "") {
   return String(markdown || "")
+    .replace(/\r\n/g, "\n")
     .replace(/!\[[^\]]*\]\([^)]+\)(?:\{[^}]+\})?/g, "")
     .replace(/^#{1,6}\s+/gm, "")
     .replace(/^[-*]\s+/gm, "")
     .replace(/\*\*([^*]+)\*\*/g, "$1")
     .replace(/`([^`]+)`/g, "$1")
-    .replace(/\s+/g, " ")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
 
-function takeWrapText(source, start, maxChars) {
-  const cleanStart = skipLeadingSpaces(source, start);
-  const end = Math.min(source.length, cleanStart + maxChars);
-  if (end >= source.length) return { text: source.slice(cleanStart), end: source.length };
-  const nextSpace = source.lastIndexOf(" ", end);
-  if (nextSpace > cleanStart + Math.floor(maxChars * 0.45)) {
-    return { text: source.slice(cleanStart, nextSpace + 1), end: nextSpace + 1 };
-  }
-  return { text: source.slice(cleanStart, end), end };
+function tokenizeWrapText(source = "") {
+  const tokens = [];
+  const matcher = /\n|[\u3400-\u9fff]|[^\s\u3400-\u9fff]+|[ \t]+/g;
+  let match;
+  while ((match = matcher.exec(source))) tokens.push(match[0].replace(/[ \t]+/g, " "));
+  return tokens;
 }
 
-function skipLeadingSpaces(source, start) {
+function takeWrapTokens(tokens, start, maxWidth) {
+  const cleanStart = skipLeadingSpaceTokens(tokens, start);
+  let index = cleanStart;
+  let text = "";
+  while (index < tokens.length) {
+    const token = tokens[index];
+    if (token === "\n") break;
+    const candidate = text + token;
+    if (measureWrapText(candidate) <= maxWidth || !text) {
+      text = candidate;
+      index += 1;
+      continue;
+    }
+    break;
+  }
+  if (!text && index < tokens.length && tokens[index] !== "\n") {
+    text = tokens[index];
+    index += 1;
+  }
+  return { text: text.trimEnd(), end: Math.max(index, cleanStart + 1) };
+}
+
+function skipLeadingSpaceTokens(tokens, start) {
   let index = start;
-  while (index < source.length && /\s/.test(source[index])) index += 1;
+  while (index < tokens.length && tokens[index] !== "\n" && !tokens[index].trim()) index += 1;
   return index;
+}
+
+function measureWrapText(value = "") {
+  const ctx = getMeasureContext();
+  if (!ctx) return String(value).length * 9;
+  ctx.font = wrapFont.value;
+  return ctx.measureText(String(value)).width;
+}
+
+function getMeasureContext() {
+  if (measureContext) return measureContext;
+  if (typeof document === "undefined") return null;
+  measureContext = document.createElement("canvas").getContext("2d");
+  return measureContext;
 }
 
 function parseAttrs(attrs = "") {
@@ -461,10 +509,30 @@ function updateTextBlock(block, event) {
   updateValue(`${text.slice(0, block.start)}${value}${text.slice(block.end)}`);
 }
 
-function updateWrappedFlowBlock(block, event) {
-  const combined = String(event.currentTarget.value || "").trim();
+function updateWrapSegmentText(block, event) {
+  const flow = event.currentTarget.closest(".md-wps-flow");
+  const parts = Array.from(flow?.querySelectorAll(".md-wps-flow-segment") || [])
+    .map((node) => String(node.textContent || "").replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+  const combined = mergeVisibleTextParts(parts);
   const text = String(props.modelValue || "");
   updateValue(`${text.slice(0, block.textStart)}${combined}${text.slice(block.textEnd)}`);
+}
+
+function mergeVisibleTextParts(parts) {
+  return parts.reduce((output, part) => {
+    if (!output) return part;
+    return `${output}${needsJoinSpace(output, part) ? " " : ""}${part}`;
+  }, "");
+}
+
+function needsJoinSpace(left, right) {
+  const end = left.slice(-1);
+  const start = right.slice(0, 1);
+  if (!end || !start) return false;
+  if (/[\s([{'"“‘《（]/.test(end) || /[\s,.;:!?，。；：、）】》]/.test(start)) return false;
+  if (/[\u3400-\u9fff]/.test(end) || /[\u3400-\u9fff]/.test(start)) return false;
+  return true;
 }
 
 function imageMarkdown(image, patch = {}) {
@@ -574,7 +642,7 @@ function imageStyle(image, index) {
 function wrapFlowStyle(block) {
   const image = imageMetrics(block.image, block.imageIndex);
   const layout = layoutWrappedText(block.text, image);
-  const imageEndLine = Math.max(0, Math.round(image.y / 32)) + layout.imageHeightLines;
+  const imageEndLine = Math.ceil(Math.max(0, image.y + layout.imageHeight) / 32);
   const lineCount = Math.max(layout.lineCount || 0, imageEndLine);
   return {
     minHeight: `${lineCount * 32}px`,
@@ -655,7 +723,7 @@ function startResize(event, index) {
     index,
     startX: event.clientX,
     startWidth: image.width,
-    editorWidth: editor?.getBoundingClientRect().width || 1
+    editorWidth: event.currentTarget.closest(".md-wps-flow")?.getBoundingClientRect().width || editor?.getBoundingClientRect().width || 1
   };
   bindPointerEvents();
 }
@@ -677,7 +745,7 @@ function startImageMove(event, index) {
     grabY: event.clientY - imageRect.top,
     anchorLeft: anchorRect?.left || 0,
     anchorTop: anchorRect?.top || 0,
-    editorWidth: editor?.getBoundingClientRect().width || anchorRect?.width || imageRect.width || 1
+    editorWidth: anchorRect?.width || editor?.getBoundingClientRect().width || imageRect.width || 1
   };
   draftImagePatch.value = { index, x: image.x, y: image.y };
   bindPointerEvents();
@@ -721,5 +789,25 @@ function bindPointerEvents() {
   window.addEventListener("pointercancel", stopPointerAction);
 }
 
-onBeforeUnmount(stopPointerAction);
+function syncEditorMetrics() {
+  const editor = editorEl.value;
+  if (!editor || typeof window === "undefined") return;
+  const styles = window.getComputedStyle(editor);
+  const paddingX = Number.parseFloat(styles.paddingLeft || "0") + Number.parseFloat(styles.paddingRight || "0");
+  editorWidth.value = Math.max(320, editor.clientWidth - paddingX);
+  wrapFont.value = `${styles.fontStyle} ${styles.fontVariant} ${styles.fontWeight} ${styles.fontSize} ${styles.fontFamily}`;
+}
+
+onMounted(() => {
+  syncEditorMetrics();
+  if (typeof ResizeObserver !== "undefined" && editorEl.value) {
+    resizeObserver = new ResizeObserver(syncEditorMetrics);
+    resizeObserver.observe(editorEl.value);
+  }
+});
+
+onBeforeUnmount(() => {
+  stopPointerAction();
+  resizeObserver?.disconnect();
+});
 </script>
