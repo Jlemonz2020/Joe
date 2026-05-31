@@ -585,6 +585,126 @@ button, input, textarea, select { font: inherit; }
   padding: 12px;
   resize: vertical;
 }
+.md-document-editor {
+  position: relative;
+  min-height: 620px;
+  padding: 34px 42px;
+  border: 1px solid rgba(255, 99, 189, 0.16);
+  border-radius: 12px;
+  background: #fff;
+  color: #241927;
+  font-size: 17px;
+  line-height: 1.9;
+  overflow: visible;
+}
+.md-document-editor::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.md-editable-text {
+  min-height: 38px;
+  outline: 0;
+}
+.md-editable-text:focus {
+  box-shadow: inset 3px 0 0 rgba(255, 99, 189, 0.32);
+  background: linear-gradient(90deg, rgba(255, 99, 189, 0.055), transparent 140px);
+}
+.md-editable-text:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(132, 75, 91, 0.42);
+}
+.md-editable-text h1,
+.md-editable-text h2,
+.md-editable-text h3,
+.md-editable-text h4 {
+  margin: 0 0 12px;
+  color: #241927;
+  line-height: 1.35;
+}
+.md-editable-text h1 { font-size: 28px; }
+.md-editable-text h2 { font-size: 23px; }
+.md-editable-text h3 { font-size: 19px; }
+.md-editable-text p { margin: 0 0 14px; }
+.md-editable-text ul {
+  margin: 0 0 14px 1.25em;
+  padding: 0;
+}
+.md-editable-text li { margin: 4px 0; }
+.md-editable-text code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 99, 189, 0.08);
+  color: #71304f;
+}
+.md-editable-image {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  min-width: 72px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  cursor: grab;
+}
+.md-editable-image.is-active {
+  outline: 2px solid rgba(255, 99, 189, 0.84);
+  outline-offset: 5px;
+  z-index: 10;
+}
+.md-editable-image.is-free {
+  position: relative;
+  cursor: move;
+  z-index: 3;
+}
+.md-editable-image:active { cursor: grabbing; }
+.md-editable-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(48, 22, 38, 0.14);
+  pointer-events: none;
+  user-select: none;
+}
+.md-image-mini-toolbar {
+  position: absolute;
+  left: 50%;
+  top: -46px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px;
+  border: 1px solid rgba(255, 99, 189, 0.24);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 16px 42px rgba(50, 24, 39, 0.18);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.md-image-mini-toolbar select,
+.md-image-mini-toolbar button {
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 760;
+}
+.md-image-mini-toolbar select {
+  width: 62px;
+  padding: 0 6px;
+}
+.md-image-mini-toolbar input[type="range"] {
+  width: 86px;
+}
+.md-image-mini-toolbar button {
+  min-width: 30px;
+  padding: 0 8px;
+  cursor: pointer;
+}
 .position-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

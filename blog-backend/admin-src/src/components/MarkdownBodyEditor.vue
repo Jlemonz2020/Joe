@@ -3,87 +3,68 @@
     <div class="markdown-editor-head">
       <div>
         <strong>{{ title }}</strong>
-        <span>在实际效果里点击图片，直接拖动、缩放和改排版。</span>
+        <span>正文就是编辑区：文字可直接修改，图片可直接拖动和缩放。</span>
       </div>
       <label class="image-upload-button">
-        上传正文图片
+        上传图片
         <input type="file" :accept="acceptedImageTypes" @change="uploadImage" />
       </label>
     </div>
 
-    <div class="markdown-preview-shell">
-      <div class="markdown-preview-head">
-        <strong>实际效果编辑</strong>
-        <span>拖图片本体会切到自由固定，拖右下角手柄等比缩放。</span>
-      </div>
-      <div class="markdown-live-preview is-visual-editor" @click="activeImageIndex = -1">
-        <template v-if="previewBlocks.length">
-          <template v-for="block in previewBlocks" :key="block.key">
-            <div v-if="block.type === 'html'" class="md-preview-text" v-html="block.html"></div>
-            <figure
-              v-else
-              class="md-preview-figure"
-              :class="imageFigureClass(block.image, block.imageIndex)"
-              :style="imageFigureStyle(block.image)"
-              @click.stop="activeImageIndex = block.imageIndex"
-              @pointerdown="startPreviewMove($event, block.imageIndex)"
-            >
-              <img :src="block.image.url" :alt="block.image.alt" />
-              <span class="md-image-resize" title="拖动等比缩放" @pointerdown.stop="startResize($event, block.imageIndex)"></span>
+    <div class="md-document-editor" @click="activeImageIndex = -1">
+      <template v-if="editorBlocks.length">
+        <template v-for="block in editorBlocks" :key="block.key">
+          <div
+            v-if="block.type === 'text'"
+            class="md-editable-text"
+            contenteditable="true"
+            spellcheck="false"
+            :data-placeholder="block.placeholder"
+            v-html="block.html"
+            @click.stop
+            @blur="updateTextBlock(block, $event)"
+          ></div>
 
-              <div
-                v-if="activeImageIndex === block.imageIndex"
-                class="md-image-inline-panel"
-                @click.stop
-                @pointerdown.stop
-              >
-                <label>说明<input :value="block.image.alt" @input="updateImage(block.imageIndex, { alt: $event.target.value })" /></label>
-                <label>
-                  布局
-                  <select :value="block.image.layout" @change="updateImage(block.imageIndex, { layout: $event.target.value })">
-                    <option value="block">上下分栏</option>
-                    <option value="wrap-left">四周环绕-左</option>
-                    <option value="wrap-right">四周环绕-右</option>
-                    <option value="free">自由固定</option>
-                  </select>
-                </label>
-                <label>宽度 {{ block.image.width }}%<input type="range" min="20" max="100" :value="block.image.width" @input="updateImage(block.imageIndex, { width: $event.target.value })" /></label>
-                <label>
-                  对齐
-                  <select :value="block.image.align" @change="updateImage(block.imageIndex, { align: $event.target.value })">
-                    <option value="left">左</option>
-                    <option value="center">中</option>
-                    <option value="right">右</option>
-                    <option value="full">满宽</option>
-                  </select>
-                </label>
-                <div v-if="block.image.layout === 'free'" class="position-grid">
-                  <label>X<input type="number" :value="block.image.x" @input="updateImage(block.imageIndex, { x: $event.target.value })" /></label>
-                  <label>Y<input type="number" :value="block.image.y" @input="updateImage(block.imageIndex, { y: $event.target.value })" /></label>
-                </div>
-                <div class="button-row">
-                  <button type="button" @click="moveImage(block.imageIndex, block.imageIndex - 1)">上移</button>
-                  <button type="button" @click="moveImage(block.imageIndex, block.imageIndex + 1)">下移</button>
-                  <button type="button" @click="removeImage(block.imageIndex)">删除</button>
-                </div>
-              </div>
-            </figure>
-          </template>
+          <figure
+            v-else
+            class="md-editable-image"
+            :class="imageClass(block.image, block.imageIndex)"
+            :style="imageStyle(block.image)"
+            @click.stop="activeImageIndex = block.imageIndex"
+            @pointerdown="startImageMove($event, block.imageIndex)"
+          >
+            <img :src="block.image.url" :alt="block.image.alt" draggable="false" />
+            <span class="md-image-resize" title="拖动缩放" @pointerdown.stop="startResize($event, block.imageIndex)"></span>
+            <div v-if="activeImageIndex === block.imageIndex" class="md-image-mini-toolbar" @click.stop @pointerdown.stop>
+              <select :value="block.image.layout" title="布局" @change="updateImage(block.imageIndex, { layout: $event.target.value })">
+                <option value="block">上下</option>
+                <option value="wrap-left">左绕</option>
+                <option value="wrap-right">右绕</option>
+                <option value="free">自由</option>
+              </select>
+              <select :value="block.image.align" title="对齐" @change="updateImage(block.imageIndex, { align: $event.target.value })">
+                <option value="left">左</option>
+                <option value="center">中</option>
+                <option value="right">右</option>
+                <option value="full">满</option>
+              </select>
+              <input type="range" min="20" max="100" :value="block.image.width" title="宽度" @input="updateImage(block.imageIndex, { width: $event.target.value })" />
+              <button type="button" title="上移" @click="moveImage(block.imageIndex, block.imageIndex - 1)">↑</button>
+              <button type="button" title="下移" @click="moveImage(block.imageIndex, block.imageIndex + 1)">↓</button>
+              <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
+            </div>
+          </figure>
         </template>
-        <p v-else class="empty-note">正文内容会在这里以真实排版显示。</p>
-      </div>
-    </div>
-
-    <details class="markdown-source-drawer">
-      <summary>Markdown 源文</summary>
-      <textarea
-        :value="modelValue"
-        rows="12"
+      </template>
+      <div
+        v-else
+        class="md-editable-text is-empty"
+        contenteditable="true"
         spellcheck="false"
-        placeholder="这里保留 Markdown 源文，导入 .md 后可在这里微调。"
-        @input="updateValue($event.target.value)"
-      />
-    </details>
+        data-placeholder="从这里开始写正文..."
+        @input="updateValue($event.currentTarget.innerText)"
+      ></div>
+    </div>
   </section>
 </template>
 
@@ -101,7 +82,7 @@ const activeImageIndex = ref(-1);
 const activePointer = ref(null);
 
 const images = computed(readImages);
-const previewBlocks = computed(buildPreviewBlocks);
+const editorBlocks = computed(buildEditorBlocks);
 
 function updateValue(value) {
   emit("update:modelValue", value);
@@ -131,21 +112,36 @@ function readImages() {
   return next;
 }
 
-function buildPreviewBlocks() {
+function buildEditorBlocks() {
   const text = String(props.modelValue || "");
   const blocks = [];
   let cursor = 0;
   images.value.forEach((image, imageIndex) => {
     const before = text.slice(cursor, image.start);
     if (before.trim()) {
-      blocks.push({ type: "html", key: `text-${cursor}`, html: markdownToPreviewHtml(before) });
+      blocks.push({
+        type: "text",
+        key: `text-${cursor}-${before.length}`,
+        start: cursor,
+        end: image.start,
+        html: markdownToHtml(before),
+        placeholder: "输入正文..."
+      });
     }
     blocks.push({ type: "image", key: `image-${image.start}-${image.url}`, image, imageIndex });
     cursor = image.end;
   });
+
   const tail = text.slice(cursor);
   if (tail.trim()) {
-    blocks.push({ type: "html", key: `text-${cursor}`, html: markdownToPreviewHtml(tail) });
+    blocks.push({
+      type: "text",
+      key: `text-${cursor}-${tail.length}`,
+      start: cursor,
+      end: text.length,
+      html: markdownToHtml(tail),
+      placeholder: "输入正文..."
+    });
   }
   return blocks;
 }
@@ -174,28 +170,13 @@ function escapeHtml(value = "") {
     .replace(/'/g, "&#39;");
 }
 
-function safeImageUrl(value = "") {
-  const url = String(value || "").trim();
-  if (/^(https?:)?\/\//i.test(url) || url.startsWith("/") || /^data:image\//i.test(url)) return url;
-  return "";
+function inlineMarkdown(value = "") {
+  return escapeHtml(value)
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
 }
 
-function inlineMarkdownToHtml(value = "") {
-  const text = String(value || "");
-  const regex = /!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?/g;
-  let html = "";
-  let cursor = 0;
-  let match;
-  while ((match = regex.exec(text))) {
-    html += escapeHtml(text.slice(cursor, match.index));
-    html += safeImageUrl(match[2]) ? `[图片：${escapeHtml(match[1] || "image")}]` : escapeHtml(match[1] || "");
-    cursor = match.index + match[0].length;
-  }
-  html += escapeHtml(text.slice(cursor));
-  return html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>");
-}
-
-function markdownToPreviewHtml(markdown = "") {
+function markdownToHtml(markdown = "") {
   const lines = String(markdown || "").replace(/\r\n/g, "\n").split("\n");
   const output = [];
   let paragraph = [];
@@ -203,7 +184,7 @@ function markdownToPreviewHtml(markdown = "") {
 
   const closeParagraph = () => {
     if (!paragraph.length) return;
-    output.push(`<p>${inlineMarkdownToHtml(paragraph.join(" "))}</p>`);
+    output.push(`<p>${inlineMarkdown(paragraph.join(" "))}</p>`);
     paragraph = [];
   };
   const closeList = () => {
@@ -219,16 +200,14 @@ function markdownToPreviewHtml(markdown = "") {
       closeList();
       return;
     }
-
     const heading = line.match(/^(#{1,4})\s+(.+)$/);
     if (heading) {
       closeParagraph();
       closeList();
       const level = Math.min(4, heading[1].length);
-      output.push(`<h${level}>${inlineMarkdownToHtml(heading[2])}</h${level}>`);
+      output.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
       return;
     }
-
     const listItem = line.match(/^[-*]\s+(.+)$/);
     if (listItem) {
       closeParagraph();
@@ -236,16 +215,24 @@ function markdownToPreviewHtml(markdown = "") {
         output.push("<ul>");
         listOpen = true;
       }
-      output.push(`<li>${inlineMarkdownToHtml(listItem[1])}</li>`);
+      output.push(`<li>${inlineMarkdown(listItem[1])}</li>`);
       return;
     }
-
     paragraph.push(line);
   });
-
   closeParagraph();
   closeList();
   return output.join("");
+}
+
+function textFromEditable(element) {
+  return String(element.innerText || "").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+function updateTextBlock(block, event) {
+  const value = textFromEditable(event.currentTarget);
+  const text = String(props.modelValue || "");
+  updateValue(`${text.slice(0, block.start)}${value}${text.slice(block.end)}`);
 }
 
 function imageMarkdown(image, patch = {}) {
@@ -277,9 +264,7 @@ function removeImage(index) {
   const image = readImages()[index];
   if (!image) return;
   const text = String(props.modelValue || "");
-  const prefix = text.slice(0, image.start).replace(/\n{0,2}$/, "\n");
-  const suffix = text.slice(image.end).replace(/^\n{0,2}/, "\n");
-  updateValue(`${prefix}${suffix}`.replace(/\n{4,}/g, "\n\n\n"));
+  updateValue(`${text.slice(0, image.start)}${text.slice(image.end)}`.replace(/\n{4,}/g, "\n\n\n"));
   activeImageIndex.value = -1;
 }
 
@@ -307,7 +292,7 @@ function uploadImage(event) {
   if (file) emit("upload-image", file);
 }
 
-function imageFigureClass(image, index) {
+function imageClass(image, index) {
   return {
     "is-active": activeImageIndex.value === index,
     "is-free": image.layout === "free",
@@ -317,18 +302,12 @@ function imageFigureClass(image, index) {
   };
 }
 
-function imageFigureStyle(image) {
+function imageStyle(image) {
   const width = image.align === "full" && image.layout === "block" ? 100 : image.width;
   const base = { width: `${width}%` };
-  if (image.layout === "free") {
-    return { ...base, left: `${image.x}%`, top: `${image.y}px` };
-  }
-  if (image.layout === "wrap-left") {
-    return { ...base, float: "left", margin: "4px 18px 12px 0" };
-  }
-  if (image.layout === "wrap-right") {
-    return { ...base, float: "right", margin: "4px 0 12px 18px" };
-  }
+  if (image.layout === "free") return { ...base, left: `${image.x}%`, top: `${image.y}px` };
+  if (image.layout === "wrap-left") return { ...base, float: "left", margin: "6px 18px 12px 0" };
+  if (image.layout === "wrap-right") return { ...base, float: "right", margin: "6px 0 12px 18px" };
   if (image.align === "right") return { ...base, marginLeft: "auto", marginRight: "0" };
   if (image.align === "left") return { ...base, marginLeft: "0", marginRight: "auto" };
   if (image.align === "full") return { width: "100%" };
@@ -340,26 +319,24 @@ function startResize(event, index) {
   if (!image) return;
   event.preventDefault();
   activeImageIndex.value = index;
-  const preview = event.currentTarget.closest(".markdown-live-preview");
+  const editor = event.currentTarget.closest(".md-document-editor");
   activePointer.value = {
     type: "resize",
     index,
     startX: event.clientX,
     startWidth: image.width,
-    previewWidth: preview?.getBoundingClientRect().width || 1
+    editorWidth: editor?.getBoundingClientRect().width || 1
   };
   bindPointerEvents();
 }
 
-function startPreviewMove(event, index) {
+function startImageMove(event, index) {
   const image = readImages()[index];
-  if (!image || event.target.closest(".md-image-resize") || event.target.closest(".md-image-inline-panel")) return;
+  if (!image || event.target.closest(".md-image-resize") || event.target.closest(".md-image-mini-toolbar")) return;
   event.preventDefault();
   activeImageIndex.value = index;
-  if (image.layout !== "free") {
-    updateImage(index, { layout: "free", x: image.x || 0, y: image.y || 0 });
-  }
-  const preview = event.currentTarget.closest(".markdown-live-preview");
+  if (image.layout !== "free") updateImage(index, { layout: "free", x: image.x || 0, y: image.y || 0 });
+  const editor = event.currentTarget.closest(".md-document-editor");
   activePointer.value = {
     type: "move",
     index,
@@ -367,7 +344,7 @@ function startPreviewMove(event, index) {
     startY: event.clientY,
     startImageX: image.x,
     startImageY: image.y,
-    previewWidth: preview?.getBoundingClientRect().width || 1
+    editorWidth: editor?.getBoundingClientRect().width || 1
   };
   bindPointerEvents();
 }
@@ -376,18 +353,17 @@ function onPointerMove(event) {
   const action = activePointer.value;
   if (!action) return;
   if (action.type === "resize") {
-    const delta = ((event.clientX - action.startX) / action.previewWidth) * 100;
+    const delta = ((event.clientX - action.startX) / action.editorWidth) * 100;
     updateImage(action.index, { width: Math.round(Math.min(100, Math.max(20, action.startWidth + delta))) });
+    return;
   }
-  if (action.type === "move") {
-    const deltaX = ((event.clientX - action.startX) / action.previewWidth) * 100;
-    const deltaY = event.clientY - action.startY;
-    updateImage(action.index, {
-      layout: "free",
-      x: Math.round(Math.min(100, Math.max(-50, action.startImageX + deltaX))),
-      y: Math.round(Math.min(1200, Math.max(-200, action.startImageY + deltaY)))
-    });
-  }
+  const deltaX = ((event.clientX - action.startX) / action.editorWidth) * 100;
+  const deltaY = event.clientY - action.startY;
+  updateImage(action.index, {
+    layout: "free",
+    x: Math.round(Math.min(100, Math.max(-50, action.startImageX + deltaX))),
+    y: Math.round(Math.min(1200, Math.max(-200, action.startImageY + deltaY)))
+  });
 }
 
 function stopPointerAction() {
