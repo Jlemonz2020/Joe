@@ -637,6 +637,29 @@ button, input, textarea, select { font: inherit; }
   background: rgba(255, 99, 189, 0.08);
   color: #71304f;
 }
+.md-wps-wrap {
+  display: grid;
+  gap: 18px;
+  align-items: start;
+  clear: both;
+  margin-bottom: 18px;
+}
+.md-wps-wrap-text {
+  min-width: 0;
+  outline: 0;
+}
+.md-wps-wrap-text:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(132, 75, 91, 0.42);
+}
+.md-wps-wrap-text.is-below {
+  grid-column: 1 / -1;
+}
+.md-wps-wrap-image {
+  position: relative;
+  grid-column: 2;
+  margin: 0;
+}
 .md-image-anchor {
   position: relative;
   min-height: 0;
