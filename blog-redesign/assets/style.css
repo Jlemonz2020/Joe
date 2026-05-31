@@ -7154,3 +7154,130 @@ body[data-footer-motion="none"] .site-footer-inner {
     font-size: 13px;
   }
 }
+
+/* Editor/image usability pass 2026-05-31 */
+.empty-state {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+  border-radius: 12px;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--panel-solid) 76%, transparent);
+}
+
+.empty-state strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.empty-state a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--line));
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel-solid));
+}
+
+.project-tile-cover,
+.project-row-cover {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.moment-item.with-image img,
+.timeline .moment-item img {
+  aspect-ratio: 1;
+  max-height: min(68vh, 520px);
+  object-fit: cover;
+}
+
+.tool-grid [data-edit-target] {
+  cursor: pointer;
+}
+
+@media (min-width: 681px) {
+  .subpage-hero {
+    min-height: clamp(300px, 42svh, 460px);
+    padding-top: clamp(48px, 7vw, 82px);
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    overflow: visible;
+  }
+
+  .nav-links {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-links a {
+    min-width: max(52px, 18vw);
+    padding-inline: 6px;
+    font-size: 12px;
+  }
+
+  .hero-home .hero-grid {
+    width: min(calc(100vw - 28px), 390px);
+    padding-top: 132px;
+  }
+
+  .hero-home h1 {
+    max-width: 100%;
+    font-size: clamp(44px, 15vw, 60px);
+    line-height: 0.98;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-home .lead {
+    max-width: 100%;
+    font-size: 17px;
+  }
+
+  .github-calendar {
+    overflow: hidden;
+  }
+
+  .github-calendar-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .github-calendar-body {
+    min-width: 720px;
+  }
+
+  .subpage-hero {
+    min-height: auto;
+    padding: 42px 0 24px;
+    margin-bottom: 18px;
+  }
+
+  .moment-item.with-image,
+  .timeline .moment-item.with-image {
+    grid-template-columns: 1fr;
+  }
+
+  .moment-item.with-image img,
+  .timeline .moment-item img {
+    width: 100%;
+    max-height: none;
+  }
+}

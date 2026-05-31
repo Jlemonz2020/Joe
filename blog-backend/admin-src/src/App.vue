@@ -93,7 +93,18 @@
             <el-input v-model="postForm.slug" placeholder="slug" />
             <el-input v-model="postForm.summary" placeholder="摘要" type="textarea" :rows="2" />
             <el-input v-model="postForm.cover_url" placeholder="封面 URL" />
-            <div class="button-row"><el-select v-model="postForm.status"><el-option label="草稿" value="draft" /><el-option label="发布" value="published" /></el-select><input type="file" accept="image/*" @change="uploadInto($event, postForm, 'cover_url')" /></div>
+            <div class="button-row">
+              <el-select v-model="postForm.status"><el-option label="草稿" value="draft" /><el-option label="发布" value="published" /></el-select>
+              <label class="image-upload-button">
+                上传并裁剪封面
+                <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, postForm, 'cover_url', 'square')" />
+              </label>
+              <label class="image-upload-button">
+                插入正文图片
+                <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, postForm, '__markdown:content_md', 'square')" />
+              </label>
+            </div>
+            <img v-if="postForm.cover_url" class="image-preview" :src="postForm.cover_url" alt="">
             <el-input v-model="postForm.content_md" placeholder="Markdown 正文" type="textarea" :rows="18" />
           </div>
         </div>
@@ -111,7 +122,14 @@
             <el-input v-model="momentForm.tagText" placeholder="标签，逗号分隔" />
             <el-input v-model="momentForm.image_url" placeholder="图片 URL" />
             <el-select v-model="momentForm.status"><el-option label="发布" value="published" /><el-option label="草稿" value="draft" /></el-select>
-            <div class="button-row"><input type="file" accept="image/*" @change="uploadInto($event, momentForm, 'image_url')" /><el-button type="primary" @click="saveMoment">保存瞬间</el-button></div>
+            <div class="button-row">
+              <label class="image-upload-button">
+                上传并裁剪图片
+                <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, momentForm, 'image_url', 'square')" />
+              </label>
+              <el-button type="primary" @click="saveMoment">保存瞬间</el-button>
+            </div>
+            <img v-if="momentForm.image_url" class="image-preview" :src="momentForm.image_url" alt="">
           </div>
         </div>
         <div class="panel">
@@ -146,7 +164,18 @@
             <el-input v-model="projectForm.cover_url" placeholder="封面 URL" />
             <el-select v-model="projectForm.status"><el-option label="显示" value="active" /><el-option label="归档" value="archived" /></el-select>
             <el-input class="full" v-model="projectForm.content_md" type="textarea" :rows="8" placeholder="Markdown 正文" />
-            <div class="button-row full"><input type="file" accept="image/*" @change="uploadInto($event, projectForm, 'cover_url')" /><el-button type="primary" @click="saveProject">保存项目</el-button></div>
+            <div class="button-row full">
+              <label class="image-upload-button">
+                上传并裁剪封面
+                <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, projectForm, 'cover_url', 'square')" />
+              </label>
+              <label class="image-upload-button">
+                插入正文图片
+                <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, projectForm, '__markdown:content_md', 'square')" />
+              </label>
+              <el-button type="primary" @click="saveProject">保存项目</el-button>
+            </div>
+            <img v-if="projectForm.cover_url" class="image-preview" :src="projectForm.cover_url" alt="">
           </div>
         </div>
         <div class="panel">
@@ -240,8 +269,22 @@
                 </div>
               </el-tab-pane>
               <el-tab-pane label="分类/标签" name="ui">
+                <h3>头像</h3>
+                <div class="image-field-card">
+                  <img :src="editorPayload.ui.profile.avatarUrl" alt="">
+                  <div>
+                    <strong>头像</strong>
+                    <el-input v-model="editorPayload.ui.profile.avatarUrl" placeholder="头像 URL" @input="sendPreviewPatch" />
+                    <label class="image-upload-button">
+                      圆形裁剪头像
+                      <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, editorPayload.ui.profile, 'avatarUrl', 'avatar')" />
+                    </label>
+                  </div>
+                </div>
                 <h3>首页/札记分类</h3>
-                <EditableList v-model="editorPayload.ui.archiveCategories" @change="sendPreviewPatch" />
+                <ArchiveCategoryEditor v-model="editorPayload.ui.archiveCategories" :active-target="selectedUiTarget" @select="selectUiTarget" @change="sendPreviewPatch" />
+                <h3>关于页技术栈</h3>
+                <StackItemEditor v-model="editorPayload.ui.aboutStackItems" :active-target="selectedUiTarget" @select="selectUiTarget" @change="sendPreviewPatch" />
                 <h3>瞬间筛选</h3>
                 <EditableList v-model="editorPayload.ui.momentKinds" kind-key="kind" @change="sendPreviewPatch" />
                 <h3>搜索建议</h3>
@@ -301,6 +344,34 @@
       </section>
     </section>
   </div>
+
+  <teleport to="body">
+    <div v-if="crop.visible" class="crop-backdrop" @pointerup="stopCropDrag" @pointercancel="stopCropDrag">
+      <section class="crop-dialog" role="dialog" aria-modal="true" aria-label="图片裁剪">
+        <div class="panel-head">
+          <div><h2>{{ crop.mode === 'avatar' ? '圆形头像裁剪' : '正方形图片裁剪' }}</h2><p>拖动图片调整位置，用滑块调整缩放后再上传。</p></div>
+          <el-button @click="closeCrop">取消</el-button>
+        </div>
+        <div class="crop-body">
+          <canvas
+            ref="cropCanvas"
+            class="crop-canvas"
+            :class="{ circle: crop.mode === 'avatar' }"
+            width="720"
+            height="720"
+            @pointerdown="startCropDrag"
+            @pointermove="moveCropDrag"
+            @wheel.prevent="zoomCropWheel"
+          ></canvas>
+          <label class="crop-range">缩放 <input v-model.number="crop.zoom" type="range" min="1" max="3" step="0.01" @input="drawCropStage"></label>
+        </div>
+        <div class="crop-actions">
+          <el-button @click="closeCrop">取消</el-button>
+          <el-button type="primary" :loading="crop.uploading" @click="confirmCropUpload">裁剪并上传</el-button>
+        </div>
+      </section>
+    </div>
+  </teleport>
 </template>
 
 <script setup>
@@ -338,6 +409,24 @@ const editorViewport = ref("desktop");
 const previewTick = ref(0);
 const previewFrame = ref(null);
 const textSearch = ref("");
+const cropCanvas = ref(null);
+const acceptedImageTypes = "image/jpeg,image/png,image/webp,image/gif";
+const crop = reactive({
+  visible: false,
+  uploading: false,
+  mode: "square",
+  url: "",
+  fileName: "image",
+  image: null,
+  target: null,
+  key: "",
+  zoom: 1,
+  x: 0,
+  y: 0,
+  dragging: false,
+  lastX: 0,
+  lastY: 0
+});
 
 const editorPages = [
   { label: "首页", path: "/index.html" },
@@ -403,6 +492,7 @@ const dashboardMetrics = computed(() => {
 const previewSrc = computed(() => `${editorPage.value}?editor=1&t=${previewTick.value}`);
 const editorDraftLabel = computed(() => editorData.value?.draft?.savedAt || "未保存草稿");
 const selectedLabel = computed(() => selectedTarget.value?.target || "尚未选择元素");
+const selectedUiTarget = computed(() => selectedTarget.value?.target?.startsWith("ui:") ? selectedTarget.value.target : "");
 const selectedTextKey = computed(() => {
   const target = selectedTarget.value?.target || "";
   return target.startsWith("text:") ? target.slice(5) : "";
@@ -483,7 +573,7 @@ window.addEventListener("message", (event) => {
   const data = event.data || {};
   if (data.source !== "jlemonz-frontend-editor") return;
   selectedTarget.value = data;
-  editorTab.value = "selected";
+  editorTab.value = data.target?.startsWith("ui:") ? "ui" : "selected";
 });
 
 async function login() {
@@ -687,12 +777,33 @@ function buildPublishedPayload(data) {
   };
 }
 
+function ensureEditorPayload(payload) {
+  const next = payload || {};
+  next.texts ||= {};
+  next.footerSections ||= [];
+  next.layout ||= {};
+  next.ui ||= {};
+  next.ui.profile = { avatarUrl: "/assets/sailei/avatar.jpg", ...(next.ui.profile || {}) };
+  next.ui.archiveCategories ||= [];
+  next.ui.aboutStackItems ||= [
+    { id: "database", label: "PostgreSQL / MySQL 数据", visible: true, sortOrder: 10 },
+    { id: "redis", label: "Redis 缓存", visible: true, sortOrder: 20 },
+    { id: "meilisearch", label: "Meilisearch 搜索", visible: true, sortOrder: 30 },
+    { id: "markdown", label: "Markdown 写作", visible: true, sortOrder: 40 },
+    { id: "nginx", label: "Nginx 静态部署", visible: true, sortOrder: 50 },
+    { id: "backup", label: "每日备份", visible: true, sortOrder: 60 }
+  ];
+  next.ui.momentKinds ||= [];
+  next.ui.searchSuggestions ||= [];
+  return next;
+}
+
 async function loadFrontendEditor() {
   editorLoading.value = true;
   try {
     const data = await adminApi.getFrontendEditor();
     editorData.value = data;
-    editorPayload.value = clone(data.draft?.payload || buildPublishedPayload(data));
+    editorPayload.value = ensureEditorPayload(clone(data.draft?.payload || buildPublishedPayload(data)));
     selectedTarget.value = null;
     await nextTick();
     sendPreviewPatch();
@@ -718,6 +829,11 @@ function updateEditorText(key, value) {
   nextTick(sendPreviewPatch);
 }
 
+function selectUiTarget(target, text = "") {
+  selectedTarget.value = { source: "jlemonz-frontend-editor", target, text };
+  editorTab.value = "ui";
+}
+
 async function saveFrontendDraft() {
   editorSaving.value = true;
   try {
@@ -735,7 +851,7 @@ async function publishFrontend() {
   editorSaving.value = true;
   try {
     editorData.value = await adminApi.publishFrontendEditor(editorPayload.value);
-    editorPayload.value = buildPublishedPayload(editorData.value);
+    editorPayload.value = ensureEditorPayload(buildPublishedPayload(editorData.value));
     reloadPreview();
     ElMessage.success("已发布到前台");
   } catch (error) {
@@ -748,9 +864,164 @@ async function publishFrontend() {
 async function restoreFrontend() {
   await confirmDanger("恢复上一版会覆盖当前已发布配置和草稿，继续？");
   editorData.value = await adminApi.restoreFrontendEditor();
-  editorPayload.value = buildPublishedPayload(editorData.value);
+  editorPayload.value = ensureEditorPayload(buildPublishedPayload(editorData.value));
   reloadPreview();
   ElMessage.success("已恢复上一版");
+}
+
+function clampCropPosition() {
+  if (!crop.image) return;
+  const size = 720;
+  const scale = Math.max(size / crop.image.naturalWidth, size / crop.image.naturalHeight) * crop.zoom;
+  const width = crop.image.naturalWidth * scale;
+  const height = crop.image.naturalHeight * scale;
+  crop.x = width <= size ? (size - width) / 2 : Math.min(0, Math.max(size - width, crop.x));
+  crop.y = height <= size ? (size - height) / 2 : Math.min(0, Math.max(size - height, crop.y));
+}
+
+function drawCropStage() {
+  const canvas = cropCanvas.value;
+  if (!canvas || !crop.image) return;
+  const ctx = canvas.getContext("2d");
+  const size = canvas.width;
+  const scale = Math.max(size / crop.image.naturalWidth, size / crop.image.naturalHeight) * crop.zoom;
+  clampCropPosition();
+  ctx.clearRect(0, 0, size, size);
+  ctx.save();
+  if (crop.mode === "avatar") {
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2 - 3, 0, Math.PI * 2);
+    ctx.clip();
+  }
+  ctx.drawImage(crop.image, crop.x, crop.y, crop.image.naturalWidth * scale, crop.image.naturalHeight * scale);
+  ctx.restore();
+  if (crop.mode === "avatar") {
+    ctx.fillStyle = "rgba(27, 18, 31, 0.44)";
+    ctx.beginPath();
+    ctx.rect(0, 0, size, size);
+    ctx.arc(size / 2, size / 2, size / 2 - 3, 0, Math.PI * 2, true);
+    ctx.fill("evenodd");
+  }
+}
+
+async function openCropUpload(event, target, key, mode = "square") {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+  if (!file) return;
+  const supportedType = acceptedImageTypes.split(",").includes(file.type) || /\.(jpe?g|png|webp|gif)$/i.test(file.name || "");
+  if (!supportedType) {
+    ElMessage.error("请选择 JPG、PNG、WEBP 或 GIF 图片");
+    return;
+  }
+  const image = new Image();
+  const url = URL.createObjectURL(file);
+  image.onload = async () => {
+    if (crop.url) URL.revokeObjectURL(crop.url);
+    Object.assign(crop, {
+      visible: true,
+      uploading: false,
+      mode,
+      url,
+      fileName: file.name || "image",
+      image,
+      target,
+      key,
+      zoom: 1,
+      x: 0,
+      y: 0,
+      dragging: false
+    });
+    await nextTick();
+    clampCropPosition();
+    drawCropStage();
+  };
+  image.onerror = () => {
+    URL.revokeObjectURL(url);
+    ElMessage.error("图片无法读取，请换一张");
+  };
+  image.src = url;
+}
+
+function closeCrop() {
+  if (crop.url) URL.revokeObjectURL(crop.url);
+  Object.assign(crop, { visible: false, uploading: false, url: "", image: null, target: null, key: "", dragging: false });
+}
+
+function startCropDrag(event) {
+  if (!crop.image) return;
+  crop.dragging = true;
+  crop.lastX = event.clientX;
+  crop.lastY = event.clientY;
+  event.currentTarget.setPointerCapture?.(event.pointerId);
+}
+
+function moveCropDrag(event) {
+  if (!crop.dragging) return;
+  const canvas = cropCanvas.value;
+  const rect = canvas.getBoundingClientRect();
+  const factor = canvas.width / rect.width;
+  crop.x += (event.clientX - crop.lastX) * factor;
+  crop.y += (event.clientY - crop.lastY) * factor;
+  crop.lastX = event.clientX;
+  crop.lastY = event.clientY;
+  drawCropStage();
+}
+
+function stopCropDrag() {
+  crop.dragging = false;
+}
+
+function zoomCropWheel(event) {
+  const direction = event.deltaY > 0 ? -0.08 : 0.08;
+  crop.zoom = Math.min(3, Math.max(1, Number(crop.zoom) + direction));
+  drawCropStage();
+}
+
+function canvasToBlob(canvas, type, quality) {
+  return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+}
+
+async function confirmCropUpload() {
+  if (!crop.target || !crop.key || !crop.image) return;
+  crop.uploading = true;
+  try {
+    const size = crop.mode === "avatar" ? 512 : 1080;
+    const output = document.createElement("canvas");
+    output.width = size;
+    output.height = size;
+    const ctx = output.getContext("2d");
+    const factor = size / 720;
+    if (crop.mode === "avatar") {
+      ctx.clearRect(0, 0, size, size);
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+      ctx.clip();
+    }
+    const scale = Math.max(720 / crop.image.naturalWidth, 720 / crop.image.naturalHeight) * crop.zoom;
+    ctx.drawImage(crop.image, crop.x * factor, crop.y * factor, crop.image.naturalWidth * scale * factor, crop.image.naturalHeight * scale * factor);
+    if (crop.mode === "avatar") ctx.restore();
+    const type = crop.mode === "avatar" ? "image/png" : "image/webp";
+    const ext = crop.mode === "avatar" ? "png" : "webp";
+    const blob = await canvasToBlob(output, type, 0.9);
+    if (!blob) throw new Error("裁剪失败");
+    const base = crop.fileName.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_-]+/g, "-") || "image";
+    const result = await adminApi.uploadImage(new File([blob], `${base}-crop.${ext}`, { type }));
+    if (crop.key.startsWith("__markdown:")) {
+      const contentKey = crop.key.split(":")[1] || "content_md";
+      const current = String(crop.target[contentKey] || "").trimEnd();
+      crop.target[contentKey] = `${current}\n\n![${base}](${result.url})\n`;
+    } else {
+      crop.target[crop.key] = result.url;
+    }
+    sendPreviewPatch();
+    ElMessage.success("图片已裁剪上传");
+    closeCrop();
+  } catch (error) {
+    ElMessage.error(error.message);
+  } finally {
+    crop.uploading = false;
+  }
 }
 
 function textLabel(key) {
@@ -798,6 +1069,109 @@ onMounted(boot);
 <script>
 export default {
   components: {
+    ArchiveCategoryEditor: {
+      props: {
+        modelValue: { type: Array, default: () => [] },
+        activeTarget: { type: String, default: "" }
+      },
+      emits: ["update:modelValue", "change", "select"],
+      methods: {
+        update() {
+          this.$emit("update:modelValue", this.modelValue);
+          this.$emit("change");
+        },
+        add() {
+          const next = this.modelValue.length + 1;
+          this.modelValue.push({
+            id: `category-${Date.now()}`,
+            label: "新分类",
+            slug: `category-${next}`,
+            description: "",
+            countText: "",
+            href: `/archive.html?cat=category-${next}`,
+            visibleInHome: true,
+            visibleInArchive: true,
+            sortOrder: next * 10
+          });
+          this.update();
+        },
+        remove(index) {
+          this.modelValue.splice(index, 1);
+          this.update();
+        },
+        selected(item) {
+          return this.activeTarget === `ui:archive-category:${item.id}`;
+        },
+        select(item) {
+          this.$emit("select", `ui:archive-category:${item.id}`, item.label || item.id);
+        }
+      },
+      template: `
+        <div class="ui-editor-list">
+          <article v-for="(item, index) in modelValue" :key="item.id || index" class="ui-edit-card" :class="{ selected: selected(item) }" @click="select(item)">
+            <header>
+              <strong>{{ item.label || '未命名分类' }}</strong>
+              <button type="button" @click.stop="remove(index)">删除</button>
+            </header>
+            <div class="ui-field-grid">
+              <label>名称<input v-model="item.label" @input="update" /></label>
+              <label>slug<input v-model="item.slug" @input="update" /></label>
+              <label>说明<input v-model="item.description" @input="update" /></label>
+              <label>数量文本<input v-model="item.countText" @input="update" /></label>
+              <label class="wide">链接<input v-model="item.href" @input="update" /></label>
+              <label>排序<input v-model.number="item.sortOrder" type="number" @input="update" /></label>
+            </div>
+            <div class="check-row">
+              <label><input v-model="item.visibleInHome" type="checkbox" @change="update" /> 首页显示</label>
+              <label><input v-model="item.visibleInArchive" type="checkbox" @change="update" /> 小记页显示</label>
+            </div>
+          </article>
+          <button type="button" class="plain-button" @click="add">添加分类</button>
+        </div>
+      `
+    },
+    StackItemEditor: {
+      props: {
+        modelValue: { type: Array, default: () => [] },
+        activeTarget: { type: String, default: "" }
+      },
+      emits: ["update:modelValue", "change", "select"],
+      methods: {
+        update() {
+          this.$emit("update:modelValue", this.modelValue);
+          this.$emit("change");
+        },
+        add() {
+          const next = this.modelValue.length + 1;
+          this.modelValue.push({ id: `stack-${Date.now()}`, label: "新技术项", visible: true, sortOrder: next * 10 });
+          this.update();
+        },
+        remove(index) {
+          this.modelValue.splice(index, 1);
+          this.update();
+        },
+        selected(item) {
+          return this.activeTarget === `ui:about-stack:${item.id}`;
+        },
+        select(item) {
+          this.$emit("select", `ui:about-stack:${item.id}`, item.label || item.id);
+        }
+      },
+      template: `
+        <div class="ui-editor-list compact">
+          <article v-for="(item, index) in modelValue" :key="item.id || index" class="ui-edit-card" :class="{ selected: selected(item) }" @click="select(item)">
+            <div class="ui-field-grid stack-fields">
+              <label>标识<input v-model="item.id" @input="update" /></label>
+              <label>文字<input v-model="item.label" @input="update" /></label>
+              <label>排序<input v-model.number="item.sortOrder" type="number" @input="update" /></label>
+              <label><input v-model="item.visible" type="checkbox" @change="update" /> 显示</label>
+              <button type="button" @click.stop="remove(index)">删除</button>
+            </div>
+          </article>
+          <button type="button" class="plain-button" @click="add">添加技术项</button>
+        </div>
+      `
+    },
     EditableList: {
       props: {
         modelValue: { type: Array, default: () => [] },

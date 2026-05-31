@@ -28,7 +28,7 @@
   <main class="subpage">
     <section class="about-hero subpage-hero about-panel">
       <div class="avatar-frame">
-        <img class="about-avatar" src="/assets/sailei/avatar.jpg" alt="一方的头像" loading="lazy">
+        <img class="about-avatar" src="/assets/sailei/avatar.jpg" alt="一方的头像" loading="lazy" data-profile-avatar data-edit-target="ui:profile:avatarUrl">
       </div>
       <div class="subpage-copy">
         <p class="eyebrow" data-text-key="about.hero.kicker">about</p>
@@ -62,13 +62,13 @@
         <article class="desk-card tool-card">
           <p class="eyebrow">stack</p>
           <h2 data-text-key="about.stack.title">站点后面会用到的东西</h2>
-          <div class="tool-grid">
-            <span>PostgreSQL / MySQL 数据</span>
-            <span>Redis 缓存</span>
-            <span>Meilisearch 搜索</span>
-            <span>Markdown 写作</span>
-            <span>Nginx 静态部署</span>
-            <span>每日备份</span>
+          <div class="tool-grid" data-about-stack-items>
+            <span data-edit-target="ui:about-stack:database">PostgreSQL / MySQL 数据</span>
+            <span data-edit-target="ui:about-stack:redis">Redis 缓存</span>
+            <span data-edit-target="ui:about-stack:meilisearch">Meilisearch 搜索</span>
+            <span data-edit-target="ui:about-stack:markdown">Markdown 写作</span>
+            <span data-edit-target="ui:about-stack:nginx">Nginx 静态部署</span>
+            <span data-edit-target="ui:about-stack:backup">每日备份</span>
           </div>
         </article>
       </div>

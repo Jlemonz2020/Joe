@@ -9,6 +9,7 @@ const themeToggle = document.querySelector("[data-theme-toggle]");
 const requestedTheme = new URLSearchParams(window.location.search).get("theme");
 const savedTheme = requestedTheme || localStorage.getItem("theme");
 const headerSearches = document.querySelectorAll("[data-header-search]");
+const isVisualEditor = new URLSearchParams(window.location.search).get("editor") === "1";
 const themeAliases = {
   dark: "white",
   light: "white",
@@ -202,7 +203,7 @@ const getSafeEditableText = (value, { optional = false } = {}) => {
   return isCorruptEditableText(text) ? "" : text;
 };
 
-const SITE_TEXT_CACHE_KEY = "jlemonz:site-texts:v1";
+const SITE_TEXT_CACHE_KEY = "jlemonz:site-texts:v2";
 const QUOTE_CACHE_KEY = "jlemonz:quote:v1";
 const defaultFrontendLayout = {
   home: {
@@ -237,12 +238,23 @@ const defaultFrontendLayout = {
 };
 let frontendLayout = JSON.parse(JSON.stringify(defaultFrontendLayout));
 const defaultFrontendUi = {
+  profile: {
+    avatarUrl: "/assets/sailei/avatar.jpg"
+  },
   archiveCategories: [
     { id: "all", label: "全部", slug: "", description: "所有公开札记", countText: "", href: "/archive.html", visibleInHome: false, visibleInArchive: true, sortOrder: 0 },
     { id: "linux", label: "Linux", slug: "linux", description: "命令、驱动、系统记录", countText: "18", href: "/archive.html?cat=linux", visibleInHome: true, visibleInArchive: true, sortOrder: 10 },
     { id: "raspberry-pi", label: "树莓", slug: "raspberry-pi", description: "家庭服务器和小实验", countText: "12", href: "/archive.html?cat=raspberry-pi", visibleInHome: true, visibleInArchive: true, sortOrder: 20 },
     { id: "server", label: "服务", slug: "server", description: "Nginx、Docker、备份", countText: "15", href: "/archive.html?cat=server", visibleInHome: true, visibleInArchive: true, sortOrder: 30 },
     { id: "life", label: "生活", slug: "life", description: "不太正式的碎片", countText: "9", href: "/moments.html?kind=life", visibleInHome: true, visibleInArchive: true, sortOrder: 40 }
+  ],
+  aboutStackItems: [
+    { id: "database", label: "PostgreSQL / MySQL 数据", visible: true, sortOrder: 10 },
+    { id: "redis", label: "Redis 缓存", visible: true, sortOrder: 20 },
+    { id: "meilisearch", label: "Meilisearch 搜索", visible: true, sortOrder: 30 },
+    { id: "markdown", label: "Markdown 写作", visible: true, sortOrder: 40 },
+    { id: "nginx", label: "Nginx 静态部署", visible: true, sortOrder: 50 },
+    { id: "backup", label: "每日备份", visible: true, sortOrder: 60 }
   ],
   momentKinds: [
     { id: "all", label: "碎片", kind: "all", subLabel: "随手记", visible: true, sortOrder: 0 },
@@ -370,7 +382,11 @@ const normalizeFrontendUi = (ui = {}) => {
   const pageChips = source.pageChips || {};
   const footer = source.footer || {};
   const sectionTitles = source.sectionTitles || {};
+  const profile = source.profile || {};
   return {
+    profile: {
+      avatarUrl: safeHref(profile.avatarUrl || defaultFrontendUi.profile.avatarUrl, defaultFrontendUi.profile.avatarUrl)
+    },
     archiveCategories: normalizeUiList(source.archiveCategories, defaultFrontendUi.archiveCategories, (item, fallback, index) => {
       const slug = safeKey(item.slug ?? fallback.slug ?? "", "");
       return {
@@ -385,6 +401,12 @@ const normalizeFrontendUi = (ui = {}) => {
         sortOrder: pickLayoutInteger(item.sortOrder, 0, 9999, fallback.sortOrder ?? index * 10)
       };
     }),
+    aboutStackItems: normalizeUiList(source.aboutStackItems, defaultFrontendUi.aboutStackItems, (item, fallback, index) => ({
+      id: safeKey(item.id || fallback.id, `stack-${index + 1}`),
+      label: getSafeEditableText(item.label ?? fallback.label) || "技术项",
+      visible: pickLayoutBoolean(item.visible, fallback.visible ?? true),
+      sortOrder: pickLayoutInteger(item.sortOrder, 0, 9999, fallback.sortOrder ?? index * 10)
+    })),
     momentKinds: normalizeUiList(source.momentKinds, defaultFrontendUi.momentKinds, (item, fallback, index) => {
       const kind = safeKey(item.kind ?? fallback.kind, index === 0 ? "all" : `kind-${index + 1}`);
       return {
@@ -482,6 +504,24 @@ const renderArchiveCategories = (categories) => {
   }
 };
 
+const renderProfileUi = (profile) => {
+  const avatarUrl = safeHref(profile?.avatarUrl, defaultFrontendUi.profile.avatarUrl);
+  document.querySelectorAll("[data-profile-avatar]").forEach((image) => {
+    image.dataset.editTarget = "ui:profile:avatarUrl";
+    image.src = avatarUrl;
+  });
+};
+
+const renderAboutStackItems = (items) => {
+  const stackItems = sortByOrder(items || []).filter((item) => item.visible);
+  document.querySelectorAll("[data-about-stack-items]").forEach((container) => {
+    if (!stackItems.length) return;
+    container.innerHTML = stackItems.map((item) => (
+      `<span data-edit-target="ui:about-stack:${escapeHtml(item.id)}">${escapeHtml(item.label)}</span>`
+    )).join("");
+  });
+};
+
 const renderMomentKinds = (kinds) => {
   const container = document.querySelector("[data-moment-kinds]");
   if (!container) return;
@@ -526,7 +566,9 @@ const renderSearchSuggestionsUi = (items) => {
 
 const applyFrontendUi = (ui) => {
   frontendUi = normalizeFrontendUi(ui || defaultFrontendUi);
+  renderProfileUi(frontendUi.profile);
   renderArchiveCategories(frontendUi.archiveCategories);
+  renderAboutStackItems(frontendUi.aboutStackItems);
   renderMomentKinds(frontendUi.momentKinds);
   renderPageChips("archive", frontendUi.pageChips.archive);
   renderPageChips("projects", frontendUi.pageChips.projects);
@@ -649,6 +691,7 @@ const applyEditableTextData = (data) => {
 };
 
 const hydrateEditableTextsFromCache = () => {
+  if (isVisualEditor) return;
   const cached = readCachedJson(SITE_TEXT_CACHE_KEY);
   if (cached) applyEditableTextData(cached);
 };
@@ -657,7 +700,7 @@ const applyEditableTexts = async () => {
   try {
     const data = await apiGet("/api/site/texts");
     applyEditableTextData(data);
-    writeCachedJson(SITE_TEXT_CACHE_KEY, data);
+    if (!isVisualEditor) writeCachedJson(SITE_TEXT_CACHE_KEY, data);
   } catch {}
 };
 
@@ -747,12 +790,22 @@ const renderMoments = (items) => {
 const renderProjects = (items) => {
   const preview = document.querySelector("[data-project-preview]");
   const board = document.querySelector("[data-project-board]");
+  if (!items?.length) {
+    const empty = '<div class="empty-state"><strong>还没有公开项目</strong><a href="/about.html#contact">先留一个想法</a></div>';
+    if (preview) preview.innerHTML = empty;
+    if (board) board.innerHTML = empty;
+    return;
+  }
   if (preview) preview.innerHTML = items?.length ? items.slice(0, frontendLayout.home.projectPreviewLimit).map(projectRowMarkup).join("") : '<p class="muted">还没有公开项目。</p>';
   if (board) board.innerHTML = items?.length ? items.map(projectTileMarkup).join("") : '<p class="muted">还没有公开项目。</p>';
 };
 
 const renderPosts = (items) => {
   const list = document.querySelector("[data-post-list]");
+  if (list && !items?.length) {
+    list.innerHTML = '<div class="empty-state"><strong>这个筛选下还没有公开小记</strong><a href="/archive.html">查看全部</a></div>';
+    return;
+  }
   if (list) list.innerHTML = items?.length ? items.map(postMarkup).join("") : '<p class="muted">这个筛选下还没有公开札记。</p>';
 };
 
@@ -1292,8 +1345,8 @@ applyFrontendLayout(frontendLayout);
 applyFrontendUi(frontendUi);
 hydrateEditableTextsFromCache();
 applyArchiveCategoryState();
-loadDynamicContent();
-applyEditableTexts().then(loadDynamicContent);
+const editableTextReady = applyEditableTexts();
+editableTextReady.finally(loadDynamicContent);
 renderQuote();
 renderMoyuWidget();
 loadGithub();

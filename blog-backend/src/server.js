@@ -1236,12 +1236,23 @@ const frontendUiSettingKey = "frontend_ui_v1";
 const frontendEditorBackupKey = "frontend_editor_backup_v1";
 const frontendEditorDraftKey = "frontend_editor_draft_v1";
 const defaultFrontendUi = {
+  profile: {
+    avatarUrl: "/assets/sailei/avatar.jpg"
+  },
   archiveCategories: [
     { id: "all", label: "全部", slug: "", description: "所有公开札记", countText: "", href: "/archive.html", visibleInHome: false, visibleInArchive: true, sortOrder: 0 },
     { id: "linux", label: "Linux", slug: "linux", description: "命令、驱动、系统记录", countText: "18", href: "/archive.html?cat=linux", visibleInHome: true, visibleInArchive: true, sortOrder: 10 },
     { id: "raspberry-pi", label: "树莓", slug: "raspberry-pi", description: "家庭服务器和小实验", countText: "12", href: "/archive.html?cat=raspberry-pi", visibleInHome: true, visibleInArchive: true, sortOrder: 20 },
     { id: "server", label: "服务", slug: "server", description: "Nginx、Docker、备份", countText: "15", href: "/archive.html?cat=server", visibleInHome: true, visibleInArchive: true, sortOrder: 30 },
     { id: "life", label: "生活", slug: "life", description: "不太正式的碎片", countText: "9", href: "/moments.html?kind=life", visibleInHome: true, visibleInArchive: true, sortOrder: 40 }
+  ],
+  aboutStackItems: [
+    { id: "database", label: "PostgreSQL / MySQL 数据", visible: true, sortOrder: 10 },
+    { id: "redis", label: "Redis 缓存", visible: true, sortOrder: 20 },
+    { id: "meilisearch", label: "Meilisearch 搜索", visible: true, sortOrder: 30 },
+    { id: "markdown", label: "Markdown 写作", visible: true, sortOrder: 40 },
+    { id: "nginx", label: "Nginx 静态部署", visible: true, sortOrder: 50 },
+    { id: "backup", label: "每日备份", visible: true, sortOrder: 60 }
   ],
   momentKinds: [
     { id: "all", label: "碎片", kind: "all", subLabel: "随手记", visible: true, sortOrder: 0 },
@@ -1691,6 +1702,22 @@ function normalizeArchiveCategory(item = {}, fallback = {}, index = 0) {
   };
 }
 
+function normalizeProfileUi(value = {}) {
+  const source = value && typeof value === "object" ? value : {};
+  return {
+    avatarUrl: cleanUiHref(source.avatarUrl || defaultFrontendUi.profile.avatarUrl, defaultFrontendUi.profile.avatarUrl)
+  };
+}
+
+function normalizeAboutStackItem(item = {}, fallback = {}, index = 0) {
+  return {
+    id: cleanKey(item.id || fallback.id, `stack-${index + 1}`),
+    label: cleanText(item.label ?? fallback.label ?? "技术项", 60),
+    visible: pickBoolean(item.visible, fallback.visible ?? true),
+    sortOrder: normalizeSort(item.sortOrder, fallback.sortOrder ?? index * 10)
+  };
+}
+
 function normalizeMomentKind(item = {}, fallback = {}, index = 0) {
   const kind = cleanKey(item.kind ?? fallback.kind ?? "", index === 0 ? "all" : `kind-${index + 1}`);
   return {
@@ -1738,7 +1765,9 @@ function normalizeFrontendUi(value = {}) {
   const footer = source.footer && typeof source.footer === "object" ? source.footer : {};
   const sectionTitles = source.sectionTitles && typeof source.sectionTitles === "object" ? source.sectionTitles : {};
   return {
+    profile: normalizeProfileUi(source.profile),
     archiveCategories: normalizeUiList(source.archiveCategories, defaultFrontendUi.archiveCategories, normalizeArchiveCategory, 32),
+    aboutStackItems: normalizeUiList(source.aboutStackItems, defaultFrontendUi.aboutStackItems, normalizeAboutStackItem, 24),
     momentKinds: normalizeUiList(source.momentKinds, defaultFrontendUi.momentKinds, normalizeMomentKind, 20),
     pageChips: {
       archive: normalizeUiList(pageChips.archive, defaultFrontendUi.pageChips.archive, normalizePageChip, 12),
@@ -2436,6 +2465,17 @@ const uploadImageTypes = {
   "image/gif": ".gif"
 };
 
+const uploadExtensions = new Map(Object.entries(uploadImageTypes).map(([type, ext]) => [ext, type]));
+
+function detectUploadImageType(buffer) {
+  if (!Buffer.isBuffer(buffer) || buffer.length < 4) return null;
+  if (buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) return { contentType: "image/jpeg", ext: ".jpg" };
+  if (buffer.length >= 8 && buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return { contentType: "image/png", ext: ".png" };
+  if (buffer.length >= 12 && buffer.subarray(0, 4).toString("ascii") === "RIFF" && buffer.subarray(8, 12).toString("ascii") === "WEBP") return { contentType: "image/webp", ext: ".webp" };
+  if (buffer.subarray(0, 4).toString("ascii") === "GIF8") return { contentType: "image/gif", ext: ".gif" };
+  return null;
+}
+
 function publicUploadUrl(relativePath) {
   const base = config.uploads.publicPath.endsWith("/")
     ? config.uploads.publicPath.slice(0, -1)
@@ -2455,9 +2495,11 @@ async function saveUploadedImage(file) {
     throw error;
   }
 
-  const contentType = String(file.contentType || "").split(";")[0].trim().toLowerCase();
+  const declaredType = String(file.contentType || "").split(";")[0].trim().toLowerCase();
   const originalExt = path.extname(file.filename || "").toLowerCase();
-  const ext = uploadImageTypes[contentType] || (Object.values(uploadImageTypes).includes(originalExt) ? originalExt : "");
+  const detected = detectUploadImageType(file.buffer);
+  const ext = detected?.ext || uploadImageTypes[declaredType] || (uploadExtensions.has(originalExt) ? originalExt : "");
+  const contentType = detected?.contentType || declaredType || uploadExtensions.get(ext) || "application/octet-stream";
   if (!ext) {
     const error = new Error("只支持 JPG、PNG、WEBP、GIF 图片");
     error.status = 415;
