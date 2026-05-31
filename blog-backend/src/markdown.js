@@ -21,10 +21,10 @@ function normalizeImageWrap(value = "") {
 
 function clampImageY(value) {
   const y = Number.parseInt(value, 10);
-  return Math.min(2400, Math.max(-1200, Number.isFinite(y) ? y : 0));
+  return Math.min(3600, Math.max(0, Number.isFinite(y) ? y : 0));
 }
 
-function imageAttributeHtml(value = "") {
+function parseImageAttrs(value = "") {
   const attrs = String(value || "");
   const widthMatch = attrs.match(/(?:^|\s)width\s*=\s*["']?(\d{1,3})%?["']?/i);
   const alignMatch = attrs.match(/(?:^|\s)align\s*=\s*["']?(left|center|right|full)["']?/i);
@@ -32,7 +32,6 @@ function imageAttributeHtml(value = "") {
   const wrapMatch = attrs.match(/(?:^|\s)wrap\s*=\s*["']?(none|left|right|square|top-bottom|inline)["']?/i);
   const xMatch = attrs.match(/(?:^|\s)x\s*=\s*["']?(-?\d{1,3})%?["']?/i);
   const yMatch = attrs.match(/(?:^|\s)y\s*=\s*["']?(-?\d{1,4})["']?/i);
-  const style = [];
   const width = widthMatch ? Math.min(100, Math.max(20, Number.parseInt(widthMatch[1], 10))) : 100;
   const align = alignMatch?.[1]?.toLowerCase() || "full";
   const layout = layoutMatch?.[1]?.toLowerCase() || "block";
@@ -42,35 +41,68 @@ function imageAttributeHtml(value = "") {
   const defaultX = align === "center" ? Math.round(maxX / 2) : align === "right" ? maxX : 0;
   const x = xMatch ? Math.min(maxX, Math.max(0, Number.parseInt(xMatch[1], 10))) : defaultX;
   const y = yMatch ? clampImageY(yMatch[1]) : 0;
-  const floatSide = x + width / 2 <= 50 ? "left" : "right";
-  const rightGap = Math.max(0, 100 - x - width);
-  style.push(`width:${width}%`, "height:auto");
-  if (wrap === "square") {
-    style.push(
-      `float:${floatSide}`,
-      `clear:${floatSide}`,
-      "shape-outside:inset(0 round 10px)",
-      `margin-top:${y}px`,
-      `margin-right:${floatSide === "left" ? "18px" : `${rightGap}%`}`,
-      "margin-bottom:14px",
-      `margin-left:${floatSide === "left" ? `${x}%` : "18px"}`
-    );
+  const ratioMatch = attrs.match(/(?:^|\s)ratio\s*=\s*["']?(\d+(?:\.\d+)?)["']?/i);
+  const ratio = ratioMatch ? Math.min(4, Math.max(0.25, Number.parseFloat(ratioMatch[1]))) : 1.333;
+  return { width, align, wrap, x, y, ratio };
+}
+
+function imageInlineStyle(meta) {
+  const style = [`width:${meta.width}%`, "height:auto"];
+  if (meta.wrap === "inline") {
+    style.push("display:inline-block", "vertical-align:middle", `margin:${meta.y}px 12px 8px ${meta.x}%`);
+    return style;
   }
-  if (wrap === "inline") {
-    style.push("display:inline-block", "vertical-align:middle", `margin:${y}px 12px 8px ${x}%`);
+  if (meta.wrap === "top-bottom") {
+    style.push("display:block", `margin:${meta.y}px 0 16px ${meta.x}%`);
+    if (meta.align === "full") style.push("width:100%");
+    return style;
   }
-  if (wrap === "top-bottom") {
-    style.push("display:block", `margin:${y}px 0 16px ${x}%`);
-    if (align === "full") style.push("width:100%");
+  const floatSide = meta.x + meta.width / 2 <= 50 ? "left" : "right";
+  const rightGap = Math.max(0, 100 - meta.x - meta.width);
+  style.push(
+    `float:${floatSide}`,
+    `clear:${floatSide}`,
+    "shape-outside:inset(0 round 10px)",
+    `margin-top:${meta.y}px`,
+    `margin-right:${floatSide === "left" ? "18px" : `${rightGap}%`}`,
+    "margin-bottom:14px",
+    `margin-left:${floatSide === "left" ? `${meta.x}%` : "18px"}`
+  );
+  return style;
+}
+
+function renderMarkdownImage(alt = "", url = "", attrs = "", block = false) {
+  const safeUrl = safeMarkdownUrl(url);
+  if (!safeUrl) return escapeHtml(alt);
+  const meta = parseImageAttrs(attrs);
+  if (!block) {
+    return `<img class="md-content-inline-image" src="${safeUrl}" alt="${escapeHtml(alt)}" loading="lazy" style="${escapeHtml(imageInlineStyle(meta).join(";"))}">`;
   }
-  return ` style="${escapeHtml(style.join(";"))}"`;
+  const floatSide = meta.x + meta.width / 2 <= 50 ? "left" : "right";
+  const rightGap = Math.max(0, 100 - meta.x - meta.width);
+  const figureStyle = [
+    `width:${meta.width}%`,
+    `--md-image-ratio:${meta.ratio}`,
+    meta.wrap === "square" ? `margin-top:${meta.y}px` : "",
+    meta.wrap === "square" ? `margin-right:${floatSide === "left" ? "18px" : `${rightGap}%`}` : "",
+    meta.wrap === "square" ? "margin-bottom:18px" : "",
+    meta.wrap === "square" ? `margin-left:${floatSide === "left" ? `${meta.x}%` : "18px"}` : "",
+    meta.wrap === "top-bottom" ? `margin:${meta.y}px 0 20px ${meta.x}%` : "",
+    meta.wrap === "inline" ? `margin:${meta.y}px 12px 12px ${meta.x}%` : ""
+  ].filter(Boolean);
+  const className = [
+    "md-content-image",
+    `md-content-image--${meta.wrap}`,
+    `md-content-image--${floatSide}`,
+    `md-content-image-align-${meta.align}`
+  ].join(" ");
+  return `<figure class="${className}" style="${escapeHtml(figureStyle.join(";"))}"><img src="${safeUrl}" alt="${escapeHtml(alt)}" loading="lazy"></figure>`;
 }
 
 function inline(value) {
   return escapeHtml(value)
     .replace(/!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?/g, (_, alt, url, attrs) => {
-      const safeUrl = safeMarkdownUrl(url);
-      return safeUrl ? `<img src="${safeUrl}" alt="${escapeHtml(alt)}" loading="lazy"${imageAttributeHtml(attrs)}>` : escapeHtml(alt);
+      return renderMarkdownImage(alt, url, attrs, false);
     })
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
@@ -122,6 +154,13 @@ export function markdownToHtml(markdown = "") {
     if (!line.trim()) {
       flushParagraph();
       flushList();
+      continue;
+    }
+    const imageOnly = line.match(/^!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?$/);
+    if (imageOnly) {
+      flushParagraph();
+      flushList();
+      html.push(renderMarkdownImage(imageOnly[1], imageOnly[2], imageOnly[3] || "", true));
       continue;
     }
     const heading = line.match(/^(#{1,3})\s+(.+)$/);

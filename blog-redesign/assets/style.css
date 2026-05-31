@@ -5645,6 +5645,54 @@ input:focus-visible,
   margin: 16px 0;
 }
 
+.article-body .md-content-image {
+  position: relative;
+  max-width: 100%;
+  min-width: 120px;
+  overflow: visible;
+  border-radius: 12px;
+  line-height: 0;
+}
+
+.article-body .md-content-image--square {
+  shape-outside: inset(0 round 12px);
+  shape-margin: 18px;
+}
+
+.article-body .md-content-image--square.md-content-image--left {
+  float: left;
+  clear: left;
+}
+
+.article-body .md-content-image--square.md-content-image--right {
+  float: right;
+  clear: right;
+}
+
+.article-body .md-content-image--top-bottom {
+  display: block;
+  clear: both;
+}
+
+.article-body .md-content-image--inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.article-body .md-content-image-align-full {
+  width: 100% !important;
+}
+
+.article-body .md-content-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  aspect-ratio: var(--md-image-ratio, auto);
+  object-fit: cover;
+}
+
 .chip-row a.active {
   border-color: color-mix(in srgb, var(--subpage-pink) 42%, var(--line));
   color: color-mix(in srgb, var(--text) 78%, var(--subpage-pink) 22%);
