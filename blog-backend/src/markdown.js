@@ -117,6 +117,7 @@ function inline(value) {
 export function markdownToHtml(markdown = "") {
   const lines = String(markdown).replace(/\r\n/g, "\n").split("\n");
   const html = [];
+  const positionedImages = [];
   let paragraph = [];
   let code = [];
   let list = null;
@@ -160,7 +161,11 @@ export function markdownToHtml(markdown = "") {
     if (imageOnly) {
       flushParagraph();
       flushList();
-      html.push(renderMarkdownImage(imageOnly[1], imageOnly[2], imageOnly[3] || "", true));
+      const attrs = imageOnly[3] || "";
+      positionedImages.push({
+        y: parseImageAttrs(attrs).y,
+        html: renderMarkdownImage(imageOnly[1], imageOnly[2], attrs, true)
+      });
       continue;
     }
     const heading = line.match(/^(#{1,3})\s+(.+)$/);
@@ -186,7 +191,10 @@ export function markdownToHtml(markdown = "") {
   if (inCode) html.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
   flushList();
   flushParagraph();
-  return html.join("\n");
+  return [
+    ...positionedImages.sort((left, right) => left.y - right.y).map((image) => image.html),
+    ...html
+  ].join("\n");
 }
 
 export function stripMarkdown(markdown = "") {
