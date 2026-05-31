@@ -261,6 +261,10 @@
                     <div class="switch-row"><span>首页显示</span><el-switch v-model="selectedUiEditor.item.visibleInHome" @change="sendPreviewPatch" /></div>
                     <div class="switch-row"><span>小记页显示</span><el-switch v-model="selectedUiEditor.item.visibleInArchive" @change="sendPreviewPatch" /></div>
                   </template>
+                  <template v-else-if="selectedUiEditor.type === 'about-stack-list'">
+                    <p>编辑关于页 Stack 卡片里的全部技术项。</p>
+                    <StackItemEditor v-model="editorPayload.ui.aboutStackItems" :active-target="selectedUiTarget" @select="selectUiTarget" @change="sendPreviewPatch" />
+                  </template>
                   <template v-else-if="selectedUiEditor.type === 'about-stack'">
                     <label>文字<el-input v-model="selectedUiEditor.item.label" @input="sendPreviewPatch" /></label>
                     <label>标识<el-input v-model="selectedUiEditor.item.id" @input="sendPreviewPatch" /></label>
@@ -538,6 +542,9 @@ const selectedUiEditor = computed(() => {
   if (type === "archive-category") {
     const item = editorPayload.value.ui.archiveCategories?.find((entry) => entry.id === id);
     return item ? { type, title: `分类入口：${item.label || id}`, item } : null;
+  }
+  if (type === "about-stack-list") {
+    return { type, title: "关于页 Stack 技术项", item: editorPayload.value.ui.aboutStackItems };
   }
   if (type === "about-stack") {
     const item = editorPayload.value.ui.aboutStackItems?.find((entry) => entry.id === id);

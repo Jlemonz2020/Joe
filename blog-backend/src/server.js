@@ -1197,6 +1197,7 @@ const frontendTextDefaults = [
   { group: "关于页", key: "about.current.title", label: "当前状态标题", defaultValue: "当前状态" },
   { group: "关于页", key: "about.current.state", label: "当前状态标签", defaultValue: "在线折腾" },
   { group: "关于页", key: "about.current.body", label: "当前状态说明", defaultValue: "本周主要在看 Linux 驱动和博客页面，也在把服务器的公开入口、备份和后台整理成长期可维护的状态。" },
+  { group: "关于页", key: "about.stack.eyebrow", label: "技术栈小字", defaultValue: "stack" },
   { group: "关于页", key: "about.stack.title", label: "技术栈标题", defaultValue: "站点后面会用到的东西" },
   { group: "关于页", key: "about.comments.title", label: "留言标题", defaultValue: "留言" },
   { group: "关于页", key: "about.contact.title", label: "联系标题", defaultValue: "联系" },
