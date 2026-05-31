@@ -419,7 +419,7 @@ button, input, textarea, select { font: inherit; }
   font-size: 12px;
 }
 .markdown-live-preview {
-  min-height: 260px;
+  min-height: 420px;
   padding: 22px;
   border: 1px solid rgba(255, 99, 189, 0.18);
   border-radius: 12px;
@@ -428,6 +428,10 @@ button, input, textarea, select { font: inherit; }
   font-size: 16px;
   line-height: 1.85;
   overflow: auto;
+}
+.markdown-live-preview.is-visual-editor {
+  position: relative;
+  overflow: visible;
 }
 .markdown-live-preview::after {
   content: "";
@@ -465,55 +469,32 @@ button, input, textarea, select { font: inherit; }
   border-radius: 10px;
   box-shadow: 0 12px 30px rgba(48, 22, 38, 0.12);
 }
-.md-image-list {
-  display: grid;
-  gap: 12px;
+.md-preview-text {
+  display: contents;
 }
-.md-image-card {
-  display: grid;
-  grid-template-columns: minmax(180px, 0.9fr) minmax(220px, 1fr);
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid rgba(255, 99, 189, 0.18);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.78);
-  cursor: grab;
-}
-.md-image-card:active { cursor: grabbing; }
-.md-image-preview {
-  position: relative;
-  display: grid;
-  align-items: center;
-  min-height: 180px;
-  padding: 10px;
-  border: 1px dashed rgba(132, 75, 91, 0.18);
-  border-radius: 10px;
-  background:
-    linear-gradient(45deg, rgba(255, 99, 189, 0.06) 25%, transparent 25% 75%, rgba(255, 99, 189, 0.06) 75%),
-    #fff;
-  background-size: 18px 18px;
-}
-.md-image-preview.is-free-layout {
-  min-height: 320px;
-  overflow: auto;
-}
-.md-image-preview.is-wrap-layout::after {
-  content: "环绕预览：正文会从图片四周流过";
-  align-self: end;
-  color: var(--muted);
-  font-size: 12px;
-}
-.md-image-frame {
+.md-preview-figure {
   position: relative;
   display: block;
   max-width: 100%;
   min-width: 72px;
+  margin-top: 10px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  cursor: grab;
 }
-.md-image-frame.is-free {
-  position: absolute;
+.md-preview-figure.is-active {
+  outline: 2px solid rgba(255, 99, 189, 0.78);
+  outline-offset: 4px;
+}
+.md-preview-figure.is-free {
+  position: relative;
   cursor: move;
+  z-index: 2;
 }
-.md-image-frame img {
+.md-preview-figure:active {
+  cursor: grabbing;
+}
+.md-preview-figure img {
   display: block;
   width: 100%;
   height: auto;
@@ -541,32 +522,68 @@ button, input, textarea, select { font: inherit; }
   border-right: 2px solid rgba(255, 255, 255, 0.92);
   border-bottom: 2px solid rgba(255, 255, 255, 0.92);
 }
-.md-image-controls {
+.md-image-inline-panel {
+  position: absolute;
+  left: min(100%, calc(100% + 16px));
+  top: 0;
+  z-index: 20;
+  width: min(420px, 82vw);
   display: grid;
   align-content: start;
   gap: 9px;
+  padding: 12px;
+  border: 1px solid rgba(255, 99, 189, 0.22);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 20px 50px rgba(50, 24, 39, 0.16);
+  line-height: 1.35;
 }
-.md-image-controls label {
+.md-preview-figure.is-wrap-right .md-image-inline-panel,
+.md-preview-figure[style*="margin-left: auto"] .md-image-inline-panel {
+  right: min(100%, calc(100% + 16px));
+  left: auto;
+}
+.md-image-inline-panel label {
   display: grid;
   gap: 5px;
   color: var(--muted);
   font-size: 12px;
   font-weight: 760;
 }
-.md-image-controls input:not([type="range"]),
-.md-image-controls select {
+.md-image-inline-panel input:not([type="range"]),
+.md-image-inline-panel select {
   min-height: 34px;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0 10px;
   background: #fff;
 }
-.md-image-controls button {
+.md-image-inline-panel button {
   min-height: 32px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
   cursor: pointer;
+}
+.markdown-source-drawer {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+}
+.markdown-source-drawer summary {
+  padding: 10px 12px;
+  color: var(--muted);
+  font-weight: 760;
+  cursor: pointer;
+}
+.markdown-source-drawer textarea {
+  width: calc(100% - 24px);
+  margin: 0 12px 12px;
+  min-height: 220px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  resize: vertical;
 }
 .position-grid {
   display: grid;

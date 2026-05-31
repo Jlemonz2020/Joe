@@ -3,7 +3,7 @@
     <div class="markdown-editor-head">
       <div>
         <strong>{{ title }}</strong>
-        <span>正文图片会写入 Markdown，并同步在下方以图片块显示。</span>
+        <span>在实际效果里点击图片，直接拖动、缩放和改排版。</span>
       </div>
       <label class="image-upload-button">
         上传正文图片
@@ -11,72 +11,79 @@
       </label>
     </div>
 
-    <textarea
-      :value="modelValue"
-      rows="14"
-      spellcheck="false"
-      placeholder="在这里在线编辑 Markdown 正文。可以直接输入，也可以导入 .md 文档后继续调整。"
-      @input="updateValue($event.target.value)"
-    />
-
     <div class="markdown-preview-shell">
       <div class="markdown-preview-head">
-        <strong>实际效果预览</strong>
-        <span>这里按正文真实排版渲染，环绕和上下分栏会直接显示出来。</span>
+        <strong>实际效果编辑</strong>
+        <span>拖图片本体会切到自由固定，拖右下角手柄等比缩放。</span>
       </div>
-      <div class="markdown-live-preview" v-html="previewHtml"></div>
+      <div class="markdown-live-preview is-visual-editor" @click="activeImageIndex = -1">
+        <template v-if="previewBlocks.length">
+          <template v-for="block in previewBlocks" :key="block.key">
+            <div v-if="block.type === 'html'" class="md-preview-text" v-html="block.html"></div>
+            <figure
+              v-else
+              class="md-preview-figure"
+              :class="imageFigureClass(block.image, block.imageIndex)"
+              :style="imageFigureStyle(block.image)"
+              @click.stop="activeImageIndex = block.imageIndex"
+              @pointerdown="startPreviewMove($event, block.imageIndex)"
+            >
+              <img :src="block.image.url" :alt="block.image.alt" />
+              <span class="md-image-resize" title="拖动等比缩放" @pointerdown.stop="startResize($event, block.imageIndex)"></span>
+
+              <div
+                v-if="activeImageIndex === block.imageIndex"
+                class="md-image-inline-panel"
+                @click.stop
+                @pointerdown.stop
+              >
+                <label>说明<input :value="block.image.alt" @input="updateImage(block.imageIndex, { alt: $event.target.value })" /></label>
+                <label>
+                  布局
+                  <select :value="block.image.layout" @change="updateImage(block.imageIndex, { layout: $event.target.value })">
+                    <option value="block">上下分栏</option>
+                    <option value="wrap-left">四周环绕-左</option>
+                    <option value="wrap-right">四周环绕-右</option>
+                    <option value="free">自由固定</option>
+                  </select>
+                </label>
+                <label>宽度 {{ block.image.width }}%<input type="range" min="20" max="100" :value="block.image.width" @input="updateImage(block.imageIndex, { width: $event.target.value })" /></label>
+                <label>
+                  对齐
+                  <select :value="block.image.align" @change="updateImage(block.imageIndex, { align: $event.target.value })">
+                    <option value="left">左</option>
+                    <option value="center">中</option>
+                    <option value="right">右</option>
+                    <option value="full">满宽</option>
+                  </select>
+                </label>
+                <div v-if="block.image.layout === 'free'" class="position-grid">
+                  <label>X<input type="number" :value="block.image.x" @input="updateImage(block.imageIndex, { x: $event.target.value })" /></label>
+                  <label>Y<input type="number" :value="block.image.y" @input="updateImage(block.imageIndex, { y: $event.target.value })" /></label>
+                </div>
+                <div class="button-row">
+                  <button type="button" @click="moveImage(block.imageIndex, block.imageIndex - 1)">上移</button>
+                  <button type="button" @click="moveImage(block.imageIndex, block.imageIndex + 1)">下移</button>
+                  <button type="button" @click="removeImage(block.imageIndex)">删除</button>
+                </div>
+              </div>
+            </figure>
+          </template>
+        </template>
+        <p v-else class="empty-note">正文内容会在这里以真实排版显示。</p>
+      </div>
     </div>
 
-    <div v-if="images.length" class="md-image-list">
-      <article
-        v-for="(image, index) in images"
-        :key="image.start + image.url"
-        class="md-image-card"
-        draggable="true"
-        @dragstart="dragStart(index)"
-        @dragover.prevent
-        @drop="dropImage(index)"
-      >
-        <div class="md-image-preview" :class="previewClass(image)">
-          <div class="md-image-frame" :class="frameClass(image)" :style="imageFrameStyle(image)" @pointerdown="startFreeMove($event, index)">
-            <img :src="image.url" :alt="image.alt" />
-            <span class="md-image-resize" title="拖动等比缩放" @pointerdown.stop="startResize($event, index)"></span>
-          </div>
-        </div>
-
-        <div class="md-image-controls">
-          <label>说明<input :value="image.alt" @input="updateImage(index, { alt: $event.target.value })" /></label>
-          <label>
-            布局
-            <select :value="image.layout" @change="updateImage(index, { layout: $event.target.value })">
-              <option value="block">上下分栏</option>
-              <option value="wrap-left">四周环绕-左</option>
-              <option value="wrap-right">四周环绕-右</option>
-              <option value="free">自由固定</option>
-            </select>
-          </label>
-          <label>宽度 {{ image.width }}%<input type="range" min="20" max="100" :value="image.width" @input="updateImage(index, { width: $event.target.value })" /></label>
-          <label>
-            对齐
-            <select :value="image.align" @change="updateImage(index, { align: $event.target.value })">
-              <option value="left">左</option>
-              <option value="center">中</option>
-              <option value="right">右</option>
-              <option value="full">满宽</option>
-            </select>
-          </label>
-          <div v-if="image.layout === 'free'" class="position-grid">
-            <label>X<input type="number" :value="image.x" @input="updateImage(index, { x: $event.target.value })" /></label>
-            <label>Y<input type="number" :value="image.y" @input="updateImage(index, { y: $event.target.value })" /></label>
-          </div>
-          <div class="button-row">
-            <button type="button" @click="moveImage(index, index - 1)">上移</button>
-            <button type="button" @click="moveImage(index, index + 1)">下移</button>
-            <button type="button" @click="removeImage(index)">删除</button>
-          </div>
-        </div>
-      </article>
-    </div>
+    <details class="markdown-source-drawer">
+      <summary>Markdown 源文</summary>
+      <textarea
+        :value="modelValue"
+        rows="12"
+        spellcheck="false"
+        placeholder="这里保留 Markdown 源文，导入 .md 后可在这里微调。"
+        @input="updateValue($event.target.value)"
+      />
+    </details>
   </section>
 </template>
 
@@ -90,11 +97,11 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:modelValue", "upload-image"]);
-const dragIndex = ref(-1);
+const activeImageIndex = ref(-1);
 const activePointer = ref(null);
 
 const images = computed(readImages);
-const previewHtml = computed(() => markdownToPreviewHtml(props.modelValue));
+const previewBlocks = computed(buildPreviewBlocks);
 
 function updateValue(value) {
   emit("update:modelValue", value);
@@ -122,6 +129,25 @@ function readImages() {
     });
   }
   return next;
+}
+
+function buildPreviewBlocks() {
+  const text = String(props.modelValue || "");
+  const blocks = [];
+  let cursor = 0;
+  images.value.forEach((image, imageIndex) => {
+    const before = text.slice(cursor, image.start);
+    if (before.trim()) {
+      blocks.push({ type: "html", key: `text-${cursor}`, html: markdownToPreviewHtml(before) });
+    }
+    blocks.push({ type: "image", key: `image-${image.start}-${image.url}`, image, imageIndex });
+    cursor = image.end;
+  });
+  const tail = text.slice(cursor);
+  if (tail.trim()) {
+    blocks.push({ type: "html", key: `text-${cursor}`, html: markdownToPreviewHtml(tail) });
+  }
+  return blocks;
 }
 
 function parseAttrs(attrs = "") {
@@ -154,25 +180,6 @@ function safeImageUrl(value = "") {
   return "";
 }
 
-function imageStyleFromAttrs(attrs) {
-  const style = [`width:${attrs.width}%`, "max-width:100%", "height:auto"];
-  if (attrs.layout === "wrap-left") style.push("float:left", "margin:4px 18px 10px 0");
-  if (attrs.layout === "wrap-right") style.push("float:right", "margin:4px 0 10px 18px");
-  if (attrs.layout === "free") style.push("position:relative", `left:${attrs.x}%`, `top:${attrs.y}px`, "display:block", "margin:12px 0");
-  if (attrs.layout === "block" && attrs.align === "center") style.push("display:block", "margin-left:auto", "margin-right:auto");
-  if (attrs.layout === "block" && attrs.align === "right") style.push("display:block", "margin-left:auto", "margin-right:0");
-  if (attrs.layout === "block" && attrs.align === "left") style.push("display:block", "margin-left:0", "margin-right:auto");
-  if (attrs.layout === "block" && attrs.align === "full") style.push("display:block", "width:100%");
-  return style.join(";");
-}
-
-function imageHtml(alt, url, attrsText = "") {
-  const safeUrl = safeImageUrl(url);
-  if (!safeUrl) return escapeHtml(alt || "");
-  const attrs = parseAttrs(attrsText);
-  return `<img src="${escapeHtml(safeUrl)}" alt="${escapeHtml(alt || "")}" class="md-preview-image md-preview-image--${attrs.layout}" style="${escapeHtml(imageStyleFromAttrs(attrs))}">`;
-}
-
 function inlineMarkdownToHtml(value = "") {
   const text = String(value || "");
   const regex = /!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?/g;
@@ -181,7 +188,7 @@ function inlineMarkdownToHtml(value = "") {
   let match;
   while ((match = regex.exec(text))) {
     html += escapeHtml(text.slice(cursor, match.index));
-    html += imageHtml(match[1], match[2], match[3] || "");
+    html += safeImageUrl(match[2]) ? `[图片：${escapeHtml(match[1] || "image")}]` : escapeHtml(match[1] || "");
     cursor = match.index + match[0].length;
   }
   html += escapeHtml(text.slice(cursor));
@@ -273,6 +280,7 @@ function removeImage(index) {
   const prefix = text.slice(0, image.start).replace(/\n{0,2}$/, "\n");
   const suffix = text.slice(image.end).replace(/^\n{0,2}/, "\n");
   updateValue(`${prefix}${suffix}`.replace(/\n{4,}/g, "\n\n\n"));
+  activeImageIndex.value = -1;
 }
 
 function moveImage(from, to) {
@@ -290,15 +298,7 @@ function moveImage(from, to) {
   });
   output += text.slice(cursor);
   updateValue(output);
-}
-
-function dragStart(index) {
-  dragIndex.value = index;
-}
-
-function dropImage(index) {
-  moveImage(dragIndex.value, index);
-  dragIndex.value = -1;
+  activeImageIndex.value = to;
 }
 
 function uploadImage(event) {
@@ -307,15 +307,9 @@ function uploadImage(event) {
   if (file) emit("upload-image", file);
 }
 
-function previewClass(image) {
+function imageFigureClass(image, index) {
   return {
-    "is-free-layout": image.layout === "free",
-    "is-wrap-layout": image.layout === "wrap-left" || image.layout === "wrap-right"
-  };
-}
-
-function frameClass(image) {
-  return {
+    "is-active": activeImageIndex.value === index,
     "is-free": image.layout === "free",
     "is-wrap-left": image.layout === "wrap-left",
     "is-wrap-right": image.layout === "wrap-right",
@@ -323,23 +317,30 @@ function frameClass(image) {
   };
 }
 
-function imageFrameStyle(image) {
+function imageFigureStyle(image) {
   const width = image.align === "full" && image.layout === "block" ? 100 : image.width;
   const base = { width: `${width}%` };
-  if (image.layout === "free") return { ...base, left: `${image.x}%`, top: `${image.y}px` };
-  if (image.layout === "wrap-left") return { ...base, marginRight: "auto" };
-  if (image.layout === "wrap-right") return { ...base, marginLeft: "auto" };
-  if (image.align === "center") return { ...base, marginLeft: "auto", marginRight: "auto" };
+  if (image.layout === "free") {
+    return { ...base, left: `${image.x}%`, top: `${image.y}px` };
+  }
+  if (image.layout === "wrap-left") {
+    return { ...base, float: "left", margin: "4px 18px 12px 0" };
+  }
+  if (image.layout === "wrap-right") {
+    return { ...base, float: "right", margin: "4px 0 12px 18px" };
+  }
   if (image.align === "right") return { ...base, marginLeft: "auto", marginRight: "0" };
   if (image.align === "left") return { ...base, marginLeft: "0", marginRight: "auto" };
-  return { width: "100%" };
+  if (image.align === "full") return { width: "100%" };
+  return { ...base, marginLeft: "auto", marginRight: "auto" };
 }
 
 function startResize(event, index) {
   const image = readImages()[index];
   if (!image) return;
   event.preventDefault();
-  const preview = event.currentTarget.closest(".md-image-preview");
+  activeImageIndex.value = index;
+  const preview = event.currentTarget.closest(".markdown-live-preview");
   activePointer.value = {
     type: "resize",
     index,
@@ -350,11 +351,15 @@ function startResize(event, index) {
   bindPointerEvents();
 }
 
-function startFreeMove(event, index) {
+function startPreviewMove(event, index) {
   const image = readImages()[index];
-  if (!image || image.layout !== "free" || event.target.closest(".md-image-resize")) return;
+  if (!image || event.target.closest(".md-image-resize") || event.target.closest(".md-image-inline-panel")) return;
   event.preventDefault();
-  const preview = event.currentTarget.closest(".md-image-preview");
+  activeImageIndex.value = index;
+  if (image.layout !== "free") {
+    updateImage(index, { layout: "free", x: image.x || 0, y: image.y || 0 });
+  }
+  const preview = event.currentTarget.closest(".markdown-live-preview");
   activePointer.value = {
     type: "move",
     index,
@@ -378,6 +383,7 @@ function onPointerMove(event) {
     const deltaX = ((event.clientX - action.startX) / action.previewWidth) * 100;
     const deltaY = event.clientY - action.startY;
     updateImage(action.index, {
+      layout: "free",
       x: Math.round(Math.min(100, Math.max(-50, action.startImageX + deltaX))),
       y: Math.round(Math.min(1200, Math.max(-200, action.startImageY + deltaY)))
     });
