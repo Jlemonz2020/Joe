@@ -19,6 +19,14 @@
       @input="updateValue($event.target.value)"
     />
 
+    <div class="markdown-preview-shell">
+      <div class="markdown-preview-head">
+        <strong>实际效果预览</strong>
+        <span>这里按正文真实排版渲染，环绕和上下分栏会直接显示出来。</span>
+      </div>
+      <div class="markdown-live-preview" v-html="previewHtml"></div>
+    </div>
+
     <div v-if="images.length" class="md-image-list">
       <article
         v-for="(image, index) in images"
@@ -86,6 +94,7 @@ const dragIndex = ref(-1);
 const activePointer = ref(null);
 
 const images = computed(readImages);
+const previewHtml = computed(() => markdownToPreviewHtml(props.modelValue));
 
 function updateValue(value) {
   emit("update:modelValue", value);
@@ -128,6 +137,108 @@ function parseAttrs(attrs = "") {
     x: Number.isFinite(x) ? Math.min(100, Math.max(-50, x)) : 0,
     y: Number.isFinite(y) ? Math.min(1200, Math.max(-200, y)) : 0
   };
+}
+
+function escapeHtml(value = "") {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function safeImageUrl(value = "") {
+  const url = String(value || "").trim();
+  if (/^(https?:)?\/\//i.test(url) || url.startsWith("/") || /^data:image\//i.test(url)) return url;
+  return "";
+}
+
+function imageStyleFromAttrs(attrs) {
+  const style = [`width:${attrs.width}%`, "max-width:100%", "height:auto"];
+  if (attrs.layout === "wrap-left") style.push("float:left", "margin:4px 18px 10px 0");
+  if (attrs.layout === "wrap-right") style.push("float:right", "margin:4px 0 10px 18px");
+  if (attrs.layout === "free") style.push("position:relative", `left:${attrs.x}%`, `top:${attrs.y}px`, "display:block", "margin:12px 0");
+  if (attrs.layout === "block" && attrs.align === "center") style.push("display:block", "margin-left:auto", "margin-right:auto");
+  if (attrs.layout === "block" && attrs.align === "right") style.push("display:block", "margin-left:auto", "margin-right:0");
+  if (attrs.layout === "block" && attrs.align === "left") style.push("display:block", "margin-left:0", "margin-right:auto");
+  if (attrs.layout === "block" && attrs.align === "full") style.push("display:block", "width:100%");
+  return style.join(";");
+}
+
+function imageHtml(alt, url, attrsText = "") {
+  const safeUrl = safeImageUrl(url);
+  if (!safeUrl) return escapeHtml(alt || "");
+  const attrs = parseAttrs(attrsText);
+  return `<img src="${escapeHtml(safeUrl)}" alt="${escapeHtml(alt || "")}" class="md-preview-image md-preview-image--${attrs.layout}" style="${escapeHtml(imageStyleFromAttrs(attrs))}">`;
+}
+
+function inlineMarkdownToHtml(value = "") {
+  const text = String(value || "");
+  const regex = /!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?/g;
+  let html = "";
+  let cursor = 0;
+  let match;
+  while ((match = regex.exec(text))) {
+    html += escapeHtml(text.slice(cursor, match.index));
+    html += imageHtml(match[1], match[2], match[3] || "");
+    cursor = match.index + match[0].length;
+  }
+  html += escapeHtml(text.slice(cursor));
+  return html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function markdownToPreviewHtml(markdown = "") {
+  const lines = String(markdown || "").replace(/\r\n/g, "\n").split("\n");
+  const output = [];
+  let paragraph = [];
+  let listOpen = false;
+
+  const closeParagraph = () => {
+    if (!paragraph.length) return;
+    output.push(`<p>${inlineMarkdownToHtml(paragraph.join(" "))}</p>`);
+    paragraph = [];
+  };
+  const closeList = () => {
+    if (!listOpen) return;
+    output.push("</ul>");
+    listOpen = false;
+  };
+
+  lines.forEach((rawLine) => {
+    const line = rawLine.trim();
+    if (!line) {
+      closeParagraph();
+      closeList();
+      return;
+    }
+
+    const heading = line.match(/^(#{1,4})\s+(.+)$/);
+    if (heading) {
+      closeParagraph();
+      closeList();
+      const level = Math.min(4, heading[1].length);
+      output.push(`<h${level}>${inlineMarkdownToHtml(heading[2])}</h${level}>`);
+      return;
+    }
+
+    const listItem = line.match(/^[-*]\s+(.+)$/);
+    if (listItem) {
+      closeParagraph();
+      if (!listOpen) {
+        output.push("<ul>");
+        listOpen = true;
+      }
+      output.push(`<li>${inlineMarkdownToHtml(listItem[1])}</li>`);
+      return;
+    }
+
+    paragraph.push(line);
+  });
+
+  closeParagraph();
+  closeList();
+  return output.join("");
 }
 
 function imageMarkdown(image, patch = {}) {
