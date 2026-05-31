@@ -114,7 +114,55 @@ function inline(value) {
     });
 }
 
+function isVisualDocument(markdown = "") {
+  return /!\[[^\]]*]\([^)]+\)\{[^}]*\b(?:width|wrap|align|x|y|ratio)\s*=/i.test(String(markdown || ""));
+}
+
+function flushVisualParagraph(html, paragraph) {
+  if (!paragraph.length) return;
+  const body = paragraph.map((line) => escapeHtml(line)).join("<br>");
+  html.push(`<p class="md-visual-paragraph" style="margin:0 0 30px">${body}</p>`);
+  paragraph.length = 0;
+}
+
+function visualMarkdownToHtml(markdown = "") {
+  const lines = String(markdown).replace(/\r\n/g, "\n").split("\n");
+  const html = [];
+  const positionedImages = [];
+  const paragraph = [];
+
+  for (const rawLine of lines) {
+    const line = rawLine.replace(/\s+$/g, "");
+    const imageOnly = line.match(/^!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?$/);
+    if (imageOnly) {
+      flushVisualParagraph(html, paragraph);
+      const attrs = imageOnly[3] || "";
+      positionedImages.push({
+        y: parseImageAttrs(attrs).y,
+        html: renderMarkdownImage(imageOnly[1], imageOnly[2], attrs, true)
+      });
+      continue;
+    }
+    if (!line.trim()) {
+      flushVisualParagraph(html, paragraph);
+      continue;
+    }
+    paragraph.push(line);
+  }
+
+  flushVisualParagraph(html, paragraph);
+  const text = html.length
+    ? `<div class="md-visual-text" style="font-size:16px;line-height:30px">${html.join("\n")}</div>`
+    : "";
+  return [
+    ...positionedImages.sort((left, right) => left.y - right.y).map((image) => image.html),
+    text
+  ].filter(Boolean).join("\n");
+}
+
 export function markdownToHtml(markdown = "") {
+  if (isVisualDocument(markdown)) return visualMarkdownToHtml(markdown);
+
   const lines = String(markdown).replace(/\r\n/g, "\n").split("\n");
   const html = [];
   const positionedImages = [];
