@@ -263,7 +263,18 @@
                   </template>
                   <template v-else-if="selectedUiEditor.type === 'about-stack-list'">
                     <p>编辑关于页 Stack 卡片里的全部技术项。</p>
-                    <StackItemEditor v-model="editorPayload.ui.aboutStackItems" :active-target="selectedUiTarget" @select="selectUiTarget" @change="sendPreviewPatch" />
+                    <div class="ui-editor-list compact">
+                      <article v-for="(item, index) in editorPayload.ui.aboutStackItems" :key="item.id || index" class="ui-edit-card" :class="{ selected: selectedUiTarget === `ui:about-stack:${item.id}` }" @click="selectUiTarget(`ui:about-stack:${item.id}`, item.label || item.id)">
+                        <div class="ui-field-grid stack-fields">
+                          <label>标识<input v-model="item.id" @input="sendPreviewPatch" /></label>
+                          <label>文字<input v-model="item.label" @input="sendPreviewPatch" /></label>
+                          <label>排序<input v-model.number="item.sortOrder" type="number" @input="sendPreviewPatch" /></label>
+                          <label><input v-model="item.visible" type="checkbox" @change="sendPreviewPatch" /> 显示</label>
+                          <button type="button" @click.stop="removeStackItem(index)">删除</button>
+                        </div>
+                      </article>
+                      <button type="button" class="plain-button" @click="addStackItem">添加技术项</button>
+                    </div>
                   </template>
                   <template v-else-if="selectedUiEditor.type === 'about-stack'">
                     <label>文字<el-input v-model="selectedUiEditor.item.label" @input="sendPreviewPatch" /></label>
@@ -310,13 +321,62 @@
                   </div>
                 </div>
                 <h3>首页/札记分类</h3>
-                <ArchiveCategoryEditor v-model="editorPayload.ui.archiveCategories" :active-target="selectedUiTarget" @select="selectUiTarget" @change="sendPreviewPatch" />
+                <div class="ui-editor-list">
+                  <article v-for="(item, index) in editorPayload.ui.archiveCategories" :key="item.id || index" class="ui-edit-card" :class="{ selected: selectedUiTarget === `ui:archive-category:${item.id}` }" @click="selectUiTarget(`ui:archive-category:${item.id}`, item.label || item.id)">
+                    <header>
+                      <strong>{{ item.label || '未命名分类' }}</strong>
+                      <button type="button" @click.stop="removeArchiveCategory(index)">删除</button>
+                    </header>
+                    <div class="ui-field-grid">
+                      <label>名称<input v-model="item.label" @input="sendPreviewPatch" /></label>
+                      <label>slug<input v-model="item.slug" @input="sendPreviewPatch" /></label>
+                      <label>说明<input v-model="item.description" @input="sendPreviewPatch" /></label>
+                      <label>数量文本<input v-model="item.countText" @input="sendPreviewPatch" /></label>
+                      <label class="wide">链接<input v-model="item.href" @input="sendPreviewPatch" /></label>
+                      <label>排序<input v-model.number="item.sortOrder" type="number" @input="sendPreviewPatch" /></label>
+                    </div>
+                    <div class="check-row">
+                      <label><input v-model="item.visibleInHome" type="checkbox" @change="sendPreviewPatch" /> 首页显示</label>
+                      <label><input v-model="item.visibleInArchive" type="checkbox" @change="sendPreviewPatch" /> 札记页显示</label>
+                    </div>
+                  </article>
+                  <button type="button" class="plain-button" @click="addArchiveCategory">添加分类</button>
+                </div>
                 <h3>关于页技术栈</h3>
-                <StackItemEditor v-model="editorPayload.ui.aboutStackItems" :active-target="selectedUiTarget" @select="selectUiTarget" @change="sendPreviewPatch" />
+                <div class="ui-editor-list compact">
+                  <article v-for="(item, index) in editorPayload.ui.aboutStackItems" :key="item.id || index" class="ui-edit-card" :class="{ selected: selectedUiTarget === `ui:about-stack:${item.id}` }" @click="selectUiTarget(`ui:about-stack:${item.id}`, item.label || item.id)">
+                    <div class="ui-field-grid stack-fields">
+                      <label>标识<input v-model="item.id" @input="sendPreviewPatch" /></label>
+                      <label>文字<input v-model="item.label" @input="sendPreviewPatch" /></label>
+                      <label>排序<input v-model.number="item.sortOrder" type="number" @input="sendPreviewPatch" /></label>
+                      <label><input v-model="item.visible" type="checkbox" @change="sendPreviewPatch" /> 显示</label>
+                      <button type="button" @click.stop="removeStackItem(index)">删除</button>
+                    </div>
+                  </article>
+                  <button type="button" class="plain-button" @click="addStackItem">添加技术项</button>
+                </div>
                 <h3>瞬间筛选</h3>
-                <EditableList v-model="editorPayload.ui.momentKinds" kind-key="kind" @change="sendPreviewPatch" />
+                <div class="editable-list">
+                  <div v-for="(item, index) in editorPayload.ui.momentKinds" :key="item.id || index" class="editable-row">
+                    <input v-model="item.label" placeholder="名称" @input="sendPreviewPatch" />
+                    <input v-model="item.kind" placeholder="kind" @input="sendPreviewPatch" />
+                    <input v-model="item.href" placeholder="链接" @input="sendPreviewPatch" />
+                    <label><input v-model="item.visible" type="checkbox" @change="sendPreviewPatch" /> 显示</label>
+                    <button type="button" @click="removeMomentKind(index)">删除</button>
+                  </div>
+                  <button type="button" class="plain-button" @click="addMomentKind">添加</button>
+                </div>
                 <h3>搜索建议</h3>
-                <EditableList v-model="editorPayload.ui.searchSuggestions" @change="sendPreviewPatch" />
+                <div class="editable-list">
+                  <div v-for="(item, index) in editorPayload.ui.searchSuggestions" :key="item.id || index" class="editable-row">
+                    <input v-model="item.label" placeholder="名称" @input="sendPreviewPatch" />
+                    <input v-model="item.slug" placeholder="slug" @input="sendPreviewPatch" />
+                    <input v-model="item.href" placeholder="链接" @input="sendPreviewPatch" />
+                    <label><input v-model="item.visible" type="checkbox" @change="sendPreviewPatch" /> 显示</label>
+                    <button type="button" @click="removeSearchSuggestion(index)">删除</button>
+                  </div>
+                  <button type="button" class="plain-button" @click="addSearchSuggestion">添加</button>
+                </div>
               </el-tab-pane>
               <el-tab-pane label="布局" name="layout">
                 <div class="layout-grid">
@@ -881,6 +941,66 @@ function updateEditorText(key, value) {
 function selectUiTarget(target, text = "") {
   selectedTarget.value = { source: "jlemonz-frontend-editor", target, text };
   editorTab.value = "ui";
+}
+
+function addArchiveCategory() {
+  const list = editorPayload.value?.ui?.archiveCategories;
+  if (!list) return;
+  const next = list.length + 1;
+  list.push({
+    id: `category-${Date.now()}`,
+    label: "新分类",
+    slug: `category-${next}`,
+    description: "",
+    countText: "",
+    href: `/archive.html?cat=category-${next}`,
+    visibleInHome: true,
+    visibleInArchive: true,
+    sortOrder: next * 10
+  });
+  nextTick(sendPreviewPatch);
+}
+
+function removeArchiveCategory(index) {
+  editorPayload.value?.ui?.archiveCategories?.splice(index, 1);
+  nextTick(sendPreviewPatch);
+}
+
+function addStackItem() {
+  const list = editorPayload.value?.ui?.aboutStackItems;
+  if (!list) return;
+  const next = list.length + 1;
+  list.push({ id: `stack-${Date.now()}`, label: "新技术项", visible: true, sortOrder: next * 10 });
+  nextTick(sendPreviewPatch);
+}
+
+function removeStackItem(index) {
+  editorPayload.value?.ui?.aboutStackItems?.splice(index, 1);
+  nextTick(sendPreviewPatch);
+}
+
+function addMomentKind() {
+  const list = editorPayload.value?.ui?.momentKinds;
+  if (!list) return;
+  list.push({ id: `moment-${Date.now()}`, label: "新筛选", kind: `kind-${list.length + 1}`, href: "", visible: true, sortOrder: list.length * 10 });
+  nextTick(sendPreviewPatch);
+}
+
+function removeMomentKind(index) {
+  editorPayload.value?.ui?.momentKinds?.splice(index, 1);
+  nextTick(sendPreviewPatch);
+}
+
+function addSearchSuggestion() {
+  const list = editorPayload.value?.ui?.searchSuggestions;
+  if (!list) return;
+  list.push({ id: `suggestion-${Date.now()}`, label: "新建议", slug: `suggestion-${list.length + 1}`, href: "/archive.html", visible: true, sortOrder: list.length * 10 });
+  nextTick(sendPreviewPatch);
+}
+
+function removeSearchSuggestion(index) {
+  editorPayload.value?.ui?.searchSuggestions?.splice(index, 1);
+  nextTick(sendPreviewPatch);
 }
 
 async function saveFrontendDraft() {
