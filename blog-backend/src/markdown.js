@@ -19,6 +19,11 @@ function normalizeImageWrap(value = "") {
   return "top-bottom";
 }
 
+function clampImageY(value) {
+  const y = Number.parseInt(value, 10);
+  return Math.min(2400, Math.max(-1200, Number.isFinite(y) ? y : 0));
+}
+
 function imageAttributeHtml(value = "") {
   const attrs = String(value || "");
   const widthMatch = attrs.match(/(?:^|\s)width\s*=\s*["']?(\d{1,3})%?["']?/i);
@@ -36,7 +41,7 @@ function imageAttributeHtml(value = "") {
   const maxX = Math.max(0, 100 - width);
   const defaultX = align === "center" ? Math.round(maxX / 2) : align === "right" ? maxX : 0;
   const x = xMatch ? Math.min(maxX, Math.max(0, Number.parseInt(xMatch[1], 10))) : defaultX;
-  const y = yMatch ? Math.min(2400, Math.max(0, Number.parseInt(yMatch[1], 10))) : 0;
+  const y = yMatch ? clampImageY(yMatch[1]) : 0;
   const floatSide = x + width / 2 <= 50 ? "left" : "right";
   const rightGap = Math.max(0, 100 - x - width);
   style.push(`width:${width}%`, "height:auto");

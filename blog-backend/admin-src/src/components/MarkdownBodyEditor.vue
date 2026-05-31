@@ -29,7 +29,7 @@
             v-else
             class="md-editable-image"
             :class="imageClass(block.image, block.imageIndex)"
-            :style="imageStyle(block.image)"
+            :style="imageStyle(block.image, block.imageIndex)"
             @click.stop="activeImageIndex = block.imageIndex"
             @pointerdown="startImageMove($event, block.imageIndex)"
           >
@@ -79,6 +79,7 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue", "upload-image"]);
 const activeImageIndex = ref(-1);
 const activePointer = ref(null);
+const draftImagePatch = ref(null);
 
 const images = computed(readImages);
 const editorBlocks = computed(buildEditorBlocks);
@@ -167,7 +168,7 @@ function parseAttrs(attrs = "") {
     wrap,
     ratio: Number.isFinite(ratio) ? Math.min(4, Math.max(0.25, ratio)) : 1.333,
     x: Number.isFinite(x) && xMatch ? clampX(x, width) : clampX(defaultX, width),
-    y: Number.isFinite(y) ? Math.min(2400, Math.max(0, y)) : 0
+    y: clampY(y)
   };
 }
 
@@ -180,6 +181,11 @@ function clampX(value, width) {
   const max = Math.max(0, 100 - clampWidth(width));
   const x = Number.parseInt(value, 10);
   return Math.min(max, Math.max(0, Number.isFinite(x) ? x : 0));
+}
+
+function clampY(value) {
+  const y = Number.parseInt(value, 10);
+  return Math.min(2400, Math.max(-1200, Number.isFinite(y) ? y : 0));
 }
 
 function normalizeWrap(value) {
@@ -269,7 +275,7 @@ function imageMarkdown(image, patch = {}) {
   const align = ["left", "center", "right", "full"].includes(next.align) ? next.align : "center";
   const wrap = normalizeWrap(next.wrap);
   const x = clampX(next.x, width);
-  const y = Math.min(2400, Math.max(0, Number.parseInt(next.y, 10) || 0));
+  const y = clampY(next.y);
   const ratio = Math.min(4, Math.max(0.25, Number.parseFloat(next.ratio) || 1.333)).toFixed(3).replace(/0+$/, "").replace(/\.$/, "");
   return `![${alt}](${next.url}){width=${width} wrap=${wrap} align=${align} x=${x} y=${y} ratio=${ratio}}`;
 }
@@ -328,15 +334,17 @@ function imageClass(image, index) {
   };
 }
 
-function imageStyle(image) {
-  const width = image.align === "full" ? 100 : clampWidth(image.width);
-  const x = clampX(image.x, width);
-  const y = Math.min(2400, Math.max(0, Number.parseInt(image.y, 10) || 0));
+function imageStyle(image, index) {
+  const draft = draftImagePatch.value?.index === index ? draftImagePatch.value : null;
+  const next = draft ? { ...image, ...draft } : image;
+  const width = next.align === "full" ? 100 : clampWidth(next.width);
+  const x = clampX(next.x, width);
+  const y = clampY(next.y);
   const base = {
     width: `${width}%`,
-    "--image-ratio": image.ratio || 1.333
+    "--image-ratio": next.ratio || 1.333
   };
-  if (image.wrap === "square") {
+  if (next.wrap === "square") {
     const floatSide = x + width / 2 <= 50 ? "left" : "right";
     const rightGap = Math.max(0, 100 - x - width);
     return {
@@ -349,7 +357,7 @@ function imageStyle(image) {
       marginLeft: floatSide === "left" ? `${x}%` : "18px"
     };
   }
-  if (image.wrap === "inline") {
+  if (next.wrap === "inline") {
     return {
       ...base,
       display: "inline-block",
@@ -383,6 +391,7 @@ function startResize(event, index) {
   const image = readImages()[index];
   if (!image) return;
   event.preventDefault();
+  event.currentTarget.setPointerCapture?.(event.pointerId);
   activeImageIndex.value = index;
   const editor = event.currentTarget.closest(".md-document-editor");
   activePointer.value = {
@@ -399,6 +408,7 @@ function startImageMove(event, index) {
   const image = readImages()[index];
   if (!image || event.target.closest(".md-image-resize") || event.target.closest(".md-image-mini-toolbar")) return;
   event.preventDefault();
+  event.currentTarget.setPointerCapture?.(event.pointerId);
   activeImageIndex.value = index;
   const editor = event.currentTarget.closest(".md-document-editor");
   const editorRect = editor?.getBoundingClientRect();
@@ -412,6 +422,7 @@ function startImageMove(event, index) {
     startY: image.y,
     editorWidth: editorRect?.width || imageRect.width || 1
   };
+  draftImagePatch.value = { index, x: image.x, y: image.y };
   bindPointerEvents();
 }
 
@@ -427,14 +438,21 @@ function onPointerMove(event) {
   const width = image?.align === "full" ? 100 : image?.width;
   const nextX = Number(action.startX || 0) + ((event.clientX - action.startClientX) / action.editorWidth) * 100;
   const nextY = Number(action.startY || 0) + event.clientY - action.startClientY;
-  updateImage(action.index, {
+  draftImagePatch.value = {
+    index: action.index,
     x: Math.round(clampX(nextX, width)),
-    y: Math.round(Math.min(2400, Math.max(0, nextY)))
-  });
+    y: Math.round(clampY(nextY))
+  };
 }
 
 function stopPointerAction() {
+  const action = activePointer.value;
+  const draft = draftImagePatch.value;
+  if (action?.type === "move" && draft?.index === action.index) {
+    updateImage(action.index, { x: draft.x, y: draft.y });
+  }
   activePointer.value = null;
+  draftImagePatch.value = null;
   window.removeEventListener("pointermove", onPointerMove);
   window.removeEventListener("pointerup", stopPointerAction);
   window.removeEventListener("pointercancel", stopPointerAction);

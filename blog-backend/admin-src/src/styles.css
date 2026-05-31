@@ -644,6 +644,8 @@ button, input, textarea, select { font: inherit; }
   border-radius: 10px;
   cursor: move;
   shape-outside: inset(0 round 10px);
+  touch-action: none;
+  user-select: none;
 }
 .md-editable-image.is-active {
   outline: 2px solid rgba(255, 99, 189, 0.84);
