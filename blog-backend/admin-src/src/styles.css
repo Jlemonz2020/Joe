@@ -637,20 +637,35 @@ button, input, textarea, select { font: inherit; }
   background: rgba(255, 99, 189, 0.08);
   color: #71304f;
 }
+.md-image-anchor {
+  position: relative;
+  min-height: 0;
+}
+.md-image-exclusion {
+  display: block;
+  min-width: 72px;
+  visibility: hidden;
+  pointer-events: none;
+  shape-outside: inset(0 round 10px);
+}
 .md-editable-image {
   position: relative;
   max-width: 100%;
   min-width: 72px;
+  margin: 0;
   border-radius: 10px;
   cursor: move;
-  shape-outside: inset(0 round 10px);
   touch-action: none;
   user-select: none;
+}
+.md-editable-image.is-floating {
+  position: absolute;
+  z-index: 4;
 }
 .md-editable-image.is-active {
   outline: 2px solid rgba(255, 99, 189, 0.84);
   outline-offset: 5px;
-  z-index: 10;
+  z-index: 12;
 }
 .md-editable-image:active { cursor: grabbing; }
 .md-editable-image img {

@@ -1169,7 +1169,7 @@ async function uploadMarkdownImage(file, target, key) {
     const result = await adminApi.uploadImage(file);
     const base = (file.name || "image").replace(/\.[^.]+$/, "").replace(/[[\]()]/g, "").trim() || "image";
     const current = String(target[key] || "").trimEnd();
-    target[key] = `${current}\n\n![${base}](${result.url}){width=80 layout=block align=center}\n`;
+    target[key] = `${current}\n\n![${base}](${result.url}){width=42 wrap=square align=center x=32 y=0 ratio=1.333}\n`;
     ElMessage.success("图片已插入正文");
   } catch (error) {
     ElMessage.error(error.message);

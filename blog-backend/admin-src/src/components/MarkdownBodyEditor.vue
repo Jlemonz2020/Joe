@@ -25,34 +25,66 @@
             @blur="updateTextBlock(block, $event)"
           ></div>
 
-          <figure
-            v-else
-            class="md-editable-image"
-            :class="imageClass(block.image, block.imageIndex)"
-            :style="imageStyle(block.image, block.imageIndex)"
-            @click.stop="activeImageIndex = block.imageIndex"
-            @pointerdown="startImageMove($event, block.imageIndex)"
-          >
-            <img :src="block.image.url" :alt="block.image.alt" draggable="false" @load="syncImageRatio($event, block.imageIndex)" />
-            <span class="md-image-resize" title="拖动缩放" @pointerdown.stop="startResize($event, block.imageIndex)"></span>
-            <div v-if="activeImageIndex === block.imageIndex" class="md-image-mini-toolbar" @click.stop @pointerdown.stop>
-              <select :value="block.image.wrap" title="文字环绕" @change="updateImage(block.imageIndex, { wrap: $event.target.value })">
-                <option value="square">四周型</option>
-                <option value="top-bottom">上下型</option>
-                <option value="inline">嵌入型</option>
-              </select>
-              <select :value="block.image.align" title="对齐" @change="updateImage(block.imageIndex, { align: $event.target.value })">
-                <option value="left">左</option>
-                <option value="center">中</option>
-                <option value="right">右</option>
-                <option value="full">满</option>
-              </select>
-              <input type="range" min="20" max="100" :value="block.image.width" title="宽度" @input="updateImage(block.imageIndex, { width: $event.target.value })" />
-              <button type="button" title="上移" @click="moveImage(block.imageIndex, block.imageIndex - 1)">↑</button>
-              <button type="button" title="下移" @click="moveImage(block.imageIndex, block.imageIndex + 1)">↓</button>
-              <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
+          <template v-else>
+            <div v-if="block.image.wrap !== 'inline'" class="md-image-anchor">
+              <span class="md-image-exclusion" :class="imageClass(block.image, block.imageIndex)" :style="imageExclusionStyle(block.image, block.imageIndex)" aria-hidden="true"></span>
+              <figure
+                class="md-editable-image"
+                :class="imageClass(block.image, block.imageIndex)"
+                :style="imageStyle(block.image, block.imageIndex)"
+                @click.stop="activeImageIndex = block.imageIndex"
+                @pointerdown="startImageMove($event, block.imageIndex)"
+              >
+                <img :src="block.image.url" :alt="block.image.alt" draggable="false" @load="syncImageRatio($event, block.imageIndex)" />
+                <span class="md-image-resize" title="拖动缩放" @pointerdown.stop="startResize($event, block.imageIndex)"></span>
+                <div v-if="activeImageIndex === block.imageIndex" class="md-image-mini-toolbar" @click.stop @pointerdown.stop>
+                  <select :value="block.image.wrap" title="文字环绕" @change="updateImage(block.imageIndex, { wrap: $event.target.value })">
+                    <option value="square">四周型</option>
+                    <option value="top-bottom">上下型</option>
+                    <option value="inline">嵌入型</option>
+                  </select>
+                  <select :value="block.image.align" title="对齐" @change="updateImage(block.imageIndex, { align: $event.target.value })">
+                    <option value="left">左</option>
+                    <option value="center">中</option>
+                    <option value="right">右</option>
+                    <option value="full">满</option>
+                  </select>
+                  <input type="range" min="20" max="100" :value="block.image.width" title="宽度" @input="updateImage(block.imageIndex, { width: $event.target.value })" />
+                  <button type="button" title="上移" @click="moveImage(block.imageIndex, block.imageIndex - 1)">↑</button>
+                  <button type="button" title="下移" @click="moveImage(block.imageIndex, block.imageIndex + 1)">↓</button>
+                  <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
+                </div>
+              </figure>
             </div>
-          </figure>
+            <figure
+              v-else
+              class="md-editable-image"
+              :class="imageClass(block.image, block.imageIndex)"
+              :style="imageStyle(block.image, block.imageIndex)"
+              @click.stop="activeImageIndex = block.imageIndex"
+              @pointerdown="startImageMove($event, block.imageIndex)"
+            >
+              <img :src="block.image.url" :alt="block.image.alt" draggable="false" @load="syncImageRatio($event, block.imageIndex)" />
+              <span class="md-image-resize" title="拖动缩放" @pointerdown.stop="startResize($event, block.imageIndex)"></span>
+              <div v-if="activeImageIndex === block.imageIndex" class="md-image-mini-toolbar" @click.stop @pointerdown.stop>
+                <select :value="block.image.wrap" title="文字环绕" @change="updateImage(block.imageIndex, { wrap: $event.target.value })">
+                  <option value="square">四周型</option>
+                  <option value="top-bottom">上下型</option>
+                  <option value="inline">嵌入型</option>
+                </select>
+                <select :value="block.image.align" title="对齐" @change="updateImage(block.imageIndex, { align: $event.target.value })">
+                  <option value="left">左</option>
+                  <option value="center">中</option>
+                  <option value="right">右</option>
+                  <option value="full">满</option>
+                </select>
+                <input type="range" min="20" max="100" :value="block.image.width" title="宽度" @input="updateImage(block.imageIndex, { width: $event.target.value })" />
+                <button type="button" title="上移" @click="moveImage(block.imageIndex, block.imageIndex - 1)">↑</button>
+                <button type="button" title="下移" @click="moveImage(block.imageIndex, block.imageIndex + 1)">↓</button>
+                <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
+              </div>
+            </figure>
+          </template>
         </template>
       </template>
       <div
@@ -328,51 +360,75 @@ function uploadImage(event) {
 function imageClass(image, index) {
   return {
     "is-active": activeImageIndex.value === index,
+    "is-floating": image.wrap !== "inline",
     "is-square": image.wrap === "square",
     "is-top-bottom": image.wrap === "top-bottom",
     "is-inline": image.wrap === "inline"
   };
 }
 
-function imageStyle(image, index) {
+function imageMetrics(image, index) {
   const draft = draftImagePatch.value?.index === index ? draftImagePatch.value : null;
   const next = draft ? { ...image, ...draft } : image;
   const width = next.align === "full" ? 100 : clampWidth(next.width);
-  const x = clampX(next.x, width);
-  const y = clampY(next.y);
+  return {
+    ...next,
+    width,
+    x: clampX(next.x, width),
+    y: clampY(next.y),
+    ratio: Number.parseFloat(next.ratio) || 1.333
+  };
+}
+
+function imageStyle(image, index) {
+  const next = imageMetrics(image, index);
   const base = {
-    width: `${width}%`,
-    "--image-ratio": next.ratio || 1.333
+    width: `${next.width}%`,
+    "--image-ratio": next.ratio
+  };
+  if (next.wrap !== "inline") {
+    return {
+      ...base,
+      left: `${next.x}%`,
+      top: `${next.y}px`
+    };
+  }
+  return {
+    ...base,
+    display: "inline-block",
+    verticalAlign: "middle",
+    marginTop: `${next.y}px`,
+    marginLeft: `${next.x}%`,
+    marginRight: "12px",
+    marginBottom: "8px"
+  };
+}
+
+function imageExclusionStyle(image, index) {
+  const next = imageMetrics(image, index);
+  const base = {
+    width: `${next.width}%`,
+    aspectRatio: `${next.ratio}`
   };
   if (next.wrap === "square") {
-    const floatSide = x + width / 2 <= 50 ? "left" : "right";
-    const rightGap = Math.max(0, 100 - x - width);
+    const floatSide = next.x + next.width / 2 <= 50 ? "left" : "right";
+    const rightGap = Math.max(0, 100 - next.x - next.width);
     return {
       ...base,
       float: floatSide,
       clear: floatSide,
-      marginTop: `${y}px`,
+      marginTop: `${next.y}px`,
       marginRight: floatSide === "left" ? "18px" : `${rightGap}%`,
       marginBottom: "14px",
-      marginLeft: floatSide === "left" ? `${x}%` : "18px"
-    };
-  }
-  if (next.wrap === "inline") {
-    return {
-      ...base,
-      display: "inline-block",
-      verticalAlign: "middle",
-      marginTop: `${y}px`,
-      marginLeft: `${x}%`,
-      marginRight: "12px",
-      marginBottom: "8px"
+      marginLeft: floatSide === "left" ? `${next.x}%` : "18px"
     };
   }
   return {
     ...base,
     display: "block",
-    marginTop: `${y}px`,
-    marginLeft: `${x}%`,
+    clear: "both",
+    marginTop: `${next.y}px`,
+    marginLeft: `${next.x}%`,
     marginRight: "0",
     marginBottom: "16px"
   };
@@ -411,16 +467,17 @@ function startImageMove(event, index) {
   event.currentTarget.setPointerCapture?.(event.pointerId);
   activeImageIndex.value = index;
   const editor = event.currentTarget.closest(".md-document-editor");
-  const editorRect = editor?.getBoundingClientRect();
+  const anchor = event.currentTarget.closest(".md-image-anchor") || editor;
+  const anchorRect = anchor?.getBoundingClientRect();
   const imageRect = event.currentTarget.getBoundingClientRect();
   activePointer.value = {
     type: "move",
     index,
-    startClientX: event.clientX,
-    startClientY: event.clientY,
-    startX: image.x,
-    startY: image.y,
-    editorWidth: editorRect?.width || imageRect.width || 1
+    grabX: event.clientX - imageRect.left,
+    grabY: event.clientY - imageRect.top,
+    anchorLeft: anchorRect?.left || 0,
+    anchorTop: anchorRect?.top || 0,
+    editorWidth: editor?.getBoundingClientRect().width || anchorRect?.width || imageRect.width || 1
   };
   draftImagePatch.value = { index, x: image.x, y: image.y };
   bindPointerEvents();
@@ -436,8 +493,8 @@ function onPointerMove(event) {
   }
   const image = readImages()[action.index];
   const width = image?.align === "full" ? 100 : image?.width;
-  const nextX = Number(action.startX || 0) + ((event.clientX - action.startClientX) / action.editorWidth) * 100;
-  const nextY = Number(action.startY || 0) + event.clientY - action.startClientY;
+  const nextX = ((event.clientX - action.anchorLeft - action.grabX) / action.editorWidth) * 100;
+  const nextY = event.clientY - action.anchorTop - action.grabY;
   draftImagePatch.value = {
     index: action.index,
     x: Math.round(clampX(nextX, width)),
