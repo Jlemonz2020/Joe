@@ -2100,6 +2100,12 @@ time {
   line-height: 1.85;
 }
 
+.article-body::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 .article-body h1,
 .article-body h2,
 .article-body h3 {

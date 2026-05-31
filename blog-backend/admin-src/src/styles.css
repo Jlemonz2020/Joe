@@ -419,6 +419,7 @@ button, input, textarea, select { font: inherit; }
 }
 .md-image-card:active { cursor: grabbing; }
 .md-image-preview {
+  position: relative;
   display: grid;
   align-items: center;
   min-height: 180px;
@@ -430,12 +431,53 @@ button, input, textarea, select { font: inherit; }
     #fff;
   background-size: 18px 18px;
 }
-.md-image-preview img {
+.md-image-preview.is-free-layout {
+  min-height: 320px;
+  overflow: auto;
+}
+.md-image-preview.is-wrap-layout::after {
+  content: "环绕预览：正文会从图片四周流过";
+  align-self: end;
+  color: var(--muted);
+  font-size: 12px;
+}
+.md-image-frame {
+  position: relative;
   display: block;
   max-width: 100%;
+  min-width: 72px;
+}
+.md-image-frame.is-free {
+  position: absolute;
+  cursor: move;
+}
+.md-image-frame img {
+  display: block;
+  width: 100%;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 10px 28px rgba(132, 75, 91, 0.1);
+  user-select: none;
+  pointer-events: none;
+}
+.md-image-resize {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 4px 12px rgba(255, 99, 189, 0.28);
+  cursor: nwse-resize;
+}
+.md-image-resize::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-right: 2px solid rgba(255, 255, 255, 0.92);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.92);
 }
 .md-image-controls {
   display: grid;
@@ -463,6 +505,11 @@ button, input, textarea, select { font: inherit; }
   border-radius: 8px;
   background: #fff;
   cursor: pointer;
+}
+.position-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 .image-field-card {
   display: grid;

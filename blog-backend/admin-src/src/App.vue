@@ -1168,7 +1168,7 @@ async function uploadMarkdownImage(file, target, key) {
     const result = await adminApi.uploadImage(file);
     const base = (file.name || "image").replace(/\.[^.]+$/, "").replace(/[[\]()]/g, "").trim() || "image";
     const current = String(target[key] || "").trimEnd();
-    target[key] = `${current}\n\n![${base}](${result.url}){width=80 align=center}\n`;
+    target[key] = `${current}\n\n![${base}](${result.url}){width=80 layout=block align=center}\n`;
     ElMessage.success("图片已插入正文");
   } catch (error) {
     ElMessage.error(error.message);
@@ -1209,7 +1209,7 @@ export default {
       },
       emits: ["update:modelValue", "upload-image"],
       data() {
-        return { dragIndex: -1 };
+        return { dragIndex: -1, activePointer: null };
       },
       computed: {
         images() {
@@ -1235,7 +1235,10 @@ export default {
               alt: match[1] || "",
               url: match[2] || "",
               width: attrs.width,
-              align: attrs.align
+              align: attrs.align,
+              layout: attrs.layout,
+              x: attrs.x,
+              y: attrs.y
             });
           }
           return images;
@@ -1243,9 +1246,15 @@ export default {
         parseAttrs(attrs = "") {
           const width = Number.parseInt(attrs.match(/(?:^|\s)width\s*=\s*["']?(\d{1,3})%?["']?/i)?.[1] || "80", 10);
           const align = attrs.match(/(?:^|\s)align\s*=\s*["']?(left|center|right|full)["']?/i)?.[1] || "center";
+          const layout = attrs.match(/(?:^|\s)layout\s*=\s*["']?(block|wrap-left|wrap-right|free)["']?/i)?.[1] || "block";
+          const x = Number.parseInt(attrs.match(/(?:^|\s)x\s*=\s*["']?(-?\d{1,3})%?["']?/i)?.[1] || "0", 10);
+          const y = Number.parseInt(attrs.match(/(?:^|\s)y\s*=\s*["']?(-?\d{1,4})["']?/i)?.[1] || "0", 10);
           return {
             width: Math.min(100, Math.max(20, Number.isFinite(width) ? width : 80)),
-            align: ["left", "center", "right", "full"].includes(align) ? align : "center"
+            align: ["left", "center", "right", "full"].includes(align) ? align : "center",
+            layout: ["block", "wrap-left", "wrap-right", "free"].includes(layout) ? layout : "block",
+            x: Number.isFinite(x) ? Math.min(100, Math.max(-50, x)) : 0,
+            y: Number.isFinite(y) ? Math.min(1200, Math.max(-200, y)) : 0
           };
         },
         imageMarkdown(image, patch = {}) {
@@ -1253,7 +1262,11 @@ export default {
           const alt = String(next.alt || "image").replace(/[\[\]\r\n]/g, " ").trim() || "image";
           const width = Math.min(100, Math.max(20, Number.parseInt(next.width, 10) || 80));
           const align = ["left", "center", "right", "full"].includes(next.align) ? next.align : "center";
-          return `![${alt}](${next.url}){width=${width} align=${align}}`;
+          const layout = ["block", "wrap-left", "wrap-right", "free"].includes(next.layout) ? next.layout : "block";
+          const x = Math.min(100, Math.max(-50, Number.parseInt(next.x, 10) || 0));
+          const y = Math.min(1200, Math.max(-200, Number.parseInt(next.y, 10) || 0));
+          const position = layout === "free" ? ` x=${x} y=${y}` : "";
+          return `![${alt}](${next.url}){width=${width} layout=${layout} align=${align}${position}}`;
         },
         replaceImage(index, raw) {
           const images = this.readImages();
@@ -1303,13 +1316,91 @@ export default {
           event.target.value = "";
           if (file) this.$emit("upload-image", file);
         },
-        imageStyle(image) {
-          const style = { width: `${image.width}%` };
-          if (image.align === "center") return { ...style, marginLeft: "auto", marginRight: "auto" };
-          if (image.align === "right") return { ...style, marginLeft: "auto", marginRight: "0" };
-          if (image.align === "left") return { ...style, marginLeft: "0", marginRight: "auto" };
+        previewClass(image) {
+          return {
+            "is-free-layout": image.layout === "free",
+            "is-wrap-layout": image.layout === "wrap-left" || image.layout === "wrap-right"
+          };
+        },
+        frameClass(image) {
+          return {
+            "is-free": image.layout === "free",
+            "is-wrap-left": image.layout === "wrap-left",
+            "is-wrap-right": image.layout === "wrap-right",
+            "is-block": image.layout === "block"
+          };
+        },
+        imageFrameStyle(image) {
+          const width = image.align === "full" && image.layout === "block" ? 100 : image.width;
+          const base = { width: `${width}%` };
+          if (image.layout === "free") return { ...base, left: `${image.x}%`, top: `${image.y}px` };
+          if (image.layout === "wrap-left") return { ...base, marginRight: "auto" };
+          if (image.layout === "wrap-right") return { ...base, marginLeft: "auto" };
+          if (image.align === "center") return { ...base, marginLeft: "auto", marginRight: "auto" };
+          if (image.align === "right") return { ...base, marginLeft: "auto", marginRight: "0" };
+          if (image.align === "left") return { ...base, marginLeft: "0", marginRight: "auto" };
           return { width: "100%" };
+        },
+        startResize(event, index) {
+          const image = this.readImages()[index];
+          if (!image) return;
+          event.preventDefault();
+          const preview = event.currentTarget.closest(".md-image-preview");
+          this.activePointer = {
+            type: "resize",
+            index,
+            startX: event.clientX,
+            startWidth: image.width,
+            previewWidth: preview?.getBoundingClientRect().width || 1
+          };
+          this.bindPointerEvents();
+        },
+        startFreeMove(event, index) {
+          const image = this.readImages()[index];
+          if (!image || image.layout !== "free" || event.target.closest(".md-image-resize")) return;
+          event.preventDefault();
+          const preview = event.currentTarget.closest(".md-image-preview");
+          this.activePointer = {
+            type: "move",
+            index,
+            startX: event.clientX,
+            startY: event.clientY,
+            startImageX: image.x,
+            startImageY: image.y,
+            previewWidth: preview?.getBoundingClientRect().width || 1
+          };
+          this.bindPointerEvents();
+        },
+        onPointerMove(event) {
+          const action = this.activePointer;
+          if (!action) return;
+          if (action.type === "resize") {
+            const delta = ((event.clientX - action.startX) / action.previewWidth) * 100;
+            this.updateImage(action.index, { width: Math.round(Math.min(100, Math.max(20, action.startWidth + delta))) });
+          }
+          if (action.type === "move") {
+            const deltaX = ((event.clientX - action.startX) / action.previewWidth) * 100;
+            const deltaY = event.clientY - action.startY;
+            this.updateImage(action.index, {
+              x: Math.round(Math.min(100, Math.max(-50, action.startImageX + deltaX))),
+              y: Math.round(Math.min(1200, Math.max(-200, action.startImageY + deltaY)))
+            });
+          }
+        },
+        stopPointerAction() {
+          this.activePointer = null;
+          window.removeEventListener("pointermove", this.onPointerMove);
+          window.removeEventListener("pointerup", this.stopPointerAction);
+          window.removeEventListener("pointercancel", this.stopPointerAction);
+        },
+        bindPointerEvents() {
+          window.addEventListener("pointermove", this.onPointerMove);
+          window.addEventListener("pointerup", this.stopPointerAction);
+          window.addEventListener("pointercancel", this.stopPointerAction);
         }
+      },
+      unmounted() {
+        this.stopPointerAction();
       },
       template: `
         <section class="markdown-body-editor full">
@@ -1322,14 +1413,22 @@ export default {
           </div>
           <textarea :value="modelValue" rows="14" spellcheck="false" @input="updateValue($event.target.value)"></textarea>
           <div v-if="images.length" class="md-image-list">
-            <article v-for="(image, index) in images" :key="image.start + image.url" class="md-image-card" draggable="true" @dragstart="dragStart(index)" @dragover.prevent @drop="dropImage(index)">
-              <div class="md-image-preview">
-                <img :src="image.url" :alt="image.alt" :style="imageStyle(image)">
+            <article v-for="(image, index) in images" :key="image.start + image.url" class="md-image-card" @dragover.prevent @drop="dropImage(index)">
+              <div class="md-image-preview" :class="previewClass(image)">
+                <div class="md-image-frame" :class="frameClass(image)" :style="imageFrameStyle(image)" @pointerdown="startFreeMove($event, index)">
+                  <img :src="image.url" :alt="image.alt">
+                  <span class="md-image-resize" title="拖动等比缩放" @pointerdown.stop="startResize($event, index)"></span>
+                </div>
               </div>
               <div class="md-image-controls">
                 <label>说明<input :value="image.alt" @input="updateImage(index, { alt: $event.target.value })"></label>
+                <label>布局<select :value="image.layout" @change="updateImage(index, { layout: $event.target.value })"><option value="block">上下分栏</option><option value="wrap-left">四周环绕-左</option><option value="wrap-right">四周环绕-右</option><option value="free">自由固定</option></select></label>
                 <label>宽度 {{ image.width }}%<input type="range" min="20" max="100" :value="image.width" @input="updateImage(index, { width: $event.target.value })"></label>
-                <label>位置<select :value="image.align" @change="updateImage(index, { align: $event.target.value })"><option value="left">左</option><option value="center">中</option><option value="right">右</option><option value="full">满宽</option></select></label>
+                <label>对齐<select :value="image.align" @change="updateImage(index, { align: $event.target.value })"><option value="left">左</option><option value="center">中</option><option value="right">右</option><option value="full">满宽</option></select></label>
+                <div v-if="image.layout === 'free'" class="position-grid">
+                  <label>X<input type="number" :value="image.x" @input="updateImage(index, { x: $event.target.value })"></label>
+                  <label>Y<input type="number" :value="image.y" @input="updateImage(index, { y: $event.target.value })"></label>
+                </div>
                 <div class="button-row">
                   <button type="button" @click="moveImage(index, index - 1)">上移</button>
                   <button type="button" @click="moveImage(index, index + 1)">下移</button>

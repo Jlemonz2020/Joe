@@ -17,13 +17,23 @@ function imageAttributeHtml(value = "") {
   const attrs = String(value || "");
   const widthMatch = attrs.match(/(?:^|\s)width\s*=\s*["']?(\d{1,3})%?["']?/i);
   const alignMatch = attrs.match(/(?:^|\s)align\s*=\s*["']?(left|center|right|full)["']?/i);
+  const layoutMatch = attrs.match(/(?:^|\s)layout\s*=\s*["']?(block|wrap-left|wrap-right|free)["']?/i);
+  const xMatch = attrs.match(/(?:^|\s)x\s*=\s*["']?(-?\d{1,3})%?["']?/i);
+  const yMatch = attrs.match(/(?:^|\s)y\s*=\s*["']?(-?\d{1,4})["']?/i);
   const style = [];
   const width = widthMatch ? Math.min(100, Math.max(20, Number.parseInt(widthMatch[1], 10))) : 100;
   const align = alignMatch?.[1]?.toLowerCase() || "full";
+  const layout = layoutMatch?.[1]?.toLowerCase() || "block";
+  const x = xMatch ? Math.min(100, Math.max(-50, Number.parseInt(xMatch[1], 10))) : 0;
+  const y = yMatch ? Math.min(1200, Math.max(-200, Number.parseInt(yMatch[1], 10))) : 0;
   style.push(`width:${width}%`, "height:auto");
-  if (align === "center") style.push("display:block", "margin-left:auto", "margin-right:auto");
-  if (align === "right") style.push("display:block", "margin-left:auto", "margin-right:0");
-  if (align === "left") style.push("display:block", "margin-left:0", "margin-right:auto");
+  if (layout === "wrap-left") style.push("float:left", "margin:6px 18px 12px 0");
+  if (layout === "wrap-right") style.push("float:right", "margin:6px 0 12px 18px");
+  if (layout === "free") style.push("position:relative", `left:${x}%`, `top:${y}px`, "display:block", "margin:12px 0");
+  if (layout === "block" && align === "center") style.push("display:block", "margin-left:auto", "margin-right:auto");
+  if (layout === "block" && align === "right") style.push("display:block", "margin-left:auto", "margin-right:0");
+  if (layout === "block" && align === "left") style.push("display:block", "margin-left:0", "margin-right:auto");
+  if (layout === "block" && align === "full") style.push("display:block", "width:100%");
   return ` style="${escapeHtml(style.join(";"))}"`;
 }
 
