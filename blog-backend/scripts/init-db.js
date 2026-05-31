@@ -1,6 +1,6 @@
 import { config } from "../src/config.js";
 import { pool, query, getOne } from "../src/db.js";
-import { hashPassword } from "../src/auth.js";
+import { hashPassword, verifyPassword } from "../src/auth.js";
 import { markdownToHtml } from "../src/markdown.js";
 import { syncSearchIndex } from "../src/search.js";
 
@@ -86,6 +86,14 @@ const schema = [
 
 for (const statement of schema) await query(statement);
 
+function passwordMatches(password, storedHash) {
+  try {
+    return verifyPassword(password, storedHash);
+  } catch {
+    return false;
+  }
+}
+
 const migrations = [
   "ALTER TABLE projects ADD COLUMN slug VARCHAR(160) NULL",
   "ALTER TABLE projects ADD COLUMN summary VARCHAR(500) DEFAULT ''",
@@ -107,11 +115,18 @@ for (const statement of migrations) {
 await query("UPDATE projects SET created_at=NOW() WHERE created_at IS NULL").catch(() => {});
 await query("UPDATE projects SET updated_at=NOW() WHERE updated_at IS NULL").catch(() => {});
 
-const user = await getOne("SELECT id FROM users WHERE username=:username", { username: config.admin.username });
+const adminUsername = String(config.admin.username || "").trim();
+const adminPassword = String(config.admin.password ?? "");
+const user = await getOne("SELECT id,password_hash FROM users WHERE username=:username", { username: adminUsername });
 if (!user) {
   await query("INSERT INTO users(username,password_hash,created_at) VALUES(:username,:hash,NOW())", {
-    username: config.admin.username,
-    hash: hashPassword(config.admin.password)
+    username: adminUsername,
+    hash: hashPassword(adminPassword)
+  });
+} else if (adminPassword && !passwordMatches(adminPassword, user.password_hash)) {
+  await query("UPDATE users SET password_hash=:hash WHERE id=:id", {
+    id: user.id,
+    hash: hashPassword(adminPassword)
   });
 }
 

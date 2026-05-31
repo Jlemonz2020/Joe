@@ -5,7 +5,7 @@ import crypto from "node:crypto";
 import { config } from "./config.js";
 import { getOne, query } from "./db.js";
 import { cacheDel, cacheGet, cacheSet } from "./redis.js";
-import { currentUser, signSession, verifyPassword } from "./auth.js";
+import { currentUser, hashPassword, signSession, verifyPassword } from "./auth.js";
 import { markdownToHtml, stripMarkdown } from "./markdown.js";
 import { searchContent, syncSearchIndex } from "./search.js";
 
@@ -132,6 +132,35 @@ async function readMultipart(req) {
 async function readForm(req) {
   const type = req.headers["content-type"] || "";
   return type.includes("multipart/form-data") ? readMultipart(req) : readBody(req);
+}
+
+function configuredAdminCredentials() {
+  return {
+    username: String(config.admin.username || "").trim(),
+    password: String(config.admin.password ?? "")
+  };
+}
+
+function passwordMatches(password, storedHash) {
+  try {
+    return verifyPassword(password, storedHash);
+  } catch {
+    return false;
+  }
+}
+
+async function syncConfiguredAdminUser() {
+  const { username, password } = configuredAdminCredentials();
+  if (!username || !password) return;
+  const user = await getOne("SELECT id,password_hash FROM users WHERE username=:username", { username });
+  const nextHash = hashPassword(password);
+  if (!user) {
+    await query("INSERT INTO users(username,password_hash,created_at) VALUES(:username,:hash,NOW())", { username, hash: nextHash });
+    return;
+  }
+  if (!passwordMatches(password, user.password_hash)) {
+    await query("UPDATE users SET password_hash=:hash WHERE id=:id", { id: user.id, hash: nextHash });
+  }
 }
 
 function page(title, content) {
@@ -2627,8 +2656,10 @@ async function adminFrontendEditorPayload() {
 async function adminApi(req, res, url) {
   if (url.pathname === "/admin/api/login" && req.method === "POST") {
     const body = await readAdminObject(req);
-    const user = await getOne("SELECT * FROM users WHERE username=:username", { username: body.username || "" });
-    if (!user || !verifyPassword(body.password || "", user.password_hash)) {
+    const username = String(body.username || "").trim();
+    const password = String(body.password ?? "");
+    const user = await getOne("SELECT * FROM users WHERE username=:username", { username });
+    if (!user || !passwordMatches(password, user.password_hash)) {
       return json(res, { error: "invalid_credentials", message: "用户名或密码不对" }, 401);
     }
     return json(res, { user: { id: user.id, username: user.username } }, 200, {
@@ -3220,8 +3251,10 @@ async function adminRoutes(req, res, url) {
   }
   if (url.pathname === "/admin/login" && req.method === "POST") {
     const body = await readBody(req);
-    const user = await getOne("SELECT * FROM users WHERE username=:username", { username: body.username || "" });
-    if (!user || !verifyPassword(body.password || "", user.password_hash)) {
+    const username = String(body.username || "").trim();
+    const password = String(body.password ?? "");
+    const user = await getOne("SELECT * FROM users WHERE username=:username", { username });
+    if (!user || !passwordMatches(password, user.password_hash)) {
       return html(res, page("登录失败", `<div class="card">用户名或密码不对。<p><a href="/admin/login">返回登录</a></p></div>`), 401);
     }
     res.writeHead(302, {
@@ -3605,6 +3638,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 await ensureProjectSchema();
+await syncConfiguredAdminUser();
 
 server.listen(config.port, config.host, () => {
   console.log(`blog backend listening on ${config.host}:${config.port}`);

@@ -522,6 +522,14 @@ button, input, textarea, select { font: inherit; }
   border-right: 2px solid rgba(255, 255, 255, 0.92);
   border-bottom: 2px solid rgba(255, 255, 255, 0.92);
 }
+.md-editable-image .md-image-resize {
+  opacity: 0;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.md-editable-image.is-active .md-image-resize,
+.md-editable-image:hover .md-image-resize {
+  opacity: 1;
+}
 .md-image-inline-panel {
   position: absolute;
   left: min(100%, calc(100% + 16px));
@@ -585,124 +593,105 @@ button, input, textarea, select { font: inherit; }
   padding: 12px;
   resize: vertical;
 }
+.md-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.md-tool-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 99, 189, 0.22);
+  border-radius: 9px;
+  color: color-mix(in srgb, var(--text) 78%, var(--pink));
+  background: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
 .md-document-editor {
   position: relative;
   min-height: 620px;
-  padding: 34px 42px;
+  padding: 28px 34px 40px;
   border: 1px solid rgba(255, 99, 189, 0.16);
   border-radius: 12px;
   background: #fff;
   color: #241927;
   font-size: 17px;
-  line-height: 1.9;
+  line-height: 32px;
+  overflow: auto;
+}
+.md-visual-canvas {
+  position: relative;
+  width: 100%;
+  min-width: 320px;
+  font-size: 17px;
+  line-height: 32px;
   overflow: visible;
 }
-.md-document-editor::after {
-  content: "";
-  display: block;
-  clear: both;
-}
-.md-editable-text {
-  min-height: 38px;
-  outline: 0;
-}
-.md-editable-text:focus {
-  box-shadow: inset 3px 0 0 rgba(255, 99, 189, 0.32);
-  background: linear-gradient(90deg, rgba(255, 99, 189, 0.055), transparent 140px);
-}
-.md-editable-text:empty::before {
-  content: attr(data-placeholder);
-  color: rgba(132, 75, 91, 0.42);
-}
-.md-editable-text h1,
-.md-editable-text h2,
-.md-editable-text h3,
-.md-editable-text h4 {
-  margin: 0 0 12px;
-  color: #241927;
-  line-height: 1.35;
-}
-.md-editable-text h1 { font-size: 28px; }
-.md-editable-text h2 { font-size: 23px; }
-.md-editable-text h3 { font-size: 19px; }
-.md-editable-text p { margin: 0 0 14px; }
-.md-editable-text ul {
-  margin: 0 0 14px 1.25em;
-  padding: 0;
-}
-.md-editable-text li { margin: 4px 0; }
-.md-editable-text code {
-  padding: 2px 6px;
-  border-radius: 6px;
-  background: rgba(255, 99, 189, 0.08);
-  color: #71304f;
-}
-.md-wps-flow {
-  position: relative;
-  clear: both;
-  margin-bottom: 18px;
-}
-.md-wps-flow-lines {
-  position: relative;
+.md-canvas-text-layer {
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  font: inherit;
+  pointer-events: none;
 }
-.md-wps-flow-line {
-  position: relative;
-  height: var(--wrap-line-height, 32px);
-  line-height: var(--wrap-line-height, 32px);
+.md-canvas-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  line-height: 32px;
+  pointer-events: none;
 }
-.md-wps-flow-segment {
+.md-canvas-line.is-reserved {
+  pointer-events: none;
+}
+.md-canvas-segment {
   position: absolute;
   top: 0;
+  display: block;
   min-width: 0;
   overflow: hidden;
-  white-space: pre;
+  white-space: pre-wrap;
   text-overflow: clip;
   outline: 0;
+  border-radius: 5px;
+  color: #241927;
   cursor: text;
-  border-radius: 4px;
+  pointer-events: auto;
 }
-.md-wps-flow-segment:focus {
-  background: rgba(255, 99, 189, 0.08);
-  box-shadow: 0 0 0 2px rgba(255, 99, 189, 0.14);
+.md-canvas-segment:focus {
+  background: rgba(255, 99, 189, 0.055);
+  box-shadow: inset 0 -1px 0 rgba(255, 99, 189, 0.22);
 }
-.md-wps-flow-image {
+.md-canvas-placeholder {
   position: absolute;
-  z-index: 4;
-  margin: 0;
-}
-.md-image-anchor {
-  position: relative;
+  inset: 0;
+  z-index: 1;
   min-height: 120px;
-  overflow: visible;
-  clear: both;
+  outline: 0;
+  color: #241927;
+  cursor: text;
 }
-.md-image-exclusion {
-  display: block;
-  min-width: 72px;
-  visibility: hidden;
-  pointer-events: none;
-  shape-outside: inset(0 round 10px);
+.md-canvas-placeholder:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(132, 75, 91, 0.46);
 }
 .md-editable-image {
-  position: relative;
   max-width: 100%;
   min-width: 72px;
   margin: 0;
-  border-radius: 10px;
+  border-radius: 9px;
   cursor: move;
   touch-action: none;
   user-select: none;
 }
-.md-editable-image.is-floating {
+.md-canvas-image {
   position: absolute;
-  z-index: 4;
+  z-index: 3;
 }
 .md-editable-image.is-active {
-  outline: 2px solid rgba(255, 99, 189, 0.84);
-  outline-offset: 5px;
-  z-index: 12;
+  z-index: 8;
 }
 .md-editable-image:active { cursor: grabbing; }
 .md-editable-image img {
@@ -711,24 +700,27 @@ button, input, textarea, select { font: inherit; }
   height: auto;
   aspect-ratio: var(--image-ratio, auto);
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 14px 34px rgba(48, 22, 38, 0.14);
+  border-radius: 9px;
+  box-shadow: 0 10px 24px rgba(48, 22, 38, 0.1);
   pointer-events: none;
   user-select: none;
+}
+.md-editable-image.is-active img {
+  box-shadow: 0 0 0 1px rgba(255, 99, 189, 0.34), 0 12px 26px rgba(48, 22, 38, 0.12);
 }
 .md-image-mini-toolbar {
   position: absolute;
   left: 50%;
-  top: -46px;
+  top: -42px;
   z-index: 30;
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 7px;
-  border: 1px solid rgba(255, 99, 189, 0.24);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 16px 42px rgba(50, 24, 39, 0.18);
+  padding: 6px;
+  border: 1px solid rgba(255, 99, 189, 0.2);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 28px rgba(50, 24, 39, 0.12);
   transform: translateX(-50%);
   white-space: nowrap;
 }

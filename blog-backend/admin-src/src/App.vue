@@ -1158,7 +1158,25 @@ async function importProjectMarkdown(event) {
   }
 }
 
-async function uploadMarkdownImage(file, target, key) {
+function readImageRatio(file) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    const url = URL.createObjectURL(file);
+    image.onload = () => {
+      const ratio = image.naturalWidth && image.naturalHeight ? image.naturalWidth / image.naturalHeight : 1.333;
+      URL.revokeObjectURL(url);
+      resolve(Math.min(4, Math.max(0.25, ratio)));
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      resolve(1.333);
+    };
+    image.src = url;
+  });
+}
+
+async function uploadMarkdownImage(payload, target, key) {
+  const file = payload?.file || payload;
   if (!file) return;
   const supportedType = acceptedImageTypes.split(",").includes(file.type) || /\.(jpe?g|png|webp|gif)$/i.test(file.name || "");
   if (!supportedType) {
@@ -1166,10 +1184,13 @@ async function uploadMarkdownImage(file, target, key) {
     return;
   }
   try {
+    const ratio = await readImageRatio(file);
     const result = await adminApi.uploadImage(file);
-    const base = (file.name || "image").replace(/\.[^.]+$/, "").replace(/[[\]()]/g, "").trim() || "image";
+    const base = (file.name || "image").replace(/\.[^.]+$/, "").replace(/[\[\]()]/g, "").trim() || "image";
+    const y = Math.min(3600, Math.max(0, Math.round(Number(payload?.insertY ?? 0) || 0)));
+    const x = Math.min(58, Math.max(0, Math.round(Number(payload?.insertX ?? 29) || 29)));
     const current = String(target[key] || "").trimEnd();
-    target[key] = `${current}\n\n![${base}](${result.url}){width=42 wrap=square align=center x=32 y=0 ratio=1.333}\n`;
+    target[key] = `${current}\n\n![${base}](${result.url}){width=42 wrap=square align=center x=${x} y=${y} ratio=${ratio.toFixed(3).replace(/0+$/, "").replace(/\.$/, "")}}\n`;
     ElMessage.success("图片已插入正文");
   } catch (error) {
     ElMessage.error(error.message);
