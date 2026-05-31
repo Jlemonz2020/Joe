@@ -614,6 +614,24 @@ button, input, textarea, select { font: inherit; }
   content: attr(data-placeholder);
   color: rgba(132, 75, 91, 0.42);
 }
+.md-image-wrap-space {
+  display: block;
+  min-width: 72px;
+  border-radius: 8px;
+  pointer-events: none;
+  visibility: hidden;
+  shape-outside: inset(0 round 8px);
+}
+.md-image-wrap-space.is-wrap-left {
+  float: left;
+  margin-right: 18px;
+  clear: left;
+}
+.md-image-wrap-space.is-wrap-right {
+  float: right;
+  margin-left: 18px;
+  clear: right;
+}
 .md-editable-text h1,
 .md-editable-text h2,
 .md-editable-text h3,
