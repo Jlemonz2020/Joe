@@ -156,8 +156,8 @@ function parseAttrs(attrs = "") {
     width: Math.min(100, Math.max(20, Number.isFinite(width) ? width : 80)),
     align: ["left", "center", "right", "full"].includes(align) ? align : "center",
     layout: ["block", "wrap-left", "wrap-right", "free"].includes(layout) ? layout : "block",
-    x: Number.isFinite(x) ? Math.min(100, Math.max(-50, x)) : 0,
-    y: Number.isFinite(y) ? Math.min(1200, Math.max(-200, y)) : 0
+    x: Number.isFinite(x) ? Math.min(100, Math.max(0, x)) : 0,
+    y: Number.isFinite(y) ? Math.min(2400, Math.max(0, y)) : 0
   };
 }
 
@@ -241,8 +241,8 @@ function imageMarkdown(image, patch = {}) {
   const width = Math.min(100, Math.max(20, Number.parseInt(next.width, 10) || 80));
   const align = ["left", "center", "right", "full"].includes(next.align) ? next.align : "center";
   const layout = ["block", "wrap-left", "wrap-right", "free"].includes(next.layout) ? next.layout : "block";
-  const x = Math.min(100, Math.max(-50, Number.parseInt(next.x, 10) || 0));
-  const y = Math.min(1200, Math.max(-200, Number.parseInt(next.y, 10) || 0));
+  const x = Math.min(100, Math.max(0, Number.parseInt(next.x, 10) || 0));
+  const y = Math.min(2400, Math.max(0, Number.parseInt(next.y, 10) || 0));
   const position = layout === "free" ? ` x=${x} y=${y}` : "";
   return `![${alt}](${next.url}){width=${width} layout=${layout} align=${align}${position}}`;
 }
@@ -333,18 +333,20 @@ function startResize(event, index) {
 function startImageMove(event, index) {
   const image = readImages()[index];
   if (!image || event.target.closest(".md-image-resize") || event.target.closest(".md-image-mini-toolbar")) return;
-  event.preventDefault();
   activeImageIndex.value = index;
-  if (image.layout !== "free") updateImage(index, { layout: "free", x: image.x || 0, y: image.y || 0 });
+  if (image.layout !== "free") return;
+  event.preventDefault();
   const editor = event.currentTarget.closest(".md-document-editor");
+  const editorRect = editor?.getBoundingClientRect();
+  const imageRect = event.currentTarget.getBoundingClientRect();
   activePointer.value = {
     type: "move",
     index,
-    startX: event.clientX,
-    startY: event.clientY,
-    startImageX: image.x,
-    startImageY: image.y,
-    editorWidth: editor?.getBoundingClientRect().width || 1
+    grabX: event.clientX - imageRect.left,
+    grabY: event.clientY - imageRect.top,
+    editorLeft: editorRect?.left || 0,
+    editorTop: editorRect?.top || 0,
+    editorWidth: editorRect?.width || 1
   };
   bindPointerEvents();
 }
@@ -357,12 +359,12 @@ function onPointerMove(event) {
     updateImage(action.index, { width: Math.round(Math.min(100, Math.max(20, action.startWidth + delta))) });
     return;
   }
-  const deltaX = ((event.clientX - action.startX) / action.editorWidth) * 100;
-  const deltaY = event.clientY - action.startY;
+  const nextX = ((event.clientX - action.editorLeft - action.grabX) / action.editorWidth) * 100;
+  const nextY = event.clientY - action.editorTop - action.grabY;
   updateImage(action.index, {
     layout: "free",
-    x: Math.round(Math.min(100, Math.max(-50, action.startImageX + deltaX))),
-    y: Math.round(Math.min(1200, Math.max(-200, action.startImageY + deltaY)))
+    x: Math.round(Math.min(100, Math.max(0, nextX))),
+    y: Math.round(Math.min(2400, Math.max(0, nextY)))
   });
 }
 

@@ -653,9 +653,10 @@ button, input, textarea, select { font: inherit; }
   z-index: 10;
 }
 .md-editable-image.is-free {
-  position: relative;
+  position: absolute;
   cursor: move;
   z-index: 3;
+  margin: 0;
 }
 .md-editable-image:active { cursor: grabbing; }
 .md-editable-image img {
