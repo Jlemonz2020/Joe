@@ -69,39 +69,15 @@
             </figure>
           </div>
 
-          <template v-else>
-            <div v-if="block.image.wrap !== 'inline'" class="md-image-anchor">
-              <span class="md-image-exclusion" :class="imageClass(block.image, block.imageIndex)" :style="imageExclusionStyle(block.image, block.imageIndex)" aria-hidden="true"></span>
-              <figure
-                class="md-editable-image"
-                :class="imageClass(block.image, block.imageIndex)"
-                :style="imageStyle(block.image, block.imageIndex)"
-                @click.stop="activeImageIndex = block.imageIndex"
-                @pointerdown="startImageMove($event, block.imageIndex)"
-              >
-                <img :src="block.image.url" :alt="block.image.alt" draggable="false" @load="syncImageRatio($event, block.imageIndex)" />
-                <span class="md-image-resize" title="拖动缩放" @pointerdown.stop="startResize($event, block.imageIndex)"></span>
-                <div v-if="activeImageIndex === block.imageIndex" class="md-image-mini-toolbar" @click.stop @pointerdown.stop>
-                  <select :value="block.image.wrap" title="文字环绕" @change="updateImage(block.imageIndex, { wrap: $event.target.value })">
-                    <option value="square">四周型</option>
-                    <option value="top-bottom">上下型</option>
-                    <option value="inline">嵌入型</option>
-                  </select>
-                  <select :value="block.image.align" title="对齐" @change="updateImage(block.imageIndex, { align: $event.target.value })">
-                    <option value="left">左</option>
-                    <option value="center">中</option>
-                    <option value="right">右</option>
-                    <option value="full">满</option>
-                  </select>
-                  <input type="range" min="20" max="100" :value="block.image.width" title="宽度" @input="updateImage(block.imageIndex, { width: $event.target.value })" />
-                  <button type="button" title="上移" @click="moveImage(block.imageIndex, block.imageIndex - 1)">↑</button>
-                  <button type="button" title="下移" @click="moveImage(block.imageIndex, block.imageIndex + 1)">↓</button>
-                  <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
-                </div>
-              </figure>
-            </div>
+          <div v-else class="md-image-anchor" :style="imageAnchorStyle(block.image, block.imageIndex)">
+            <span
+              v-if="block.image.wrap !== 'inline'"
+              class="md-image-exclusion"
+              :class="imageClass(block.image, block.imageIndex)"
+              :style="imageExclusionStyle(block.image, block.imageIndex)"
+              aria-hidden="true"
+            ></span>
             <figure
-              v-else
               class="md-editable-image"
               :class="imageClass(block.image, block.imageIndex)"
               :style="imageStyle(block.image, block.imageIndex)"
@@ -128,7 +104,7 @@
                 <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
               </div>
             </figure>
-          </template>
+          </div>
         </template>
       </template>
       <div
@@ -595,7 +571,7 @@ function uploadImage(event) {
 function imageClass(image, index) {
   return {
     "is-active": activeImageIndex.value === index,
-    "is-floating": image.wrap !== "inline",
+    "is-floating": true,
     "is-square": image.wrap === "square",
     "is-top-bottom": image.wrap === "top-bottom",
     "is-inline": image.wrap === "inline"
@@ -617,25 +593,21 @@ function imageMetrics(image, index) {
 
 function imageStyle(image, index) {
   const next = imageMetrics(image, index);
-  const base = {
+  return {
     width: `${next.width}%`,
+    left: `${next.x}%`,
+    top: `${next.y}px`,
     "--image-ratio": next.ratio
   };
-  if (next.wrap !== "inline") {
-    return {
-      ...base,
-      left: `${next.x}%`,
-      top: `${next.y}px`
-    };
-  }
+}
+
+function imageAnchorStyle(image, index) {
+  const next = imageMetrics(image, index);
+  const imageWidth = Math.max(72, Math.round((editorWidth.value * next.width) / 100));
+  const imageHeight = Math.max(72, Math.round(imageWidth / next.ratio));
+  const reservedHeight = Math.max(120, Math.ceil(Math.max(0, next.y) + imageHeight + 24));
   return {
-    ...base,
-    display: "inline-block",
-    verticalAlign: "middle",
-    marginTop: `${next.y}px`,
-    marginLeft: `${next.x}%`,
-    marginRight: "12px",
-    marginBottom: "8px"
+    minHeight: `${reservedHeight}px`
   };
 }
 
@@ -718,12 +690,13 @@ function startResize(event, index) {
   event.currentTarget.setPointerCapture?.(event.pointerId);
   activeImageIndex.value = index;
   const editor = event.currentTarget.closest(".md-document-editor");
+  const anchor = event.currentTarget.closest(".md-wps-flow") || event.currentTarget.closest(".md-image-anchor") || editor;
   activePointer.value = {
     type: "resize",
     index,
     startX: event.clientX,
     startWidth: image.width,
-    editorWidth: event.currentTarget.closest(".md-wps-flow")?.getBoundingClientRect().width || editor?.getBoundingClientRect().width || 1
+    editorWidth: anchor?.getBoundingClientRect().width || 1
   };
   bindPointerEvents();
 }
@@ -755,10 +728,12 @@ function onPointerMove(event) {
   const action = activePointer.value;
   if (!action) return;
   if (action.type === "resize") {
+    event.preventDefault();
     const delta = ((event.clientX - action.startX) / action.editorWidth) * 100;
     updateImage(action.index, { width: Math.round(Math.min(100, Math.max(20, action.startWidth + delta))) });
     return;
   }
+  event.preventDefault();
   const image = readImages()[action.index];
   const width = image?.align === "full" ? 100 : image?.width;
   const nextX = ((event.clientX - action.anchorLeft - action.grabX) / action.editorWidth) * 100;
