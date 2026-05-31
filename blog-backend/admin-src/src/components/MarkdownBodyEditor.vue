@@ -25,20 +25,21 @@
             @blur="updateTextBlock(block, $event)"
           ></div>
 
-          <div v-else-if="block.type === 'wrap-image'" class="md-wps-wrap" :style="wrapGridStyle(block.image, block.imageIndex)">
-            <div
-              class="md-wps-wrap-text is-left"
-              contenteditable="true"
-              spellcheck="false"
-              :data-placeholder="block.placeholder"
-              v-html="block.leftHtml"
-              @click.stop
-              @blur="updateWrappedTextBlock(block, 'left', $event)"
-            ></div>
+          <div v-else-if="block.type === 'wrap-image'" class="md-wps-flow" :style="wrapFlowStyle(block)">
+            <div class="md-wps-flow-lines" :style="wrapTextLayerStyle(block)" @click.stop>
+              <div v-for="line in wrapFlowLines(block)" :key="line.key" class="md-wps-flow-line">
+                <span
+                  v-for="segment in line.segments"
+                  :key="segment.key"
+                  class="md-wps-flow-segment"
+                  :style="segment.style"
+                >{{ segment.text }}</span>
+              </div>
+            </div>
             <figure
-              class="md-editable-image md-wps-wrap-image"
+              class="md-editable-image md-wps-flow-image"
               :class="imageClass(block.image, block.imageIndex)"
-              :style="wrapFigureStyle(block.image, block.imageIndex)"
+              :style="wrapFlowImageStyle(block.image, block.imageIndex)"
               @click.stop="activeImageIndex = block.imageIndex"
               @pointerdown="startImageMove($event, block.imageIndex)"
             >
@@ -62,25 +63,12 @@
                 <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
               </div>
             </figure>
-            <div
-              class="md-wps-wrap-text is-right"
-              contenteditable="true"
+            <textarea
+              class="md-wps-flow-source"
+              :value="block.text"
               spellcheck="false"
-              :data-placeholder="block.placeholder"
-              v-html="block.rightHtml"
-              @click.stop
-              @blur="updateWrappedTextBlock(block, 'right', $event)"
-            ></div>
-            <div
-              v-if="block.belowHtml"
-              class="md-wps-wrap-text is-below"
-              contenteditable="true"
-              spellcheck="false"
-              :data-placeholder="block.placeholder"
-              v-html="block.belowHtml"
-              @click.stop
-              @blur="updateWrappedTextBlock(block, 'below', $event)"
-            ></div>
+              @input="updateWrappedFlowBlock(block, $event)"
+            ></textarea>
           </div>
 
           <template v-else>
@@ -224,7 +212,7 @@ function buildEditorBlocks() {
     const nextImageStart = images.value[imageIndex + 1]?.start ?? text.length;
     const after = text.slice(image.end, nextImageStart);
     if (image.wrap === "square" && after.trim()) {
-      const parts = splitWrappedText(after, image);
+      const layout = layoutWrappedText(after, image);
       blocks.push({
         type: "wrap-image",
         key: `wrap-image-${image.start}-${image.url}`,
@@ -232,10 +220,10 @@ function buildEditorBlocks() {
         imageIndex,
         textStart: image.end,
         textEnd: nextImageStart,
-        parts,
-        leftHtml: markdownToHtml(parts.left),
-        rightHtml: markdownToHtml(parts.right),
-        belowHtml: markdownToHtml(parts.below),
+        text: after.trim(),
+        lines: layout.lines,
+        lineCount: layout.lineCount,
+        imageHeightLines: layout.imageHeightLines,
         placeholder: "输入正文..."
       });
       cursor = nextImageStart;
@@ -259,28 +247,98 @@ function buildEditorBlocks() {
   return blocks;
 }
 
-function splitWrappedText(markdown = "", image) {
-  const source = String(markdown || "").trim();
+function layoutWrappedText(markdown = "", image) {
+  const source = plainTextForWrap(markdown);
   const width = image.align === "full" ? 100 : clampWidth(image.width);
   const x = clampX(image.x, width);
-  const leftPct = Math.max(0, x);
-  const rightPct = Math.max(0, 100 - x - width);
+  const y = clampY(image.y);
   const ratio = Number.parseFloat(image.ratio) || 1.333;
-  const lines = Math.max(4, Math.min(16, Math.round((width / ratio) / 3.4)));
-  const fullLineChars = 52;
-  const leftChars = Math.max(0, Math.floor(fullLineChars * (leftPct / 100) * lines));
-  const rightChars = Math.max(0, Math.floor(fullLineChars * (rightPct / 100) * lines));
-  return {
-    left: sliceMarkdownText(source, 0, leftChars),
-    right: sliceMarkdownText(source, leftChars, leftChars + rightChars),
-    below: sliceMarkdownText(source, leftChars + rightChars)
-  };
+  const fullLineChars = 58;
+  const lineHeight = 32;
+  const wrapGap = 1.6;
+  const imageTop = y;
+  const imageHeightLines = Math.max(5, Math.min(18, Math.round((width / ratio) / 3.1)));
+  const imageBottom = imageTop + imageHeightLines * lineHeight;
+  const lines = [];
+  let cursor = 0;
+  let lineIndex = 0;
+  while (cursor < source.length && lineIndex < 160) {
+    const lineTop = lineIndex * lineHeight;
+    const lineBottom = lineTop + lineHeight;
+    const inImageRows = lineBottom > imageTop && lineTop < imageBottom;
+    const line = { key: `line-${lineIndex}`, segments: [] };
+    if (inImageRows) {
+      const leftWidth = Math.max(0, x - wrapGap);
+      const rightLeft = Math.min(100, x + width + wrapGap);
+      const rightWidth = Math.max(0, 100 - rightLeft);
+      if (leftWidth >= 8) {
+        const taken = takeWrapText(source, cursor, Math.max(1, Math.floor(fullLineChars * leftWidth / 100)));
+        cursor = taken.end;
+        const text = taken.text;
+        if (text.trim()) {
+          line.segments.push({
+            key: `line-${lineIndex}-left`,
+            text,
+            style: { left: "0%", width: `${leftWidth}%` }
+          });
+        }
+      }
+      if (rightWidth >= 8) {
+        const taken = takeWrapText(source, cursor, Math.max(1, Math.floor(fullLineChars * rightWidth / 100)));
+        cursor = taken.end;
+        const text = taken.text;
+        if (text.trim()) {
+          line.segments.push({
+            key: `line-${lineIndex}-right`,
+            text,
+            style: { left: `${rightLeft}%`, width: `${rightWidth}%` }
+          });
+        }
+      }
+    } else {
+      const taken = takeWrapText(source, cursor, fullLineChars);
+      cursor = taken.end;
+      const text = taken.text;
+      if (text.trim()) {
+        line.segments.push({
+          key: `line-${lineIndex}-full`,
+          text,
+          style: { left: "0%", width: "100%" }
+        });
+      }
+    }
+    lines.push(line);
+    lineIndex += 1;
+  }
+  return { lines, lineCount: Math.max(lines.length, Math.ceil(imageBottom / lineHeight)), imageHeightLines };
 }
 
-function sliceMarkdownText(value, start = 0, end) {
-  const text = String(value || "");
-  if (end === undefined) return text.slice(start).trim();
-  return text.slice(start, end).trim();
+function plainTextForWrap(markdown = "") {
+  return String(markdown || "")
+    .replace(/!\[[^\]]*\]\([^)]+\)(?:\{[^}]+\})?/g, "")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^[-*]\s+/gm, "")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function takeWrapText(source, start, maxChars) {
+  const cleanStart = skipLeadingSpaces(source, start);
+  const end = Math.min(source.length, cleanStart + maxChars);
+  if (end >= source.length) return { text: source.slice(cleanStart), end: source.length };
+  const nextSpace = source.lastIndexOf(" ", end);
+  if (nextSpace > cleanStart + Math.floor(maxChars * 0.45)) {
+    return { text: source.slice(cleanStart, nextSpace + 1), end: nextSpace + 1 };
+  }
+  return { text: source.slice(cleanStart, end), end };
+}
+
+function skipLeadingSpaces(source, start) {
+  let index = start;
+  while (index < source.length && /\s/.test(source[index])) index += 1;
+  return index;
 }
 
 function parseAttrs(attrs = "") {
@@ -403,9 +461,8 @@ function updateTextBlock(block, event) {
   updateValue(`${text.slice(0, block.start)}${value}${text.slice(block.end)}`);
 }
 
-function updateWrappedTextBlock(block, part, event) {
-  const next = { ...block.parts, [part]: textFromEditable(event.currentTarget) };
-  const combined = [next.left, next.right, next.below].map((value) => String(value || "").trim()).filter(Boolean).join("\n\n");
+function updateWrappedFlowBlock(block, event) {
+  const combined = String(event.currentTarget.value || "").trim();
   const text = String(props.modelValue || "");
   updateValue(`${text.slice(0, block.textStart)}${combined}${text.slice(block.textEnd)}`);
 }
@@ -514,21 +571,35 @@ function imageStyle(image, index) {
   };
 }
 
-function wrapGridStyle(image, index) {
-  const next = imageMetrics(image, index);
-  const left = Math.max(0, next.x);
-  const right = Math.max(0, 100 - next.x - next.width);
+function wrapFlowStyle(block) {
+  const image = imageMetrics(block.image, block.imageIndex);
+  const layout = layoutWrappedText(block.text, image);
+  const imageEndLine = Math.max(0, Math.round(image.y / 32)) + layout.imageHeightLines;
+  const lineCount = Math.max(layout.lineCount || 0, imageEndLine);
   return {
-    gridTemplateColumns: `${left}fr ${next.width}fr ${right}fr`,
-    marginTop: `${next.y}px`,
-    "--image-ratio": next.ratio
+    minHeight: `${lineCount * 32}px`,
+    "--wrap-line-height": "32px",
+    "--image-ratio": image.ratio
   };
 }
 
-function wrapFigureStyle(image, index) {
+function wrapTextLayerStyle(block) {
+  const layout = layoutWrappedText(block.text, imageMetrics(block.image, block.imageIndex));
+  return {
+    minHeight: `${Math.max(layout.lineCount || 1, 1) * 32}px`
+  };
+}
+
+function wrapFlowLines(block) {
+  return layoutWrappedText(block.text, imageMetrics(block.image, block.imageIndex)).lines;
+}
+
+function wrapFlowImageStyle(image, index) {
   const next = imageMetrics(image, index);
   return {
-    width: "100%",
+    left: `${next.x}%`,
+    top: `${next.y}px`,
+    width: `${next.width}%`,
     "--image-ratio": next.ratio
   };
 }
@@ -596,7 +667,7 @@ function startImageMove(event, index) {
   event.currentTarget.setPointerCapture?.(event.pointerId);
   activeImageIndex.value = index;
   const editor = event.currentTarget.closest(".md-document-editor");
-  const anchor = event.currentTarget.closest(".md-wps-wrap") || event.currentTarget.closest(".md-image-anchor") || editor;
+  const anchor = event.currentTarget.closest(".md-wps-flow") || event.currentTarget.closest(".md-wps-wrap") || event.currentTarget.closest(".md-image-anchor") || editor;
   const anchorRect = anchor?.getBoundingClientRect();
   const imageRect = event.currentTarget.getBoundingClientRect();
   activePointer.value = {
