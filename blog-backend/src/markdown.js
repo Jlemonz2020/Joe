@@ -118,46 +118,199 @@ function isVisualDocument(markdown = "") {
   return /!\[[^\]]*]\([^)]+\)\{[^}]*\b(?:width|wrap|align|x|y|ratio)\s*=/i.test(String(markdown || ""));
 }
 
-function flushVisualParagraph(html, paragraph) {
-  if (!paragraph.length) return;
-  const body = paragraph.map((line) => escapeHtml(line)).join("<br>");
-  html.push(`<p class="md-visual-paragraph" style="margin:0 0 30px">${body}</p>`);
-  paragraph.length = 0;
+const visualCanvasWidth = 776;
+const visualLineHeight = 30;
+const visualWrapGap = 18;
+
+function readVisualImages(markdown = "") {
+  const images = [];
+  const regex = /!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?/g;
+  let match;
+  while ((match = regex.exec(String(markdown || "")))) {
+    const meta = parseImageAttrs(match[3] || "");
+    images.push({
+      alt: match[1] || "",
+      url: match[2] || "",
+      ...meta,
+      height: Math.max(54, ((visualCanvasWidth * meta.width) / 100) / meta.ratio)
+    });
+  }
+  return images;
+}
+
+function stripVisualImages(markdown = "") {
+  return String(markdown || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/!\[[^\]]*]\([^)]+\)(?:\{[^}]+\})?/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{4,}/g, "\n\n\n")
+    .trim();
+}
+
+function visualTokens(source = "") {
+  const tokens = [];
+  const matcher = /\n|[\u3400-\u9fff]|[^\s\u3400-\u9fff]+|[ \t]+/g;
+  let match;
+  while ((match = matcher.exec(String(source || "")))) {
+    const token = match[0];
+    tokens.push(/[ \t]+/.test(token) ? " " : token);
+  }
+  return tokens;
+}
+
+function visualTextWidth(value = "") {
+  let width = 0;
+  for (const char of String(value || "")) {
+    if (char === " ") width += 5;
+    else if (/[\u3400-\u9fff]/.test(char)) width += 16;
+    else if (/[A-Z]/.test(char)) width += 9.2;
+    else if (/[a-z0-9_]/.test(char)) width += 8.5;
+    else if (/[\u3000-\u303f\uff00-\uffef]/.test(char)) width += 16;
+    else width += 7.5;
+  }
+  return width;
+}
+
+function visualAllowedRanges(lineTop, images) {
+  let ranges = [{ left: 0, right: visualCanvasWidth }];
+  const lineBottom = lineTop + visualLineHeight;
+
+  images.forEach((image) => {
+    if (image.wrap === "inline") return;
+    if (lineBottom <= image.y || lineTop >= image.y + image.height) return;
+    if (image.wrap === "top-bottom") {
+      ranges = [];
+      return;
+    }
+    const imageLeft = (visualCanvasWidth * image.x) / 100;
+    const imageRight = imageLeft + (visualCanvasWidth * image.width) / 100;
+    ranges = subtractVisualRange(ranges, {
+      left: Math.max(0, imageLeft - visualWrapGap),
+      right: Math.min(visualCanvasWidth, imageRight + visualWrapGap)
+    });
+  });
+
+  return ranges
+    .map((range) => ({ left: Math.round(range.left), width: Math.round(range.right - range.left) }))
+    .filter((range) => range.width >= 48);
+}
+
+function subtractVisualRange(ranges, cut) {
+  const next = [];
+  ranges.forEach((range) => {
+    if (cut.right <= range.left || cut.left >= range.right) {
+      next.push(range);
+      return;
+    }
+    if (cut.left > range.left) next.push({ left: range.left, right: cut.left });
+    if (cut.right < range.right) next.push({ left: cut.right, right: range.right });
+  });
+  return next;
+}
+
+function takeVisualTokens(tokens, start, maxWidth) {
+  let index = start;
+  while (index < tokens.length && tokens[index] !== "\n" && !tokens[index].trim()) index += 1;
+  let text = "";
+  while (index < tokens.length) {
+    const token = tokens[index];
+    if (token === "\n") break;
+    const candidate = text + token;
+    if (visualTextWidth(candidate) <= maxWidth || !text) {
+      text = candidate;
+      index += 1;
+      continue;
+    }
+    break;
+  }
+  if (!text && index < tokens.length && tokens[index] !== "\n") {
+    text = tokens[index];
+    index += 1;
+  }
+  return { text: text.trimEnd(), end: Math.max(index, start + 1) };
+}
+
+function layoutVisualLines(source, images) {
+  const tokens = visualTokens(source);
+  const lines = [];
+  let cursor = 0;
+  let top = 0;
+  let guard = 0;
+
+  while (cursor < tokens.length && guard < 1800) {
+    guard += 1;
+    const line = { top, segments: [], reserved: false };
+
+    if (tokens[cursor] === "\n") {
+      line.reserved = true;
+      lines.push(line);
+      cursor += 1;
+      top += visualLineHeight;
+      continue;
+    }
+
+    const ranges = visualAllowedRanges(top, images);
+    if (!ranges.length) {
+      line.reserved = true;
+      lines.push(line);
+      top += visualLineHeight;
+      continue;
+    }
+
+    for (const range of ranges) {
+      if (cursor >= tokens.length || tokens[cursor] === "\n") break;
+      const taken = takeVisualTokens(tokens, cursor, range.width);
+      cursor = taken.end;
+      if (!taken.text.trim()) continue;
+      line.segments.push({ ...range, text: taken.text });
+    }
+
+    if (tokens[cursor] === "\n") cursor += 1;
+    lines.push(line);
+    top += visualLineHeight;
+  }
+
+  return lines;
+}
+
+function renderVisualCanvasImage(image) {
+  const safeUrl = safeMarkdownUrl(image.url);
+  if (!safeUrl) return "";
+  const style = [
+    "position:absolute",
+    `left:${image.x}%`,
+    `top:${image.y}px`,
+    `width:${image.width}%`,
+    `--md-image-ratio:${image.ratio}`,
+    "margin:0",
+    "z-index:2"
+  ].join(";");
+  return `<figure class="md-content-image md-content-image--visual" style="${escapeHtml(style)}"><img src="${safeUrl}" alt="${escapeHtml(image.alt)}" loading="lazy"></figure>`;
 }
 
 function visualMarkdownToHtml(markdown = "") {
-  const lines = String(markdown).replace(/\r\n/g, "\n").split("\n");
-  const html = [];
-  const positionedImages = [];
-  const paragraph = [];
-
-  for (const rawLine of lines) {
-    const line = rawLine.replace(/\s+$/g, "");
-    const imageOnly = line.match(/^!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?$/);
-    if (imageOnly) {
-      flushVisualParagraph(html, paragraph);
-      const attrs = imageOnly[3] || "";
-      positionedImages.push({
-        y: parseImageAttrs(attrs).y,
-        html: renderMarkdownImage(imageOnly[1], imageOnly[2], attrs, true)
-      });
-      continue;
-    }
-    if (!line.trim()) {
-      flushVisualParagraph(html, paragraph);
-      continue;
-    }
-    paragraph.push(line);
-  }
-
-  flushVisualParagraph(html, paragraph);
-  const text = html.length
-    ? `<div class="md-visual-text" style="font-size:16px;line-height:30px">${html.join("\n")}</div>`
-    : "";
-  return [
-    ...positionedImages.sort((left, right) => left.y - right.y).map((image) => image.html),
-    text
-  ].filter(Boolean).join("\n");
+  const images = readVisualImages(markdown);
+  const text = stripVisualImages(markdown);
+  const lines = layoutVisualLines(text, images);
+  const textBottom = lines.reduce((max, line) => Math.max(max, line.top + visualLineHeight), 0);
+  const imageBottom = images.reduce((max, image) => Math.max(max, image.y + image.height), 0);
+  const height = Math.max(120, Math.ceil(Math.max(textBottom, imageBottom) + 40));
+  const lineHtml = lines.flatMap((line, lineIndex) => {
+    return line.segments.map((segment, segmentIndex) => {
+      const style = [
+        "position:absolute",
+        `left:${((segment.left / visualCanvasWidth) * 100).toFixed(4)}%`,
+        `top:${line.top}px`,
+        `width:${((segment.width / visualCanvasWidth) * 100).toFixed(4)}%`,
+        `line-height:${visualLineHeight}px`,
+        "white-space:pre",
+        "overflow:visible",
+        "z-index:1"
+      ].join(";");
+      return `<span class="md-visual-segment" data-line="${lineIndex}" data-segment="${segmentIndex}" style="${escapeHtml(style)}">${escapeHtml(segment.text)}</span>`;
+    });
+  }).join("");
+  return `<div class="md-visual-text" style="position:relative;min-height:${height}px;width:100%;max-width:${visualCanvasWidth}px;font-size:16px;line-height:${visualLineHeight}px">${lineHtml}${images.map(renderVisualCanvasImage).join("")}</div>`;
 }
 
 export function markdownToHtml(markdown = "") {
