@@ -99,13 +99,9 @@
                 上传并裁剪封面
                 <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, postForm, 'cover_url', 'square')" />
               </label>
-              <label class="image-upload-button">
-                插入正文图片
-                <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, postForm, '__markdown:content_md', 'square')" />
-              </label>
             </div>
             <img v-if="postForm.cover_url" class="image-preview" :src="postForm.cover_url" alt="">
-            <el-input v-model="postForm.content_md" placeholder="Markdown 正文" type="textarea" :rows="18" />
+            <MarkdownBodyEditor v-model="postForm.content_md" title="文章正文" :accepted-image-types="acceptedImageTypes" @upload-image="uploadMarkdownImage($event, postForm, 'content_md')" />
           </div>
         </div>
       </section>
@@ -163,15 +159,15 @@
             <el-input-number v-model="projectForm.sort_order" :min="0" :max="9999" />
             <el-input v-model="projectForm.cover_url" placeholder="封面 URL" />
             <el-select v-model="projectForm.status"><el-option label="显示" value="active" /><el-option label="归档" value="archived" /></el-select>
-            <el-input class="full" v-model="projectForm.content_md" type="textarea" :rows="8" placeholder="Markdown 正文" />
+            <MarkdownBodyEditor v-model="projectForm.content_md" title="项目正文" :accepted-image-types="acceptedImageTypes" @upload-image="uploadMarkdownImage($event, projectForm, 'content_md')" />
             <div class="button-row full">
+              <label class="image-upload-button">
+                导入 Markdown
+                <input type="file" accept=".md,.markdown,text/markdown,text/plain" @change="importProjectMarkdown" />
+              </label>
               <label class="image-upload-button">
                 上传并裁剪封面
                 <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, projectForm, 'cover_url', 'square')" />
-              </label>
-              <label class="image-upload-button">
-                插入正文图片
-                <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, projectForm, '__markdown:content_md', 'square')" />
               </label>
               <el-button type="primary" @click="saveProject">保存项目</el-button>
             </div>
@@ -252,6 +248,34 @@
                   <h3>{{ selectedContent.title }}</h3>
                   <p>{{ selectedContent.desc }}</p>
                   <el-button type="primary" @click="go(selectedContent.path)">打开编辑页</el-button>
+                </div>
+                <div v-else-if="selectedUiEditor" class="inspector-section selected-ui-editor">
+                  <h3>{{ selectedUiEditor.title }}</h3>
+                  <template v-if="selectedUiEditor.type === 'archive-category'">
+                    <label>名称<el-input v-model="selectedUiEditor.item.label" @input="sendPreviewPatch" /></label>
+                    <label>说明<el-input v-model="selectedUiEditor.item.description" @input="sendPreviewPatch" /></label>
+                    <label>数量文本<el-input v-model="selectedUiEditor.item.countText" @input="sendPreviewPatch" /></label>
+                    <label>slug<el-input v-model="selectedUiEditor.item.slug" @input="sendPreviewPatch" /></label>
+                    <label>链接<el-input v-model="selectedUiEditor.item.href" @input="sendPreviewPatch" /></label>
+                    <label>排序<el-input-number v-model="selectedUiEditor.item.sortOrder" :min="0" :max="9999" @change="sendPreviewPatch" /></label>
+                    <div class="switch-row"><span>首页显示</span><el-switch v-model="selectedUiEditor.item.visibleInHome" @change="sendPreviewPatch" /></div>
+                    <div class="switch-row"><span>小记页显示</span><el-switch v-model="selectedUiEditor.item.visibleInArchive" @change="sendPreviewPatch" /></div>
+                  </template>
+                  <template v-else-if="selectedUiEditor.type === 'about-stack'">
+                    <label>文字<el-input v-model="selectedUiEditor.item.label" @input="sendPreviewPatch" /></label>
+                    <label>标识<el-input v-model="selectedUiEditor.item.id" @input="sendPreviewPatch" /></label>
+                    <label>排序<el-input-number v-model="selectedUiEditor.item.sortOrder" :min="0" :max="9999" @change="sendPreviewPatch" /></label>
+                    <div class="switch-row"><span>显示</span><el-switch v-model="selectedUiEditor.item.visible" @change="sendPreviewPatch" /></div>
+                  </template>
+                  <template v-else-if="selectedUiEditor.type === 'profile'">
+                    <img class="image-preview round" :src="selectedUiEditor.item.avatarUrl" alt="">
+                    <label>头像 URL<el-input v-model="selectedUiEditor.item.avatarUrl" @input="sendPreviewPatch" /></label>
+                    <label class="image-upload-button">
+                      上传头像
+                      <input type="file" :accept="acceptedImageTypes" @change="openCropUpload($event, selectedUiEditor.item, 'avatarUrl', 'avatar')" />
+                    </label>
+                  </template>
+                  <el-button @click="editorTab = 'ui'">打开完整列表</el-button>
                 </div>
                 <div v-else-if="selectedUiInfo" class="inspector-section">
                   <h3>{{ selectedUiInfo.title }}</h3>
@@ -506,6 +530,23 @@ const selectedContent = computed(() => {
   if (type === "comment") return { title: "留言内容", desc: selectedTarget.value.text, path: "/comments" };
   return null;
 });
+const selectedUiEditor = computed(() => {
+  const target = selectedTarget.value?.target || "";
+  if (!editorPayload.value || !target.startsWith("ui:")) return null;
+  const [, type, id] = target.split(":");
+  if (type === "archive-category") {
+    const item = editorPayload.value.ui.archiveCategories?.find((entry) => entry.id === id);
+    return item ? { type, title: `分类入口：${item.label || id}`, item } : null;
+  }
+  if (type === "about-stack") {
+    const item = editorPayload.value.ui.aboutStackItems?.find((entry) => entry.id === id);
+    return item ? { type, title: `技术栈：${item.label || id}`, item } : null;
+  }
+  if (type === "profile") {
+    return { type, title: "头像", item: editorPayload.value.ui.profile };
+  }
+  return null;
+});
 const selectedUiInfo = computed(() => {
   const target = selectedTarget.value?.target || "";
   if (!editorPayload.value || !target.startsWith("ui:")) return null;
@@ -573,7 +614,7 @@ window.addEventListener("message", (event) => {
   const data = event.data || {};
   if (data.source !== "jlemonz-frontend-editor") return;
   selectedTarget.value = data;
-  editorTab.value = data.target?.startsWith("ui:") ? "ui" : "selected";
+  editorTab.value = "selected";
 });
 
 async function login() {
@@ -1043,6 +1084,97 @@ async function uploadInto(event, target, key) {
   }
 }
 
+function parseMarkdownDocument(markdown = "") {
+  const source = String(markdown || "").replace(/^\uFEFF/, "");
+  const result = { meta: {}, content: source };
+  const normalized = source.replace(/\r\n/g, "\n");
+  if (!normalized.startsWith("---\n")) return result;
+  const end = normalized.indexOf("\n---\n", 4);
+  if (end === -1) return result;
+  const metaBlock = normalized.slice(4, end).trim();
+  result.content = normalized.slice(end + 5).replace(/^\n+/, "");
+  metaBlock.split("\n").forEach((line) => {
+    const match = line.match(/^([a-zA-Z0-9_-]+)\s*:\s*(.*)$/);
+    if (!match) return;
+    let value = match[2].trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1);
+    result.meta[match[1].trim()] = value;
+  });
+  return result;
+}
+
+function markdownTitle(markdown = "") {
+  return String(markdown).match(/^#\s+(.+)$/m)?.[1]?.trim() || "";
+}
+
+function markdownSummary(markdown = "") {
+  return String(markdown)
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/!\[[^\]]*]\([^)]+\)(?:\{[^}]+})?/g, " ")
+    .replace(/[#>*_`[\](){}=]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 220);
+}
+
+function slugify(value = "", fallback = "project") {
+  const slug = String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 120);
+  return slug || `${fallback}-${Date.now().toString(36)}`;
+}
+
+async function importProjectMarkdown(event) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+  if (!file) return;
+  if (!/\.(md|markdown)$/i.test(file.name || "") && !["text/markdown", "text/plain", ""].includes(file.type)) {
+    ElMessage.error("请选择 .md 或 .markdown 文件");
+    return;
+  }
+  try {
+    const raw = await file.text();
+    const parsed = parseMarkdownDocument(raw);
+    const meta = parsed.meta || {};
+    const content = parsed.content || raw;
+    const title = meta.name || meta.title || markdownTitle(content) || file.name.replace(/\.(md|markdown)$/i, "");
+    projectForm.content_md = content;
+    projectForm.name = meta.name || meta.title || projectForm.name || title;
+    projectForm.slug = meta.slug || projectForm.slug || slugify(title);
+    projectForm.summary = meta.summary || projectForm.summary || markdownSummary(content);
+    projectForm.status_text = meta.status_text || meta.statusText || projectForm.status_text || markdownSummary(content).slice(0, 120);
+    projectForm.cover_url = meta.cover_url || meta.coverUrl || projectForm.cover_url || "";
+    projectForm.progress = Number.parseInt(meta.progress ?? projectForm.progress ?? 0, 10) || 0;
+    projectForm.sort_order = Number.parseInt(meta.sort_order ?? meta.sortOrder ?? projectForm.sort_order ?? 0, 10) || 0;
+    if (["active", "archived"].includes(meta.status)) projectForm.status = meta.status;
+    ElMessage.success("Markdown 已导入项目正文");
+  } catch (error) {
+    ElMessage.error(error.message || "Markdown 导入失败");
+  }
+}
+
+async function uploadMarkdownImage(file, target, key) {
+  if (!file) return;
+  const supportedType = acceptedImageTypes.split(",").includes(file.type) || /\.(jpe?g|png|webp|gif)$/i.test(file.name || "");
+  if (!supportedType) {
+    ElMessage.error("请选择 JPG、PNG、WEBP 或 GIF 图片");
+    return;
+  }
+  try {
+    const result = await adminApi.uploadImage(file);
+    const base = (file.name || "image").replace(/\.[^.]+$/, "").replace(/[[\]()]/g, "").trim() || "image";
+    const current = String(target[key] || "").trimEnd();
+    target[key] = `${current}\n\n![${base}](${result.url}){width=80 align=center}\n`;
+    ElMessage.success("图片已插入正文");
+  } catch (error) {
+    ElMessage.error(error.message);
+  }
+}
+
 async function confirmDanger(message) {
   await ElMessageBox.confirm(message, "确认操作", { type: "warning", confirmButtonText: "确认", cancelButtonText: "取消" });
 }
@@ -1069,6 +1201,146 @@ onMounted(boot);
 <script>
 export default {
   components: {
+    MarkdownBodyEditor: {
+      props: {
+        modelValue: { type: String, default: "" },
+        title: { type: String, default: "Markdown 正文" },
+        acceptedImageTypes: { type: String, default: "image/jpeg,image/png,image/webp,image/gif" }
+      },
+      emits: ["update:modelValue", "upload-image"],
+      data() {
+        return { dragIndex: -1 };
+      },
+      computed: {
+        images() {
+          return this.readImages();
+        }
+      },
+      methods: {
+        updateValue(value) {
+          this.$emit("update:modelValue", value);
+        },
+        readImages() {
+          const text = String(this.modelValue || "");
+          const regex = /!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?/g;
+          const images = [];
+          let match;
+          while ((match = regex.exec(text))) {
+            const attrs = this.parseAttrs(match[3] || "");
+            images.push({
+              index: images.length,
+              start: match.index,
+              end: match.index + match[0].length,
+              raw: match[0],
+              alt: match[1] || "",
+              url: match[2] || "",
+              width: attrs.width,
+              align: attrs.align
+            });
+          }
+          return images;
+        },
+        parseAttrs(attrs = "") {
+          const width = Number.parseInt(attrs.match(/(?:^|\s)width\s*=\s*["']?(\d{1,3})%?["']?/i)?.[1] || "80", 10);
+          const align = attrs.match(/(?:^|\s)align\s*=\s*["']?(left|center|right|full)["']?/i)?.[1] || "center";
+          return {
+            width: Math.min(100, Math.max(20, Number.isFinite(width) ? width : 80)),
+            align: ["left", "center", "right", "full"].includes(align) ? align : "center"
+          };
+        },
+        imageMarkdown(image, patch = {}) {
+          const next = { ...image, ...patch };
+          const alt = String(next.alt || "image").replace(/[\[\]\r\n]/g, " ").trim() || "image";
+          const width = Math.min(100, Math.max(20, Number.parseInt(next.width, 10) || 80));
+          const align = ["left", "center", "right", "full"].includes(next.align) ? next.align : "center";
+          return `![${alt}](${next.url}){width=${width} align=${align}}`;
+        },
+        replaceImage(index, raw) {
+          const images = this.readImages();
+          const image = images[index];
+          if (!image) return;
+          const text = String(this.modelValue || "");
+          this.updateValue(`${text.slice(0, image.start)}${raw}${text.slice(image.end)}`);
+        },
+        updateImage(index, patch) {
+          const image = this.readImages()[index];
+          if (!image) return;
+          this.replaceImage(index, this.imageMarkdown(image, patch));
+        },
+        removeImage(index) {
+          const image = this.readImages()[index];
+          if (!image) return;
+          const text = String(this.modelValue || "");
+          const prefix = text.slice(0, image.start).replace(/\n{0,2}$/, "\n");
+          const suffix = text.slice(image.end).replace(/^\n{0,2}/, "\n");
+          this.updateValue(`${prefix}${suffix}`.replace(/\n{4,}/g, "\n\n\n"));
+        },
+        moveImage(from, to) {
+          const images = this.readImages();
+          if (from === to || from < 0 || to < 0 || from >= images.length || to >= images.length) return;
+          const raws = images.map((image) => image.raw);
+          const [moved] = raws.splice(from, 1);
+          raws.splice(to, 0, moved);
+          const text = String(this.modelValue || "");
+          let cursor = 0;
+          let output = "";
+          images.forEach((image, index) => {
+            output += text.slice(cursor, image.start) + raws[index];
+            cursor = image.end;
+          });
+          output += text.slice(cursor);
+          this.updateValue(output);
+        },
+        dragStart(index) {
+          this.dragIndex = index;
+        },
+        dropImage(index) {
+          this.moveImage(this.dragIndex, index);
+          this.dragIndex = -1;
+        },
+        uploadImage(event) {
+          const file = event.target.files?.[0];
+          event.target.value = "";
+          if (file) this.$emit("upload-image", file);
+        },
+        imageStyle(image) {
+          const style = { width: `${image.width}%` };
+          if (image.align === "center") return { ...style, marginLeft: "auto", marginRight: "auto" };
+          if (image.align === "right") return { ...style, marginLeft: "auto", marginRight: "0" };
+          if (image.align === "left") return { ...style, marginLeft: "0", marginRight: "auto" };
+          return { width: "100%" };
+        }
+      },
+      template: `
+        <section class="markdown-body-editor full">
+          <div class="markdown-editor-head">
+            <div><strong>{{ title }}</strong><span>正文图片会写入 Markdown，并同步在下方以图片块显示。</span></div>
+            <label class="image-upload-button">
+              上传正文图片
+              <input type="file" :accept="acceptedImageTypes" @change="uploadImage" />
+            </label>
+          </div>
+          <textarea :value="modelValue" rows="14" spellcheck="false" @input="updateValue($event.target.value)"></textarea>
+          <div v-if="images.length" class="md-image-list">
+            <article v-for="(image, index) in images" :key="image.start + image.url" class="md-image-card" draggable="true" @dragstart="dragStart(index)" @dragover.prevent @drop="dropImage(index)">
+              <div class="md-image-preview">
+                <img :src="image.url" :alt="image.alt" :style="imageStyle(image)">
+              </div>
+              <div class="md-image-controls">
+                <label>说明<input :value="image.alt" @input="updateImage(index, { alt: $event.target.value })"></label>
+                <label>宽度 {{ image.width }}%<input type="range" min="20" max="100" :value="image.width" @input="updateImage(index, { width: $event.target.value })"></label>
+                <label>位置<select :value="image.align" @change="updateImage(index, { align: $event.target.value })"><option value="left">左</option><option value="center">中</option><option value="right">右</option><option value="full">满宽</option></select></label>
+                <div class="button-row">
+                  <button type="button" @click="moveImage(index, index - 1)">上移</button>
+                  <button type="button" @click="moveImage(index, index + 1)">下移</button>
+                  <button type="button" @click="removeImage(index)">删除</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      `
+    },
     ArchiveCategoryEditor: {
       props: {
         modelValue: { type: Array, default: () => [] },

@@ -13,11 +13,25 @@ function safeMarkdownUrl(value = "") {
   return "";
 }
 
+function imageAttributeHtml(value = "") {
+  const attrs = String(value || "");
+  const widthMatch = attrs.match(/(?:^|\s)width\s*=\s*["']?(\d{1,3})%?["']?/i);
+  const alignMatch = attrs.match(/(?:^|\s)align\s*=\s*["']?(left|center|right|full)["']?/i);
+  const style = [];
+  const width = widthMatch ? Math.min(100, Math.max(20, Number.parseInt(widthMatch[1], 10))) : 100;
+  const align = alignMatch?.[1]?.toLowerCase() || "full";
+  style.push(`width:${width}%`, "height:auto");
+  if (align === "center") style.push("display:block", "margin-left:auto", "margin-right:auto");
+  if (align === "right") style.push("display:block", "margin-left:auto", "margin-right:0");
+  if (align === "left") style.push("display:block", "margin-left:0", "margin-right:auto");
+  return ` style="${escapeHtml(style.join(";"))}"`;
+}
+
 function inline(value) {
   return escapeHtml(value)
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, url) => {
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)(?:\{([^}]+)\})?/g, (_, alt, url, attrs) => {
       const safeUrl = safeMarkdownUrl(url);
-      return safeUrl ? `<img src="${safeUrl}" alt="${escapeHtml(alt)}" loading="lazy">` : escapeHtml(alt);
+      return safeUrl ? `<img src="${safeUrl}" alt="${escapeHtml(alt)}" loading="lazy"${imageAttributeHtml(attrs)}>` : escapeHtml(alt);
     })
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
@@ -100,6 +114,7 @@ export function markdownToHtml(markdown = "") {
 export function stripMarkdown(markdown = "") {
   return String(markdown)
     .replace(/```[\s\S]*?```/g, " ")
+    .replace(/!\[[^\]]*]\([^)]+\)(?:\{[^}]+})?/g, " ")
     .replace(/[#>*_`[\]()]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
