@@ -25,15 +25,8 @@
             @blur="updateTextBlock(block, $event)"
           ></div>
 
-          <template v-else>
-            <span
-              v-if="block.image.wrap !== 'none'"
-              class="md-image-wrap-space"
-              :class="wrapSpaceClass(block.image)"
-              :style="wrapSpaceStyle(block.image)"
-              aria-hidden="true"
-            ></span>
-            <figure
+          <figure
+            v-else
             class="md-editable-image"
             :class="imageClass(block.image, block.imageIndex)"
             :style="imageStyle(block.image)"
@@ -44,9 +37,9 @@
             <span class="md-image-resize" title="拖动缩放" @pointerdown.stop="startResize($event, block.imageIndex)"></span>
             <div v-if="activeImageIndex === block.imageIndex" class="md-image-mini-toolbar" @click.stop @pointerdown.stop>
               <select :value="block.image.wrap" title="文字环绕" @change="updateImage(block.imageIndex, { wrap: $event.target.value })">
-                <option value="none">不绕</option>
-                <option value="left">左绕</option>
-                <option value="right">右绕</option>
+                <option value="square">四周型</option>
+                <option value="top-bottom">上下型</option>
+                <option value="inline">嵌入型</option>
               </select>
               <select :value="block.image.align" title="对齐" @change="updateImage(block.imageIndex, { align: $event.target.value })">
                 <option value="left">左</option>
@@ -59,8 +52,7 @@
               <button type="button" title="下移" @click="moveImage(block.imageIndex, block.imageIndex + 1)">↓</button>
               <button type="button" title="删除" @click="removeImage(block.imageIndex)">×</button>
             </div>
-            </figure>
-          </template>
+          </figure>
         </template>
       </template>
       <div
@@ -159,9 +151,9 @@ function parseAttrs(attrs = "") {
   const rawWidth = Number.parseInt(attrs.match(/(?:^|\s)width\s*=\s*["']?(\d{1,3})%?["']?/i)?.[1] || "80", 10);
   const align = attrs.match(/(?:^|\s)align\s*=\s*["']?(left|center|right|full)["']?/i)?.[1] || "center";
   const layout = attrs.match(/(?:^|\s)layout\s*=\s*["']?(block|wrap-left|wrap-right|free)["']?/i)?.[1] || "block";
-  const rawWrap = attrs.match(/(?:^|\s)wrap\s*=\s*["']?(none|left|right)["']?/i)?.[1] || "";
+  const rawWrap = attrs.match(/(?:^|\s)wrap\s*=\s*["']?(none|left|right|square|top-bottom|inline)["']?/i)?.[1] || "";
   const inferredWrap = layout === "wrap-left" ? "left" : layout === "wrap-right" ? "right" : "none";
-  const wrap = rawWrap || inferredWrap;
+  const wrap = normalizeWrap(rawWrap || inferredWrap);
   const xMatch = attrs.match(/(?:^|\s)x\s*=\s*["']?(-?\d{1,3})%?["']?/i);
   const x = Number.parseInt(xMatch?.[1] || "0", 10);
   const y = Number.parseInt(attrs.match(/(?:^|\s)y\s*=\s*["']?(-?\d{1,4})["']?/i)?.[1] || "0", 10);
@@ -172,7 +164,7 @@ function parseAttrs(attrs = "") {
     width,
     align: ["left", "center", "right", "full"].includes(align) ? align : "center",
     layout: ["block", "wrap-left", "wrap-right", "free"].includes(layout) ? layout : "block",
-    wrap: ["none", "left", "right"].includes(wrap) ? wrap : "none",
+    wrap,
     ratio: Number.isFinite(ratio) ? Math.min(4, Math.max(0.25, ratio)) : 1.333,
     x: Number.isFinite(x) && xMatch ? clampX(x, width) : clampX(defaultX, width),
     y: Number.isFinite(y) ? Math.min(2400, Math.max(0, y)) : 0
@@ -188,6 +180,12 @@ function clampX(value, width) {
   const max = Math.max(0, 100 - clampWidth(width));
   const x = Number.parseInt(value, 10);
   return Math.min(max, Math.max(0, Number.isFinite(x) ? x : 0));
+}
+
+function normalizeWrap(value) {
+  if (value === "left" || value === "right" || value === "square") return "square";
+  if (value === "inline") return "inline";
+  return "top-bottom";
 }
 
 function escapeHtml(value = "") {
@@ -269,7 +267,7 @@ function imageMarkdown(image, patch = {}) {
   const alt = String(next.alt || "image").replace(/[\[\]\r\n]/g, " ").trim() || "image";
   const width = clampWidth(next.width);
   const align = ["left", "center", "right", "full"].includes(next.align) ? next.align : "center";
-  const wrap = ["none", "left", "right"].includes(next.wrap) ? next.wrap : "none";
+  const wrap = normalizeWrap(next.wrap);
   const x = clampX(next.x, width);
   const y = Math.min(2400, Math.max(0, Number.parseInt(next.y, 10) || 0));
   const ratio = Math.min(4, Math.max(0.25, Number.parseFloat(next.ratio) || 1.333)).toFixed(3).replace(/0+$/, "").replace(/\.$/, "");
@@ -324,40 +322,51 @@ function uploadImage(event) {
 function imageClass(image, index) {
   return {
     "is-active": activeImageIndex.value === index,
-    "is-free": true,
-    "is-wrap-left": image.wrap === "left",
-    "is-wrap-right": image.wrap === "right",
-    "is-block": image.wrap === "none"
+    "is-square": image.wrap === "square",
+    "is-top-bottom": image.wrap === "top-bottom",
+    "is-inline": image.wrap === "inline"
   };
 }
 
 function imageStyle(image) {
   const width = image.align === "full" ? 100 : clampWidth(image.width);
-  return {
+  const x = clampX(image.x, width);
+  const y = Math.min(2400, Math.max(0, Number.parseInt(image.y, 10) || 0));
+  const base = {
     width: `${width}%`,
-    left: `${clampX(image.x, width)}%`,
-    top: `${image.y}px`,
     "--image-ratio": image.ratio || 1.333
   };
-}
-
-function wrapSpaceClass(image) {
+  if (image.wrap === "square") {
+    const floatSide = x + width / 2 <= 50 ? "left" : "right";
+    const rightGap = Math.max(0, 100 - x - width);
+    return {
+      ...base,
+      float: floatSide,
+      clear: floatSide,
+      marginTop: `${y}px`,
+      marginRight: floatSide === "left" ? "18px" : `${rightGap}%`,
+      marginBottom: "14px",
+      marginLeft: floatSide === "left" ? `${x}%` : "18px"
+    };
+  }
+  if (image.wrap === "inline") {
+    return {
+      ...base,
+      display: "inline-block",
+      verticalAlign: "middle",
+      marginTop: `${y}px`,
+      marginLeft: `${x}%`,
+      marginRight: "12px",
+      marginBottom: "8px"
+    };
+  }
   return {
-    "is-wrap-left": image.wrap === "left",
-    "is-wrap-right": image.wrap === "right"
-  };
-}
-
-function wrapSpaceStyle(image) {
-  const width = image.align === "full" ? 100 : clampWidth(image.width);
-  const x = clampX(image.x, width);
-  const rightGap = Math.max(0, 100 - x - width);
-  return {
-    width: `${width}%`,
-    marginTop: `${image.y}px`,
-    marginLeft: image.wrap === "left" ? `${x}%` : undefined,
-    marginRight: image.wrap === "right" ? `${rightGap}%` : undefined,
-    aspectRatio: `${image.ratio || 1.333}`
+    ...base,
+    display: "block",
+    marginTop: `${y}px`,
+    marginLeft: `${x}%`,
+    marginRight: "0",
+    marginBottom: "16px"
   };
 }
 
@@ -397,11 +406,11 @@ function startImageMove(event, index) {
   activePointer.value = {
     type: "move",
     index,
-    grabX: event.clientX - imageRect.left,
-    grabY: event.clientY - imageRect.top,
-    editorLeft: editorRect?.left || 0,
-    editorTop: editorRect?.top || 0,
-    editorWidth: editorRect?.width || 1
+    startClientX: event.clientX,
+    startClientY: event.clientY,
+    startX: image.x,
+    startY: image.y,
+    editorWidth: editorRect?.width || imageRect.width || 1
   };
   bindPointerEvents();
 }
@@ -414,10 +423,10 @@ function onPointerMove(event) {
     updateImage(action.index, { width: Math.round(Math.min(100, Math.max(20, action.startWidth + delta))) });
     return;
   }
-  const nextX = ((event.clientX - action.editorLeft - action.grabX) / action.editorWidth) * 100;
-  const nextY = event.clientY - action.editorTop - action.grabY;
   const image = readImages()[action.index];
   const width = image?.align === "full" ? 100 : image?.width;
+  const nextX = Number(action.startX || 0) + ((event.clientX - action.startClientX) / action.editorWidth) * 100;
+  const nextY = Number(action.startY || 0) + event.clientY - action.startClientY;
   updateImage(action.index, {
     x: Math.round(clampX(nextX, width)),
     y: Math.round(Math.min(2400, Math.max(0, nextY)))

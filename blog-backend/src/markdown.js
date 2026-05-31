@@ -13,12 +13,18 @@ function safeMarkdownUrl(value = "") {
   return "";
 }
 
+function normalizeImageWrap(value = "") {
+  if (value === "left" || value === "right" || value === "square") return "square";
+  if (value === "inline") return "inline";
+  return "top-bottom";
+}
+
 function imageAttributeHtml(value = "") {
   const attrs = String(value || "");
   const widthMatch = attrs.match(/(?:^|\s)width\s*=\s*["']?(\d{1,3})%?["']?/i);
   const alignMatch = attrs.match(/(?:^|\s)align\s*=\s*["']?(left|center|right|full)["']?/i);
   const layoutMatch = attrs.match(/(?:^|\s)layout\s*=\s*["']?(block|wrap-left|wrap-right|free)["']?/i);
-  const wrapMatch = attrs.match(/(?:^|\s)wrap\s*=\s*["']?(none|left|right)["']?/i);
+  const wrapMatch = attrs.match(/(?:^|\s)wrap\s*=\s*["']?(none|left|right|square|top-bottom|inline)["']?/i);
   const xMatch = attrs.match(/(?:^|\s)x\s*=\s*["']?(-?\d{1,3})%?["']?/i);
   const yMatch = attrs.match(/(?:^|\s)y\s*=\s*["']?(-?\d{1,4})["']?/i);
   const style = [];
@@ -26,20 +32,32 @@ function imageAttributeHtml(value = "") {
   const align = alignMatch?.[1]?.toLowerCase() || "full";
   const layout = layoutMatch?.[1]?.toLowerCase() || "block";
   const legacyWrap = layout === "wrap-left" ? "left" : layout === "wrap-right" ? "right" : "none";
-  const wrap = wrapMatch?.[1]?.toLowerCase() || legacyWrap;
+  const wrap = normalizeImageWrap(wrapMatch?.[1]?.toLowerCase() || legacyWrap);
   const maxX = Math.max(0, 100 - width);
   const defaultX = align === "center" ? Math.round(maxX / 2) : align === "right" ? maxX : 0;
   const x = xMatch ? Math.min(maxX, Math.max(0, Number.parseInt(xMatch[1], 10))) : defaultX;
   const y = yMatch ? Math.min(2400, Math.max(0, Number.parseInt(yMatch[1], 10))) : 0;
+  const floatSide = x + width / 2 <= 50 ? "left" : "right";
   const rightGap = Math.max(0, 100 - x - width);
   style.push(`width:${width}%`, "height:auto");
-  if (wrap === "left") style.push("float:left", `margin:${y}px 18px 12px ${x}%`);
-  if (wrap === "right") style.push("float:right", `margin:${y}px ${rightGap}% 12px 18px`);
-  if (wrap === "none") style.push("position:relative", `left:${x}%`, `top:${y}px`, "display:block", "margin:12px 0");
-  if (wrap === "none" && align === "center" && !xMatch) style.push("margin-left:auto", "margin-right:auto");
-  if (wrap === "none" && align === "right" && !xMatch) style.push("margin-left:auto", "margin-right:0");
-  if (wrap === "none" && align === "left" && !xMatch) style.push("margin-left:0", "margin-right:auto");
-  if (wrap === "none" && align === "full") style.push("width:100%");
+  if (wrap === "square") {
+    style.push(
+      `float:${floatSide}`,
+      `clear:${floatSide}`,
+      "shape-outside:inset(0 round 10px)",
+      `margin-top:${y}px`,
+      `margin-right:${floatSide === "left" ? "18px" : `${rightGap}%`}`,
+      "margin-bottom:14px",
+      `margin-left:${floatSide === "left" ? `${x}%` : "18px"}`
+    );
+  }
+  if (wrap === "inline") {
+    style.push("display:inline-block", "vertical-align:middle", `margin:${y}px 12px 8px ${x}%`);
+  }
+  if (wrap === "top-bottom") {
+    style.push("display:block", `margin:${y}px 0 16px ${x}%`);
+    if (align === "full") style.push("width:100%");
+  }
   return ` style="${escapeHtml(style.join(";"))}"`;
 }
 
