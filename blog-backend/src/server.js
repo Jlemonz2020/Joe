@@ -3097,7 +3097,7 @@ function serveAdminApp(req, res, url) {
   if (!["GET", "HEAD"].includes(req.method)) return false;
   if (url.pathname.startsWith("/admin/assets/")) {
     const file = safeJoin(adminStaticRoot, decodeURIComponent(url.pathname.replace(/^\/admin\//, "")));
-    if (file && serveStaticFile(req, res, file)) return true;
+    if (file && serveStaticFile(req, res, file, "no-store")) return true;
     json(res, { error: "not_found" }, 404);
     return true;
   }

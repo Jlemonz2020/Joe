@@ -612,22 +612,25 @@ button, input, textarea, select { font: inherit; }
 }
 .md-document-editor {
   position: relative;
+  display: flex;
+  justify-content: center;
   min-height: 620px;
-  padding: 28px 34px 40px;
+  padding: 28px 18px 40px;
   border: 1px solid rgba(255, 99, 189, 0.16);
   border-radius: 12px;
   background: #fff;
   color: #241927;
-  font-size: 17px;
-  line-height: 32px;
+  font-size: 16px;
+  line-height: 30px;
   overflow: auto;
 }
 .md-visual-canvas {
   position: relative;
-  width: 100%;
-  min-width: 320px;
-  font-size: 17px;
-  line-height: 32px;
+  width: min(100%, 776px);
+  min-width: 0;
+  font-size: 16px;
+  line-height: 30px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   overflow: visible;
 }
 .md-canvas-text-layer {
@@ -640,7 +643,7 @@ button, input, textarea, select { font: inherit; }
   position: absolute;
   left: 0;
   width: 100%;
-  line-height: 32px;
+  line-height: 30px;
   pointer-events: none;
 }
 .md-canvas-line.is-reserved {

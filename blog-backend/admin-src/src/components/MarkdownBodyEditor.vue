@@ -3,7 +3,7 @@
     <div class="markdown-editor-head">
       <div>
         <strong>{{ title }}</strong>
-        <span>在同一个画布里编辑正文和图片；图片可自由拖动，右下角可等比例缩放。</span>
+        <span>按前台正文范围编辑：宽 776px、16px 字号、30px 行高；图片位置会更接近前台。</span>
       </div>
       <div class="md-head-actions">
         <button type="button" class="md-tool-button" @click="focusFirstText">编辑文字</button>
@@ -111,7 +111,7 @@ const lastInsertY = ref(0);
 let resizeObserver = null;
 let measureContext = null;
 
-const lineHeight = 32;
+const lineHeight = 30;
 const wrapGap = 18;
 
 const images = computed(readImages);
