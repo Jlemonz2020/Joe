@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>笔记 - Jlemonz</title>
+  <meta name="description" content="Jlemonz 的文章、笔记和长记录">
+  <meta name="theme-color" content="#fbfaf7">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
+  <link rel="stylesheet" href="/assets/style.css?v=pink-diary-phase01-20260606">
+  <script src="/assets/app.js?v=pink-diary-phase01-20260606" defer></script>
+</head>
+<body data-page="archive">
+  <header class="site-header" data-header>
+    <a class="brand" href="/index.html" aria-label="Jlemonz 首页"><span class="brand-mark"><img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true"></span><span class="brand-copy"><strong>Jlemonz</strong><small data-quote-line>她路过我的生活，我把余光留到天黑。</small></span></a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="/index.html" data-nav="home" data-text-key="shared.nav.home">首页</a><a href="/moments.html" data-nav="moments" data-text-key="shared.nav.moments">瞬间</a><a href="/archive.html" data-nav="archive" data-text-key="shared.nav.archive">笔记</a><a href="/projects.html" data-nav="projects" data-text-key="shared.nav.projects">项目</a><a href="/about.html" data-nav="about" data-text-key="shared.nav.about">关于</a>
+    </nav>
+    <div class="nav-actions" aria-label="快捷入口">
+      <label class="nav-search has-tip" data-tip="搜索" data-text-key="shared.search.tip" data-text-attr="data-tip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m1.35-5.15a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg><input type="search" data-header-search aria-label="搜索记录" placeholder="搜索" data-text-key="shared.search.placeholder" data-text-attr="placeholder"></label>
+      <button class="theme-switch has-tip" type="button" data-theme-toggle aria-label="选择主题" data-tip="主题"><span class="switch-track"><span class="switch-thumb"></span></span></button>
+      <a class="icon-btn has-tip" href="/about.html#contact" aria-label="联系" data-tip="联系"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0m12-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg></a>
+    </div>
+  </header>
+
+  <main class="subpage">
+    <section class="page-hero subpage-hero split-hero notes-hero">
+      <div class="subpage-copy">
+        <p class="eyebrow" data-text-key="archive.hero.kicker">notes</p>
+        <h1 class="subpage-title" data-text-key="archive.hero.title">笔记</h1>
+        <p class="lead" data-text-key="archive.hero.lead">长文、调试和学习笔记都收在这里，按主题慢慢回看。</p>
+        <div class="moyu-widget subpage-moyu-inline" data-moyu-card aria-live="polite">
+          <div class="moyu-widget-top">
+            <span data-moyu-label>摸鱼办</span>
+            <button type="button" data-moyu-refresh aria-label="换一个摸鱼模块">换</button>
+          </div>
+          <p data-moyu-title>今日摸鱼加载中...</p>
+          <div class="moyu-meter" data-moyu-meter hidden><span data-moyu-meter-bar></span></div>
+          <small data-moyu-body>加载今日摸鱼状态...</small>
+        </div>
+        <div class="hero-chips" aria-label="笔记页状态" data-page-chips="archive">
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>长文</strong><small>慢慢读</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>调试</strong><small>可回溯</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>学习</strong><small>慢慢补</small></span></span>
+        </div>
+      </div>
+      <div class="desk-card archive-search-card subpage-mini-card" data-layout-key="archive.searchPanel">
+        <p class="eyebrow" data-text-key="archive.search.kicker">find back</p>
+        <label class="uiverse-input compact search-input">
+          <input type="search" placeholder=" " data-local-search>
+          <span data-text-key="archive.search.placeholder">在笔记里过滤标题...</span>
+        </label>
+        <div class="chip-row" data-archive-categories>
+          <a href="/archive.html">全部</a>
+          <a href="/archive.html?cat=linux">Linux</a>
+          <a href="/archive.html?cat=raspberry-pi">树莓</a>
+          <a href="/archive.html?cat=server">服务</a>
+          <a href="/archive.html?cat=life">生活</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <div class="main-column">
+        <div class="desk-card article-list" data-post-list>
+          <a class="article-row" href="/post.html?slug=home-server-entry-notes" data-title="家庭服务器入口整">
+            <time>2026-05-18</time>
+            <div>
+              <h2>家庭服务器入口整</h2>
+              <p>把公开页面和私有服务重新分了一遍，免得以后越修越乱。</p>
+              <div class="tags"><span>#服务</span><span>#Nginx</span></div>
+            </div>
+          </a>
+          <a class="article-row" href="/archive.html" data-title="设备树绑定先记一">
+            <time>2026-05-16</time>
+            <div>
+              <h2>设备树绑定先记一</h2>
+              <p>还没完全顺，但先把卡住的节点和调试命令留一下。</p>
+              <div class="tags"><span>#Linux</span><span>#驱动学习</span></div>
+            </div>
+          </a>
+          <a class="article-row" href="/archive.html" data-title="博客首页重构记录">
+            <time>2026-05-15</time>
+            <div>
+              <h2>博客首页重构记录</h2>
+              <p>从静态页面开始，把后端、搜索、缓存和后台一点点接起来。</p>
+              <div class="tags"><span>#博客</span><span>#前端</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <section class="desk-card frequency-card" data-layout-key="archive.githubPanel">
+          <p class="eyebrow">github rhythm</p>
+          <h2 data-text-key="archive.github.title">最近一年的密度</h2>
+          <div class="github-source compact">
+            <span>后端绑定</span>
+            <strong data-github-username>Jlemonz</strong>
+          </div>
+          <div class="heatmap small" aria-label="GitHub 代码提交频率" data-github-heatmap>
+            <span data-level="0"></span><span data-level="1"></span><span data-level="2"></span><span data-level="0"></span><span data-level="3"></span><span data-level="4"></span><span data-level="1"></span>
+            <span data-level="0"></span><span data-level="2"></span><span data-level="1"></span><span data-level="3"></span><span data-level="0"></span><span data-level="2"></span><span data-level="4"></span>
+            <span data-level="1"></span><span data-level="0"></span><span data-level="3"></span><span data-level="4"></span><span data-level="2"></span><span data-level="1"></span><span data-level="0"></span>
+          </div>
+          <p class="muted" data-github-summary>GitHub 用户名由后台设置，前台只读取贡献日历。</p>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer" aria-label="站点底部">
+    <div class="footer-motion" aria-hidden="true" data-layout-key="footer.motion">
+      <div class="loader"></div>
+      <div class="wrapper">
+        <div class="candles">
+          <div class="light__wave"></div>
+          <div class="candle1"><div class="candle1__body"><div class="candle1__eyes"><span class="candle1__eyes-one"></span><span class="candle1__eyes-two"></span></div><div class="candle1__mouth"></div></div><div class="candle1__stick"></div></div>
+          <div class="candle2"><div class="candle2__body"><div class="candle2__eyes"><div class="candle2__eyes-one"></div><div class="candle2__eyes-two"></div></div></div><div class="candle2__stick"></div></div>
+          <div class="candle2__fire"></div>
+          <div class="candle__smoke-one"></div>
+          <div class="candle__smoke-two"></div>
+        </div>
+        <div class="floor"></div>
+      </div>
+    </div>
+    <div class="site-footer-inner">
+      <section class="footer-brand-block" aria-label="Jlemonz">
+        <a class="footer-brand-link" href="/index.html" aria-label="返回首页">
+          <img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true">
+          <span>Jlemonz</span>
+        </a>
+        <p data-footer-brand-body>Pi5、Linux、硬件和 AI 的长期记录，慢慢补齐。</p>
+        <div class="footer-tags" aria-label="站点标签" data-footer-tags>
+          <span>Pi5</span>
+          <span>Linux</span>
+          <span>硬件</span>
+          <span>AI</span>
+        </div>
+      </section>
+      <div class="footer-link-grid" data-footer-sections>
+        <nav class="footer-links" aria-label="友链">
+          <p>友链</p>
+          <a href="https://github.com/Jlemonz2020" target="_blank" rel="noreferrer"><span>GitHub</span></a>
+        </nav>
+        <nav class="footer-links" aria-label="导航">
+          <p>导航</p>
+          <a href="/archive.html"><span>笔记</span></a>
+          <a href="/moments.html"><span>瞬间</span></a>
+          <a href="/projects.html"><span>项目</span></a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div class="search-modal" data-search-modal hidden>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-label="站内搜索">
+      <button type="button" class="close-btn" data-search-close aria-label="关闭搜索">×</button>
+      <p class="eyebrow">search</p><h2 data-text-key="shared.search.title">找一条旧记录</h2>
+      <label class="uiverse-input search-input"><input type="search" placeholder=" " data-search-input><span data-text-key="shared.search.input">试试 Linux、服务器、博客、驱动学习...</span></label>
+      <div class="search-suggestions" data-search-results><a href="/projects.html">树莓派家庭服务器</a><a href="/moments.html">设备树绑定</a><a href="/archive.html">笔记</a></div>
+    </div>
+  </div>
+</body>
+</html>
