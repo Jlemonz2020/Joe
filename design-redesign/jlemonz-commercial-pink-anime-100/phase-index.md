@@ -9,7 +9,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 003 | Astro 重建可行性确认 | approved | `phase-003/` |
 | 004 | 信息架构重新定义 | approved | `phase-004/` |
 | 005 | 开源项目和热门视觉参考调研 | approved | `phase-005/` |
-| 006 | 生成四张粉色赛蕾概念图 | pending | `phase-006/` |
+| 006 | 生成四张粉色赛蕾概念图 | approved | `phase-006/` |
 | 007 | 概念图转实施提示词 | pending | `phase-007/` |
 | 008 | 商业级视觉设计原则冻结 | pending | `phase-008/` |
 | 009 | 性能预算和资源规范 | pending | `phase-009/` |
