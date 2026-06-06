@@ -36,9 +36,9 @@
 
 ## GitHub Push Evidence
 
-- Main implementation commit: `pending`
+- Main implementation commit: `3a7123bc325be8de554ed79738307db0470359d7`
 - Push verification commit: `pending`
-- Remote verification: `pending`
+- Remote verification after implementation push: `3a7123bc325be8de554ed79738307db0470359d7 refs/heads/main`
 
 ## Archive
 
