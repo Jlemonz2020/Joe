@@ -108,8 +108,9 @@ No screenshots were required in Phase 014. This phase validates route compatibil
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-014/`
-- Commit: pending.
-- Push: pending.
+- Commit: `456a974 phase-014: preserve legacy routes`.
+- Push: `origin/main` accepted `b60342f..456a974`.
+- Remote verification: `refs/heads/main` resolved to `456a974853a0f2bcfe498d466fe744a810ca15f1`.
 
 ## Next Gate
 
