@@ -1,0 +1,84 @@
+{
+  "desktopState": [
+    {
+      "tag": "button",
+      "className": "ui-button ui-button--icon ui-button--tool search-entry-submit",
+      "ariaLabel": "提交资料检索",
+      "title": "资料检索",
+      "tooltip": "资料检索",
+      "pressed": null,
+      "width": 44,
+      "height": 44,
+      "text": "⌕"
+    },
+    {
+      "tag": "button",
+      "className": "ui-button ui-button--icon ui-button--swatch theme-chip",
+      "ariaLabel": "切换到赛蕾粉色手帐",
+      "title": "赛蕾粉色手帐",
+      "tooltip": "赛蕾粉色手帐",
+      "pressed": "true",
+      "width": 44,
+      "height": 44,
+      "text": "赛蕾粉色手帐"
+    },
+    {
+      "tag": "button",
+      "className": "ui-button ui-button--icon ui-button--swatch theme-chip",
+      "ariaLabel": "切换到樱花轻亮",
+      "title": "樱花轻亮",
+      "tooltip": "樱花轻亮",
+      "pressed": "false",
+      "width": 44,
+      "height": 44,
+      "text": "樱花轻亮"
+    },
+    {
+      "tag": "button",
+      "className": "ui-button ui-button--icon ui-button--swatch theme-chip",
+      "ariaLabel": "切换到奶白纸页",
+      "title": "奶白纸页",
+      "tooltip": "奶白纸页",
+      "pressed": "false",
+      "width": 44,
+      "height": 44,
+      "text": "奶白纸页"
+    }
+  ],
+  "mobileState": [
+    {
+      "className": "ui-button ui-button--icon ui-button--tool search-entry-submit",
+      "ariaLabel": "提交资料检索",
+      "tooltip": "资料检索",
+      "pressed": null,
+      "width": 44,
+      "height": 44
+    },
+    {
+      "className": "ui-button ui-button--icon ui-button--swatch theme-chip",
+      "ariaLabel": "切换到赛蕾粉色手帐",
+      "tooltip": "赛蕾粉色手帐",
+      "pressed": "true",
+      "width": 93.734375,
+      "height": 44
+    },
+    {
+      "className": "ui-button ui-button--icon ui-button--swatch theme-chip",
+      "ariaLabel": "切换到樱花轻亮",
+      "tooltip": "樱花轻亮",
+      "pressed": "false",
+      "width": 93.75,
+      "height": 44
+    },
+    {
+      "className": "ui-button ui-button--icon ui-button--swatch theme-chip",
+      "ariaLabel": "切换到奶白纸页",
+      "tooltip": "奶白纸页",
+      "pressed": "false",
+      "width": 93.734375,
+      "height": 44
+    }
+  ],
+  "desktopOverflow": false,
+  "mobileOverflow": false
+}

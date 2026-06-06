@@ -1,0 +1,19 @@
+/ 200
+/index.html 200
+/moments.html 200
+/archive.html 200
+/projects.html 200
+/project.html 200
+/post.html 200
+/about.html 200
+Starting server 1/1: python3 -m http.server 4406 --bind 127.0.0.1 --directory /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/jlemonz-astro-pink-diary/dist
+Waiting for server on port 4406...
+Server ready on port 4406
+
+All 1 server(s) ready
+Running: bash -lc for path in / /index.html /moments.html /archive.html /projects.html /project.html /post.html /about.html; do code=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:4406$path"); printf "%s %s\n" "$path" "$code"; done
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped

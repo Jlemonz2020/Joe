@@ -1,0 +1,10 @@
+desktop buttons: 4
+mobile buttons: 4
+desktop[0] 44x44 label=提交资料检索 tooltip=资料检索 pressed=none
+desktop[1] 44x44 label=切换到赛蕾粉色手帐 tooltip=赛蕾粉色手帐 pressed=true
+desktop[2] 44x44 label=切换到樱花轻亮 tooltip=樱花轻亮 pressed=false
+desktop[3] 44x44 label=切换到奶白纸页 tooltip=奶白纸页 pressed=false
+mobile[0] 44x44 label=提交资料检索 tooltip=资料检索 pressed=none
+mobile[1] 93.734375x44 label=切换到赛蕾粉色手帐 tooltip=赛蕾粉色手帐 pressed=true
+mobile[2] 93.75x44 label=切换到樱花轻亮 tooltip=樱花轻亮 pressed=false
+mobile[3] 93.734375x44 label=切换到奶白纸页 tooltip=奶白纸页 pressed=false
