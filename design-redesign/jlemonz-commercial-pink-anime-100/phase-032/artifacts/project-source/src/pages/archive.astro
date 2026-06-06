@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GalgameDialog from "../components/GalgameDialog.astro";
+import EmptySaileiState from "../components/EmptySaileiState.astro";
+import { pages } from "../data/pageMeta";
+---
+
+<BaseLayout active="archive" title="笔记">
+  <GalgameDialog {...pages.archive} />
+  <section class="module-grid" aria-label="笔记分类">
+    <article class="diary-card diary-card--paper panel"><h2>长文</h2><p>慢慢读的公开记录。</p></article>
+    <article class="diary-card diary-card--paper panel"><h2>调试</h2><p>能回到现场的排查线索。</p></article>
+    <article class="diary-card diary-card--paper panel"><h2>学习</h2><p>Linux、硬件和 AI 的长期补课。</p></article>
+  </section>
+  <EmptySaileiState tone="notes" ribbon="NOTE SLOT" title="资料夹还在等第一张书签" body="第一篇长记录整理好后，赛蕾会把它钉在这里。" />
+</BaseLayout>

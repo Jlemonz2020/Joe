@@ -1,0 +1,11 @@
+src/components/HomeHero.astro:6:  { label: "看瞬间", href: "/moments.html", meta: "MOMENT" },
+src/components/HomeHero.astro:7:  { label: "看项目", href: "/projects.html", meta: "TASK" }
+src/components/HomeHero.astro:12:  { label: "SYNC", value: "长期记录" },
+src/components/HomeHero.astro:13:  { label: "MOOD", value: "粉色手帐" }
+src/components/HomeHero.astro:20:      <span>赛蕾留言</span>
+src/components/HomeHero.astro:21:      <span>今日在线</span>
+src/components/HomeHero.astro:27:    <p class="home-hero__line">先把今天的线索贴好，下一次回来还能接着查。</p>
+src/components/HomeHero.astro:44:      <p class="home-hero__profile-label">角色资料</p>
+src/pages/moments.astro:15:  <EmptySaileiState tone="moments" ribbon="MOMENT SLOT" title="便签纸还留着空位" body="下一次折腾冒出火花，就把它贴进时间线。" />
+src/data/themeTokens.ts:15:    label: "赛蕾粉色手帐",
+src/data/pageMeta.ts:6:    kicker: "Pi5 / Linux / AI",
