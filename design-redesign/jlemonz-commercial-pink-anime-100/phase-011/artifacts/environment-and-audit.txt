@@ -1,0 +1,6 @@
+v22.22.2
+10.9.7
+jlemonz-astro-pink-diary@0.0.0 /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/jlemonz-astro-pink-diary
+└── astro@6.4.4
+
+found 0 vulnerabilities

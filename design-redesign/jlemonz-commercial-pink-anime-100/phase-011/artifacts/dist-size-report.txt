@@ -1,0 +1,9 @@
+4.0K	dist/assets
+8.0K	dist/about.html
+8.0K	dist/archive.html
+8.0K	dist/index.html
+8.0K	dist/moments.html
+8.0K	dist/post.html
+8.0K	dist/project.html
+8.0K	dist/projects.html
+64K	dist

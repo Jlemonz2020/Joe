@@ -1,0 +1,7 @@
+design-redesign/jlemonz-commercial-pink-anime-100/phase-011/artifacts/dist-snapshot/about.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-011/artifacts/dist-snapshot/archive.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-011/artifacts/dist-snapshot/index.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-011/artifacts/dist-snapshot/moments.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-011/artifacts/dist-snapshot/post.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-011/artifacts/dist-snapshot/project.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-011/artifacts/dist-snapshot/projects.html
