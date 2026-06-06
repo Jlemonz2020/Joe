@@ -92,8 +92,8 @@ No screenshots were required in Phase 005 because the phase does not change UI. 
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-005/`
-- Commit: pending before final verification.
-- Push: pending before final verification.
+- Commit: `bb47e5a phase-005: archive anime visual references`.
+- Push: `origin/main` accepted `25eeb97..bb47e5a` after one transient SSH retry.
 
 ## Next Gate
 

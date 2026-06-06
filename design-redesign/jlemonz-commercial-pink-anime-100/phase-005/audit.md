@@ -12,8 +12,8 @@
 - [x] Reference patterns are translated into Jlemonz-specific components.
 - [x] No-copy boundaries are documented.
 - [x] Cleanup was performed.
-- [ ] GitHub commit succeeded.
-- [ ] GitHub push succeeded.
+- [x] GitHub commit succeeded: `bb47e5a phase-005: archive anime visual references`.
+- [x] GitHub push succeeded: `origin/main` accepted `25eeb97..bb47e5a` after one transient SSH retry.
 
 ## Findings
 
