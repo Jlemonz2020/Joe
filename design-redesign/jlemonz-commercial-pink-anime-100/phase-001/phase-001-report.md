@@ -60,8 +60,8 @@ Not required for Phase 001. This phase is a process/control-console phase.
 ## Audit
 
 - AI self-audit: local evidence passed; archive creation commit was pushed to GitHub.
-- User review: pending.
-- Result: `review`.
+- User review: approved with explicit message `Phase 001 通过`.
+- Result: `approved`.
 
 ## Fixes
 

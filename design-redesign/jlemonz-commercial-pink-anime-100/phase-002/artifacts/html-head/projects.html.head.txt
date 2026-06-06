@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>项目 - Jlemonz</title>
+  <meta name="description" content="Jlemonz 的项目推进记录">
+  <meta name="theme-color" content="#fbfaf7">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
+  <link rel="stylesheet" href="/assets/style.css?v=pink-diary-phase01-20260606">
+  <script src="/assets/app.js?v=pink-diary-phase01-20260606" defer></script>
+</head>
+<body data-page="projects">
+  <header class="site-header" data-header>
+    <a class="brand" href="/index.html" aria-label="Jlemonz 首页"><span class="brand-mark"><img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true"></span><span class="brand-copy"><strong>Jlemonz</strong><small data-quote-line>她路过我的生活，我把余光留到天黑。</small></span></a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="/index.html" data-nav="home" data-text-key="shared.nav.home">首页</a><a href="/moments.html" data-nav="moments" data-text-key="shared.nav.moments">瞬间</a><a href="/archive.html" data-nav="archive" data-text-key="shared.nav.archive">笔记</a><a href="/projects.html" data-nav="projects" data-text-key="shared.nav.projects">项目</a><a href="/about.html" data-nav="about" data-text-key="shared.nav.about">关于</a>
+    </nav>
+    <div class="nav-actions" aria-label="快捷入口">
+      <label class="nav-search has-tip" data-tip="搜索" data-text-key="shared.search.tip" data-text-attr="data-tip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m1.35-5.15a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg><input type="search" data-header-search aria-label="搜索记录" placeholder="搜索" data-text-key="shared.search.placeholder" data-text-attr="placeholder"></label>
+      <button class="theme-switch has-tip" type="button" data-theme-toggle aria-label="选择主题" data-tip="主题"><span class="switch-track"><span class="switch-thumb"></span></span></button>
+      <a class="icon-btn has-tip" href="/about.html#contact" aria-label="联系" data-tip="联系"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0m12-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg></a>
+    </div>
+  </header>
+
+  <main class="subpage">
+    <section class="page-hero subpage-hero projects-hero">
+      <div class="subpage-copy">
+        <p class="eyebrow" data-text-key="projects.hero.kicker">projects</p>
+        <h1 class="subpage-title" data-text-key="projects.hero.title">项目</h1>
+        <p class="lead" data-text-key="projects.hero.lead">把正在做的服务、硬件和页面改造放在这里，保留状态、进展和下一步。</p>
+        <div class="moyu-widget subpage-moyu-inline" data-moyu-card aria-live="polite">
+          <div class="moyu-widget-top">
+            <span data-moyu-label>摸鱼办</span>
+            <button type="button" data-moyu-refresh aria-label="换一个摸鱼模块">换</button>
+          </div>
+          <p data-moyu-title>今日摸鱼加载中...</p>
+          <div class="moyu-meter" data-moyu-meter hidden><span data-moyu-meter-bar></span></div>
+          <small data-moyu-body>加载今日摸鱼状态...</small>
+        </div>
+        <div class="hero-chips" aria-label="项目页状态" data-page-chips="projects">
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>公开</strong><small>可复盘</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>进度</strong><small>看得见</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>下一步</strong><small>不丢线索</small></span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-board" data-project-board>
+      <a class="desk-card project-tile" href="/project.html?id=1">
+        <div class="tile-head"><span class="pin"></span><strong>树莓派家庭服务器</strong></div>
+        <p>还在整理，先把公开入口和私有服务分清楚。</p>
+        <div class="progress"><span style="width:78%"></span></div>
+        <time>最近更新：今天</time>
+      </a>
+      <a class="desk-card project-tile" href="/project.html?id=2">
+        <div class="tile-head"><span class="pin"></span><strong>Linux 驱动学习</strong></div>
+        <p>卡在设备树绑定，准备把调用链重新画一遍。</p>
+        <div class="progress"><span style="width:42%"></span></div>
+        <time>最近更新：昨天</time>
+      </a>
+      <a class="desk-card project-tile" href="/project.html?id=3">
+        <div class="tile-head"><span class="pin"></span><strong>RK3576 BSP 实验</strong></div>
+        <p>能跑，但不稳，先把 pinctrl 和 clock 记清楚。</p>
+        <div class="progress"><span style="width:34%"></span></div>
+        <time>最近更新：前天</time>
+      </a>
+      <a class="desk-card project-tile" href="/project.html?id=4">
+        <div class="tile-head"><span class="pin"></span><strong>个人博客重构</strong></div>
+        <p>已完成第一版，接下来补文章页和移动端细节。</p>
+        <div class="progress"><span style="width:64%"></span></div>
+        <time>最近更新：今天</time>
+      </a>
+    </section>
+
+    <section class="content-grid">
+      <div class="desk-card roadmap" data-layout-key="projects.roadmap">
+        <div class="section-head">
+          <div><p class="eyebrow">next stop</p><h2 data-text-key="projects.roadmap.title">下一步</h2></div>
+        </div>
+        <ol>
+          <li><span></span><p>补一篇家庭服务器部署记录</p></li>
+          <li><span></span><p>整理驱动学习路线</p></li>
+          <li><span></span><p>把博客文章页做出。</p></li>
+          <li><span></span><p>给照片整理自动备份</p></li>
+        </ol>
+      </div>
+      <aside class="desk-card maintain-card" data-layout-key="projects.maintain">
+        <p class="eyebrow">maintenance</p>
+        <h2 data-text-key="projects.maintain.title">长期维护的规则</h2>
+        <p data-text-key="projects.maintain.body">项目页只放公开、可复盘的进度，不放管理入口、内部端口和密钥。需要运维信息时，回服务器上的维护文档查。</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer" aria-label="站点底部">
+    <div class="footer-motion" aria-hidden="true" data-layout-key="footer.motion">
+      <div class="loader"></div>
+      <div class="wrapper">
+        <div class="candles">
+          <div class="light__wave"></div>
+          <div class="candle1"><div class="candle1__body"><div class="candle1__eyes"><span class="candle1__eyes-one"></span><span class="candle1__eyes-two"></span></div><div class="candle1__mouth"></div></div><div class="candle1__stick"></div></div>
+          <div class="candle2"><div class="candle2__body"><div class="candle2__eyes"><div class="candle2__eyes-one"></div><div class="candle2__eyes-two"></div></div></div><div class="candle2__stick"></div></div>
+          <div class="candle2__fire"></div>
+          <div class="candle__smoke-one"></div>
+          <div class="candle__smoke-two"></div>
+        </div>
+        <div class="floor"></div>
+      </div>
+    </div>
+    <div class="site-footer-inner">
+      <section class="footer-brand-block" aria-label="Jlemonz">
+        <a class="footer-brand-link" href="/index.html" aria-label="返回首页">
+          <img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true">
+          <span>Jlemonz</span>
+        </a>
+        <p data-footer-brand-body>Pi5、Linux、硬件和 AI 的长期记录，慢慢补齐。</p>
+        <div class="footer-tags" aria-label="站点标签" data-footer-tags>

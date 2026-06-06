@@ -4,8 +4,8 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 
 | Phase | Title | Status | Archive Path |
 |---:|---|---|---|
-| 001 | 建立目标追踪总控台 | review | `phase-001/` |
-| 002 | 线上站点基线采集 | pending | `phase-002/` |
+| 001 | 建立目标追踪总控台 | approved | `phase-001/` |
+| 002 | 线上站点基线采集 | review | `phase-002/` |
 | 003 | Astro 重建可行性确认 | pending | `phase-003/` |
 | 004 | 信息架构重新定义 | pending | `phase-004/` |
 | 005 | 开源项目和热门视觉参考调研 | pending | `phase-005/` |

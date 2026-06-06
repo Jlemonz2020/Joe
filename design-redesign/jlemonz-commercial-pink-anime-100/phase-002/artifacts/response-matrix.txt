@@ -1,0 +1,25 @@
+# Page and API response matrix
+2026-06-06T09:38:51+08:00
+200 / 
+200 /index.html 
+200 /moments.html 
+200 /archive.html 
+200 /projects.html 
+200 /project.html 
+200 /post.html 
+200 /about.html 
+200 /assets/style.css 
+200 /assets/app.js 
+200 /api/health 
+200 /api/site/texts 
+200 /api/site/overview 
+200 /api/moments 
+200 /api/posts 
+200 /api/projects 
+200 /api/github/contributions 
+
+# Interaction/search API addendum
+2026-06-06T09:43:55+08:00
+200 /api/search?q=linux
+200 /api/comments
+200 /api/reactions

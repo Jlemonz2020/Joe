@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jlemonz</title>
+  <meta name="description" content="Jlemonz，记录系统折腾、项目推进、学习笔记和日常碎片">
+  <meta name="theme-color" content="#fbfaf7">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
+  <link rel="stylesheet" href="/assets/style.css?v=pink-diary-phase01-20260606">
+  <script src="/assets/app.js?v=pink-diary-phase01-20260606" defer></script>
+</head>
+<body data-page="home">
+  <header class="site-header" data-header>
+    <a class="brand" href="/index.html" aria-label="Jlemonz 首页">
+      <span class="brand-mark"><img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true"></span>
+      <span class="brand-copy"><strong>Jlemonz</strong><small data-quote-line>她路过我的生活，我把余光留到天黑。</small></span>
+    </a>
+
+    <nav class="nav-links" aria-label="主导航">
+      <a href="/index.html" data-nav="home" data-text-key="shared.nav.home">首页</a>
+      <a href="/moments.html" data-nav="moments" data-text-key="shared.nav.moments">瞬间</a>
+      <a href="/archive.html" data-nav="archive" data-text-key="shared.nav.archive">笔记</a>
+      <a href="/projects.html" data-nav="projects" data-text-key="shared.nav.projects">项目</a>
+      <a href="/about.html" data-nav="about" data-text-key="shared.nav.about">关于</a>
+    </nav>
+
+    <div class="nav-actions" aria-label="快捷入口">
+      <label class="nav-search has-tip" data-tip="搜索" data-text-key="shared.search.tip" data-text-attr="data-tip">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m1.35-5.15a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg>
+        <input type="search" data-header-search aria-label="搜索记录" placeholder="搜索" data-text-key="shared.search.placeholder" data-text-attr="placeholder">
+      </label>
+      <button class="theme-switch has-tip" type="button" data-theme-toggle aria-label="选择主题" data-tip="主题">
+        <span class="switch-track"><span class="switch-thumb"></span></span>
+      </button>
+      <a class="icon-btn has-tip" href="/about.html#contact" aria-label="联系" data-tip="联系">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0m12-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-home" aria-label="首页">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" data-text-key="home.hero.kicker">Pi5 / Linux / Notes</p>
+          <h1 data-text-key="home.hero.title">Jlemonz</h1>
+          <p class="lead" data-text-key="home.hero.lead">在 Pi5、Linux、硬件和 AI 之间，整理那些值得回看的折腾。</p>
+
+          <article class="hero-frequency-card" aria-label="近期频率">
+            <div class="github-calendar" data-github-calendar>
+              <div class="github-calendar-scroll">
+                <div class="github-months" data-github-months aria-hidden="true"></div>
+                <div class="github-calendar-body">
+                  <div class="github-weekdays" aria-hidden="true">
+                    <span></span><span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span>
+                  </div>
+                  <div class="heatmap" aria-label="GitHub 代码提交频率" data-github-heatmap>
+                    <span data-level="0"></span><span data-level="0"></span><span data-level="0"></span><span data-level="0"></span><span data-level="0"></span><span data-level="0"></span><span data-level="0"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="github-calendar-footer">
+                <a href="https://github.com/Jlemonz" target="_blank" rel="noreferrer">查看 GitHub 主页</a>
+                <div class="github-legend" aria-hidden="true"><span>Less</span><i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i><span>More</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-strip status-strip" aria-label="主页状" data-layout-key="home.statusStrip">
+      <article class="pulse-note status-note status-note-project">
+        <div class="loading-wave" aria-hidden="true">
+          <span class="loading-bar"></span>
+          <span class="loading-bar"></span>
+          <span class="loading-bar"></span>
+          <span class="loading-bar"></span>
+        </div>
+        <h2 data-text-key="home.status.build.title">RECAP</h2>
+        <p data-text-key="home.status.build.body">把踩坑、命令和解决办法写清楚，下一次少绕一点路。</p>
+      </article>
+      <article class="pulse-note status-note status-note-experience">
+        <div class="loading-line" aria-hidden="true">
+          <svg viewBox="0 0 64 48">
+            <polyline id="back" points="0.157 23.954 14 23.954 21.843 48 43 0 50 24 64 24"></polyline>
+            <polyline id="front" points="0.157 23.954 14 23.954 21.843 48 43 0 50 24 64 24"></polyline>
+          </svg>
+        </div>
+        <h2 data-text-key="home.status.trace.title">TRACE</h2>
+        <p data-text-key="home.status.trace.body">系统、驱动和服务的线索先留住，问题没解完也有现场可回看。</p>
+      </article>
+      <article class="pulse-note status-note status-note-personal">
+        <div class="spinner" aria-hidden="true">
+          <div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+        <h2 data-text-key="home.status.mode.title">DAILY</h2>
+        <p data-text-key="home.status.mode.body">项目之外也有日常，轻一点的碎片也算进度。</p>
+      </article>
+    </section>
+
+    <div class="page-shell">
+      <section class="main-column">
+        <article class="desk-card" data-layout-key="home.projectPreview">
+          <div class="section-head workbench-head">
+            <div>
+              <p class="eyebrow">workbench</p>
+              <div class="workbench-title">
+                <div class="loader" aria-hidden="true"></div>
+                <span data-ui-text="home.section.projects" data-edit-target="ui:sectionTitles:homeProjects">项目进行中</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-list" data-project-preview>
+            <a class="project-row" href="/project.html?id=1">
+              <div>

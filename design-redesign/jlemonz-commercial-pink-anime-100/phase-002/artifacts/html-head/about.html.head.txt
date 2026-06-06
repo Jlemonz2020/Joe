@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>关于 - Jlemonz</title>
+  <meta name="description" content="关于 Jlemonz">
+  <meta name="theme-color" content="#fbfaf7">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
+  <link rel="stylesheet" href="/assets/style.css?v=pink-diary-phase01-20260606">
+  <script src="/assets/app.js?v=pink-diary-phase01-20260606" defer></script>
+</head>
+<body data-page="about">
+  <header class="site-header" data-header>
+    <a class="brand" href="/index.html" aria-label="Jlemonz 首页"><span class="brand-mark"><img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true"></span><span class="brand-copy"><strong>Jlemonz</strong><small data-quote-line>她路过我的生活，我把余光留到天黑。</small></span></a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="/index.html" data-nav="home" data-text-key="shared.nav.home">首页</a><a href="/moments.html" data-nav="moments" data-text-key="shared.nav.moments">瞬间</a><a href="/archive.html" data-nav="archive" data-text-key="shared.nav.archive">笔记</a><a href="/projects.html" data-nav="projects" data-text-key="shared.nav.projects">项目</a><a href="/about.html" data-nav="about" data-text-key="shared.nav.about">关于</a>
+    </nav>
+    <div class="nav-actions" aria-label="快捷入口">
+      <label class="nav-search has-tip" data-tip="搜索" data-text-key="shared.search.tip" data-text-attr="data-tip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m1.35-5.15a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg><input type="search" data-header-search aria-label="搜索记录" placeholder="搜索" data-text-key="shared.search.placeholder" data-text-attr="placeholder"></label>
+      <button class="theme-switch has-tip" type="button" data-theme-toggle aria-label="选择主题" data-tip="主题"><span class="switch-track"><span class="switch-thumb"></span></span></button>
+      <a class="icon-btn has-tip" href="/about.html#contact" aria-label="联系" data-tip="联系"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0m12-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg></a>
+    </div>
+  </header>
+
+  <main class="subpage">
+    <section class="about-hero subpage-hero about-panel">
+      <div class="avatar-frame">
+        <img class="about-avatar" src="/assets/sailei/avatar.jpg" alt="一方的头像" loading="lazy" data-profile-avatar data-edit-target="ui:profile:avatarUrl">
+      </div>
+      <div class="subpage-copy">
+        <p class="eyebrow" data-text-key="about.hero.kicker">about</p>
+        <h1 class="subpage-title" data-text-key="about.hero.title">关于</h1>
+        <p class="lead" data-text-key="about.hero.lead">一个在 Linux、硬件和 AI 之间慢慢补课的人，也把这座小站当成长期练习场。</p>
+        <div class="moyu-widget subpage-moyu-inline" data-moyu-card aria-live="polite">
+          <div class="moyu-widget-top">
+            <span data-moyu-label>摸鱼办</span>
+            <button type="button" data-moyu-refresh aria-label="换一个摸鱼模块">换</button>
+          </div>
+          <p data-moyu-title>今日摸鱼加载中...</p>
+          <div class="moyu-meter" data-moyu-meter hidden><span data-moyu-meter-bar></span></div>
+          <small data-moyu-body>加载今日摸鱼状态...</small>
+        </div>
+        <div class="hero-chips" aria-label="关于页状态" data-page-chips="about">
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>Linux</strong><small>长期补课</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>硬件</strong><small>慢慢啃</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>AI</strong><small>辅助思考</small></span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <div class="main-column">
+        <article class="desk-card">
+          <p class="eyebrow">current</p>
+          <h2 data-text-key="about.current.title">当前状态</h2>
+          <div class="status-line"><span class="status-dot"></span><strong data-text-key="about.current.state">在线折腾</strong></div>
+          <p class="muted" data-text-key="about.current.body">本周主要在看 Linux 驱动和博客页面，也在把服务器的公开入口、备份和后台整理成长期可维护的状态。</p>
+        </article>
+
+        <article class="desk-card tool-card" data-edit-target="ui:about-stack-list">
+          <p class="eyebrow" data-text-key="about.stack.eyebrow">stack</p>
+          <h2 data-text-key="about.stack.title">站点后面会用到的东西</h2>
+          <div class="tool-grid" data-about-stack-items>
+            <span data-edit-target="ui:about-stack:database">PostgreSQL / MySQL 数据</span>
+            <span data-edit-target="ui:about-stack:redis">Redis 缓存</span>
+            <span data-edit-target="ui:about-stack:meilisearch">Meilisearch 搜索</span>
+            <span data-edit-target="ui:about-stack:markdown">Markdown 写作</span>
+            <span data-edit-target="ui:about-stack:nginx">Nginx 静态部署</span>
+            <span data-edit-target="ui:about-stack:backup">每日备份</span>
+          </div>
+        </article>
+      </div>
+
+      <aside class="sidebar">
+        <section class="desk-card comment-card">
+          <p class="eyebrow">comments</p>
+          <h2 data-text-key="about.comments.title">留言</h2>
+          <form data-comment-form data-comment-target="guestbook">
+            <label class="uiverse-input compact">
+              <input name="author_name" type="text" placeholder=" " maxlength="80" required>
+              <span>昵称</span>
+            </label>
+            <label class="uiverse-input compact">
+              <input name="content" type="text" placeholder=" " maxlength="800" required>
+              <span>写一句评论...</span>
+            </label>
+            <button type="submit" class="primary-link slim">发送</button>
+          </form>
+          <div class="comment-list" data-comment-list data-comment-target="guestbook"></div>
+        </section>
+        <section class="desk-card contact-card" id="contact">
+          <p class="eyebrow">contact</p>
+          <h2 data-text-key="about.contact.title">联系</h2>
+          <p data-text-key="about.contact.body">公开页面只放普通联系入口，不放私有服务、管理入口或内部地址。</p>
+          <a class="primary-link slim" href="mailto:hello@example.com">hello@example.com</a>
+        </section>
+        <section class="desk-card side-illustration"><span class="image-card-label">side note</span></section>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer" aria-label="站点底部">
+    <div class="footer-motion" aria-hidden="true" data-layout-key="footer.motion">
+      <div class="loader"></div>
+      <div class="wrapper">
+        <div class="candles">
+          <div class="light__wave"></div>
+          <div class="candle1"><div class="candle1__body"><div class="candle1__eyes"><span class="candle1__eyes-one"></span><span class="candle1__eyes-two"></span></div><div class="candle1__mouth"></div></div><div class="candle1__stick"></div></div>
+          <div class="candle2"><div class="candle2__body"><div class="candle2__eyes"><div class="candle2__eyes-one"></div><div class="candle2__eyes-two"></div></div></div><div class="candle2__stick"></div></div>
+          <div class="candle2__fire"></div>
+          <div class="candle__smoke-one"></div>
+          <div class="candle__smoke-two"></div>
+        </div>
+        <div class="floor"></div>
+      </div>
+    </div>
+    <div class="site-footer-inner">
