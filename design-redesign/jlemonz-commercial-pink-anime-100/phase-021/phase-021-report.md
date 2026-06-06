@@ -101,9 +101,9 @@ Implement the global background system: fixed Sailei background, pink glass wash
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-021/`
-- Commit: pending.
-- Push: pending.
-- Remote verification: pending.
+- Commit: `d77374e phase-021: implement fixed sailei background`.
+- Push: `origin/main` accepted `014f95f..d77374e`.
+- Remote verification: `refs/heads/main` resolved to `d77374ed2b8a46a2c8b3289b740049d0e32eb4e6`.
 
 ## Next Gate
 
@@ -112,4 +112,3 @@ Phase 022 may start after:
 - Phase 021 archive files are committed and pushed
 - Remote verification is recorded
 - Background screenshots remain approved
-
