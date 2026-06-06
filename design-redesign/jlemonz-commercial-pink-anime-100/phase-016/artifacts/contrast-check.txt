@@ -1,0 +1,7 @@
+sailei ink/page: 12.34 PASS
+sailei deep/surface: 7.50 PASS
+sailei muted/surface: 4.82 PASS
+sakura ink/page: 11.40 PASS
+neon ink/page: 12.82 PASS
+paper ink/page: 11.52 PASS
+paper muted/surface: 4.84 PASS

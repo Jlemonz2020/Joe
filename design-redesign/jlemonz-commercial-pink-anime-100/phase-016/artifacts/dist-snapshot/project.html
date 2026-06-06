@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#fff6fa"><meta name="description" content="服务、硬件和页面改造都按任务档案整理，保留状态、进展和下一步。"><title>项目详情 - Jlemonz</title><link rel="stylesheet" href="/_astro/BaseLayout.BF_WUIQi.css"></head> <body data-page="projects" data-theme="sailei-pink-diary"> <a class="skip-link" href="#main">跳到主要内容</a> <header class="site-header"> <a class="brand" href="/index.html" translate="no" aria-label="Jlemonz 首页"> <span class="brand-mark">J</span> <span> <strong>Jlemonz</strong> <small>Pink Diary</small> </span> </a> <nav class="nav-links" aria-label="主导航"> <a class="nav-link" href="/index.html"> 首页 </a><a class="nav-link" href="/moments.html"> 瞬间 </a><a class="nav-link" href="/archive.html"> 笔记 </a><a class="nav-link active" href="/projects.html"> 项目 </a><a class="nav-link" href="/about.html"> 关于 </a> </nav> <div class="header-actions" aria-label="快捷入口"> <button type="button" aria-label="打开搜索">⌕</button> <button type="button" aria-label="切换主题">✿</button> </div> </header> <main id="main" class="page-shell">  <section class="empty-sailei detail-mount" data-detail-kind="project" data-empty-api-path="/api/projects/"> <span class="empty-pin">?</span> <strong>项目详情</strong> <p data-detail-copy>这里会读取公开项目档案，保留评论、点赞和公开规则。</p> <p class="detail-mount__target" data-detail-target>等待读取旧链接参数。</p> </section> <script>
+  (() => {
+    const search = new URLSearchParams(window.location.search);
+    const idOrSlug = search.get("id") || search.get("slug") || "";
+    document.querySelectorAll("[data-detail-kind]").forEach((node) => {
+      const mount = node;
+      const kind = mount.getAttribute("data-detail-kind") || "";
+      const target = mount.querySelector("[data-detail-target]");
+      if (!(target instanceof HTMLElement)) return;
+      if (!idOrSlug) {
+        target.textContent = "没有检测到 id 或 slug，先显示详情页空状态。";
+        return;
+      }
+      const apiPath = kind === "project"
+        ? `/api/projects/${encodeURIComponent(idOrSlug)}`
+        : `/api/posts/${encodeURIComponent(idOrSlug)}`;
+      mount.setAttribute("data-detail-id", idOrSlug);
+      mount.setAttribute("data-api-path", apiPath);
+      target.textContent = `已识别旧链接参数：${idOrSlug}`;
+    });
+  })();
+</script>  </main> </body></html>

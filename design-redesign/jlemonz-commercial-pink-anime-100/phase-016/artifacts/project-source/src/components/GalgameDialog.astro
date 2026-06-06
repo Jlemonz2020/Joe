@@ -1,0 +1,16 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+  lead: string;
+}
+
+const { kicker, title, lead } = Astro.props;
+---
+
+<section class="galgame-dialog" aria-labelledby="page-title">
+  <p class="dialog-name">{kicker}</p>
+  <h1 id="page-title">{title}</h1>
+  <p>{lead}</p>
+  <span class="dialog-status" aria-hidden="true">STATUS: CONNECTED</span>
+</section>

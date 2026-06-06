@@ -19,7 +19,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 013 | 类型和数据模型 | approved | `phase-013/` |
 | 014 | 旧 URL 兼容方案 | approved | `phase-014/` |
 | 015 | 资产整理和版权边界 | approved | `phase-015/` |
-| 016 | 主题 token 系统 | pending | `phase-016/` |
+| 016 | 主题 token 系统 | approved | `phase-016/` |
 | 017 | 字体和排版系统 | pending | `phase-017/` |
 | 018 | 动效系统 | pending | `phase-018/` |
 | 019 | 可访问性和交互基线 | pending | `phase-019/` |
