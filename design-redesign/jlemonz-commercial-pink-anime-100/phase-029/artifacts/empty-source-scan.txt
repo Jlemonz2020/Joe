@@ -1,0 +1,24 @@
+src/components/LegacyDetailMount.astro:14:<section class="diary-card diary-card--glass empty-sailei empty-sailei--detail detail-mount" data-detail-kind={kind} data-empty-api-path={emptyApiPath} data-empty-tone="detail">
+src/components/LegacyDetailMount.astro:15:  <span class="empty-ribbon" aria-hidden="true">DETAIL SLOT</span>
+src/components/LegacyDetailMount.astro:17:  <div class="empty-copy">
+src/components/EmptySaileiState.astro:23:<aside class:list={["diary-card", "diary-card--glass", "empty-sailei", `empty-sailei--${tone}`]} aria-label={title} data-empty-tone={tone}>
+src/components/EmptySaileiState.astro:24:  <span class="empty-ribbon" aria-hidden="true">{ribbon}</span>
+src/components/EmptySaileiState.astro:26:  <div class="empty-copy">
+src/pages/projects.astro:4:import EmptySaileiState from "../components/EmptySaileiState.astro";
+src/pages/projects.astro:15:  <EmptySaileiState tone="projects" ribbon="TASK SLOT" title="任务板还没有公开档案" body="下一个服务或硬件实验整理完成后，再放进这块板。" />
+src/pages/archive.astro:4:import EmptySaileiState from "../components/EmptySaileiState.astro";
+src/pages/archive.astro:15:  <EmptySaileiState tone="notes" ribbon="NOTE SLOT" title="资料夹还在等第一张书签" body="第一篇长记录整理好后，赛蕾会把它钉在这里。" />
+src/pages/index.astro:4:import EmptySaileiState from "../components/EmptySaileiState.astro";
+src/pages/index.astro:11:    <EmptySaileiState tone="hint" ribbon="SAILEI HINT" title="赛蕾提示" body="今天把线索贴好，明天回来还能接上。" />
+src/pages/moments.astro:4:import EmptySaileiState from "../components/EmptySaileiState.astro";
+src/pages/moments.astro:15:  <EmptySaileiState tone="moments" ribbon="MOMENT SLOT" title="便签纸还留着空位" body="下一次折腾冒出火花，就把它贴进时间线。" />
+src/data/emptyStateCatalog.ts:1:export const emptyStateCatalog = [
+src/data/emptyStateCatalog.ts:34:export const emptyStateRules = [
+src/data/emptyStateCatalog.ts:38:  "Every empty state needs a clear context in `data-empty-tone`."
+src/styles/empty-state.css:19:.empty-ribbon,
+src/styles/empty-state.css:21:.empty-copy,
+src/styles/empty-state.css:27:.empty-ribbon {
+src/styles/empty-state.css:55:.empty-copy {
+src/styles/empty-state.css:59:.empty-copy strong {
+src/styles/empty-state.css:63:.empty-copy p {
+src/styles/empty-state.css:92:  .empty-ribbon {

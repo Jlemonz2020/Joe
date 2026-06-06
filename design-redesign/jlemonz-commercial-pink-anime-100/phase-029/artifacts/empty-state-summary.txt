@@ -1,0 +1,6 @@
+index-1440: count=1 overflow=false states=hint:赛蕾提示
+archive-1440: count=1 overflow=false states=notes:资料夹还在等第一张书签
+moments-1440: count=1 overflow=false states=moments:便签纸还留着空位
+projects-1440: count=1 overflow=false states=projects:任务板还没有公开档案
+post-1440: count=1 overflow=false states=detail:公开笔记
+archive-390: count=1 overflow=false states=notes:资料夹还在等第一张书签

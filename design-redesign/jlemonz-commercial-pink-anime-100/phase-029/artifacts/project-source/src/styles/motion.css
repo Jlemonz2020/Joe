@@ -1,0 +1,98 @@
+:root {
+  --motion-fast: 160ms;
+  --motion-base: 220ms;
+  --motion-slow: 420ms;
+  --motion-idle: 3.6s;
+  --ease-diary: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-sticker: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --hover-lift: -0.125rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-header,
+  .diary-card,
+  .galgame-dialog,
+  .empty-sailei,
+  .panel {
+    animation: diary-enter var(--motion-slow) var(--ease-diary) both;
+  }
+
+  .panel:nth-child(2) {
+    animation-delay: 60ms;
+  }
+
+  .panel:nth-child(3) {
+    animation-delay: 120ms;
+  }
+
+  .nav-link,
+  .theme-switcher,
+  .theme-dot,
+  .diary-card,
+  .panel,
+  .empty-sailei {
+    transition:
+      transform var(--motion-fast) var(--ease-diary),
+      box-shadow var(--motion-fast) var(--ease-diary),
+      background-color var(--motion-fast) var(--ease-diary),
+      border-color var(--motion-fast) var(--ease-diary);
+  }
+
+  .nav-link:hover,
+  .diary-card:hover,
+  .panel:hover,
+  .empty-sailei:hover {
+    transform: translateY(var(--hover-lift));
+  }
+
+  html[data-theme-ready="true"] body,
+  html[data-theme-ready="true"] .site-header,
+  html[data-theme-ready="true"] .diary-card,
+  html[data-theme-ready="true"] .galgame-dialog,
+  html[data-theme-ready="true"] .panel,
+  html[data-theme-ready="true"] .empty-sailei {
+    transition:
+      color var(--motion-base) var(--ease-diary),
+      background-color var(--motion-base) var(--ease-diary),
+      border-color var(--motion-base) var(--ease-diary),
+      box-shadow var(--motion-base) var(--ease-diary);
+  }
+
+  .empty-pin {
+    animation: sticker-pulse var(--motion-idle) ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms;
+    animation-iteration-count: 1;
+    scroll-behavior: auto;
+    transition-duration: 1ms;
+  }
+}
+
+@keyframes diary-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.625rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sticker-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+}

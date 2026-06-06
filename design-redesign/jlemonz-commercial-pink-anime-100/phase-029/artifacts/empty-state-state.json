@@ -1,0 +1,104 @@
+[
+  {
+    "label": "index-1440",
+    "stateCount": 1,
+    "states": [
+      {
+        "tone": "hint",
+        "label": "赛蕾提示",
+        "ribbon": "SAILEI HINT",
+        "title": "赛蕾提示",
+        "body": "今天把线索贴好，明天回来还能接上。",
+        "width": 464,
+        "height": 342.046875
+      }
+    ],
+    "text": " 跳到主要内容    J   Jlemonz Sailei Pink Diary  SYNC   ✦ 赛蕾：今日也把线索贴好。    01 首页 ✿  02 瞬间 ✿  03 笔记 ✿  04 项目 ✿  05 关于 ✿     资料检索 DATA   ⌕      赛蕾粉色手帐   樱花轻亮   奶白纸页         Pi5 / Linux / Notes Jlemonz 在 Pi5、Linux、硬件和 AI 之间，整理那些值得回看的折腾。 STATUS: CONNECTED   SAILEI HINT ✿  赛蕾提示 今天把线索贴好，明天回来还能接上。      FILE 01 / SYNC把踩坑、命令和解决办法写清楚，下一次少绕一点路。 FILE 02 / TRACE系统、驱动和服务的线索先留住，问题没解完也有现场可回看。 FILE 03 / DAILY项目之外也有日常，轻一点的碎片也算进度。    \n      (() => {\n        const storageKey = \"jlemonz:theme:v1\";\n        const themes = [\"sailei-pink-diary\", \"sakura-light\", \"paper-milk\"];\n        const fallback = \"sailei-pink-diary\";\n        const themeColors = {\n          \"sailei-pink-diary\": \"#fff6fa\",\n          \"sakura-light\": \"#fff8fb\",\n          \"paper-milk\": \"#fffaf3\"\n        };\n\n        const readTheme = () => {\n          try {\n            const saved = window.localStorage.getItem(storageKey);\n            return themes.includes(saved || \"\") ? saved : fallback;\n          } catch {\n            return fallback;\n          }\n        };\n\n        const saveTheme = (theme) => {\n          try {\n            window.localStorage.setItem(storageKey, theme);\n          } catch {\n            // localStorage can be unavailable in locked-down browsers; visual switching should still work.\n          }\n        };\n\n        const applyTheme = (theme, persist = true) => {\n          const safeTheme = themes.includes(theme) ? theme : fallback;\n          document.documentElement.dataset.theme = safeTheme;\n          document.documentElement.dataset.themeReady = \"true\";\n          document.body.dataset.theme = safeTheme;\n          document.querySelector('meta[name=\"theme-color\"]')?.setAttribute(\"content\", themeColors[safeTheme] || themeColors[fallback]);\n          document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n            const isActive = button.getAttribute(\"data-theme-id\") === safeTheme;\n            button.setAttribute(\"aria-pressed\", String(isActive));\n          });\n          if (persist) {\n            saveTheme(safeTheme);\n          }\n        };\n\n        document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n          button.addEventListener(\"click\", () => {\n            applyTheme(button.getAttribute(\"data-theme-id\") || fallback);\n          });\n        });\n\n        applyTheme(readTheme(), false);\n      })();\n      ",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "archive-1440",
+    "stateCount": 1,
+    "states": [
+      {
+        "tone": "notes",
+        "label": "资料夹还在等第一张书签",
+        "ribbon": "NOTE SLOT",
+        "title": "资料夹还在等第一张书签",
+        "body": "第一篇长记录整理好后，赛蕾会把它钉在这里。",
+        "width": 1408,
+        "height": 169.8125
+      }
+    ],
+    "text": " 跳到主要内容    J   Jlemonz Sailei Pink Diary  SYNC   ✦ 赛蕾：今日也把线索贴好。    01 首页 ✿  02 瞬间 ✿  03 笔记 ✿  04 项目 ✿  05 关于 ✿     资料检索 DATA   ⌕      赛蕾粉色手帐   樱花轻亮   奶白纸页        notes 笔记 长文、调试和学习笔记收进资料库，下一次遇到同类问题时能直接翻回现场。 STATUS: CONNECTED   长文慢慢读的公开记录。 调试能回到现场的排查线索。 学习Linux、硬件和 AI 的长期补课。   NOTE SLOT ✎  资料夹还在等第一张书签 第一篇长记录整理好后，赛蕾会把它钉在这里。      \n      (() => {\n        const storageKey = \"jlemonz:theme:v1\";\n        const themes = [\"sailei-pink-diary\", \"sakura-light\", \"paper-milk\"];\n        const fallback = \"sailei-pink-diary\";\n        const themeColors = {\n          \"sailei-pink-diary\": \"#fff6fa\",\n          \"sakura-light\": \"#fff8fb\",\n          \"paper-milk\": \"#fffaf3\"\n        };\n\n        const readTheme = () => {\n          try {\n            const saved = window.localStorage.getItem(storageKey);\n            return themes.includes(saved || \"\") ? saved : fallback;\n          } catch {\n            return fallback;\n          }\n        };\n\n        const saveTheme = (theme) => {\n          try {\n            window.localStorage.setItem(storageKey, theme);\n          } catch {\n            // localStorage can be unavailable in locked-down browsers; visual switching should still work.\n          }\n        };\n\n        const applyTheme = (theme, persist = true) => {\n          const safeTheme = themes.includes(theme) ? theme : fallback;\n          document.documentElement.dataset.theme = safeTheme;\n          document.documentElement.dataset.themeReady = \"true\";\n          document.body.dataset.theme = safeTheme;\n          document.querySelector('meta[name=\"theme-color\"]')?.setAttribute(\"content\", themeColors[safeTheme] || themeColors[fallback]);\n          document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n            const isActive = button.getAttribute(\"data-theme-id\") === safeTheme;\n            button.setAttribute(\"aria-pressed\", String(isActive));\n          });\n          if (persist) {\n            saveTheme(safeTheme);\n          }\n        };\n\n        document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n          button.addEventListener(\"click\", () => {\n            applyTheme(button.getAttribute(\"data-theme-id\") || fallback);\n          });\n        });\n\n        applyTheme(readTheme(), false);\n      })();\n      ",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "moments-1440",
+    "stateCount": 1,
+    "states": [
+      {
+        "tone": "moments",
+        "label": "便签纸还留着空位",
+        "ribbon": "MOMENT SLOT",
+        "title": "便签纸还留着空位",
+        "body": "下一次折腾冒出火花，就把它贴进时间线。",
+        "width": 1408,
+        "height": 169.8125
+      }
+    ],
+    "text": " 跳到主要内容    J   Jlemonz Sailei Pink Diary  SYNC   ✦ 赛蕾：今日也把线索贴好。    01 首页 ✿  02 瞬间 ✿  03 笔记 ✿  04 项目 ✿  05 关于 ✿     资料检索 DATA   ⌕      赛蕾粉色手帐   樱花轻亮   奶白纸页        moments 瞬间 随手贴下今天的折腾、灵感和小事，给时间线留一点粉色标记。 STATUS: CONNECTED   碎片短动态、随手灵感和今天的小火花。 项目项目进度先贴一张便签，不必等长文整理完。 生活轻一点的日常也可以成为时间线的一部分。   MOMENT SLOT ✦  便签纸还留着空位 下一次折腾冒出火花，就把它贴进时间线。      \n      (() => {\n        const storageKey = \"jlemonz:theme:v1\";\n        const themes = [\"sailei-pink-diary\", \"sakura-light\", \"paper-milk\"];\n        const fallback = \"sailei-pink-diary\";\n        const themeColors = {\n          \"sailei-pink-diary\": \"#fff6fa\",\n          \"sakura-light\": \"#fff8fb\",\n          \"paper-milk\": \"#fffaf3\"\n        };\n\n        const readTheme = () => {\n          try {\n            const saved = window.localStorage.getItem(storageKey);\n            return themes.includes(saved || \"\") ? saved : fallback;\n          } catch {\n            return fallback;\n          }\n        };\n\n        const saveTheme = (theme) => {\n          try {\n            window.localStorage.setItem(storageKey, theme);\n          } catch {\n            // localStorage can be unavailable in locked-down browsers; visual switching should still work.\n          }\n        };\n\n        const applyTheme = (theme, persist = true) => {\n          const safeTheme = themes.includes(theme) ? theme : fallback;\n          document.documentElement.dataset.theme = safeTheme;\n          document.documentElement.dataset.themeReady = \"true\";\n          document.body.dataset.theme = safeTheme;\n          document.querySelector('meta[name=\"theme-color\"]')?.setAttribute(\"content\", themeColors[safeTheme] || themeColors[fallback]);\n          document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n            const isActive = button.getAttribute(\"data-theme-id\") === safeTheme;\n            button.setAttribute(\"aria-pressed\", String(isActive));\n          });\n          if (persist) {\n            saveTheme(safeTheme);\n          }\n        };\n\n        document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n          button.addEventListener(\"click\", () => {\n            applyTheme(button.getAttribute(\"data-theme-id\") || fallback);\n          });\n        });\n\n        applyTheme(readTheme(), false);\n      })();\n      ",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "projects-1440",
+    "stateCount": 1,
+    "states": [
+      {
+        "tone": "projects",
+        "label": "任务板还没有公开档案",
+        "ribbon": "TASK SLOT",
+        "title": "任务板还没有公开档案",
+        "body": "下一个服务或硬件实验整理完成后，再放进这块板。",
+        "width": 1408,
+        "height": 169.8125
+      }
+    ],
+    "text": " 跳到主要内容    J   Jlemonz Sailei Pink Diary  SYNC   ✦ 赛蕾：今日也把线索贴好。    01 首页 ✿  02 瞬间 ✿  03 笔记 ✿  04 项目 ✿  05 关于 ✿     资料检索 DATA   ⌕      赛蕾粉色手帐   樱花轻亮   奶白纸页        projects 项目 服务、硬件和页面改造都按任务档案整理，保留状态、进展和下一步。 STATUS: CONNECTED   Public Files只放公开、可复盘的任务档案。 Energy Bar进度条以后会变成粉色能量条。 Roadmap下一步用节点路线保留。   TASK SLOT ◇  任务板还没有公开档案 下一个服务或硬件实验整理完成后，再放进这块板。      \n      (() => {\n        const storageKey = \"jlemonz:theme:v1\";\n        const themes = [\"sailei-pink-diary\", \"sakura-light\", \"paper-milk\"];\n        const fallback = \"sailei-pink-diary\";\n        const themeColors = {\n          \"sailei-pink-diary\": \"#fff6fa\",\n          \"sakura-light\": \"#fff8fb\",\n          \"paper-milk\": \"#fffaf3\"\n        };\n\n        const readTheme = () => {\n          try {\n            const saved = window.localStorage.getItem(storageKey);\n            return themes.includes(saved || \"\") ? saved : fallback;\n          } catch {\n            return fallback;\n          }\n        };\n\n        const saveTheme = (theme) => {\n          try {\n            window.localStorage.setItem(storageKey, theme);\n          } catch {\n            // localStorage can be unavailable in locked-down browsers; visual switching should still work.\n          }\n        };\n\n        const applyTheme = (theme, persist = true) => {\n          const safeTheme = themes.includes(theme) ? theme : fallback;\n          document.documentElement.dataset.theme = safeTheme;\n          document.documentElement.dataset.themeReady = \"true\";\n          document.body.dataset.theme = safeTheme;\n          document.querySelector('meta[name=\"theme-color\"]')?.setAttribute(\"content\", themeColors[safeTheme] || themeColors[fallback]);\n          document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n            const isActive = button.getAttribute(\"data-theme-id\") === safeTheme;\n            button.setAttribute(\"aria-pressed\", String(isActive));\n          });\n          if (persist) {\n            saveTheme(safeTheme);\n          }\n        };\n\n        document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n          button.addEventListener(\"click\", () => {\n            applyTheme(button.getAttribute(\"data-theme-id\") || fallback);\n          });\n        });\n\n        applyTheme(readTheme(), false);\n      })();\n      ",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "post-1440",
+    "stateCount": 1,
+    "states": [
+      {
+        "tone": "detail",
+        "label": null,
+        "ribbon": "DETAIL SLOT",
+        "title": "公开笔记",
+        "body": "这里会读取可公开复盘的笔记正文，保留评论和点赞。",
+        "width": 1408,
+        "height": 204.37501525878906
+      }
+    ],
+    "text": " 跳到主要内容    J   Jlemonz Sailei Pink Diary  SYNC   ✦ 赛蕾：今日也把线索贴好。    01 首页 ✿  02 瞬间 ✿  03 笔记 ✿  04 项目 ✿  05 关于 ✿     资料检索 DATA   ⌕      赛蕾粉色手帐   樱花轻亮   奶白纸页        DETAIL SLOT ?  公开笔记 这里会读取可公开复盘的笔记正文，保留评论和点赞。 链接里没有 id 或 slug，先显示资料卡空位。   \n  (() => {\n    const search = new URLSearchParams(window.location.search);\n    const idOrSlug = search.get(\"id\") || search.get(\"slug\") || \"\";\n    document.querySelectorAll(\"[data-detail-kind]\").forEach((node) => {\n      const mount = node;\n      const kind = mount.getAttribute(\"data-detail-kind\") || \"\";\n      const target = mount.querySelector(\"[data-detail-target]\");\n      if (!(target instanceof HTMLElement)) return;\n      if (!idOrSlug) {\n        target.textContent = \"链接里没有 id 或 slug，先显示资料卡空位。\";\n        return;\n      }\n      const apiPath = kind === \"project\"\n        ? `/api/projects/${encodeURIComponent(idOrSlug)}`\n        : `/api/posts/${encodeURIComponent(idOrSlug)}`;\n      mount.setAttribute(\"data-detail-id\", idOrSlug);\n      mount.setAttribute(\"data-api-path\", apiPath);\n      target.textContent = `已识别旧链接参数：${idOrSlug}`;\n    });\n  })();\n   \n      (() => {\n        const storageKey = \"jlemonz:theme:v1\";\n        const themes = [\"sailei-pink-diary\", \"sakura-light\", \"paper-milk\"];\n        const fallback = \"sailei-pink-diary\";\n        const themeColors = {\n          \"sailei-pink-diary\": \"#fff6fa\",\n          \"sakura-light\": \"#fff8fb\",\n          \"paper-milk\": \"#fffaf3\"\n        };\n\n        const readTheme = () => {\n          try {\n            const saved = window.localStorage.getItem(storageKey);\n            return themes.includes(saved || \"\") ? saved : fallback;\n          } catch {\n            return fallback;\n          }\n        };\n\n        const saveTheme = (theme) => {\n          try {\n            window.localStorage.setItem(storageKey, theme);\n          } catch {\n            // localStorage can be unavailable in locked-down browsers; visual switching should still work.\n          }\n        };\n\n        const applyTheme = (theme, persist = true) => {\n          const safeTheme = themes.includes(theme) ? theme : fallback;\n          document.documentElement.dataset.theme = safeTheme;\n          document.documentElement.dataset.themeReady = \"true\";\n          document.body.dataset.theme = safeTheme;\n          document.querySelector('meta[name=\"theme-color\"]')?.setAttribute(\"content\", themeColors[safeTheme] || themeColors[fallback]);\n          document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n            const isActive = button.getAttribute(\"data-theme-id\") === safeTheme;\n            button.setAttribute(\"aria-pressed\", String(isActive));\n          });\n          if (persist) {\n            saveTheme(safeTheme);\n          }\n        };\n\n        document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n          button.addEventListener(\"click\", () => {\n            applyTheme(button.getAttribute(\"data-theme-id\") || fallback);\n          });\n        });\n\n        applyTheme(readTheme(), false);\n      })();\n      ",
+    "horizontalOverflow": false
+  },
+  {
+    "label": "archive-390",
+    "stateCount": 1,
+    "states": [
+      {
+        "tone": "notes",
+        "label": "资料夹还在等第一张书签",
+        "ribbon": "NOTE SLOT",
+        "title": "资料夹还在等第一张书签",
+        "body": "第一篇长记录整理好后，赛蕾会把它钉在这里。",
+        "width": 358,
+        "height": 181.953125
+      }
+    ],
+    "text": " 跳到主要内容    J   Jlemonz Sailei Pink Diary  SYNC   ✦ 赛蕾：今日也把线索贴好。    01 首页 ✿  02 瞬间 ✿  03 笔记 ✿  04 项目 ✿  05 关于 ✿     资料检索 DATA   ⌕      赛蕾粉色手帐   樱花轻亮   奶白纸页        notes 笔记 长文、调试和学习笔记收进资料库，下一次遇到同类问题时能直接翻回现场。 STATUS: CONNECTED   长文慢慢读的公开记录。 调试能回到现场的排查线索。 学习Linux、硬件和 AI 的长期补课。   NOTE SLOT ✎  资料夹还在等第一张书签 第一篇长记录整理好后，赛蕾会把它钉在这里。      \n      (() => {\n        const storageKey = \"jlemonz:theme:v1\";\n        const themes = [\"sailei-pink-diary\", \"sakura-light\", \"paper-milk\"];\n        const fallback = \"sailei-pink-diary\";\n        const themeColors = {\n          \"sailei-pink-diary\": \"#fff6fa\",\n          \"sakura-light\": \"#fff8fb\",\n          \"paper-milk\": \"#fffaf3\"\n        };\n\n        const readTheme = () => {\n          try {\n            const saved = window.localStorage.getItem(storageKey);\n            return themes.includes(saved || \"\") ? saved : fallback;\n          } catch {\n            return fallback;\n          }\n        };\n\n        const saveTheme = (theme) => {\n          try {\n            window.localStorage.setItem(storageKey, theme);\n          } catch {\n            // localStorage can be unavailable in locked-down browsers; visual switching should still work.\n          }\n        };\n\n        const applyTheme = (theme, persist = true) => {\n          const safeTheme = themes.includes(theme) ? theme : fallback;\n          document.documentElement.dataset.theme = safeTheme;\n          document.documentElement.dataset.themeReady = \"true\";\n          document.body.dataset.theme = safeTheme;\n          document.querySelector('meta[name=\"theme-color\"]')?.setAttribute(\"content\", themeColors[safeTheme] || themeColors[fallback]);\n          document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n            const isActive = button.getAttribute(\"data-theme-id\") === safeTheme;\n            button.setAttribute(\"aria-pressed\", String(isActive));\n          });\n          if (persist) {\n            saveTheme(safeTheme);\n          }\n        };\n\n        document.querySelectorAll(\"[data-theme-option]\").forEach((button) => {\n          button.addEventListener(\"click\", () => {\n            applyTheme(button.getAttribute(\"data-theme-id\") || fallback);\n          });\n        });\n\n        applyTheme(readTheme(), false);\n      })();\n      ",
+    "horizontalOverflow": false
+  }
+]
