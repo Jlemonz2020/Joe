@@ -1,0 +1,28 @@
+
+> jlemonz-astro-pink-diary@0.0.0 build
+> astro build
+
+11:15:14 [types] Generated 48ms
+11:15:14 [build] output: "static"
+11:15:14 [build] mode: "static"
+11:15:14 [build] directory: /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/jlemonz-astro-pink-diary/dist/
+11:15:14 [build] Collecting build info...
+11:15:14 [build] ✓ Completed in 71ms.
+11:15:14 [build] Building static entrypoints...
+11:15:16 [vite] ✓ built in 1.23s
+11:15:16 [vite] ✓ built in 16ms
+11:15:16 [build] Rearranging server assets...
+
+ generating static routes 
+11:15:16   ├─ /about.html (+25ms) 
+11:15:16   ├─ /archive.html (+6ms) 
+11:15:16   ├─ /moments.html (+5ms) 
+11:15:16   ├─ /post.html (+5ms) 
+11:15:16   ├─ /project.html (+4ms) 
+11:15:16   ├─ /projects.html (+4ms) 
+11:15:16   ├─ /index.html (+4ms) 
+11:15:16 ✓ Completed in 94ms.
+
+11:15:16 [build] ✓ Completed in 1.42s.
+11:15:16 [build] 7 page(s) built in 1.49s
+11:15:16 [build] Complete!

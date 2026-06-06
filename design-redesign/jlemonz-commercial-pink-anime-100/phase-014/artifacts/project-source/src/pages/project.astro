@@ -1,0 +1,8 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LegacyDetailMount from "../components/LegacyDetailMount.astro";
+---
+
+<BaseLayout active="projects" title="项目详情">
+  <LegacyDetailMount kind="project" title="项目详情" fallbackBody="这里会读取公开项目档案，保留评论、点赞和公开规则。" />
+</BaseLayout>
