@@ -46,7 +46,7 @@ Theme labels are screen-reader only in this phase. If later UX review finds the 
 
 ## GitHub Verification
 
-- First commit: pending.
-- Remote push: pending.
-- Verification record: pending.
-
+- First commit: `e289318e3b5af01a4b2c35ceb773b7a2f5ab274c`.
+- Remote push: confirmed by `git ls-remote origin refs/heads/main`.
+- Remote `main`: `e289318e3b5af01a4b2c35ceb773b7a2f5ab274c`.
+- Verification record: stored by the follow-up commit `phase-025: record push verification`.

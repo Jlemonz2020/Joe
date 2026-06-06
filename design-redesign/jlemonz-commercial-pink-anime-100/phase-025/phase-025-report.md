@@ -46,6 +46,6 @@ Approved. The theme system is stable enough for Phase 026 search entrance work.
 ## GitHub Archive
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-025/`
-- Commit: pending first archive commit.
-- Push verification: pending.
-
+- Commit: `e289318e3b5af01a4b2c35ceb773b7a2f5ab274c` (`phase-025: add pink theme switcher`).
+- Push verification: remote `main` confirmed at `e289318e3b5af01a4b2c35ceb773b7a2f5ab274c`.
+- Push range: `117cdfe79eae42a820aade40240e7f2c5e653e7e..e289318e3b5af01a4b2c35ceb773b7a2f5ab274c`.
