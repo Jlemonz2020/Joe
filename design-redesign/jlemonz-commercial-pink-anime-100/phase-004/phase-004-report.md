@@ -84,8 +84,8 @@ No screenshots were required in Phase 004 because the phase does not change UI. 
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-004/`
-- Commit: pending before final verification.
-- Push: pending before final verification.
+- Commit: `c76d0e2 phase-004: redefine information architecture`.
+- Push: `origin/main` accepted `00aa4fb..c76d0e2`.
 
 ## Next Gate
 

@@ -12,8 +12,8 @@
 - [x] `瞬间` and `笔记` have separate content contracts.
 - [x] Empty data states are marked as first-class IA requirements.
 - [x] Cleanup was performed.
-- [ ] GitHub commit succeeded.
-- [ ] GitHub push succeeded.
+- [x] GitHub commit succeeded: `c76d0e2 phase-004: redefine information architecture`.
+- [x] GitHub push succeeded: `origin/main` accepted `00aa4fb..c76d0e2`.
 
 ## Findings
 
