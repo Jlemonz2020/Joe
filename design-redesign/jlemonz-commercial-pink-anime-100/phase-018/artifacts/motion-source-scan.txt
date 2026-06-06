@@ -1,0 +1,7 @@
+11:@media (prefers-reduced-motion: no-preference) {
+16:    animation: diary-enter var(--motion-slow) var(--ease-diary) both;
+31:    transition:
+46:    animation: sticker-pulse var(--motion-idle) ease-in-out infinite;
+50:@media (prefers-reduced-motion: reduce) {
+61:@keyframes diary-enter {
+73:@keyframes sticker-pulse {

@@ -1,0 +1,8 @@
+dist/about.html
+dist/archive.html
+dist/_astro/BaseLayout.D2NfIweS.css
+dist/index.html
+dist/moments.html
+dist/post.html
+dist/project.html
+dist/projects.html
