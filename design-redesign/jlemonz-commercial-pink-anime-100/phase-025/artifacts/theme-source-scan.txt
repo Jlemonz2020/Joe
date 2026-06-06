@@ -1,0 +1,22 @@
+src/components/Header.astro:3:import { defaultTheme, switchableThemeIds, themeProfiles } from "../data/themeTokens";
+src/components/Header.astro:11:const switcherThemes = switchableThemeIds.map((id) => themeProfiles.find((theme) => theme.id === id)).filter(Boolean) as typeof themeProfiles;
+src/components/Header.astro:47:          data-theme-option
+src/components/Header.astro:50:          aria-pressed={theme.id === defaultTheme ? "true" : "false"}
+src/styles/header.css:264:.theme-chip[aria-pressed="true"] {
+src/styles/header.css:272:.theme-chip[aria-pressed="true"]::after {
+src/data/themeTokens.ts:49:export const switchableThemeIds: ThemeId[] = ["sailei-pink-diary", "sakura-light", "paper-milk"];
+src/data/themeTokens.ts:51:export const themeStorageKey = "jlemonz:theme:v1";
+src/data/themeTokens.ts:53:export const themeColorById: Record<ThemeId, string> = {
+src/data/themeTokens.ts:60:export const themeSwitchRules = [
+src/data/themeTokens.ts:71:    detail: `Use localStorage key \`${themeStorageKey}\`; ignore unknown values instead of applying them.`
+src/layouts/BaseLayout.astro:26:    <meta name="theme-color" content="#fff6fa" />
+src/layouts/BaseLayout.astro:36:          storedTheme = window.localStorage.getItem(storageKey) || "";
+src/layouts/BaseLayout.astro:43:        document.documentElement.dataset.themeReady = "boot";
+src/layouts/BaseLayout.astro:67:            const saved = window.localStorage.getItem(storageKey);
+src/layouts/BaseLayout.astro:76:            window.localStorage.setItem(storageKey, theme);
+src/layouts/BaseLayout.astro:78:            // localStorage can be unavailable in locked-down browsers; visual switching should still work.
+src/layouts/BaseLayout.astro:85:          document.documentElement.dataset.themeReady = "true";
+src/layouts/BaseLayout.astro:87:          document.querySelector('meta[name="theme-color"]')?.setAttribute("content", themeColors[safeTheme] || themeColors[fallback]);
+src/layouts/BaseLayout.astro:88:          document.querySelectorAll("[data-theme-option]").forEach((button) => {
+src/layouts/BaseLayout.astro:90:            button.setAttribute("aria-pressed", String(isActive));
+src/layouts/BaseLayout.astro:97:        document.querySelectorAll("[data-theme-option]").forEach((button) => {

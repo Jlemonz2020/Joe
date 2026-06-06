@@ -1,0 +1,147 @@
+[
+  {
+    "width": 1280,
+    "height": 900,
+    "requestedTheme": "stored-or-default",
+    "label": "theme-default-1280",
+    "htmlTheme": "sailei-pink-diary",
+    "bodyTheme": "sailei-pink-diary",
+    "ready": "true",
+    "storedTheme": null,
+    "themeColor": "#fff6fa",
+    "pressed": [
+      {
+        "id": "sailei-pink-diary",
+        "pressed": "true",
+        "label": "切换到赛蕾粉色手帐"
+      },
+      {
+        "id": "sakura-light",
+        "pressed": "false",
+        "label": "切换到樱花轻亮"
+      },
+      {
+        "id": "paper-milk",
+        "pressed": "false",
+        "label": "切换到奶白纸页"
+      }
+    ],
+    "horizontalOverflow": false
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "requestedTheme": "paper-milk",
+    "label": "theme-paper-1280",
+    "htmlTheme": "paper-milk",
+    "bodyTheme": "paper-milk",
+    "ready": "true",
+    "storedTheme": "paper-milk",
+    "themeColor": "#fffaf3",
+    "pressed": [
+      {
+        "id": "sailei-pink-diary",
+        "pressed": "false",
+        "label": "切换到赛蕾粉色手帐"
+      },
+      {
+        "id": "sakura-light",
+        "pressed": "false",
+        "label": "切换到樱花轻亮"
+      },
+      {
+        "id": "paper-milk",
+        "pressed": "true",
+        "label": "切换到奶白纸页"
+      }
+    ],
+    "horizontalOverflow": false
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "requestedTheme": "reload-after-paper-milk",
+    "label": "theme-paper-reload",
+    "htmlTheme": "paper-milk",
+    "bodyTheme": "paper-milk",
+    "ready": "true",
+    "storedTheme": "paper-milk",
+    "themeColor": "#fffaf3",
+    "pressed": [
+      {
+        "id": "sailei-pink-diary",
+        "pressed": "false",
+        "label": "切换到赛蕾粉色手帐"
+      },
+      {
+        "id": "sakura-light",
+        "pressed": "false",
+        "label": "切换到樱花轻亮"
+      },
+      {
+        "id": "paper-milk",
+        "pressed": "true",
+        "label": "切换到奶白纸页"
+      }
+    ],
+    "horizontalOverflow": false
+  },
+  {
+    "width": 390,
+    "height": 1100,
+    "requestedTheme": "sakura-light",
+    "label": "theme-sakura-390",
+    "htmlTheme": "sakura-light",
+    "bodyTheme": "sakura-light",
+    "ready": "true",
+    "storedTheme": "sakura-light",
+    "themeColor": "#fff8fb",
+    "pressed": [
+      {
+        "id": "sailei-pink-diary",
+        "pressed": "false",
+        "label": "切换到赛蕾粉色手帐"
+      },
+      {
+        "id": "sakura-light",
+        "pressed": "true",
+        "label": "切换到樱花轻亮"
+      },
+      {
+        "id": "paper-milk",
+        "pressed": "false",
+        "label": "切换到奶白纸页"
+      }
+    ],
+    "horizontalOverflow": false
+  },
+  {
+    "width": 390,
+    "height": 1100,
+    "requestedTheme": "invalid-storage-fallback",
+    "label": "theme-invalid-fallback",
+    "htmlTheme": "sailei-pink-diary",
+    "bodyTheme": "sailei-pink-diary",
+    "ready": "true",
+    "storedTheme": "sailei-night",
+    "themeColor": "#fff6fa",
+    "pressed": [
+      {
+        "id": "sailei-pink-diary",
+        "pressed": "true",
+        "label": "切换到赛蕾粉色手帐"
+      },
+      {
+        "id": "sakura-light",
+        "pressed": "false",
+        "label": "切换到樱花轻亮"
+      },
+      {
+        "id": "paper-milk",
+        "pressed": "false",
+        "label": "切换到奶白纸页"
+      }
+    ],
+    "horizontalOverflow": false
+  }
+]

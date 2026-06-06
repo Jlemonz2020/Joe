@@ -1,0 +1,3 @@
+theme-default-1280.png 523093 bytes
+theme-paper-1280.png 507198 bytes
+theme-sakura-390.png 226765 bytes

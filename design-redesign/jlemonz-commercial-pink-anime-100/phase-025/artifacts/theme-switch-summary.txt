@@ -1,0 +1,5 @@
+theme-default-1280: html=sailei-pink-diary body=sailei-pink-diary stored=null active=sailei-pink-diary color=#fff6fa overflow=false
+theme-paper-1280: html=paper-milk body=paper-milk stored=paper-milk active=paper-milk color=#fffaf3 overflow=false
+theme-paper-reload: html=paper-milk body=paper-milk stored=paper-milk active=paper-milk color=#fffaf3 overflow=false
+theme-sakura-390: html=sakura-light body=sakura-light stored=sakura-light active=sakura-light color=#fff8fb overflow=false
+theme-invalid-fallback: html=sailei-pink-diary body=sailei-pink-diary stored=sailei-night active=sailei-pink-diary color=#fff6fa overflow=false
