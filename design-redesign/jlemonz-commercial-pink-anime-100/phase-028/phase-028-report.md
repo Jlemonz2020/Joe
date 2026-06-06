@@ -54,6 +54,6 @@ Approved. The site now has a reusable card material layer instead of plain repea
 ## GitHub Archive
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-028/`
-- Commit: pending first archive commit.
-- Push verification: pending.
-
+- Commit: `5a33bc96a73ce632ca57c8c52993d03d2145f10e` (`phase-028: add diary card system`).
+- Push verification: remote `main` confirmed at `5a33bc96a73ce632ca57c8c52993d03d2145f10e`.
+- Push range: `5b4303f4fd34b4e718e91663285046f4289c59fe..5a33bc96a73ce632ca57c8c52993d03d2145f10e`.

@@ -48,7 +48,7 @@ Phase 029 should build on `diary-card--glass` for reusable empty states instead 
 
 ## GitHub Verification
 
-- First commit: pending.
-- Remote push: pending.
-- Verification record: pending.
-
+- First commit: `5a33bc96a73ce632ca57c8c52993d03d2145f10e`.
+- Remote push: confirmed by `git ls-remote origin refs/heads/main`.
+- Remote `main`: `5a33bc96a73ce632ca57c8c52993d03d2145f10e`.
+- Verification record: stored by the follow-up commit `phase-028: record push verification`.
