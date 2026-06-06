@@ -1,0 +1,9 @@
+200 /
+200 /index.html
+200 /moments.html
+200 /archive.html
+200 /projects.html
+200 /project.html
+200 /post.html
+200 /about.html
+200 /assets/sailei/sailei-main.jpg

@@ -1,0 +1,27 @@
+src/data/backgroundRules.ts:11:    guardrail: "Use `position: fixed`; never attach the character image to a scrolling section."
+src/styles/background.css:2:  --background-character-image: url("/assets/sailei/sailei-main.jpg");
+src/styles/background.css:3:  --background-character-opacity: 0.24;
+src/styles/background.css:4:  --background-character-position: 74% 48%;
+src/styles/background.css:5:  --background-character-size: cover;
+src/styles/background.css:6:  --background-wash:
+src/styles/background.css:26:body::before,
+src/styles/background.css:27:body::after {
+src/styles/background.css:28:  position: fixed;
+src/styles/background.css:30:  z-index: 0;
+src/styles/background.css:31:  pointer-events: none;
+src/styles/background.css:35:body::before {
+src/styles/background.css:36:  background-image: var(--background-character-image);
+src/styles/background.css:37:  background-position: var(--background-character-position);
+src/styles/background.css:39:  background-size: var(--background-character-size);
+src/styles/background.css:41:  opacity: var(--background-character-opacity);
+src/styles/background.css:45:body::after {
+src/styles/background.css:52:    var(--background-wash);
+src/styles/background.css:66:  z-index: 1;
+src/styles/background.css:71:    --background-character-opacity: 0.18;
+src/styles/background.css:72:    --background-character-position: 68% 48%;
+src/styles/background.css:73:    --background-wash:
+src/styles/background.css:85:    --background-character-opacity: 0.28;
+src/styles/background.css:86:    --background-character-position: 82% 48%;
+src/styles/background.css:87:    --background-character-size: min(118rem, 112vw) auto;
+src/styles/background.css:93:    --background-character-position: 86% 48%;
+src/styles/background.css:94:    --background-character-size: 126rem auto;

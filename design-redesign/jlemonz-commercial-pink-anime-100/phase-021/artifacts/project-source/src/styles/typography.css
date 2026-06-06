@@ -1,0 +1,105 @@
+:root {
+  --font-body: var(--font-sans);
+  --font-heading: var(--font-display);
+  --text-hero: 2.75rem;
+  --text-page-title: 2rem;
+  --text-section-title: 1.35rem;
+  --text-card-title: 1rem;
+  --text-body: 1rem;
+  --text-lead: 1.08rem;
+  --text-meta: 0.82rem;
+  --line-tight: 1.08;
+  --line-heading: 1.18;
+  --line-body: 1.72;
+  --line-caption: 1.45;
+  --measure-lead: 46ch;
+  --measure-body: 68ch;
+  --measure-card: 58ch;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--line-body);
+  letter-spacing: 0;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  line-height: var(--line-heading);
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+p,
+li {
+  max-width: var(--measure-body);
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.brand strong {
+  line-height: var(--line-tight);
+}
+
+.brand small,
+.dialog-name,
+.dialog-status,
+.detail-mount__target {
+  font-size: var(--text-meta);
+  line-height: var(--line-caption);
+}
+
+.nav-link,
+.header-actions button {
+  line-height: 1;
+}
+
+.galgame-dialog h1 {
+  font-size: var(--text-hero);
+  line-height: 0.98;
+}
+
+.galgame-dialog p:not(.dialog-name) {
+  max-width: var(--measure-lead);
+  font-size: var(--text-lead);
+  line-height: var(--line-body);
+}
+
+.panel h2 {
+  font-size: var(--text-section-title);
+}
+
+.panel p,
+.empty-sailei p {
+  max-width: var(--measure-card);
+  line-height: var(--line-body);
+}
+
+time,
+.timestamp,
+.stat-number {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --text-hero: 4.5rem;
+    --text-page-title: 2.5rem;
+    --text-section-title: 1.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --text-hero: 5.25rem;
+    --text-page-title: 3rem;
+  }
+}

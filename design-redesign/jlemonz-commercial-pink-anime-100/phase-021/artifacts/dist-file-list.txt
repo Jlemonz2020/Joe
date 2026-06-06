@@ -1,0 +1,9 @@
+dist/about.html
+dist/archive.html
+dist/assets/sailei/sailei-main.jpg
+dist/_astro/BaseLayout.BJqtsnmY.css
+dist/index.html
+dist/moments.html
+dist/post.html
+dist/project.html
+dist/projects.html

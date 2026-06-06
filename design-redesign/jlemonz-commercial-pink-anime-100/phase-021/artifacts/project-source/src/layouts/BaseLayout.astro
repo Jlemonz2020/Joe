@@ -1,0 +1,36 @@
+---
+import Header from "../components/Header.astro";
+import "../styles/themes.css";
+import "../styles/background.css";
+import "../styles/global.css";
+import "../styles/typography.css";
+import "../styles/motion.css";
+import "../styles/interaction.css";
+import { pages, type PageKey } from "../data/pageMeta";
+
+interface Props {
+  active: PageKey;
+  title?: string;
+  description?: string;
+}
+
+const { active, title = pages[active].title, description = pages[active].lead } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff6fa" />
+    <meta name="description" content={description} />
+    <title>{title} - Jlemonz</title>
+  </head>
+  <body data-page={active} data-theme="sailei-pink-diary">
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <Header active={active} />
+    <main id="main" class="page-shell">
+      <slot />
+    </main>
+  </body>
+</html>
