@@ -1,0 +1,17 @@
+{
+  "name": "jlemonz-astro-pink-diary",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "astro build",
+    "typecheck": "tsc --noEmit",
+    "preview": "astro preview --host 127.0.0.1 --port 4328"
+  },
+  "dependencies": {
+    "astro": "^6.4.4"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
