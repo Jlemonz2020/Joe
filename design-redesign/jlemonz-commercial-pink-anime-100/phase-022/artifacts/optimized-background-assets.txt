@@ -1,0 +1,15 @@
+Optimized Sailei background assets generated with Pillow at 2026-06-06T12:08:02+08:00
+public/assets/sailei/sailei-bg-1280.webp 109492 bytes
+public/assets/sailei/sailei-bg-1280.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 1280x800, Scaling: [none]x[none], YUV color, decoders should clamp
+public/assets/sailei/sailei-bg-1920.webp 212810 bytes
+public/assets/sailei/sailei-bg-1920.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 1920x1200, Scaling: [none]x[none], YUV color, decoders should clamp
+public/assets/sailei/sailei-bg-2560.webp 305212 bytes
+public/assets/sailei/sailei-bg-2560.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 2560x1600, Scaling: [none]x[none], YUV color, decoders should clamp
+public/assets/sailei/sailei-bg-1280.jpg 152082 bytes
+public/assets/sailei/sailei-bg-1280.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, progressive, precision 8, 1280x800, components 3
+public/assets/sailei/sailei-bg-1920.jpg 312252 bytes
+public/assets/sailei/sailei-bg-1920.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, progressive, precision 8, 1920x1200, components 3
+public/assets/sailei/sailei-bg-2560.jpg 492327 bytes
+public/assets/sailei/sailei-bg-2560.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1, segment length 16, progressive, precision 8, 2560x1600, components 3
+public/assets/sailei/sailei-main.jpg 860962 bytes
+public/assets/sailei/sailei-main.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 96x96, segment length 16, baseline, precision 8, 3162x1976, components 3

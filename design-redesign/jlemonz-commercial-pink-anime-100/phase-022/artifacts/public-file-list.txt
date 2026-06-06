@@ -1,0 +1,7 @@
+public/assets/sailei/sailei-bg-1280.jpg
+public/assets/sailei/sailei-bg-1280.webp
+public/assets/sailei/sailei-bg-1920.jpg
+public/assets/sailei/sailei-bg-1920.webp
+public/assets/sailei/sailei-bg-2560.jpg
+public/assets/sailei/sailei-bg-2560.webp
+public/assets/sailei/sailei-main.jpg

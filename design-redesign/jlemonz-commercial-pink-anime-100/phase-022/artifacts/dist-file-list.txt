@@ -1,0 +1,15 @@
+dist/about.html
+dist/archive.html
+dist/assets/sailei/sailei-bg-1280.jpg
+dist/assets/sailei/sailei-bg-1280.webp
+dist/assets/sailei/sailei-bg-1920.jpg
+dist/assets/sailei/sailei-bg-1920.webp
+dist/assets/sailei/sailei-bg-2560.jpg
+dist/assets/sailei/sailei-bg-2560.webp
+dist/assets/sailei/sailei-main.jpg
+dist/_astro/BaseLayout.BsZ2OrPV.css
+dist/index.html
+dist/moments.html
+dist/post.html
+dist/project.html
+dist/projects.html

@@ -1,0 +1,30 @@
+src/data/assetRegistry.ts:54:    path: "/assets/sailei/sailei-bg-1280.webp",
+src/data/assetRegistry.ts:63:    path: "/assets/sailei/sailei-bg-1920.webp",
+src/data/assetRegistry.ts:72:    path: "/assets/sailei/sailei-bg-2560.webp",
+src/data/backgroundRules.ts:11:    guardrail: "Use `position: fixed`; never attach the character image to a scrolling section."
+src/styles/background.css:3:    image-set(
+src/styles/background.css:4:      url("/assets/sailei/sailei-bg-1280.webp") type("image/webp"),
+src/styles/background.css:5:      url("/assets/sailei/sailei-bg-1280.jpg") type("image/jpeg")
+src/styles/background.css:8:  --background-character-position: 68% 48%;
+src/styles/background.css:9:  --background-character-size: cover;
+src/styles/background.css:32:  position: fixed;
+src/styles/background.css:41:  background-position: var(--background-character-position);
+src/styles/background.css:43:  background-size: var(--background-character-size);
+src/styles/background.css:73:@media (max-width: 767px) {
+src/styles/background.css:76:    --background-character-position: 64% 48%;
+src/styles/background.css:87:@media (min-width: 768px) {
+src/styles/background.css:89:    --background-character-position: 72% 48%;
+src/styles/background.css:93:@media (min-width: 1024px) {
+src/styles/background.css:96:      image-set(
+src/styles/background.css:97:        url("/assets/sailei/sailei-bg-1920.webp") type("image/webp"),
+src/styles/background.css:98:        url("/assets/sailei/sailei-bg-1920.jpg") type("image/jpeg")
+src/styles/background.css:100:    --background-character-position: 78% 48%;
+src/styles/background.css:104:@media (min-width: 1600px) {
+src/styles/background.css:107:    --background-character-position: 82% 48%;
+src/styles/background.css:108:    --background-character-size: min(118rem, 112vw) auto;
+src/styles/background.css:112:@media (min-width: 2560px) {
+src/styles/background.css:115:      image-set(
+src/styles/background.css:116:        url("/assets/sailei/sailei-bg-2560.webp") type("image/webp"),
+src/styles/background.css:117:        url("/assets/sailei/sailei-bg-2560.jpg") type("image/jpeg")
+src/styles/background.css:119:    --background-character-position: 84% 48%;
+src/styles/background.css:120:    --background-character-size: min(136rem, 72vw) auto;

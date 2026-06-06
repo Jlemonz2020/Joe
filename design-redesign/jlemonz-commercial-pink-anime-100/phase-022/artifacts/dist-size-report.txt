@@ -1,0 +1,10 @@
+4.0K	dist/about.html
+4.0K	dist/archive.html
+2.4M	dist/assets/sailei
+2.4M	dist/assets
+20K	dist/_astro
+4.0K	dist/index.html
+4.0K	dist/moments.html
+4.0K	dist/post.html
+4.0K	dist/project.html
+4.0K	dist/projects.html
