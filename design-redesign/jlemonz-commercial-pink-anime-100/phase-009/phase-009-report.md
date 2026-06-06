@@ -70,8 +70,8 @@ No screenshots were required in Phase 009 because the phase defines performance 
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-009/`
-- Commit: pending before final verification.
-- Push: pending before final verification.
+- Commit: `faf159d phase-009: define performance budgets`.
+- Push: `origin/main` accepted `503697d..faf159d`.
 
 ## Next Gate
 

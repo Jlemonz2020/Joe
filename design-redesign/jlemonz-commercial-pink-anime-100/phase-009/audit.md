@@ -12,8 +12,8 @@
 - [x] Performance budgets are measurable.
 - [x] Responsive and mobile constraints are included.
 - [x] Cleanup was performed.
-- [ ] GitHub commit succeeded.
-- [ ] GitHub push succeeded.
+- [x] GitHub commit succeeded: `faf159d phase-009: define performance budgets`.
+- [x] GitHub push succeeded: `origin/main` accepted `503697d..faf159d`.
 
 ## Findings
 
