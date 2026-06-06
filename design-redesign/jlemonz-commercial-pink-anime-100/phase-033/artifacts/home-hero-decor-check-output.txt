@@ -1,0 +1,14 @@
+home-decor-390: decor=true hudLines=2 stickers=none,none fixedBodyPosition=64% 48% overflow=false
+home-decor-1280: decor=true hudLines=2 stickers=flex,flex fixedBodyPosition=78% 48% overflow=false
+home-decor-1920: decor=true hudLines=2 stickers=flex,flex fixedBodyPosition=82% 48% overflow=false
+Starting server 1/1: python3 -m http.server 4417 -d /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/jlemonz-astro-pink-diary/dist
+Waiting for server on port 4417...
+Server ready on port 4417
+
+All 1 server(s) ready
+Running: node design-redesign/jlemonz-commercial-pink-anime-100/phase-033/artifacts/home-hero-decor-check.mjs
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped

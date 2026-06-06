@@ -1,0 +1,196 @@
+.status-sailei {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  min-height: 9.5rem;
+  padding: clamp(1.1rem, 3vw, 1.65rem);
+}
+
+.status-sailei::after {
+  right: 1rem;
+  top: 1rem;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 34% 32%, rgba(255, 255, 255, 0.75), transparent 28%),
+    radial-gradient(circle at 48% 52%, rgba(255, 201, 221, 0.28), transparent 48%),
+    repeating-conic-gradient(from 12deg, rgba(243, 95, 152, 0.08) 0deg 8deg, transparent 8deg 18deg);
+  opacity: 0.48;
+}
+
+.status-ribbon,
+.status-orbit,
+.status-cue,
+.status-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.status-ribbon {
+  position: absolute;
+  top: 0.85rem;
+  right: 1rem;
+  padding: 0.25rem 0.58rem;
+  border: 1px solid rgba(243, 95, 152, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.72);
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.status-orbit {
+  display: grid;
+  place-items: center;
+  width: 3.8rem;
+  height: 3.8rem;
+  border: 1px solid rgba(243, 95, 152, 0.22);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 38% 28%, rgba(255, 255, 255, 0.92), transparent 34%),
+    linear-gradient(135deg, rgba(255, 232, 241, 0.92), rgba(255, 253, 248, 0.78));
+  box-shadow: var(--shadow-sticker);
+}
+
+.status-orbit span {
+  position: absolute;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--pink-500);
+  box-shadow: 0 0 1rem rgba(243, 95, 152, 0.46);
+}
+
+.status-orbit span:nth-child(1) {
+  transform: translateY(-1.05rem);
+}
+
+.status-orbit span:nth-child(2) {
+  background: var(--cyan);
+  transform: rotate(120deg) translateY(-1.05rem);
+}
+
+.status-orbit span:nth-child(3) {
+  background: var(--gold);
+  transform: rotate(240deg) translateY(-1.05rem);
+}
+
+.status-cue {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 0.9rem;
+  padding: 0.2rem 0.48rem;
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.76);
+  color: var(--rose-700);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.75) inset;
+}
+
+.status-copy {
+  max-width: 56ch;
+  padding-right: 4rem;
+}
+
+.status-copy strong {
+  display: block;
+  color: var(--rose-700);
+}
+
+.status-copy p {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: var(--line-body);
+}
+
+.status-sailei--loading .status-orbit {
+  border-color: rgba(243, 95, 152, 0.34);
+}
+
+.status-sailei--error .status-orbit {
+  border-color: rgba(237, 111, 159, 0.38);
+  background:
+    radial-gradient(circle at 38% 28%, rgba(255, 255, 255, 0.92), transparent 34%),
+    linear-gradient(135deg, rgba(255, 232, 241, 0.96), rgba(255, 246, 250, 0.78));
+}
+
+.status-sailei--offline .status-orbit {
+  border-color: rgba(139, 221, 231, 0.44);
+}
+
+.status-sailei--timeout .status-orbit {
+  border-color: rgba(239, 189, 96, 0.46);
+}
+
+.status-sailei--compact {
+  min-height: 7rem;
+}
+
+.state-lab-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 900px) {
+  .state-lab-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .status-sailei {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .status-ribbon {
+    position: static;
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 0.75rem;
+  }
+
+  .status-copy {
+    padding-right: 0;
+  }
+
+  .status-cue {
+    position: static;
+    display: inline-flex;
+    width: fit-content;
+    margin-top: -0.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .status-sailei--loading .status-orbit {
+    animation: status-sync-spin 2.4s linear infinite;
+  }
+
+  .status-sailei--timeout .status-orbit {
+    animation: status-wait-pulse 2.8s ease-in-out infinite;
+  }
+}
+
+@keyframes status-sync-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes status-wait-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.045);
+  }
+}

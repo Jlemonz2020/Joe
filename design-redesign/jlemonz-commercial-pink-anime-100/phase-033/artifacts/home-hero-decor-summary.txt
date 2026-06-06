@@ -1,0 +1,3 @@
+home-decor-390: decor=true hudLines=2 stickers=none,none fixedBodyPosition=64% 48% overflow=false
+home-decor-1280: decor=true hudLines=2 stickers=flex,flex fixedBodyPosition=78% 48% overflow=false
+home-decor-1920: decor=true hudLines=2 stickers=flex,flex fixedBodyPosition=82% 48% overflow=false

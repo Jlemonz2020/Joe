@@ -1,0 +1,46 @@
+# Phase 033 Report - Hero Background Layers
+
+## Status
+
+`approved`
+
+## Scope
+
+Phase 033 added paper texture, HUD lines, soft glow, desktop sticker chips, and portrait-frame texture to the home Hero. It did not change Hero copy or layout.
+
+## Files Changed In Project Snapshot
+
+- `src/components/HomeHero.astro`
+- `src/styles/home-hero.css`
+
+## Design Decision
+
+The Hero now has more visible anime diary interface language while keeping the text readable. Decorative layers are hidden or softened where they would compete with content, especially on mobile.
+
+## Verification Evidence
+
+- `artifacts/typecheck-output.txt`
+- `artifacts/build-output.txt`
+- `artifacts/npm-audit.txt`
+- `artifacts/static-scan.txt`
+- `artifacts/home-decor-source-scan.txt`
+- `artifacts/home-decor-built-scan.txt`
+- `artifacts/static-route-matrix.txt`
+- `artifacts/home-hero-decor-check-output.txt`
+- `artifacts/home-hero-decor-summary.txt`
+- `artifacts/screenshot-file-check.txt`
+- `artifacts/project-source-exclusion-check.txt`
+
+## Screenshots
+
+- `screens/home-decor-390.png`
+- `screens/home-decor-1280.png`
+- `screens/home-decor-1920.png`
+
+## Audit Result
+
+Approved. Hero layer depth is stronger, the fixed background remains stable, and the three tested widths have no horizontal overflow.
+
+## GitHub Push Verification
+
+Pending first push.

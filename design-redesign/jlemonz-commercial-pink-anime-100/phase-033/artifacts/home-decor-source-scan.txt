@@ -1,0 +1,19 @@
+src/styles/home-hero.css:10:.home-hero::before,
+src/styles/home-hero.css:20:.home-hero::before {
+src/styles/home-hero.css:42:.home-hero__decor {
+src/styles/home-hero.css:51:.home-hero__hud-line {
+src/styles/home-hero.css:60:.home-hero__hud-line--top {
+src/styles/home-hero.css:64:.home-hero__hud-line--bottom {
+src/styles/home-hero.css:68:.home-hero__sticker {
+src/styles/home-hero.css:84:.home-hero__sticker--pi {
+src/styles/home-hero.css:90:.home-hero__sticker--linux {
+src/styles/home-hero.css:278:.home-hero__portrait-frame::before,
+src/styles/home-hero.css:287:.home-hero__portrait-frame::before {
+src/styles/home-hero.css:379:  .home-hero__sticker--pi,
+src/styles/home-hero.css:380:  .home-hero__sticker--linux {
+src/components/HomeHero.astro:18:  <div class="home-hero__decor" aria-hidden="true">
+src/components/HomeHero.astro:19:    <span class="home-hero__hud-line home-hero__hud-line--top"></span>
+src/components/HomeHero.astro:20:    <span class="home-hero__hud-line home-hero__hud-line--bottom"></span>
+src/components/HomeHero.astro:21:    <span class="home-hero__sticker home-hero__sticker--pi">PI5</span>
+src/components/HomeHero.astro:22:    <span class="home-hero__sticker home-hero__sticker--linux">LINUX</span>
+src/components/HomeHero.astro:29:    <span class="home-hero__stamp" aria-hidden="true">DIARY DESK</span>

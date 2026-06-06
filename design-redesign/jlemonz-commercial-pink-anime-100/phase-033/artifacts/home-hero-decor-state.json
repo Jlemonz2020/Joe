@@ -1,0 +1,44 @@
+[
+  {
+    "name": "home-decor-390",
+    "hasDecor": true,
+    "hudLines": 2,
+    "stickerDisplay": [
+      "none",
+      "none"
+    ],
+    "bodyBackgroundPosition": "64% 48%",
+    "heroBeforeBackground": "radial-gradient(circle at 18% 22%, rgba(255, 201, 221, 0.56), rgba(0, 0, 0, 0) 352px), radial-gradient(circle at 82% 16%, rgba(139, 221, 231, 0.18), rgba(0, 0, 0, 0) 320px), radial-gradient(circle at 72% 88%, rgba(246, 201, 111, 0.14), rgba(0, 0, 0, 0) 288px)",
+    "dialogBeforeBackground": "linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(143, 49, 90, 0.035) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(135deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 46%, rgba(243, 95, 152, 0.027) 46%, rgba(243, 95, 152, 0.027) 46.35%, rgba(0, 0, 0, 0) 46.35%), radial-gradient(circle at 82% 22%, rgba(255, 201, 221, 0.16), rgba(0, 0, 0, 0) 240px)",
+    "portraitBeforeBackground": "linear-gradient(90deg, rgba(255, 255, 255, 0.28) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(143, 49, 90, 0.04) 1px, rgba(0, 0, 0, 0) 1px)",
+    "overflow": false
+  },
+  {
+    "name": "home-decor-1280",
+    "hasDecor": true,
+    "hudLines": 2,
+    "stickerDisplay": [
+      "flex",
+      "flex"
+    ],
+    "bodyBackgroundPosition": "78% 48%",
+    "heroBeforeBackground": "radial-gradient(circle at 18% 22%, rgba(255, 201, 221, 0.56), rgba(0, 0, 0, 0) 352px), radial-gradient(circle at 82% 16%, rgba(139, 221, 231, 0.18), rgba(0, 0, 0, 0) 320px), radial-gradient(circle at 72% 88%, rgba(246, 201, 111, 0.14), rgba(0, 0, 0, 0) 288px)",
+    "dialogBeforeBackground": "linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(143, 49, 90, 0.035) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(135deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 46%, rgba(243, 95, 152, 0.027) 46%, rgba(243, 95, 152, 0.027) 46.35%, rgba(0, 0, 0, 0) 46.35%), radial-gradient(circle at 82% 22%, rgba(255, 201, 221, 0.16), rgba(0, 0, 0, 0) 240px)",
+    "portraitBeforeBackground": "linear-gradient(90deg, rgba(255, 255, 255, 0.28) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(143, 49, 90, 0.04) 1px, rgba(0, 0, 0, 0) 1px)",
+    "overflow": false
+  },
+  {
+    "name": "home-decor-1920",
+    "hasDecor": true,
+    "hudLines": 2,
+    "stickerDisplay": [
+      "flex",
+      "flex"
+    ],
+    "bodyBackgroundPosition": "82% 48%",
+    "heroBeforeBackground": "radial-gradient(circle at 18% 22%, rgba(255, 201, 221, 0.56), rgba(0, 0, 0, 0) 352px), radial-gradient(circle at 82% 16%, rgba(139, 221, 231, 0.18), rgba(0, 0, 0, 0) 320px), radial-gradient(circle at 72% 88%, rgba(246, 201, 111, 0.14), rgba(0, 0, 0, 0) 288px)",
+    "dialogBeforeBackground": "linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(143, 49, 90, 0.035) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(135deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 46%, rgba(243, 95, 152, 0.027) 46%, rgba(243, 95, 152, 0.027) 46.35%, rgba(0, 0, 0, 0) 46.35%), radial-gradient(circle at 82% 22%, rgba(255, 201, 221, 0.16), rgba(0, 0, 0, 0) 240px)",
+    "portraitBeforeBackground": "linear-gradient(90deg, rgba(255, 255, 255, 0.28) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(143, 49, 90, 0.04) 1px, rgba(0, 0, 0, 0) 1px)",
+    "overflow": false
+  }
+]
