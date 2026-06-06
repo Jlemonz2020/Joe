@@ -49,7 +49,7 @@ The search entry currently submits to `/archive.html?q=...`. The full `/api/sear
 
 ## GitHub Verification
 
-- First commit: pending.
-- Remote push: pending.
-- Verification record: pending.
-
+- First commit: `3895eaccce261b54fd5e398965a2079f4c10df7a`.
+- Remote push: confirmed by `git ls-remote origin refs/heads/main`.
+- Remote `main`: `3895eaccce261b54fd5e398965a2079f4c10df7a`.
+- Verification record: stored by the follow-up commit `phase-026: record push verification`.

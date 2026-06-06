@@ -44,6 +44,6 @@ Approved. The entry is no longer a generic icon button, and it does not overload
 ## GitHub Archive
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-026/`
-- Commit: pending first archive commit.
-- Push verification: pending.
-
+- Commit: `3895eaccce261b54fd5e398965a2079f4c10df7a` (`phase-026: add anime search entry`).
+- Push verification: remote `main` confirmed at `3895eaccce261b54fd5e398965a2079f4c10df7a`.
+- Push range: `39859e1742e17dcc08eb34e8fa69ef8ff4dbb702..3895eaccce261b54fd5e398965a2079f4c10df7a`.
