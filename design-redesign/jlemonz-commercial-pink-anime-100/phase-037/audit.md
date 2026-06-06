@@ -25,7 +25,7 @@
 
 ## Push Evidence
 
-- Main implementation commit: `pending`
-- Remote main after implementation push: `pending`
+- Main implementation commit: `f055bf8e88126a74d538aac534fd801a0b57a6b6`
+- Remote main after implementation push: `f055bf8e88126a74d538aac534fd801a0b57a6b6 refs/heads/main`
 - Push verification commit: `pending`
 - Remote main after verification push: `pending`
