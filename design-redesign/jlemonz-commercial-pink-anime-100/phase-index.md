@@ -15,7 +15,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 009 | 性能预算和资源规范 | approved | `phase-009/` |
 | 010 | 验收矩阵和截图标准 | approved | `phase-010/` |
 | 011 | Astro 项目骨架建立 | approved | `phase-011/` |
-| 012 | 数据适配层设计 | pending | `phase-012/` |
+| 012 | 数据适配层设计 | approved | `phase-012/` |
 | 013 | 类型和数据模型 | pending | `phase-013/` |
 | 014 | 旧 URL 兼容方案 | pending | `phase-014/` |
 | 015 | 资产整理和版权边界 | pending | `phase-015/` |

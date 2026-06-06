@@ -1,0 +1,7 @@
+   29 src/adapters/apiPaths.ts
+  127 src/adapters/client.ts
+   51 src/adapters/fallbacks.ts
+    5 src/adapters/index.ts
+  169 src/adapters/normalizers.ts
+  112 src/adapters/types.ts
+  493 total

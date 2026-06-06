@@ -1,0 +1,7 @@
+about.html
+archive.html
+index.html
+moments.html
+post.html
+project.html
+projects.html
