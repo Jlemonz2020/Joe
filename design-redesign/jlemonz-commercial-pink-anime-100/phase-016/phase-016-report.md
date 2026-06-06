@@ -96,8 +96,9 @@ No screenshots were required in Phase 016. This phase validates token foundation
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-016/`
-- Commit: pending.
-- Push: pending.
+- Commit: `4d4cbca phase-016: establish theme tokens`.
+- Push: `origin/main` accepted `f1a0368..4d4cbca`.
+- Remote verification: `refs/heads/main` resolved to `4d4cbcaef639bb34c0572e59d1ecd4ef8786109c`.
 
 ## Next Gate
 
