@@ -1,0 +1,169 @@
+---
+const tasks = [
+  {
+    file: "01",
+    title: "SYNC",
+    tone: "sync",
+    body: "把踩坑、命令和解决办法写清楚，下一次少绕一点路。",
+    tags: ["Linux", "Pi5", "CLI"],
+    href: "/archive.html"
+  },
+  {
+    file: "02",
+    title: "TRACE",
+    tone: "trace",
+    body: "系统、驱动和服务的线索先留住，问题没解完也有现场可回看。",
+    tags: ["Debug", "Trace", "Record"],
+    href: "/projects.html"
+  },
+  {
+    file: "03",
+    title: "DAILY",
+    tone: "daily",
+    body: "项目之外也有日常，轻一点的碎片也算进度。",
+    tags: ["Life", "Diary", "Story"],
+    href: "/moments.html"
+  }
+];
+
+const projects = [
+  { icon: "🐧", title: "Pi5 HomeLab", body: "服务与自动化", progress: 76 },
+  { icon: "▸_", title: "Linux Tools", body: "脚本与工具箱", progress: 62 },
+  { icon: "🖌", title: "Page Revamp", body: "页面改造计划", progress: 55 }
+];
+
+const moments = [
+  { title: "今天的樱花", image: "🌸" },
+  { title: "新服务上线", image: "🖥" },
+  { title: "树莓派小试验", image: "🔧" },
+  { title: "日常一角", image: "☕" }
+];
+
+const categories = [
+  { title: "Linux", icon: "🐧", href: "/archive.html?category=Linux" },
+  { title: "硬件/裸机", icon: "▣", href: "/projects.html" },
+  { title: "RTOS", icon: "◇", href: "/archive.html?category=RTOS" },
+  { title: "生活", icon: "✿", href: "/moments.html?kind=life" }
+];
+---
+
+<section class="concept-desk" aria-labelledby="concept-desk-title">
+  <div class="concept-desk__scene" aria-hidden="true"></div>
+
+  <div class="concept-desk__hero">
+    <article class="concept-dialog">
+      <span class="concept-dialog__tape concept-dialog__tape--top" aria-hidden="true"></span>
+      <span class="concept-dialog__tape concept-dialog__tape--bottom" aria-hidden="true"></span>
+      <p class="concept-dialog__name">JLEMONZ.DIARY</p>
+      <h1 id="concept-desk-title">Hi, I'm Jlemonz <span aria-hidden="true">♥</span></h1>
+      <p class="concept-dialog__lead">在 Pi5、Linux、硬件和 AI 之间，整理那些值得回看的折腾。</p>
+      <p class="concept-dialog__whisper">先给今天的档案贴好，下一次回来还能接着看。</p>
+      <div class="concept-dialog__status" aria-label="站点状态">
+        <span>STATUS: CONNECTED</span>
+        <i aria-hidden="true"></i>
+      </div>
+    </article>
+
+    <aside class="concept-companion" aria-label="赛蕾陪伴卡">
+      <span class="concept-companion__clip" aria-hidden="true"></span>
+      <div class="concept-companion__heading">
+        <strong>SAILEI</strong>
+        <em>Companion</em>
+      </div>
+      <figure>
+        <img src="/assets/sailei/sailei-main.jpg" alt="赛蕾陪伴角色" loading="eager" decoding="async" />
+        <figcaption># Always with you</figcaption>
+      </figure>
+      <div class="concept-mood">
+        <span>TODAY'S MOOD</span>
+        <strong>专注 + 折腾 + 记录</strong>
+        <i aria-hidden="true"></i>
+      </div>
+      <div class="concept-sync-mini" aria-label="同步频率示意">
+        <span>SYNC FREQUENCY</span>
+        <div>
+          {Array.from({ length: 42 }).map((_, index) => (
+            <i data-level={index % 9 === 0 ? "hot" : index % 5 === 0 ? "mid" : "soft"}></i>
+          ))}
+        </div>
+        <p>Total: 327 days<br />Keep learning. ♥</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="concept-task-row" aria-label="首页记录任务">
+    {tasks.map((task) => (
+      <a class="concept-task-card" data-tone={task.tone} href={task.href}>
+        <span class="concept-task-card__file">FILE <strong>{task.file}</strong></span>
+        <span class="concept-task-card__sticker" aria-hidden="true"></span>
+        <h2>{task.title}</h2>
+        <p>{task.body}</p>
+        <ul aria-label={`${task.title} 标签`}>
+          {task.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+        <span class="concept-task-card__arrow" aria-hidden="true">→</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="concept-module-grid">
+    <section class="concept-panel concept-projects" aria-labelledby="concept-projects-title">
+      <div class="concept-panel__head">
+        <h2 id="concept-projects-title">PROJECTS IN PROGRESS</h2>
+        <a href="/projects.html">View all →</a>
+      </div>
+      <div class="concept-projects__list">
+        {projects.map((project) => (
+          <article>
+            <span>{project.icon}</span>
+            <div>
+              <h3>{project.title}</h3>
+              <p>{project.body}</p>
+              <i style={`--progress: ${project.progress}%`}></i>
+            </div>
+            <strong>{project.progress}%</strong>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="concept-panel concept-moments" aria-labelledby="concept-moments-title">
+      <div class="concept-panel__head">
+        <h2 id="concept-moments-title">RECENT MOMENTS</h2>
+        <a href="/moments.html">More →</a>
+      </div>
+      <div class="concept-moments__list">
+        {moments.map((moment) => (
+          <article>
+            <span>{moment.image}</span>
+            <p>{moment.title}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="concept-panel concept-categories" aria-labelledby="concept-categories-title">
+      <div class="concept-panel__head">
+        <h2 id="concept-categories-title">CATEGORY ENTRANCE</h2>
+      </div>
+      <div class="concept-categories__grid">
+        {categories.map((category) => (
+          <a href={category.href}>
+            <span>{category.icon}</span>
+            <strong>{category.title}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  <div class="concept-desk__footer" aria-label="首页收尾">
+    <div class="concept-player">
+      <span aria-hidden="true">♪</span>
+      <p><small>Now Playing</small><strong>Lofi Sakura Diary</strong></p>
+      <i aria-hidden="true">♥</i>
+    </div>
+    <p>© 2026 Jlemonz · Made with ♥ on Pi5 · Linux · Hardware · AI</p>
+    <div class="concept-note">Keep curious.<br />Keep building. ✿</div>
+  </div>
+</section>

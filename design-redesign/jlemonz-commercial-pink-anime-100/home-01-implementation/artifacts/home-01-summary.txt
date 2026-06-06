@@ -1,0 +1,8 @@
+home-01 implementation verification
+baseUrl=http://127.0.0.1:4481
+viewports=390,1280,1920
+tasks=390:3,1280:3,1920:3
+panels=390:3,1280:3,1920:3
+categories=390:4,1280:4,1920:4
+overflowX=false
+smallTargets=0

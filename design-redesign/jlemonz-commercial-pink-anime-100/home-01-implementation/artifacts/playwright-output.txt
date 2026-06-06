@@ -1,0 +1,20 @@
+home-01 implementation verification
+baseUrl=http://127.0.0.1:4481
+viewports=390,1280,1920
+tasks=390:3,1280:3,1920:3
+panels=390:3,1280:3,1920:3
+categories=390:4,1280:4,1920:4
+overflowX=false
+smallTargets=0
+
+Starting server 1/1: ./node_modules/.bin/astro preview --host 127.0.0.1 --port 4481
+Waiting for server on port 4481...
+Server ready on port 4481
+
+All 1 server(s) ready
+Running: node /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/home-01-implementation/artifacts/verify-home-01.mjs
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped
