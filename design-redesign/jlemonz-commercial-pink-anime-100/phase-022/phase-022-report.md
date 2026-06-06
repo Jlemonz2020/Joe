@@ -104,9 +104,9 @@ Optimize and verify the fixed Sailei background across 390, 768, 1280, 1920, 256
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-022/`
-- Commit: pending.
-- Push: pending.
-- Remote verification: pending.
+- Commit: `0e747f4 phase-022: optimize responsive background assets`.
+- Push: `origin/main` accepted `f02772c..0e747f4`.
+- Remote verification: `refs/heads/main` resolved to `0e747f4958c78fb22aebd29c65906f1af0c16276`.
 
 ## Next Gate
 
@@ -115,4 +115,3 @@ Phase 023 may start after:
 - Phase 022 archive files are committed and pushed
 - Remote verification is recorded
 - Six-width screenshot matrix remains approved
-
