@@ -59,7 +59,7 @@ Not required for Phase 001. This phase is a process/control-console phase.
 
 ## Audit
 
-- AI self-audit: local evidence passed; GitHub commit and push are still pending at the time of this report edit.
+- AI self-audit: local evidence passed; archive creation commit was pushed to GitHub.
 - User review: pending.
 - Result: `review`.
 
@@ -76,8 +76,8 @@ Not required for Phase 001. This phase is a process/control-console phase.
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-001/`
-- Commit: pending.
-- Push: pending.
+- Archive creation commit: `ecaf861 phase-001: establish redesign goal control console`.
+- Push: `origin/main` accepted `228685e..ecaf861`.
 
 ## Next Gate
 

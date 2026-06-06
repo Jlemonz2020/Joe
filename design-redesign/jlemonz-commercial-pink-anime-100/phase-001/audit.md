@@ -8,8 +8,8 @@
 - [x] Outputs exist under the new 100-phase archive root.
 - [x] No website deployment occurred.
 - [x] Cleanup plan exists.
-- [ ] GitHub commit succeeded. Pending at report-edit time.
-- [ ] GitHub push succeeded. Pending at report-edit time.
+- [x] GitHub commit succeeded: `ecaf861 phase-001: establish redesign goal control console`.
+- [x] GitHub push succeeded: `origin/main` accepted `228685e..ecaf861`.
 
 ## Review Result
 
@@ -17,5 +17,5 @@ Result: `review`
 
 Reviewer notes:
 
-- AI: Phase 001 has enough structure to control the remaining 99 phases. Local evidence passed; commit/push verification remains.
+- AI: Phase 001 has enough structure to control the remaining 99 phases. Local evidence passed, and archive creation commit was pushed.
 - User: pending.
