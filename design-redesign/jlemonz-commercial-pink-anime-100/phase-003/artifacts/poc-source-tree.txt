@@ -1,0 +1,12 @@
+astro.config.mjs
+package-lock.json
+package.json
+public/assets/poc.css
+src/layouts/CompatLayout.astro
+src/pages/about.astro
+src/pages/archive.astro
+src/pages/index.astro
+src/pages/moments.astro
+src/pages/post.astro
+src/pages/project.astro
+src/pages/projects.astro

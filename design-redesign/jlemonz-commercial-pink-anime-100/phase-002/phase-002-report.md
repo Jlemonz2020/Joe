@@ -127,8 +127,8 @@ These are not changed in Phase 002. They are baseline risks for Phase 015 and Ph
 ## Audit
 
 - AI self-audit: all required Phase 002 baseline categories were collected and archive commit was pushed.
-- User review: pending.
-- Result: `review`.
+- User review: approved with explicit message `Phase 002 通过`.
+- Result: `approved`.
 
 ## Fixes
 

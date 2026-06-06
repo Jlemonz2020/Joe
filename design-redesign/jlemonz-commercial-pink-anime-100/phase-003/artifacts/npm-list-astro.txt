@@ -1,0 +1,3 @@
+jlemonz-phase-003-astro-poc@0.0.0 /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/phase-003-astro-poc
+└── astro@6.4.4
+

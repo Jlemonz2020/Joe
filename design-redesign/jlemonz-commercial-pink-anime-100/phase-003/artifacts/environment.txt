@@ -1,0 +1,6 @@
+# Environment
+local node: v22.22.2
+local npm: 10.9.7
+codex runtime node: v24.14.0
+pi5 node: v20.19.2
+pi5 npm: 9.2.0

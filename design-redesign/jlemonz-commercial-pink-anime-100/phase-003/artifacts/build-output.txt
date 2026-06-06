@@ -1,0 +1,28 @@
+
+> jlemonz-phase-003-astro-poc@0.0.0 build
+> astro build
+
+09:52:26 [types] Generated 23ms
+09:52:26 [build] output: "static"
+09:52:26 [build] mode: "static"
+09:52:26 [build] directory: /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/phase-003-astro-poc/dist/
+09:52:26 [build] Collecting build info...
+09:52:26 [build] ✓ Completed in 39ms.
+09:52:26 [build] Building static entrypoints...
+09:52:26 [vite] ✓ built in 515ms
+09:52:26 [vite] ✓ built in 9ms
+09:52:26 [build] Rearranging server assets...
+
+ generating static routes 
+09:52:26   ├─ /about.html (+6ms) 
+09:52:26   ├─ /archive.html (+2ms) 
+09:52:26   ├─ /moments.html (+1ms) 
+09:52:26   ├─ /post.html (+1ms) 
+09:52:26   ├─ /project.html (+3ms) 
+09:52:26   ├─ /projects.html (+2ms) 
+09:52:26   ├─ /index.html (+3ms) 
+09:52:26 ✓ Completed in 27ms.
+
+09:52:26 [build] ✓ Completed in 589ms.
+09:52:26 [build] 7 page(s) built in 630ms
+09:52:26 [build] Complete!
