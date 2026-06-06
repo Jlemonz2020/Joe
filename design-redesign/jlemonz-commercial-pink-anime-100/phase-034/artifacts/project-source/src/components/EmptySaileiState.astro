@@ -1,0 +1,35 @@
+---
+interface Props {
+  title: string;
+  body: string;
+  tone?: "hint" | "notes" | "moments" | "projects" | "search" | "comments" | "detail";
+  ribbon?: string;
+  actionLabel?: string;
+  actionHref?: string;
+}
+
+const { title, body, tone = "hint", ribbon = "SAILEI MEMO", actionLabel, actionHref } = Astro.props;
+const toneIcon = {
+  hint: "✿",
+  notes: "✎",
+  moments: "✦",
+  projects: "◇",
+  search: "⌕",
+  comments: "♡",
+  detail: "?"
+}[tone];
+---
+
+<aside class:list={["diary-card", "diary-card--glass", "empty-sailei", `empty-sailei--${tone}`]} aria-label={title} data-empty-tone={tone}>
+  <span class="empty-ribbon" aria-hidden="true">{ribbon}</span>
+  <span class="empty-pin" aria-hidden="true">{toneIcon}</span>
+  <div class="empty-copy">
+    <strong>{title}</strong>
+    <p>{body}</p>
+  </div>
+  {actionLabel && actionHref ? (
+    <a class="ui-button ui-button--sticker empty-action" href={actionHref}>
+      <span class="ui-button__label">{actionLabel}</span>
+    </a>
+  ) : null}
+</aside>

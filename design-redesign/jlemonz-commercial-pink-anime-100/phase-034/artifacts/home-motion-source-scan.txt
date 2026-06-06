@@ -1,0 +1,15 @@
+443:@media (prefers-reduced-motion: no-preference) {
+445:    animation: home-hero-panel-in 520ms var(--ease-diary) both;
+449:    animation: home-hero-panel-in 560ms var(--ease-diary) 90ms both;
+457:    animation: home-hero-copy-in 460ms var(--ease-diary) both;
+477:    animation: home-hero-choice-in 360ms var(--ease-sticker) both;
+493:    animation: home-hero-hud-breathe 4.8s ease-in-out infinite;
+497:    animation: home-hero-status-dot 2.6s ease-in-out infinite;
+501:    animation: home-hero-portrait-glow 5.4s ease-in-out infinite;
+505:@media (prefers-reduced-motion: reduce) {
+515:@keyframes home-hero-panel-in {
+527:@keyframes home-hero-copy-in {
+539:@keyframes home-hero-choice-in {
+551:@keyframes home-hero-hud-breathe {
+562:@keyframes home-hero-status-dot {
+575:@keyframes home-hero-portrait-glow {

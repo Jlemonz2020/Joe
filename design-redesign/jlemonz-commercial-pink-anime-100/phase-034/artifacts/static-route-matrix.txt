@@ -1,0 +1,20 @@
+/ 200 9378 bytes
+/index.html 200 9378 bytes
+/moments.html 200 7740 bytes
+/archive.html 200 7729 bytes
+/projects.html 200 7756 bytes
+/project.html 200 8014 bytes
+/post.html 200 8013 bytes
+/about.html 200 7233 bytes
+/status-lab.html 200 9112 bytes
+Starting server 1/1: python3 -m http.server 4420 -d /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/jlemonz-astro-pink-diary/dist
+Waiting for server on port 4420...
+Server ready on port 4420
+
+All 1 server(s) ready
+Running: bash -lc for path in / /index.html /moments.html /archive.html /projects.html /project.html /post.html /about.html /status-lab.html; do code=$(curl -s -o /tmp/phase034-route-body -w "%{http_code}" "http://127.0.0.1:4420$path"); bytes=$(wc -c < /tmp/phase034-route-body); printf "%s %s %s bytes\n" "$path" "$code" "$bytes"; done
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped

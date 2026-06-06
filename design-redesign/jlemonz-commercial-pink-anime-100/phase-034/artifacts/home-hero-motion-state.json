@@ -1,0 +1,52 @@
+[
+  {
+    "name": "home-motion-390",
+    "mode": "no-preference",
+    "dialogAnimation": "home-hero-panel-in",
+    "companionAnimation": "home-hero-panel-in",
+    "choiceAnimation": "home-hero-choice-in",
+    "hudAnimation": "home-hero-hud-breathe",
+    "dotAnimation": "home-hero-status-dot",
+    "portraitGlowAnimation": "home-hero-portrait-glow",
+    "beforeScrollPosition": "64% 48%",
+    "afterScrollPosition": "64% 48%",
+    "overflow": false
+  },
+  {
+    "name": "home-motion-1280",
+    "mode": "no-preference",
+    "dialogAnimation": "home-hero-panel-in",
+    "companionAnimation": "home-hero-panel-in",
+    "choiceAnimation": "home-hero-choice-in",
+    "hudAnimation": "home-hero-hud-breathe",
+    "dotAnimation": "home-hero-status-dot",
+    "portraitGlowAnimation": "home-hero-portrait-glow",
+    "beforeScrollPosition": "78% 48%",
+    "afterScrollPosition": "78% 48%",
+    "overflow": false
+  },
+  {
+    "name": "home-motion-1920",
+    "mode": "no-preference",
+    "dialogAnimation": "home-hero-panel-in",
+    "companionAnimation": "home-hero-panel-in",
+    "choiceAnimation": "home-hero-choice-in",
+    "hudAnimation": "home-hero-hud-breathe",
+    "dotAnimation": "home-hero-status-dot",
+    "portraitGlowAnimation": "home-hero-portrait-glow",
+    "beforeScrollPosition": "82% 48%",
+    "afterScrollPosition": "82% 48%",
+    "overflow": false
+  },
+  {
+    "name": "home-motion-reduce-390",
+    "mode": "reduce",
+    "dialogAnimation": "none",
+    "companionAnimation": "none",
+    "choiceAnimation": "none",
+    "hudAnimation": "none",
+    "dotAnimation": "none",
+    "portraitGlowAnimation": "none",
+    "overflow": false
+  }
+]

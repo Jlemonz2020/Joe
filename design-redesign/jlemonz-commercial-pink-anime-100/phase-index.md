@@ -37,7 +37,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 031 | 首页 Hero 结构 | approved | `phase-031/` |
 | 032 | 首页 Hero 文案 | approved | `phase-032/` |
 | 033 | Hero 背景层和装饰 | approved | `phase-033/` |
-| 034 | Hero 动效 | pending | `phase-034/` |
+| 034 | Hero 动效 | approved | `phase-034/` |
 | 035 | GitHub 同步手帐格 | pending | `phase-035/` |
 | 036 | 首页三张状态任务卡 | pending | `phase-036/` |
 | 037 | 首页项目预览 | pending | `phase-037/` |

@@ -1,0 +1,15 @@
+home-motion-390: mode=no-preference dialog=home-hero-panel-in choice=home-hero-choice-in hud=home-hero-hud-breathe reduceDot=home-hero-status-dot overflow=false
+home-motion-1280: mode=no-preference dialog=home-hero-panel-in choice=home-hero-choice-in hud=home-hero-hud-breathe reduceDot=home-hero-status-dot overflow=false
+home-motion-1920: mode=no-preference dialog=home-hero-panel-in choice=home-hero-choice-in hud=home-hero-hud-breathe reduceDot=home-hero-status-dot overflow=false
+home-motion-reduce-390: mode=reduce dialog=none choice=none hud=none reduceDot=none overflow=false
+Starting server 1/1: python3 -m http.server 4419 -d /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/jlemonz-astro-pink-diary/dist
+Waiting for server on port 4419...
+Server ready on port 4419
+
+All 1 server(s) ready
+Running: node design-redesign/jlemonz-commercial-pink-anime-100/phase-034/artifacts/home-hero-motion-check.mjs
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped
