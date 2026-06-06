@@ -1,0 +1,3 @@
+home-hero-390: title=Jlemonz choices=3 companion=true portrait=true overflow=false heroHeight=1188 firstModuleTop=1513
+home-hero-1280: title=Jlemonz choices=3 companion=true portrait=true overflow=false heroHeight=672 firstModuleTop=891
+home-hero-1920: title=Jlemonz choices=3 companion=true portrait=true overflow=false heroHeight=672 firstModuleTop=907

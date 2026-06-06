@@ -1,0 +1,137 @@
+:root,
+[data-theme="sailei-pink-diary"] {
+  --theme-name: "sailei-pink-diary";
+  --color-page: #fff6fa;
+  --color-page-soft: #ffe8f1;
+  --color-surface: #fffdf8;
+  --color-paper: #fff7ef;
+  --color-card: rgba(255, 255, 255, 0.72);
+  --color-card-strong: rgba(255, 253, 248, 0.86);
+  --color-ink: #47263a;
+  --color-muted: #8e6578;
+  --color-primary: #f35f98;
+  --color-primary-soft: #ffc9dd;
+  --color-primary-deep: #8f315a;
+  --color-accent-cyan: #8bdde7;
+  --color-accent-gold: #f6c96f;
+  --color-accent-lavender: #d9cdfd;
+  --color-status-sync: #35bfc9;
+  --color-status-trace: #b982ff;
+  --color-status-daily: #f0a143;
+  --line-soft: rgba(239, 106, 154, 0.34);
+  --line-strong: rgba(143, 49, 90, 0.34);
+  --shadow-soft: 0 18px 60px rgba(205, 79, 130, 0.18);
+  --shadow-sticker: 0 12px 28px rgba(199, 80, 127, 0.18);
+  --shadow-neon: 0 0 0 1px rgba(255, 201, 221, 0.68), 0 0 28px rgba(243, 95, 152, 0.22);
+  --radius-panel: 1.5rem;
+  --radius-sticker: 1rem;
+  --radius-pill: 999px;
+  --texture-paper:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(rgba(143, 49, 90, 0.045) 1px, transparent 1px);
+  --texture-paper-size: 26px 26px;
+  --background-page:
+    radial-gradient(circle at 12% 18%, rgba(255, 201, 221, 0.78), transparent 30rem),
+    linear-gradient(135deg, var(--color-page), var(--color-surface) 48%, var(--color-page-soft));
+  --focus-ring: #8bdde7;
+  --font-sans: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
+  --font-display: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
+  color-scheme: light;
+}
+
+[data-theme="sakura-light"] {
+  --theme-name: "sakura-light";
+  --color-page: #fff8fb;
+  --color-page-soft: #ffeef6;
+  --color-surface: #fffefa;
+  --color-paper: #fff8ed;
+  --color-card: rgba(255, 255, 255, 0.78);
+  --color-card-strong: rgba(255, 254, 250, 0.9);
+  --color-ink: #4f2c3d;
+  --color-muted: #926f7e;
+  --color-primary: #ed6f9f;
+  --color-primary-soft: #ffd5e4;
+  --color-primary-deep: #93415f;
+  --color-accent-cyan: #7fd3dd;
+  --color-accent-gold: #efc16a;
+  --color-accent-lavender: #e3d8ff;
+  --line-soft: rgba(237, 111, 159, 0.3);
+  --line-strong: rgba(147, 65, 95, 0.32);
+  --shadow-soft: 0 18px 54px rgba(211, 99, 143, 0.14);
+  --shadow-sticker: 0 12px 26px rgba(211, 99, 143, 0.16);
+  --shadow-neon: 0 0 0 1px rgba(255, 213, 228, 0.78), 0 0 24px rgba(237, 111, 159, 0.18);
+  --background-page:
+    radial-gradient(circle at 14% 18%, rgba(255, 213, 228, 0.78), transparent 28rem),
+    linear-gradient(135deg, var(--color-page), var(--color-surface) 52%, var(--color-page-soft));
+}
+
+[data-theme="pink-neon-lite"] {
+  --theme-name: "pink-neon-lite";
+  --color-page: #fff4fb;
+  --color-page-soft: #ffe3f3;
+  --color-surface: #fffafd;
+  --color-paper: #fff5f7;
+  --color-card: rgba(255, 250, 253, 0.72);
+  --color-card-strong: rgba(255, 250, 253, 0.88);
+  --color-ink: #43213f;
+  --color-muted: #835f84;
+  --color-primary: #ff5ba8;
+  --color-primary-soft: #ffc5e3;
+  --color-primary-deep: #82346f;
+  --color-accent-cyan: #72e4ee;
+  --color-accent-gold: #ffd36d;
+  --color-accent-lavender: #cdbaff;
+  --line-soft: rgba(255, 91, 168, 0.32);
+  --line-strong: rgba(130, 52, 111, 0.34);
+  --shadow-soft: 0 20px 62px rgba(255, 91, 168, 0.17);
+  --shadow-sticker: 0 12px 30px rgba(255, 91, 168, 0.2);
+  --shadow-neon: 0 0 0 1px rgba(255, 197, 227, 0.78), 0 0 30px rgba(255, 91, 168, 0.28);
+  --background-page:
+    radial-gradient(circle at 18% 18%, rgba(255, 197, 227, 0.86), transparent 28rem),
+    radial-gradient(circle at 82% 20%, rgba(114, 228, 238, 0.28), transparent 20rem),
+    linear-gradient(135deg, var(--color-page), var(--color-surface) 48%, var(--color-page-soft));
+}
+
+[data-theme="paper-milk"] {
+  --theme-name: "paper-milk";
+  --color-page: #fffaf3;
+  --color-page-soft: #fff1ec;
+  --color-surface: #fffffb;
+  --color-paper: #fff7e7;
+  --color-card: rgba(255, 255, 251, 0.78);
+  --color-card-strong: rgba(255, 255, 251, 0.9);
+  --color-ink: #4a302f;
+  --color-muted: #876b66;
+  --color-primary: #e96f96;
+  --color-primary-soft: #ffd3df;
+  --color-primary-deep: #81414f;
+  --color-accent-cyan: #83d4d9;
+  --color-accent-gold: #efbd60;
+  --color-accent-lavender: #ded3fb;
+  --line-soft: rgba(233, 111, 150, 0.26);
+  --line-strong: rgba(129, 65, 79, 0.3);
+  --shadow-soft: 0 18px 50px rgba(181, 93, 107, 0.13);
+  --shadow-sticker: 0 12px 24px rgba(181, 93, 107, 0.15);
+  --shadow-neon: 0 0 0 1px rgba(255, 211, 223, 0.72), 0 0 18px rgba(233, 111, 150, 0.16);
+  --background-page:
+    radial-gradient(circle at 10% 20%, rgba(255, 211, 223, 0.62), transparent 26rem),
+    linear-gradient(135deg, var(--color-page), var(--color-surface) 54%, var(--color-page-soft));
+}
+
+:root {
+  --pink-50: var(--color-page);
+  --pink-100: var(--color-page-soft);
+  --pink-200: var(--color-primary-soft);
+  --pink-500: var(--color-primary);
+  --rose-700: var(--color-primary-deep);
+  --milk: var(--color-surface);
+  --paper: var(--color-paper);
+  --lavender: var(--color-accent-lavender);
+  --cyan: var(--color-accent-cyan);
+  --gold: var(--color-accent-gold);
+  --ink: var(--color-ink);
+  --muted: var(--color-muted);
+  --line: var(--line-soft);
+  --glass: var(--color-card);
+  font-family: var(--font-sans);
+}

@@ -1,0 +1,61 @@
+src/layouts/BaseLayout.astro:9:import "../styles/home-hero.css";
+src/components/HomeHero.astro:17:<section class="home-hero" aria-labelledby="home-hero-title">
+src/components/HomeHero.astro:18:  <div class="home-hero__dialog diary-card diary-card--paper">
+src/components/HomeHero.astro:19:    <div class="home-hero__nameplate" aria-hidden="true">
+src/components/HomeHero.astro:20:      <span>Sailei's Whisper</span>
+src/components/HomeHero.astro:23:    <span class="home-hero__stamp" aria-hidden="true">DIARY DESK</span>
+src/components/HomeHero.astro:24:    <p class="home-hero__kicker">{pages.home.kicker}</p>
+src/components/HomeHero.astro:25:    <h1 id="home-hero-title">{pages.home.title}</h1>
+src/components/HomeHero.astro:26:    <p class="home-hero__lead">{pages.home.lead}</p>
+src/components/HomeHero.astro:27:    <p class="home-hero__line">今天也把线索贴好，明天回来还能接上。</p>
+src/components/HomeHero.astro:28:    <nav class="home-hero__choices" aria-label="首页快速入口">
+src/components/HomeHero.astro:30:        <a class="ui-button ui-button--sticker home-hero__choice" href={link.href}>
+src/components/HomeHero.astro:31:          <span class="home-hero__choice-meta" aria-hidden="true">{link.meta}</span>
+src/components/HomeHero.astro:38:  <aside class="home-hero__companion diary-card diary-card--glass" aria-label="赛蕾陪伴资料卡">
+src/components/HomeHero.astro:39:    <span class="home-hero__tape" aria-hidden="true"></span>
+src/components/HomeHero.astro:40:    <div class="home-hero__portrait-frame">
+src/components/HomeHero.astro:43:    <div class="home-hero__profile">
+src/components/HomeHero.astro:44:      <p class="home-hero__profile-label">COMPANION FILE</p>
+src/components/HomeHero.astro:48:    <dl class="home-hero__status">
+src/pages/index.astro:3:import HomeHero from "../components/HomeHero.astro";
+src/pages/index.astro:7:  <HomeHero />
+src/styles/home-hero.css:1:.home-hero {
+src/styles/home-hero.css:8:.home-hero__dialog,
+src/styles/home-hero.css:9:.home-hero__companion {
+src/styles/home-hero.css:13:.home-hero__dialog {
+src/styles/home-hero.css:20:.home-hero__dialog::after {
+src/styles/home-hero.css:32:.home-hero__nameplate {
+src/styles/home-hero.css:45:.home-hero__nameplate span {
+src/styles/home-hero.css:59:.home-hero__nameplate span:last-child {
+src/styles/home-hero.css:63:.home-hero__stamp {
+src/styles/home-hero.css:77:.home-hero__kicker {
+src/styles/home-hero.css:84:.home-hero h1 {
+src/styles/home-hero.css:93:.home-hero__lead {
+src/styles/home-hero.css:101:.home-hero__line {
+src/styles/home-hero.css:113:.home-hero__choices {
+src/styles/home-hero.css:120:.home-hero__choice {
+src/styles/home-hero.css:125:.home-hero__choice-meta {
+src/styles/home-hero.css:138:.home-hero__companion {
+src/styles/home-hero.css:145:.home-hero__tape {
+src/styles/home-hero.css:161:.home-hero__portrait-frame {
+src/styles/home-hero.css:173:.home-hero__portrait-frame img {
+src/styles/home-hero.css:182:.home-hero__profile-label {
+src/styles/home-hero.css:190:.home-hero__profile h2 {
+src/styles/home-hero.css:196:.home-hero__profile p {
+src/styles/home-hero.css:202:.home-hero__status {
+src/styles/home-hero.css:209:.home-hero__status div {
+src/styles/home-hero.css:217:.home-hero__status dt {
+src/styles/home-hero.css:224:.home-hero__status dd {
+src/styles/home-hero.css:234:  .home-hero {
+src/styles/home-hero.css:240:  .home-hero {
+src/styles/home-hero.css:246:  .home-hero {
+src/styles/home-hero.css:250:  .home-hero__dialog {
+src/styles/home-hero.css:256:  .home-hero__dialog {
+src/styles/home-hero.css:261:  .home-hero__stamp {
+src/styles/home-hero.css:267:  .home-hero h1 {
+src/styles/home-hero.css:271:  .home-hero__choices {
+src/styles/home-hero.css:276:  .home-hero__choice {
+src/styles/home-hero.css:280:  .home-hero__companion {
+src/styles/home-hero.css:284:  .home-hero__portrait-frame {
+src/styles/home-hero.css:288:  .home-hero__portrait-frame img {
+src/styles/home-hero.css:294:  .home-hero__status {

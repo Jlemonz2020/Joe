@@ -1,0 +1,57 @@
+---
+import { pages } from "../data/pageMeta";
+
+const quickLinks = [
+  { label: "翻笔记", href: "/archive.html", meta: "NOTE" },
+  { label: "看瞬间", href: "/moments.html", meta: "LIVE" },
+  { label: "查项目", href: "/projects.html", meta: "TASK" }
+];
+
+const statusItems = [
+  { label: "REC", value: "Pi5 / Linux" },
+  { label: "SYNC", value: "技术日记" },
+  { label: "MOOD", value: "粉色赛蕾" }
+];
+---
+
+<section class="home-hero" aria-labelledby="home-hero-title">
+  <div class="home-hero__dialog diary-card diary-card--paper">
+    <div class="home-hero__nameplate" aria-hidden="true">
+      <span>Sailei's Whisper</span>
+      <span>CONNECTED</span>
+    </div>
+    <span class="home-hero__stamp" aria-hidden="true">DIARY DESK</span>
+    <p class="home-hero__kicker">{pages.home.kicker}</p>
+    <h1 id="home-hero-title">{pages.home.title}</h1>
+    <p class="home-hero__lead">{pages.home.lead}</p>
+    <p class="home-hero__line">今天也把线索贴好，明天回来还能接上。</p>
+    <nav class="home-hero__choices" aria-label="首页快速入口">
+      {quickLinks.map((link) => (
+        <a class="ui-button ui-button--sticker home-hero__choice" href={link.href}>
+          <span class="home-hero__choice-meta" aria-hidden="true">{link.meta}</span>
+          <span class="ui-button__label">{link.label}</span>
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <aside class="home-hero__companion diary-card diary-card--glass" aria-label="赛蕾陪伴资料卡">
+    <span class="home-hero__tape" aria-hidden="true"></span>
+    <div class="home-hero__portrait-frame">
+      <img src="/assets/sailei/sailei-main.jpg" alt="赛蕾线稿头像" loading="eager" decoding="async" />
+    </div>
+    <div class="home-hero__profile">
+      <p class="home-hero__profile-label">COMPANION FILE</p>
+      <h2>赛蕾</h2>
+      <p>负责把零散折腾收进粉色手帐，也提醒这座站别变回冷冰冰的工具页。</p>
+    </div>
+    <dl class="home-hero__status">
+      {statusItems.map((item) => (
+        <div>
+          <dt>{item.label}</dt>
+          <dd>{item.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </aside>
+</section>

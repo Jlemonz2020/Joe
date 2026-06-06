@@ -1,0 +1,14 @@
+home-hero-390: title=Jlemonz choices=3 companion=true portrait=true overflow=false heroHeight=1188 firstModuleTop=1513
+home-hero-1280: title=Jlemonz choices=3 companion=true portrait=true overflow=false heroHeight=672 firstModuleTop=891
+home-hero-1920: title=Jlemonz choices=3 companion=true portrait=true overflow=false heroHeight=672 firstModuleTop=907
+Starting server 1/1: python3 -m http.server 4413 -d /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/jlemonz-astro-pink-diary/dist
+Waiting for server on port 4413...
+Server ready on port 4413
+
+All 1 server(s) ready
+Running: node design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/home-hero-check.mjs
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped

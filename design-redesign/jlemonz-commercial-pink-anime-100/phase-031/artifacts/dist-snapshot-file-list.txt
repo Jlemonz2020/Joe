@@ -1,0 +1,16 @@
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/_astro/BaseLayout.BQZ7gqQD.css
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/about.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/archive.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/assets/sailei/sailei-bg-1280.jpg
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/assets/sailei/sailei-bg-1280.webp
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/assets/sailei/sailei-bg-1920.jpg
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/assets/sailei/sailei-bg-1920.webp
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/assets/sailei/sailei-bg-2560.jpg
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/assets/sailei/sailei-bg-2560.webp
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/assets/sailei/sailei-main.jpg
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/index.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/moments.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/post.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/project.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/projects.html
+design-redesign/jlemonz-commercial-pink-anime-100/phase-031/artifacts/dist-snapshot/status-lab.html

@@ -1,0 +1,41 @@
+[
+  {
+    "name": "home-hero-390",
+    "title": "Jlemonz",
+    "choiceCount": 3,
+    "hasCompanion": true,
+    "hasPortrait": true,
+    "heroHeight": 1187.875,
+    "heroTop": 308.875,
+    "heroBottom": 1496.75,
+    "companionWidth": 358,
+    "firstModuleTop": 1512.75,
+    "overflow": false
+  },
+  {
+    "name": "home-hero-1280",
+    "title": "Jlemonz",
+    "choiceCount": 3,
+    "hasCompanion": true,
+    "hasPortrait": true,
+    "heroHeight": 672,
+    "heroTop": 202.53125,
+    "heroBottom": 874.53125,
+    "companionWidth": 355.65625,
+    "firstModuleTop": 890.53125,
+    "overflow": false
+  },
+  {
+    "name": "home-hero-1920",
+    "title": "Jlemonz",
+    "choiceCount": 3,
+    "hasCompanion": true,
+    "hasPortrait": true,
+    "heroHeight": 672,
+    "heroTop": 218.53125,
+    "heroBottom": 890.53125,
+    "companionWidth": 452,
+    "firstModuleTop": 906.53125,
+    "overflow": false
+  }
+]

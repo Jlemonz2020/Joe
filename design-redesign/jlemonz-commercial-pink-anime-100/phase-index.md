@@ -34,7 +34,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 028 | 全局卡片基类 | approved | `phase-028/` |
 | 029 | 全局空状态组件 | approved | `phase-029/` |
 | 030 | 加载态和错误态 | approved | `phase-030/` |
-| 031 | 首页 Hero 结构 | pending | `phase-031/` |
+| 031 | 首页 Hero 结构 | approved | `phase-031/` |
 | 032 | 首页 Hero 文案 | pending | `phase-032/` |
 | 033 | Hero 背景层和装饰 | pending | `phase-033/` |
 | 034 | Hero 动效 | pending | `phase-034/` |
