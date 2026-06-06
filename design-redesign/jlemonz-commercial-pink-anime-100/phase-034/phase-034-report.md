@@ -43,4 +43,7 @@ Approved. Hero motion is present in normal mode, disabled in reduced-motion mode
 
 ## GitHub Push Verification
 
-Pending first push.
+- Previous remote baseline: `99c35535600bbb3abc81066fa6ff6ddfb58ce6f6`
+- Phase commit: `55ebb1efe5e0e08b6b2f60266a96497ab40804ac`
+- Remote `main` after push: `55ebb1efe5e0e08b6b2f60266a96497ab40804ac`
+- Push status: verified
