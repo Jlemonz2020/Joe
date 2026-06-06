@@ -1,0 +1,110 @@
+---
+import Header from "../components/Header.astro";
+import "../styles/themes.css";
+import "../styles/background.css";
+import "../styles/global.css";
+import "../styles/cards.css";
+import "../styles/typography.css";
+import "../styles/motion.css";
+import "../styles/interaction.css";
+import "../styles/buttons.css";
+import "../styles/header.css";
+import "../styles/search-entry.css";
+import { pages, type PageKey } from "../data/pageMeta";
+
+interface Props {
+  active: PageKey;
+  title?: string;
+  description?: string;
+}
+
+const { active, title = pages[active].title, description = pages[active].lead } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff6fa" />
+    <meta name="description" content={description} />
+    <script is:inline>
+      (() => {
+        const storageKey = "jlemonz:theme:v1";
+        const themes = ["sailei-pink-diary", "sakura-light", "paper-milk"];
+        const fallback = "sailei-pink-diary";
+        let storedTheme = "";
+
+        try {
+          storedTheme = window.localStorage.getItem(storageKey) || "";
+        } catch {
+          storedTheme = "";
+        }
+
+        const theme = themes.includes(storedTheme) ? storedTheme : fallback;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.themeReady = "boot";
+      })();
+    </script>
+    <title>{title} - Jlemonz</title>
+  </head>
+  <body data-page={active}>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <Header active={active} />
+    <main id="main" class="page-shell">
+      <slot />
+    </main>
+    <script is:inline>
+      (() => {
+        const storageKey = "jlemonz:theme:v1";
+        const themes = ["sailei-pink-diary", "sakura-light", "paper-milk"];
+        const fallback = "sailei-pink-diary";
+        const themeColors = {
+          "sailei-pink-diary": "#fff6fa",
+          "sakura-light": "#fff8fb",
+          "paper-milk": "#fffaf3"
+        };
+
+        const readTheme = () => {
+          try {
+            const saved = window.localStorage.getItem(storageKey);
+            return themes.includes(saved || "") ? saved : fallback;
+          } catch {
+            return fallback;
+          }
+        };
+
+        const saveTheme = (theme) => {
+          try {
+            window.localStorage.setItem(storageKey, theme);
+          } catch {
+            // localStorage can be unavailable in locked-down browsers; visual switching should still work.
+          }
+        };
+
+        const applyTheme = (theme, persist = true) => {
+          const safeTheme = themes.includes(theme) ? theme : fallback;
+          document.documentElement.dataset.theme = safeTheme;
+          document.documentElement.dataset.themeReady = "true";
+          document.body.dataset.theme = safeTheme;
+          document.querySelector('meta[name="theme-color"]')?.setAttribute("content", themeColors[safeTheme] || themeColors[fallback]);
+          document.querySelectorAll("[data-theme-option]").forEach((button) => {
+            const isActive = button.getAttribute("data-theme-id") === safeTheme;
+            button.setAttribute("aria-pressed", String(isActive));
+          });
+          if (persist) {
+            saveTheme(safeTheme);
+          }
+        };
+
+        document.querySelectorAll("[data-theme-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            applyTheme(button.getAttribute("data-theme-id") || fallback);
+          });
+        });
+
+        applyTheme(readTheme(), false);
+      })();
+    </script>
+  </body>
+</html>

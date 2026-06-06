@@ -1,0 +1,211 @@
+[
+  {
+    "label": "index-1440",
+    "cardCount": 5,
+    "variants": [
+      "diary-card--glass",
+      "diary-card--paper",
+      "diary-card--ticket"
+    ],
+    "horizontalOverflow": false,
+    "cards": [
+      {
+        "className": "diary-card diary-card--paper galgame-dialog",
+        "width": 928,
+        "height": 342.046875,
+        "text": "Pi5 / Linux / Notes Jlemonz 在 Pi5、Linux、硬件和 AI 之间，整理那些值得回看的折腾。 STATUS: CONNECTED"
+      },
+      {
+        "className": "diary-card diary-card--glass empty-sailei",
+        "width": 464,
+        "height": 342.046875,
+        "text": "✿ Sailei Hint 今天也把线索贴好，明天回来还能接上。"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 458.65625,
+        "height": 181.15625,
+        "text": "FILE 01 / SYNC把踩坑、命令和解决办法写清楚，下一次少绕一点路。"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 458.671875,
+        "height": 181.15631103515625,
+        "text": "FILE 02 / TRACE系统、驱动和服务的线索先留住，问题没解完也有现场可回看。"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 458.65625,
+        "height": 181.15625,
+        "text": "FILE 03 / DAILY项目之外也有日常，轻一点的碎片也算进度。"
+      }
+    ]
+  },
+  {
+    "label": "moments-1440",
+    "cardCount": 5,
+    "variants": [
+      "diary-card--glass",
+      "diary-card--paper",
+      "diary-card--tape"
+    ],
+    "horizontalOverflow": false,
+    "cards": [
+      {
+        "className": "diary-card diary-card--paper galgame-dialog",
+        "width": 1408,
+        "height": 342.0468444824219,
+        "text": "moments 瞬间 随手贴下今天的折腾、灵感和小事，给时间线留一点粉色标记。 STATUS: CONNECTED"
+      },
+      {
+        "className": "diary-card diary-card--tape panel",
+        "width": 458.65625,
+        "height": 153.640625,
+        "text": "碎片短动态、随手灵感和今天的小火花。"
+      },
+      {
+        "className": "diary-card diary-card--tape panel",
+        "width": 458.671875,
+        "height": 153.640625,
+        "text": "项目项目进度先贴一张便签，不必等长文整理完。"
+      },
+      {
+        "className": "diary-card diary-card--tape panel",
+        "width": 458.65625,
+        "height": 153.640625,
+        "text": "生活轻一点的日常也可以成为时间线的一部分。"
+      },
+      {
+        "className": "diary-card diary-card--glass empty-sailei",
+        "width": 1408,
+        "height": 145.515625,
+        "text": "✿ 便签暂时空着 等下一次折腾有了火花，再把它贴到这里。"
+      }
+    ]
+  },
+  {
+    "label": "archive-1440",
+    "cardCount": 5,
+    "variants": [
+      "diary-card--glass",
+      "diary-card--paper"
+    ],
+    "horizontalOverflow": false,
+    "cards": [
+      {
+        "className": "diary-card diary-card--paper galgame-dialog",
+        "width": 1408,
+        "height": 342.046875,
+        "text": "notes 笔记 长文、调试和学习笔记收进资料库，下一次遇到同类问题时能直接翻回现场。 STATUS: CONNECTED"
+      },
+      {
+        "className": "diary-card diary-card--paper panel",
+        "width": 458.65625,
+        "height": 153.640625,
+        "text": "长文慢慢读的公开记录。"
+      },
+      {
+        "className": "diary-card diary-card--paper panel",
+        "width": 458.671875,
+        "height": 153.640625,
+        "text": "调试能回到现场的排查线索。"
+      },
+      {
+        "className": "diary-card diary-card--paper panel",
+        "width": 458.65625,
+        "height": 153.640625,
+        "text": "学习Linux、硬件和 AI 的长期补课。"
+      },
+      {
+        "className": "diary-card diary-card--glass empty-sailei",
+        "width": 1408,
+        "height": 145.515625,
+        "text": "✿ 资料夹还没放入公开笔记 等第一篇长记录整理好，赛蕾会把它钉在这里。"
+      }
+    ]
+  },
+  {
+    "label": "projects-1440",
+    "cardCount": 5,
+    "variants": [
+      "diary-card--glass",
+      "diary-card--paper",
+      "diary-card--ticket"
+    ],
+    "horizontalOverflow": false,
+    "cards": [
+      {
+        "className": "diary-card diary-card--paper galgame-dialog",
+        "width": 1408,
+        "height": 342.046875,
+        "text": "projects 项目 服务、硬件和页面改造都按任务档案整理，保留状态、进展和下一步。 STATUS: CONNECTED"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 458.65625,
+        "height": 153.640625,
+        "text": "Public Files只放公开、可复盘的任务档案。"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 458.671875,
+        "height": 153.64056396484375,
+        "text": "Energy Bar进度条以后会变成粉色能量条。"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 458.65625,
+        "height": 153.640625,
+        "text": "Roadmap下一步用节点路线保留。"
+      },
+      {
+        "className": "diary-card diary-card--glass empty-sailei",
+        "width": 1408,
+        "height": 145.515625,
+        "text": "✿ 任务板暂时没有公开项目 等下一个服务或硬件实验整理完成，它会出现在这里。"
+      }
+    ]
+  },
+  {
+    "label": "index-390",
+    "cardCount": 5,
+    "variants": [
+      "diary-card--glass",
+      "diary-card--paper",
+      "diary-card--ticket"
+    ],
+    "horizontalOverflow": false,
+    "cards": [
+      {
+        "className": "diary-card diary-card--paper galgame-dialog",
+        "width": 358,
+        "height": 262.84375,
+        "text": "Pi5 / Linux / Notes Jlemonz 在 Pi5、Linux、硬件和 AI 之间，整理那些值得回看的折腾。 STATUS: CONNECTED"
+      },
+      {
+        "className": "diary-card diary-card--glass empty-sailei",
+        "width": 358,
+        "height": 145.515625,
+        "text": "✿ Sailei Hint 今天也把线索贴好，明天回来还能接上。"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 358,
+        "height": 174.34375,
+        "text": "FILE 01 / SYNC把踩坑、命令和解决办法写清楚，下一次少绕一点路。"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 358,
+        "height": 174.34375,
+        "text": "FILE 02 / TRACE系统、驱动和服务的线索先留住，问题没解完也有现场可回看。"
+      },
+      {
+        "className": "diary-card diary-card--ticket panel",
+        "width": 358,
+        "height": 174.34375,
+        "text": "FILE 03 / DAILY项目之外也有日常，轻一点的碎片也算进度。"
+      }
+    ]
+  }
+]

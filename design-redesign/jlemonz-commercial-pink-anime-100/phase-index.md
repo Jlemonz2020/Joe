@@ -31,7 +31,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 025 | 主题切换系统 | approved | `phase-025/` |
 | 026 | 搜索入口组件 | approved | `phase-026/` |
 | 027 | 全局按钮和图标系统 | approved | `phase-027/` |
-| 028 | 全局卡片基类 | pending | `phase-028/` |
+| 028 | 全局卡片基类 | approved | `phase-028/` |
 | 029 | 全局空状态组件 | pending | `phase-029/` |
 | 030 | 加载态和错误态 | pending | `phase-030/` |
 | 031 | 首页 Hero 结构 | pending | `phase-031/` |

@@ -1,0 +1,5 @@
+index-1440: cards=5 variants=diary-card--glass,diary-card--paper,diary-card--ticket overflow=false
+moments-1440: cards=5 variants=diary-card--glass,diary-card--paper,diary-card--tape overflow=false
+archive-1440: cards=5 variants=diary-card--glass,diary-card--paper overflow=false
+projects-1440: cards=5 variants=diary-card--glass,diary-card--paper,diary-card--ticket overflow=false
+index-390: cards=5 variants=diary-card--glass,diary-card--paper,diary-card--ticket overflow=false

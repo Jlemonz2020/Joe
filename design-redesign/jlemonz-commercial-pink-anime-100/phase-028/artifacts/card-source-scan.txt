@@ -1,0 +1,42 @@
+src/components/LegacyDetailMount.astro:14:<section class="diary-card diary-card--paper empty-sailei detail-mount" data-detail-kind={kind} data-empty-api-path={emptyApiPath}>
+src/components/GalgameDialog.astro:11:<section class="diary-card diary-card--paper galgame-dialog" aria-labelledby="page-title">
+src/components/EmptySaileiState.astro:10:<aside class="diary-card diary-card--glass empty-sailei" aria-label={title}>
+src/pages/about.astro:10:    <article class="diary-card diary-card--paper panel"><h2>Linux</h2><p>长期补课。</p></article>
+src/pages/about.astro:11:    <article class="diary-card diary-card--paper panel"><h2>硬件</h2><p>慢慢啃。</p></article>
+src/pages/about.astro:12:    <article class="diary-card diary-card--paper panel"><h2>AI</h2><p>辅助思考。</p></article>
+src/pages/archive.astro:11:    <article class="diary-card diary-card--paper panel"><h2>长文</h2><p>慢慢读的公开记录。</p></article>
+src/pages/archive.astro:12:    <article class="diary-card diary-card--paper panel"><h2>调试</h2><p>能回到现场的排查线索。</p></article>
+src/pages/archive.astro:13:    <article class="diary-card diary-card--paper panel"><h2>学习</h2><p>Linux、硬件和 AI 的长期补课。</p></article>
+src/pages/index.astro:14:    <article class="diary-card diary-card--ticket panel"><h2>FILE 01 / SYNC</h2><p>把踩坑、命令和解决办法写清楚，下一次少绕一点路。</p></article>
+src/pages/index.astro:15:    <article class="diary-card diary-card--ticket panel"><h2>FILE 02 / TRACE</h2><p>系统、驱动和服务的线索先留住，问题没解完也有现场可回看。</p></article>
+src/pages/index.astro:16:    <article class="diary-card diary-card--ticket panel"><h2>FILE 03 / DAILY</h2><p>项目之外也有日常，轻一点的碎片也算进度。</p></article>
+src/pages/moments.astro:11:    <article class="diary-card diary-card--tape panel"><h2>碎片</h2><p>短动态、随手灵感和今天的小火花。</p></article>
+src/pages/moments.astro:12:    <article class="diary-card diary-card--tape panel"><h2>项目</h2><p>项目进度先贴一张便签，不必等长文整理完。</p></article>
+src/pages/moments.astro:13:    <article class="diary-card diary-card--tape panel"><h2>生活</h2><p>轻一点的日常也可以成为时间线的一部分。</p></article>
+src/pages/projects.astro:11:    <article class="diary-card diary-card--ticket panel"><h2>Public Files</h2><p>只放公开、可复盘的任务档案。</p></article>
+src/pages/projects.astro:12:    <article class="diary-card diary-card--ticket panel"><h2>Energy Bar</h2><p>进度条以后会变成粉色能量条。</p></article>
+src/pages/projects.astro:13:    <article class="diary-card diary-card--ticket panel"><h2>Roadmap</h2><p>下一步用节点路线保留。</p></article>
+src/styles/cards.css:1:.diary-card {
+src/styles/cards.css:12:.diary-card::before,
+src/styles/cards.css:13:.diary-card::after {
+src/styles/cards.css:20:.diary-card::before {
+src/styles/cards.css:30:.diary-card--glass {
+src/styles/cards.css:36:.diary-card--ticket {
+src/styles/cards.css:41:.diary-card--ticket::after {
+src/styles/cards.css:52:.diary-card--tape {
+src/styles/cards.css:58:.diary-card--tape::after {
+src/styles/cards.css:73:.diary-card--polaroid {
+src/styles/cards.css:83:.diary-card--paper {
+src/styles/cards.css:89:.diary-card--paper::before {
+src/data/cardRules.ts:1:export const cardFamilies = [
+src/data/cardRules.ts:4:    className: "diary-card--glass",
+src/data/cardRules.ts:10:    className: "diary-card--ticket",
+src/data/cardRules.ts:16:    className: "diary-card--tape",
+src/data/cardRules.ts:22:    className: "diary-card--polaroid",
+src/data/cardRules.ts:28:    className: "diary-card--paper",
+src/data/cardRules.ts:34:export const cardReviewChecklist = [
+src/data/cardRules.ts:40:  "new business components reuse `diary-card` before adding custom shells"
+src/styles/motion.css:13:  .diary-card,
+src/styles/motion.css:31:  .diary-card,
+src/styles/motion.css:42:  .diary-card:hover,
+src/styles/motion.css:50:  html[data-theme-ready="true"] .diary-card,

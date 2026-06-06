@@ -1,0 +1,151 @@
+.ui-button {
+  --button-bg:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.92), transparent 36%),
+    rgba(255, 253, 248, 0.72);
+  --button-border: rgba(243, 95, 152, 0.28);
+  --button-shadow: var(--shadow-sticker);
+  position: relative;
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--target-min);
+  min-height: var(--target-min);
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--button-border);
+  border-radius: var(--radius-pill);
+  background: var(--button-bg);
+  color: var(--rose-700);
+  font: inherit;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: var(--button-shadow);
+}
+
+.ui-button--icon {
+  display: inline-grid;
+  place-items: center;
+  width: var(--target-min);
+  min-width: var(--target-min);
+  height: var(--target-min);
+  min-height: var(--target-min);
+  padding: 0;
+}
+
+.ui-button--tool {
+  --button-bg:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.92), transparent 36%),
+    rgba(255, 253, 248, 0.72);
+}
+
+.ui-button--swatch {
+  --button-bg: rgba(255, 255, 255, 0.5);
+  --button-border: rgba(143, 49, 90, 0.14);
+  --button-shadow: 0 1px 0 rgba(255, 255, 255, 0.82) inset;
+}
+
+.ui-button--sticker {
+  --button-bg:
+    linear-gradient(135deg, rgba(255, 232, 241, 0.92), rgba(255, 253, 248, 0.78));
+  --button-border: rgba(243, 95, 152, 0.38);
+  --button-shadow: var(--shadow-neon);
+}
+
+.ui-button--status {
+  --button-bg: rgba(139, 221, 231, 0.22);
+  --button-border: rgba(139, 221, 231, 0.36);
+  --button-shadow: 0 10px 22px rgba(53, 191, 201, 0.14);
+  color: var(--color-status-sync);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.ui-button[aria-pressed="true"],
+.ui-button.is-active {
+  border-color: rgba(243, 95, 152, 0.5);
+  background:
+    linear-gradient(135deg, rgba(255, 232, 241, 0.92), rgba(255, 253, 248, 0.86));
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset,
+    var(--shadow-neon);
+}
+
+.ui-button:active {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 6px 14px rgba(205, 79, 130, 0.16);
+}
+
+.ui-button:disabled,
+.ui-button[aria-disabled="true"] {
+  filter: saturate(0.72);
+}
+
+.ui-icon {
+  display: inline-grid;
+  place-items: center;
+  line-height: 1;
+}
+
+.ui-button__label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ui-button__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.4rem;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.54);
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+@media (hover: hover) and (min-width: 768px) {
+  .ui-button[data-tooltip]::after {
+    position: absolute;
+    right: 50%;
+    top: calc(100% + 0.55rem);
+    z-index: 20;
+    max-width: 12rem;
+    padding: 0.42rem 0.58rem;
+    border: 1px solid rgba(243, 95, 152, 0.28);
+    border-radius: 0.75rem;
+    background: rgba(255, 253, 248, 0.94);
+    color: var(--rose-700);
+    font-size: 0.72rem;
+    line-height: 1.25;
+    white-space: nowrap;
+    box-shadow: var(--shadow-sticker);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(50%, 0.25rem);
+    content: attr(data-tooltip);
+  }
+
+  .ui-button[data-tooltip]:hover::after,
+  .ui-button[data-tooltip]:focus-visible::after {
+    opacity: 1;
+    transform: translate(50%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ui-button,
+  .ui-button[data-tooltip]::after {
+    transition:
+      transform var(--motion-fast) var(--ease-diary),
+      opacity var(--motion-fast) var(--ease-diary),
+      box-shadow var(--motion-fast) var(--ease-diary),
+      background-color var(--motion-fast) var(--ease-diary),
+      border-color var(--motion-fast) var(--ease-diary);
+  }
+
+  .ui-button:hover {
+    transform: translateY(var(--hover-lift));
+  }
+}

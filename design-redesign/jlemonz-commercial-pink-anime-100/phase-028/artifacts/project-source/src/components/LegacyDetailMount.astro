@@ -1,0 +1,42 @@
+---
+import { legacyDetailApiPath, type LegacyDetailKind } from "../data/legacyRoutes";
+
+interface Props {
+  kind: LegacyDetailKind;
+  title: string;
+  fallbackBody: string;
+}
+
+const { kind, title, fallbackBody } = Astro.props;
+const emptyApiPath = legacyDetailApiPath(kind, "");
+---
+
+<section class="diary-card diary-card--paper empty-sailei detail-mount" data-detail-kind={kind} data-empty-api-path={emptyApiPath}>
+  <span class="empty-pin">?</span>
+  <strong>{title}</strong>
+  <p data-detail-copy>{fallbackBody}</p>
+  <p class="detail-mount__target" data-detail-target>等待读取旧链接参数。</p>
+</section>
+
+<script is:inline>
+  (() => {
+    const search = new URLSearchParams(window.location.search);
+    const idOrSlug = search.get("id") || search.get("slug") || "";
+    document.querySelectorAll("[data-detail-kind]").forEach((node) => {
+      const mount = node;
+      const kind = mount.getAttribute("data-detail-kind") || "";
+      const target = mount.querySelector("[data-detail-target]");
+      if (!(target instanceof HTMLElement)) return;
+      if (!idOrSlug) {
+        target.textContent = "没有检测到 id 或 slug，先显示详情页空状态。";
+        return;
+      }
+      const apiPath = kind === "project"
+        ? `/api/projects/${encodeURIComponent(idOrSlug)}`
+        : `/api/posts/${encodeURIComponent(idOrSlug)}`;
+      mount.setAttribute("data-detail-id", idOrSlug);
+      mount.setAttribute("data-api-path", apiPath);
+      target.textContent = `已识别旧链接参数：${idOrSlug}`;
+    });
+  })();
+</script>
