@@ -1,0 +1,52 @@
+src/components/HomeTaskCards.astro:4:    file: "FILE 01",
+src/components/HomeTaskCards.astro:6:    title: "复盘档案",
+src/components/HomeTaskCards.astro:39:<section class="home-task-board" aria-labelledby="home-task-board-title">
+src/components/HomeTaskCards.astro:40:  <div class="home-task-board__heading">
+src/components/HomeTaskCards.astro:41:    <p>MISSION STICKERS</p>
+src/components/HomeTaskCards.astro:42:    <h2 id="home-task-board-title">今日记录任务</h2>
+src/components/HomeTaskCards.astro:45:  <div class="home-task-board__grid">
+src/components/HomeTaskCards.astro:47:      <article class="home-task-card" data-task-tone={task.tone}>
+src/components/HomeTaskCards.astro:48:        <div class="home-task-card__topline">
+src/components/HomeTaskCards.astro:49:          <span class="home-task-card__file">{task.file}</span>
+src/components/HomeTaskCards.astro:50:          <span class="home-task-card__state"><i></i>{task.state}</span>
+src/components/HomeTaskCards.astro:56:        <ul class="home-task-card__tags" aria-label={`${task.title}标签`}>
+src/components/HomeTaskCards.astro:60:        <a class="home-task-card__action" href={task.href}>
+src/layouts/BaseLayout.astro:11:import "../styles/home-task-cards.css";
+src/pages/index.astro:5:import HomeTaskCards from "../components/HomeTaskCards.astro";
+src/pages/index.astro:11:  <HomeTaskCards />
+src/styles/home-task-cards.css:1:.home-task-board {
+src/styles/home-task-cards.css:5:.home-task-board__heading {
+src/styles/home-task-cards.css:14:.home-task-board__heading p,
+src/styles/home-task-cards.css:15:.home-task-board__heading h2 {
+src/styles/home-task-cards.css:19:.home-task-board__heading p {
+src/styles/home-task-cards.css:26:.home-task-board__heading h2 {
+src/styles/home-task-cards.css:31:.home-task-board__grid {
+src/styles/home-task-cards.css:36:.home-task-card {
+src/styles/home-task-cards.css:56:.home-task-card[data-task-tone="trace"] {
+src/styles/home-task-cards.css:61:.home-task-card[data-task-tone="daily"] {
+src/styles/home-task-cards.css:66:.home-task-card::before,
+src/styles/home-task-cards.css:67:.home-task-card::after {
+src/styles/home-task-cards.css:73:.home-task-card::before {
+src/styles/home-task-cards.css:87:.home-task-card::after {
+src/styles/home-task-cards.css:98:.home-task-card__topline {
+src/styles/home-task-cards.css:106:.home-task-card__file,
+src/styles/home-task-cards.css:107:.home-task-card__state {
+src/styles/home-task-cards.css:117:.home-task-card__file {
+src/styles/home-task-cards.css:124:.home-task-card__state {
+src/styles/home-task-cards.css:133:.home-task-card__state i {
+src/styles/home-task-cards.css:141:.home-task-card h3 {
+src/styles/home-task-cards.css:150:.home-task-card h3 span {
+src/styles/home-task-cards.css:157:.home-task-card p {
+src/styles/home-task-cards.css:165:.home-task-card__tags {
+src/styles/home-task-cards.css:174:.home-task-card__tags li {
+src/styles/home-task-cards.css:187:.home-task-card__action {
+src/styles/home-task-cards.css:204:.home-task-card__action small {
+src/styles/home-task-cards.css:211:  .home-task-card {
+src/styles/home-task-cards.css:218:  .home-task-card:hover {
+src/styles/home-task-cards.css:226:  .home-task-card__state i {
+src/styles/home-task-cards.css:232:  .home-task-board__grid {
+src/styles/home-task-cards.css:238:  .home-task-card {
+src/styles/home-task-cards.css:244:  .home-task-card,
+src/styles/home-task-cards.css:245:  .home-task-card *,
+src/styles/home-task-cards.css:246:  .home-task-card *::before,
+src/styles/home-task-cards.css:247:  .home-task-card *::after {

@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GalgameDialog from "../components/GalgameDialog.astro";
+import { pages } from "../data/pageMeta";
+---
+
+<BaseLayout active="about" title="关于">
+  <GalgameDialog {...pages.about} />
+  <section class="module-grid" aria-label="关于 Jlemonz">
+    <article class="diary-card diary-card--paper panel"><h2>Linux</h2><p>长期补课。</p></article>
+    <article class="diary-card diary-card--paper panel"><h2>硬件</h2><p>慢慢啃。</p></article>
+    <article class="diary-card diary-card--paper panel"><h2>AI</h2><p>辅助思考。</p></article>
+  </section>
+</BaseLayout>

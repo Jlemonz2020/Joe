@@ -1,0 +1,67 @@
+---
+const tasks = [
+  {
+    file: "FILE 01",
+    state: "RECAP",
+    title: "复盘档案",
+    code: "SYNC",
+    copy: "把踩坑、命令和解决办法写清楚，下一次少绕一点路。",
+    tags: ["Pi5", "命令", "修复"],
+    href: "/archive.html",
+    action: "翻笔记",
+    tone: "recap"
+  },
+  {
+    file: "FILE 02",
+    state: "TRACE",
+    title: "现场线索",
+    code: "TRACE",
+    copy: "系统、驱动和服务的线索先留住，问题没解完也有现场可回看。",
+    tags: ["Linux", "服务", "记录"],
+    href: "/projects.html",
+    action: "看项目",
+    tone: "trace"
+  },
+  {
+    file: "FILE 03",
+    state: "DAILY",
+    title: "日常碎片",
+    code: "DAILY",
+    copy: "项目之外也有日常，轻一点的碎片也算进度。",
+    tags: ["生活", "灵感", "手帐"],
+    href: "/moments.html",
+    action: "看日常",
+    tone: "daily"
+  }
+] as const;
+---
+
+<section class="home-task-board" aria-labelledby="home-task-board-title">
+  <div class="home-task-board__heading">
+    <p>MISSION STICKERS</p>
+    <h2 id="home-task-board-title">今日记录任务</h2>
+  </div>
+
+  <div class="home-task-board__grid">
+    {tasks.map((task) => (
+      <article class="home-task-card" data-task-tone={task.tone}>
+        <div class="home-task-card__topline">
+          <span class="home-task-card__file">{task.file}</span>
+          <span class="home-task-card__state"><i></i>{task.state}</span>
+        </div>
+
+        <h3><span>{task.code}</span>{task.title}</h3>
+        <p>{task.copy}</p>
+
+        <ul class="home-task-card__tags" aria-label={`${task.title}标签`}>
+          {task.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+
+        <a class="home-task-card__action" href={task.href}>
+          <span>{task.action}</span>
+          <small>{task.file}</small>
+        </a>
+      </article>
+    ))}
+  </div>
+</section>

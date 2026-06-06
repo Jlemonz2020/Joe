@@ -1,0 +1,21 @@
+Phase 036 home task cards verification
+baseUrl=http://127.0.0.1:4431
+edgePath=/usr/bin/microsoft-edge
+viewports=390,1280,1920
+cardCounts=390:3,1280:3,1920:3
+oldInlineTicketCards=0
+actionsMinHeight=44.00
+reducedStatusAnimation=none
+pageOverflowX=false in all checked cases
+
+Starting server 1/1: npx astro preview --host 127.0.0.1 --port 4431
+Waiting for server on port 4431...
+Server ready on port 4431
+
+All 1 server(s) ready
+Running: node /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-036/artifacts/verify-home-task-cards.mjs
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped

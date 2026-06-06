@@ -1,0 +1,273 @@
+{
+  "baseUrl": "http://127.0.0.1:4431",
+  "edgePath": "/usr/bin/microsoft-edge",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-036/artifacts/screens/home-task-cards-390.png",
+      "state": {
+        "boardExists": true,
+        "heading": "今日记录任务",
+        "cardCount": 3,
+        "cards": [
+          {
+            "file": "FILE 01",
+            "state": "RECAP",
+            "title": "SYNC复盘档案",
+            "copy": "把踩坑、命令和解决办法写清楚，下一次少绕一点路。",
+            "tags": [
+              "Pi5",
+              "命令",
+              "修复"
+            ],
+            "action": "翻笔记 FILE 01",
+            "href": "/archive.html",
+            "actionHeight": 44,
+            "width": 358,
+            "height": 288
+          },
+          {
+            "file": "FILE 02",
+            "state": "TRACE",
+            "title": "TRACE现场线索",
+            "copy": "系统、驱动和服务的线索先留住，问题没解完也有现场可回看。",
+            "tags": [
+              "Linux",
+              "服务",
+              "记录"
+            ],
+            "action": "看项目 FILE 02",
+            "href": "/projects.html",
+            "actionHeight": 44,
+            "width": 358,
+            "height": 288
+          },
+          {
+            "file": "FILE 03",
+            "state": "DAILY",
+            "title": "DAILY日常碎片",
+            "copy": "项目之外也有日常，轻一点的碎片也算进度。",
+            "tags": [
+              "生活",
+              "灵感",
+              "手帐"
+            ],
+            "action": "看日常 FILE 03",
+            "href": "/moments.html",
+            "actionHeight": 44,
+            "width": 358,
+            "height": 288
+          }
+        ],
+        "oldInlineTicketCards": 0,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-task-status",
+        "cardTransitionDuration": "0.18s, 0.18s, 0.18s"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-036/artifacts/screens/home-task-cards-1280.png",
+      "state": {
+        "boardExists": true,
+        "heading": "今日记录任务",
+        "cardCount": 3,
+        "cards": [
+          {
+            "file": "FILE 01",
+            "state": "RECAP",
+            "title": "SYNC复盘档案",
+            "copy": "把踩坑、命令和解决办法写清楚，下一次少绕一点路。",
+            "tags": [
+              "Pi5",
+              "命令",
+              "修复"
+            ],
+            "action": "翻笔记 FILE 01",
+            "href": "/archive.html",
+            "actionHeight": 44,
+            "width": 405.328125,
+            "height": 320
+          },
+          {
+            "file": "FILE 02",
+            "state": "TRACE",
+            "title": "TRACE现场线索",
+            "copy": "系统、驱动和服务的线索先留住，问题没解完也有现场可回看。",
+            "tags": [
+              "Linux",
+              "服务",
+              "记录"
+            ],
+            "action": "看项目 FILE 02",
+            "href": "/projects.html",
+            "actionHeight": 44,
+            "width": 405.328125,
+            "height": 320
+          },
+          {
+            "file": "FILE 03",
+            "state": "DAILY",
+            "title": "DAILY日常碎片",
+            "copy": "项目之外也有日常，轻一点的碎片也算进度。",
+            "tags": [
+              "生活",
+              "灵感",
+              "手帐"
+            ],
+            "action": "看日常 FILE 03",
+            "href": "/moments.html",
+            "actionHeight": 44,
+            "width": 405.34375,
+            "height": 320
+          }
+        ],
+        "oldInlineTicketCards": 0,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-task-status",
+        "cardTransitionDuration": "0.18s, 0.18s, 0.18s"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-036/artifacts/screens/home-task-cards-1920.png",
+      "state": {
+        "boardExists": true,
+        "heading": "今日记录任务",
+        "cardCount": 3,
+        "cards": [
+          {
+            "file": "FILE 01",
+            "state": "RECAP",
+            "title": "SYNC复盘档案",
+            "copy": "把踩坑、命令和解决办法写清楚，下一次少绕一点路。",
+            "tags": [
+              "Pi5",
+              "命令",
+              "修复"
+            ],
+            "action": "翻笔记 FILE 01",
+            "href": "/archive.html",
+            "actionHeight": 44,
+            "width": 576,
+            "height": 320
+          },
+          {
+            "file": "FILE 02",
+            "state": "TRACE",
+            "title": "TRACE现场线索",
+            "copy": "系统、驱动和服务的线索先留住，问题没解完也有现场可回看。",
+            "tags": [
+              "Linux",
+              "服务",
+              "记录"
+            ],
+            "action": "看项目 FILE 02",
+            "href": "/projects.html",
+            "actionHeight": 44,
+            "width": 576,
+            "height": 320
+          },
+          {
+            "file": "FILE 03",
+            "state": "DAILY",
+            "title": "DAILY日常碎片",
+            "copy": "项目之外也有日常，轻一点的碎片也算进度。",
+            "tags": [
+              "生活",
+              "灵感",
+              "手帐"
+            ],
+            "action": "看日常 FILE 03",
+            "href": "/moments.html",
+            "actionHeight": 44,
+            "width": 576,
+            "height": 320
+          }
+        ],
+        "oldInlineTicketCards": 0,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-task-status",
+        "cardTransitionDuration": "0.18s, 0.18s, 0.18s"
+      },
+      "pageErrors": []
+    }
+  ],
+  "reducedMotion": {
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-036/artifacts/screens/home-task-cards-reduced-motion-1280.png",
+    "state": {
+      "boardExists": true,
+      "heading": "今日记录任务",
+      "cardCount": 3,
+      "cards": [
+        {
+          "file": "FILE 01",
+          "state": "RECAP",
+          "title": "SYNC复盘档案",
+          "copy": "把踩坑、命令和解决办法写清楚，下一次少绕一点路。",
+          "tags": [
+            "Pi5",
+            "命令",
+            "修复"
+          ],
+          "action": "翻笔记 FILE 01",
+          "href": "/archive.html",
+          "actionHeight": 44,
+          "width": 405.328125,
+          "height": 320
+        },
+        {
+          "file": "FILE 02",
+          "state": "TRACE",
+          "title": "TRACE现场线索",
+          "copy": "系统、驱动和服务的线索先留住，问题没解完也有现场可回看。",
+          "tags": [
+            "Linux",
+            "服务",
+            "记录"
+          ],
+          "action": "看项目 FILE 02",
+          "href": "/projects.html",
+          "actionHeight": 44,
+          "width": 405.328125,
+          "height": 320
+        },
+        {
+          "file": "FILE 03",
+          "state": "DAILY",
+          "title": "DAILY日常碎片",
+          "copy": "项目之外也有日常，轻一点的碎片也算进度。",
+          "tags": [
+            "生活",
+            "灵感",
+            "手帐"
+          ],
+          "action": "看日常 FILE 03",
+          "href": "/moments.html",
+          "actionHeight": 44,
+          "width": 405.34375,
+          "height": 320
+        }
+      ],
+      "oldInlineTicketCards": 0,
+      "pageOverflowX": false,
+      "statusAnimationName": "none",
+      "cardTransitionDuration": "0.001s"
+    }
+  }
+}

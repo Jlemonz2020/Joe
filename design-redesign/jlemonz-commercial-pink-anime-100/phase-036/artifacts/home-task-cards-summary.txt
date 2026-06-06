@@ -1,0 +1,9 @@
+Phase 036 home task cards verification
+baseUrl=http://127.0.0.1:4431
+edgePath=/usr/bin/microsoft-edge
+viewports=390,1280,1920
+cardCounts=390:3,1280:3,1920:3
+oldInlineTicketCards=0
+actionsMinHeight=44.00
+reducedStatusAnimation=none
+pageOverflowX=false in all checked cases

@@ -1,0 +1,5 @@
+username=Jlemonz2020
+total=123
+days=365
+firstDate=2025-06-06
+lastDate=2026-06-05
