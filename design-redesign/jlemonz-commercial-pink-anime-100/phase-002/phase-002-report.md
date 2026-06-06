@@ -126,7 +126,7 @@ These are not changed in Phase 002. They are baseline risks for Phase 015 and Ph
 
 ## Audit
 
-- AI self-audit: all required Phase 002 baseline categories were collected.
+- AI self-audit: all required Phase 002 baseline categories were collected and archive commit was pushed.
 - User review: pending.
 - Result: `review`.
 
@@ -143,8 +143,8 @@ These are not changed in Phase 002. They are baseline risks for Phase 015 and Ph
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-002/`
-- Commit: pending.
-- Push: pending.
+- Baseline commit: `9eee07d phase-002: capture online site baseline`.
+- Push: `origin/main` accepted `a2fb835..9eee07d`.
 
 ## Next Gate
 

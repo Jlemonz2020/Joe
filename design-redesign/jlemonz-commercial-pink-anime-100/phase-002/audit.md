@@ -12,8 +12,8 @@
 - [x] Screenshots were captured.
 - [x] Asset inventory was captured.
 - [x] Cleanup check was performed.
-- [ ] GitHub commit succeeded.
-- [ ] GitHub push succeeded.
+- [x] GitHub commit succeeded: `9eee07d phase-002: capture online site baseline`.
+- [x] GitHub push succeeded: `origin/main` accepted `a2fb835..9eee07d`.
 
 ## Findings
 
@@ -29,5 +29,5 @@ Result: `review`
 
 Reviewer notes:
 
-- AI: Phase 002 baseline evidence is sufficient for future comparison, pending commit/push and user review.
+- AI: Phase 002 baseline evidence is sufficient for future comparison. Commit and push evidence has been recorded.
 - User: pending.
