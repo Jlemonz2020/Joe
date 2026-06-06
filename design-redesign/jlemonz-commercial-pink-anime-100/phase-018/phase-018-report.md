@@ -86,8 +86,9 @@ No screenshots were required in Phase 018. Motion behavior is validated by CSS s
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-018/`
-- Commit: pending.
-- Push: pending.
+- Commit: `944c1e2 phase-018: define motion system`.
+- Push: `origin/main` accepted `8a832f3..944c1e2`.
+- Remote verification: `refs/heads/main` resolved to `944c1e2ba3bd7220e9d0db59f50609541536012c`.
 
 ## Next Gate
 
