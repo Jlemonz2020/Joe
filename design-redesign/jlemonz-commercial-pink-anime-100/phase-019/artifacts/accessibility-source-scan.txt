@@ -1,0 +1,32 @@
+src/pages/about.astro:9:  <section class="module-grid" aria-label="关于 Jlemonz">
+src/pages/archive.astro:10:  <section class="module-grid" aria-label="笔记分类">
+src/pages/moments.astro:10:  <section class="module-grid" aria-label="瞬间频道">
+src/components/GalgameDialog.astro:11:<section class="galgame-dialog" aria-labelledby="page-title">
+src/components/GalgameDialog.astro:15:  <span class="dialog-status" aria-hidden="true">STATUS: CONNECTED</span>
+src/pages/projects.astro:10:  <section class="module-grid" aria-label="项目任务板">
+src/pages/index.astro:13:  <section class="module-grid" aria-label="首页模块">
+src/components/EmptySaileiState.astro:10:<aside class="empty-sailei" aria-label={title}>
+src/components/EmptySaileiState.astro:11:  <span class="empty-pin" aria-hidden="true">✿</span>
+src/components/Header.astro:12:  <a class="brand" href="/index.html" translate="no" aria-label="Jlemonz 首页">
+src/components/Header.astro:13:    <span class="brand-mark" aria-hidden="true">J</span>
+src/components/Header.astro:19:  <nav class="nav-links" aria-label="主导航">
+src/components/Header.astro:21:      <a class:list={["nav-link", { active: key === active }]} href={page.href} aria-current={key === active ? "page" : undefined}>
+src/components/Header.astro:26:  <div class="header-actions" aria-label="快捷入口">
+src/components/Header.astro:27:    <button type="button" aria-label="打开搜索"><span aria-hidden="true">⌕</span></button>
+src/components/Header.astro:28:    <button type="button" aria-label="切换主题"><span aria-hidden="true">✿</span></button>
+src/layouts/BaseLayout.astro:29:    <a class="skip-link" href="#main">跳到主要内容</a>
+src/data/interactionRules.ts:10:    requirement: "Use anchor elements and mark the current page with `aria-current`.",
+src/data/interactionRules.ts:15:    requirement: "Use `button type=\"button\"` and provide an `aria-label`.",
+src/data/interactionRules.ts:25:    requirement: "Use `:focus-visible` with a visible ring.",
+src/styles/interaction.css:16:  min-height: var(--target-min);
+src/styles/interaction.css:29::focus-visible {
+src/styles/interaction.css:34:.sr-only {
+src/styles/interaction.css:49:  overscroll-behavior: contain;
+src/styles/interaction.css:52:.nav-link[aria-current="page"] {
+src/styles/interaction.css:60:    min-height: var(--target-comfortable);
+src/styles/global.css:24:  touch-action: manipulation;
+src/styles/global.css:27::focus-visible {
+src/styles/global.css:32:.skip-link {
+src/styles/global.css:45:.skip-link:focus {
+src/styles/global.css:109:  min-height: 2.75rem;
+src/styles/global.css:127:  min-height: 2.75rem;

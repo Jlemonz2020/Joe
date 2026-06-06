@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GalgameDialog from "../components/GalgameDialog.astro";
+import EmptySaileiState from "../components/EmptySaileiState.astro";
+import { pages } from "../data/pageMeta";
+---
+
+<BaseLayout active="projects" title="项目">
+  <GalgameDialog {...pages.projects} />
+  <section class="module-grid" aria-label="项目任务板">
+    <article class="panel"><h2>Public Files</h2><p>只放公开、可复盘的任务档案。</p></article>
+    <article class="panel"><h2>Energy Bar</h2><p>进度条以后会变成粉色能量条。</p></article>
+    <article class="panel"><h2>Roadmap</h2><p>下一步用节点路线保留。</p></article>
+  </section>
+  <EmptySaileiState title="任务板暂时没有公开项目" body="等下一个服务或硬件实验整理完成，它会出现在这里。" />
+</BaseLayout>

@@ -22,7 +22,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 016 | 主题 token 系统 | approved | `phase-016/` |
 | 017 | 字体和排版系统 | approved | `phase-017/` |
 | 018 | 动效系统 | approved | `phase-018/` |
-| 019 | 可访问性和交互基线 | pending | `phase-019/` |
+| 019 | 可访问性和交互基线 | approved | `phase-019/` |
 | 020 | 第一轮总审和冻结 | pending | `phase-020/` |
 | 021 | 全局背景系统 | pending | `phase-021/` |
 | 022 | 背景响应式和图像优化 | pending | `phase-022/` |
