@@ -1,0 +1,35 @@
+---
+import { statusStateCatalog, type StatusStateKind } from "../data/statusStateCatalog";
+
+interface Props {
+  state: StatusStateKind;
+  title?: string;
+  body?: string;
+  ribbon?: string;
+  compact?: boolean;
+}
+
+const { state, title, body, ribbon, compact = false } = Astro.props;
+const status = statusStateCatalog[state];
+const liveMode = state === "loading" ? "polite" : "assertive";
+---
+
+<aside
+  class:list={["diary-card", "diary-card--glass", "status-sailei", `status-sailei--${state}`, compact && "status-sailei--compact"]}
+  role="status"
+  aria-live={liveMode}
+  aria-label={title ?? status.title}
+  data-status-kind={state}
+>
+  <span class="status-ribbon" aria-hidden="true">{ribbon ?? status.ribbon}</span>
+  <span class="status-orbit" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </span>
+  <span class="status-cue" aria-hidden="true">{status.cue}</span>
+  <div class="status-copy">
+    <strong>{title ?? status.title}</strong>
+    <p>{body ?? status.body}</p>
+  </div>
+</aside>

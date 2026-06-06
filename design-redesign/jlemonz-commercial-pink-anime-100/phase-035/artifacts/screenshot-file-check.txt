@@ -1,0 +1,5 @@
+github-sync-fallback-390.png 898256 bytes
+github-sync-ready-1280.png 1401662 bytes
+github-sync-ready-1920.png 1900701 bytes
+github-sync-ready-390.png 852301 bytes
+github-sync-reduced-motion-1280.png 1398867 bytes

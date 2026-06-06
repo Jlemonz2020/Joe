@@ -1,0 +1,77 @@
+src/layouts/BaseLayout.astro:10:import "../styles/github-sync.css";
+src/components/GithubSyncGrid.astro:2:import { githubSyncRules } from "../data/githubSyncRules";
+src/components/GithubSyncGrid.astro:5:const syncRulesCount = githubSyncRules.length;
+src/components/GithubSyncGrid.astro:8:<section class="diary-card diary-card--glass github-sync" data-github-sync data-endpoint="/api/github/contributions" data-rules-count={syncRulesCount} aria-labelledby="github-sync-title">
+src/components/GithubSyncGrid.astro:9:  <div class="github-sync__header">
+src/components/GithubSyncGrid.astro:11:      <p class="github-sync__eyebrow">SYNC FREQUENCY</p>
+src/components/GithubSyncGrid.astro:12:      <h2 id="github-sync-title">GitHub 同步手帐格</h2>
+src/components/GithubSyncGrid.astro:15:    <div class="github-sync__stamp" aria-live="polite" data-github-status>同步中</div>
+src/components/GithubSyncGrid.astro:18:  <div class="github-sync__meta" aria-label="GitHub 同步概览">
+src/components/GithubSyncGrid.astro:24:  <div class="github-sync__grid-wrap">
+src/components/GithubSyncGrid.astro:25:    <div class="github-sync__grid" data-github-grid aria-label="GitHub 最近同步频率">
+src/components/GithubSyncGrid.astro:26:      {skeletonCells.map(() => <span class="github-sync__cell github-sync__cell--loading" aria-hidden="true"></span>)}
+src/components/GithubSyncGrid.astro:28:    <aside class="github-sync__memo" aria-label="GitHub 同步便签">
+src/components/GithubSyncGrid.astro:30:      <strong data-github-note>等待 GitHub 数据贴到手帐里。</strong>
+src/components/GithubSyncGrid.astro:34:  <div class="github-sync__legend" aria-label="同步强度图例">
+src/components/GithubSyncGrid.astro:44:  <p class="github-sync__fallback" data-github-fallback hidden>同步格暂时没取到数据，稍后再让赛蕾翻一次记录。</p>
+src/components/GithubSyncGrid.astro:66:      root.querySelector("[data-github-note]").textContent = "接口暂时没回应，先保留 49 枚淡粉贴纸格等下次同步。";
+src/components/GithubSyncGrid.astro:72:        cell.className = "github-sync__cell github-sync__cell--muted";
+src/components/GithubSyncGrid.astro:90:      root.querySelector("[data-github-note]").textContent = `最近 ${days.length} 天里，有 ${days.reduce((sum, day) => sum + Number(day.count || 0), 0)} 次同步被贴进手帐格。`;
+src/components/GithubSyncGrid.astro:100:        cell.className = "github-sync__cell";
+src/components/GithubSyncGrid.astro:112:        const response = await fetch(root.dataset.endpoint || "/api/github/contributions", {
+src/components/GithubSyncGrid.astro:125:    document.querySelectorAll("[data-github-sync]").forEach((root) => {
+src/adapters/apiPaths.ts:12:  githubContributions: "/api/github/contributions"
+src/pages/index.astro:4:import GithubSyncGrid from "../components/GithubSyncGrid.astro";
+src/pages/index.astro:9:  <GithubSyncGrid />
+src/styles/github-sync.css:1:.github-sync {
+src/styles/github-sync.css:6:.github-sync__header {
+src/styles/github-sync.css:12:.github-sync__eyebrow {
+src/styles/github-sync.css:20:.github-sync h2 {
+src/styles/github-sync.css:26:.github-sync__header p:not(.github-sync__eyebrow) {
+src/styles/github-sync.css:32:.github-sync__stamp {
+src/styles/github-sync.css:48:.github-sync__stamp::before {
+src/styles/github-sync.css:58:.github-sync__meta {
+src/styles/github-sync.css:65:.github-sync__meta span {
+src/styles/github-sync.css:73:.github-sync__meta strong,
+src/styles/github-sync.css:74:.github-sync__meta small {
+src/styles/github-sync.css:78:.github-sync__meta strong {
+src/styles/github-sync.css:83:.github-sync__meta small {
+src/styles/github-sync.css:89:.github-sync__grid-wrap {
+src/styles/github-sync.css:100:.github-sync__grid {
+src/styles/github-sync.css:120:.github-sync__memo {
+src/styles/github-sync.css:135:.github-sync__memo::before {
+src/styles/github-sync.css:148:.github-sync__memo span {
+src/styles/github-sync.css:155:.github-sync__memo strong {
+src/styles/github-sync.css:163:.github-sync__cell {
+src/styles/github-sync.css:172:.github-sync__cell[data-level="1"] {
+src/styles/github-sync.css:176:.github-sync__cell[data-level="2"] {
+src/styles/github-sync.css:180:.github-sync__cell[data-level="3"] {
+src/styles/github-sync.css:184:.github-sync__cell[data-level="4"] {
+src/styles/github-sync.css:191:.github-sync__cell--loading {
+src/styles/github-sync.css:196:.github-sync__cell--muted {
+src/styles/github-sync.css:200:.github-sync__legend {
+src/styles/github-sync.css:209:.github-sync__legend i {
+src/styles/github-sync.css:217:.github-sync__legend i[data-level="1"] {
+src/styles/github-sync.css:221:.github-sync__legend i[data-level="2"] {
+src/styles/github-sync.css:225:.github-sync__legend i[data-level="3"] {
+src/styles/github-sync.css:229:.github-sync__legend i[data-level="4"] {
+src/styles/github-sync.css:233:.github-sync__fallback {
+src/styles/github-sync.css:243:  .github-sync__header {
+src/styles/github-sync.css:247:  .github-sync__stamp {
+src/styles/github-sync.css:253:  .github-sync__meta {
+src/styles/github-sync.css:257:  .github-sync__grid {
+src/styles/github-sync.css:264:  .github-sync__cell {
+src/styles/github-sync.css:269:  .github-sync__grid-wrap {
+src/styles/github-sync.css:273:  .github-sync__memo {
+src/styles/github-sync.css:279:  .github-sync[data-github-state="ready"] .github-sync__cell {
+src/styles/github-sync.css:280:    animation: github-sync-cell-in 260ms var(--ease-diary) both;
+src/styles/github-sync.css:283:  .github-sync__stamp::before {
+src/styles/github-sync.css:284:    animation: github-sync-status 2.8s ease-in-out infinite;
+src/styles/github-sync.css:289:  .github-sync,
+src/styles/github-sync.css:290:  .github-sync *,
+src/styles/github-sync.css:291:  .github-sync *::before,
+src/styles/github-sync.css:292:  .github-sync *::after {
+src/styles/github-sync.css:298:@keyframes github-sync-cell-in {
+src/styles/github-sync.css:310:@keyframes github-sync-status {
+src/data/githubSyncRules.ts:1:export const githubSyncRules = [
+src/data/githubSyncRules.ts:2:  "Render only data returned by `/api/github/contributions`.",

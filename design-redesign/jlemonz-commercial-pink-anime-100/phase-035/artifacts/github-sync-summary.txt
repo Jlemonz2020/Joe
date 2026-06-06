@@ -1,0 +1,12 @@
+Phase 035 GitHub sync grid verification
+baseUrl=http://127.0.0.1:4421
+edgePath=/usr/bin/microsoft-edge
+liveUsername=Jlemonz2020
+liveTotal=123
+liveDays=365
+readyViewports=390,1280,1920
+readyCells=390:98,1280:98,1920:98
+fallbackCells=49
+reducedCellAnimation=none
+reducedStampAnimation=none
+pageOverflowX=false in all checked cases

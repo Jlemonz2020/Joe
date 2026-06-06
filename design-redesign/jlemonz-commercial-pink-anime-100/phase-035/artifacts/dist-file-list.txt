@@ -1,0 +1,16 @@
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/about.html
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/archive.html
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/assets/sailei/sailei-bg-1280.jpg
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/assets/sailei/sailei-bg-1280.webp
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/assets/sailei/sailei-bg-1920.jpg
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/assets/sailei/sailei-bg-1920.webp
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/assets/sailei/sailei-bg-2560.jpg
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/assets/sailei/sailei-bg-2560.webp
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/assets/sailei/sailei-main.jpg
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/_astro/BaseLayout.CzpvBFew.css
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/index.html
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/moments.html
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/post.html
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/project.html
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/projects.html
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/dist-snapshot/status-lab.html

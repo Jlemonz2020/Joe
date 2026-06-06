@@ -1,0 +1,160 @@
+{
+  "baseUrl": "http://127.0.0.1:4421",
+  "edgePath": "/usr/bin/microsoft-edge",
+  "livePayload": {
+    "username": "Jlemonz2020",
+    "total": 123,
+    "days": 365,
+    "firstDate": "2025-06-06",
+    "lastDate": "2026-06-05"
+  },
+  "ready": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/screens/github-sync-ready-390.png",
+      "browserMessages": [],
+      "pageErrors": [],
+      "state": {
+        "state": "ready",
+        "rulesCount": 5,
+        "user": "Jlemonz2020",
+        "total": "123",
+        "range": "98 天",
+        "status": "已同步",
+        "fallbackVisible": false,
+        "fallbackText": "同步格暂时没取到数据，稍后再让赛蕾翻一次记录。",
+        "noteText": "最近 98 天里，有 46 次同步被贴进手帐格。",
+        "cells": 98,
+        "activeCells": 98,
+        "mutedCells": 0,
+        "maxLevel": 4,
+        "pageOverflowX": false,
+        "sectionWithinViewport": true,
+        "gridScrollableWidth": 321,
+        "gridClientWidth": 321,
+        "cellAnimationName": "github-sync-cell-in",
+        "stampAnimationName": "github-sync-status"
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/screens/github-sync-ready-1280.png",
+      "browserMessages": [],
+      "pageErrors": [],
+      "state": {
+        "state": "ready",
+        "rulesCount": 5,
+        "user": "Jlemonz2020",
+        "total": "123",
+        "range": "98 天",
+        "status": "已同步",
+        "fallbackVisible": false,
+        "fallbackText": "同步格暂时没取到数据，稍后再让赛蕾翻一次记录。",
+        "noteText": "最近 98 天里，有 46 次同步被贴进手帐格。",
+        "cells": 98,
+        "activeCells": 98,
+        "mutedCells": 0,
+        "maxLevel": 4,
+        "pageOverflowX": false,
+        "sectionWithinViewport": true,
+        "gridScrollableWidth": 1200,
+        "gridClientWidth": 1200,
+        "cellAnimationName": "github-sync-cell-in",
+        "stampAnimationName": "github-sync-status"
+      }
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/screens/github-sync-ready-1920.png",
+      "browserMessages": [],
+      "pageErrors": [],
+      "state": {
+        "state": "ready",
+        "rulesCount": 5,
+        "user": "Jlemonz2020",
+        "total": "123",
+        "range": "98 天",
+        "status": "已同步",
+        "fallbackVisible": false,
+        "fallbackText": "同步格暂时没取到数据，稍后再让赛蕾翻一次记录。",
+        "noteText": "最近 98 天里，有 46 次同步被贴进手帐格。",
+        "cells": 98,
+        "activeCells": 98,
+        "mutedCells": 0,
+        "maxLevel": 4,
+        "pageOverflowX": false,
+        "sectionWithinViewport": true,
+        "gridScrollableWidth": 1712,
+        "gridClientWidth": 1712,
+        "cellAnimationName": "github-sync-cell-in",
+        "stampAnimationName": "github-sync-status"
+      }
+    }
+  ],
+  "fallback": {
+    "viewport": {
+      "width": 390,
+      "height": 900
+    },
+    "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/screens/github-sync-fallback-390.png",
+    "pageErrors": [],
+    "state": {
+      "state": "fallback",
+      "rulesCount": 5,
+      "user": "Jlemonz2020",
+      "total": "--",
+      "range": "最近 98 天",
+      "status": "稍后重试",
+      "fallbackVisible": true,
+      "fallbackText": "同步格暂时没取到数据，稍后再让赛蕾翻一次记录。",
+      "noteText": "接口暂时没回应，先保留 49 枚淡粉贴纸格等下次同步。",
+      "cells": 49,
+      "activeCells": 0,
+      "mutedCells": 49,
+      "maxLevel": 0,
+      "pageOverflowX": false,
+      "sectionWithinViewport": true,
+      "gridScrollableWidth": 321,
+      "gridClientWidth": 321,
+      "cellAnimationName": "none",
+      "stampAnimationName": "github-sync-status"
+    }
+  },
+  "reducedMotion": {
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-035/artifacts/screens/github-sync-reduced-motion-1280.png",
+    "state": {
+      "state": "ready",
+      "rulesCount": 5,
+      "user": "Jlemonz2020",
+      "total": "123",
+      "range": "98 天",
+      "status": "已同步",
+      "fallbackVisible": false,
+      "fallbackText": "同步格暂时没取到数据，稍后再让赛蕾翻一次记录。",
+      "noteText": "最近 98 天里，有 46 次同步被贴进手帐格。",
+      "cells": 98,
+      "activeCells": 98,
+      "mutedCells": 0,
+      "maxLevel": 4,
+      "pageOverflowX": false,
+      "sectionWithinViewport": true,
+      "gridScrollableWidth": 1200,
+      "gridClientWidth": 1200,
+      "cellAnimationName": "none",
+      "stampAnimationName": "none"
+    }
+  }
+}
