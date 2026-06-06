@@ -1,0 +1,42 @@
+src/components/HomeMomentPreview.astro:3:import { homeMomentPreviewRules } from "../data/homeMomentPreviewRules";
+src/components/HomeMomentPreview.astro:6:const rulesCount = homeMomentPreviewRules.length;
+src/components/HomeMomentPreview.astro:9:<section class="home-moment-preview" data-home-moments data-endpoint="/api/moments" data-rules-count={rulesCount} aria-labelledby="home-moment-preview-title">
+src/components/HomeMomentPreview.astro:10:  <div class="home-moment-preview__header">
+src/components/HomeMomentPreview.astro:12:      <p>MOMENT NOTES</p>
+src/components/HomeMomentPreview.astro:13:      <h2 id="home-moment-preview-title">最近瞬间</h2>
+src/components/HomeMomentPreview.astro:16:    <a class="home-moment-preview__all" href="/moments.html">全部瞬间</a>
+src/components/HomeMomentPreview.astro:19:  <div class="home-moment-preview__status" data-moment-status aria-live="polite">
+src/components/HomeMomentPreview.astro:24:  <div class="home-moment-preview__grid" data-moment-grid aria-label="首页最近瞬间">
+src/components/HomeMomentPreview.astro:34:  <div class="home-moment-preview__empty" data-moment-empty hidden>
+src/components/HomeMomentPreview.astro:161:        const response = await fetch(root.dataset.endpoint || "/api/moments", {
+src/components/HomeMomentPreview.astro:174:    document.querySelectorAll("[data-home-moments]").forEach((root) => {
+src/layouts/BaseLayout.astro:13:import "../styles/home-moment-preview.css";
+src/adapters/apiPaths.ts:5:  moments: "/api/moments",
+src/data/homeMomentPreviewRules.ts:1:export const homeMomentPreviewRules = [
+src/data/homeMomentPreviewRules.ts:2:  "Fetch `/api/moments` on the client and render returned moments only.",
+src/data/homeMomentPreviewRules.ts:5:  "Use `object-fit: contain` for moment images so photos are not cropped.",
+src/pages/index.astro:7:import HomeMomentPreview from "../components/HomeMomentPreview.astro";
+src/pages/index.astro:15:  <HomeMomentPreview />
+src/styles/home-moment-preview.css:1:.home-moment-preview {
+src/styles/home-moment-preview.css:7:.home-moment-preview__header {
+src/styles/home-moment-preview.css:14:.home-moment-preview__header p,
+src/styles/home-moment-preview.css:15:.home-moment-preview__header h2,
+src/styles/home-moment-preview.css:16:.home-moment-preview__header span {
+src/styles/home-moment-preview.css:20:.home-moment-preview__header p {
+src/styles/home-moment-preview.css:27:.home-moment-preview__header h2 {
+src/styles/home-moment-preview.css:33:.home-moment-preview__header span {
+src/styles/home-moment-preview.css:40:.home-moment-preview__all {
+src/styles/home-moment-preview.css:56:.home-moment-preview__status {
+src/styles/home-moment-preview.css:71:.home-moment-preview__status i {
+src/styles/home-moment-preview.css:79:.home-moment-preview__grid {
+src/styles/home-moment-preview.css:84:.home-moment-preview[data-moment-state="empty"] .home-moment-preview__grid {
+src/styles/home-moment-preview.css:214:  object-fit: contain;
+src/styles/home-moment-preview.css:303:  .home-moment-preview__status i {
+src/styles/home-moment-preview.css:309:  .home-moment-preview__header {
+src/styles/home-moment-preview.css:313:  .home-moment-preview__all {
+src/styles/home-moment-preview.css:317:  .home-moment-preview__grid {
+src/styles/home-moment-preview.css:323:  .home-moment-preview__grid {
+src/styles/home-moment-preview.css:329:  .home-moment-preview,
+src/styles/home-moment-preview.css:330:  .home-moment-preview *,
+src/styles/home-moment-preview.css:331:  .home-moment-preview *::before,
+src/styles/home-moment-preview.css:332:  .home-moment-preview *::after {

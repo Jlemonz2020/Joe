@@ -1,0 +1,22 @@
+Phase 038 route matrix
+base_url=http://127.0.0.1:4452
+200 /
+200 /index.html
+200 /moments.html
+200 /archive.html
+200 /projects.html
+200 /project.html
+200 /post.html
+200 /about.html
+200 /status-lab.html
+Starting server 1/1: npx astro preview --host 127.0.0.1 --port 4452
+Waiting for server on port 4452...
+Server ready on port 4452
+
+All 1 server(s) ready
+Running: /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-038/artifacts/verify-route-matrix.sh
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped

@@ -1,0 +1,176 @@
+---
+import EmptySaileiState from "./EmptySaileiState.astro";
+import { homeProjectPreviewRules } from "../data/homeProjectPreviewRules";
+
+const skeletonCards = Array.from({ length: 2 });
+const rulesCount = homeProjectPreviewRules.length;
+---
+
+<section class="home-project-preview" data-home-projects data-endpoint="/api/projects" data-rules-count={rulesCount} aria-labelledby="home-project-preview-title">
+  <div class="home-project-preview__header">
+    <div>
+      <p>PROJECT BOARD</p>
+      <h2 id="home-project-preview-title">项目进行中</h2>
+      <span>把服务、硬件和页面改造收进任务档案。</span>
+    </div>
+    <a class="home-project-preview__all" href="/projects.html">全部项目</a>
+  </div>
+
+  <div class="home-project-preview__status" data-project-status aria-live="polite">
+    <i></i>
+    <span>读取项目档案中</span>
+  </div>
+
+  <div class="home-project-preview__grid" data-project-grid aria-label="首页项目预览">
+    {skeletonCards.map((_, index) => (
+      <article class="home-project-card home-project-card--loading" aria-hidden="true">
+        <span>TASK 0{index + 1}</span>
+        <strong></strong>
+        <p></p>
+      </article>
+    ))}
+  </div>
+
+  <div class="home-project-preview__empty" data-project-empty hidden>
+    <EmptySaileiState
+      title="项目档案暂时空着"
+      body="还没有从后台取到项目。先把这个位置留成粉色任务板，等下一条服务或硬件记录进来。"
+      tone="projects"
+      ribbon="PROJECT MEMO"
+      actionLabel="去项目页"
+      actionHref="/projects.html"
+    />
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const listFromPayload = (payload) => {
+      if (Array.isArray(payload)) return payload;
+      if (!payload || typeof payload !== "object") return [];
+      return [payload.items, payload.results, payload.rows, payload.data].find(Array.isArray) || [];
+    };
+
+    const text = (value, fallback = "") => {
+      if (value == null) return fallback;
+      const normalized = String(value).trim();
+      return normalized || fallback;
+    };
+
+    const clampProgress = (value) => {
+      const progress = Number(value);
+      if (!Number.isFinite(progress)) return 0;
+      return Math.max(0, Math.min(100, Math.round(progress)));
+    };
+
+    const escapeHtml = (value) => text(value).replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    })[char]);
+
+    const safeHref = (value) => {
+      const href = text(value, "/projects.html");
+      return /^\/[A-Za-z0-9/?=&._%:-]*$/.test(href) ? href : "/projects.html";
+    };
+
+    const normalizeProject = (project) => {
+      const item = project && typeof project === "object" ? project : {};
+      const id = text(item.id || item.slug, "project");
+      return {
+        id,
+        slug: text(item.slug),
+        title: text(item.title, "未命名项目"),
+        summary: text(item.summary || item.description, "这条项目还没有写简介。"),
+        status: text(item.status, "active"),
+        progress: clampProgress(item.progress),
+        tags: Array.isArray(item.tags) ? item.tags.map((tag) => text(tag)).filter(Boolean).slice(0, 3) : [],
+        href: text(item.href, `/project.html?id=${encodeURIComponent(id)}`)
+      };
+    };
+
+    const statusLabel = (status) => ({
+      planning: "计划中",
+      active: "进行中",
+      paused: "暂停",
+      done: "完成",
+      archived: "归档"
+    })[status] || status || "进行中";
+
+    const setStatus = (root, label, state) => {
+      root.dataset.projectState = state;
+      root.querySelector("[data-project-status] span").textContent = label;
+    };
+
+    const renderEmpty = (root, label = "项目档案待补") => {
+      setStatus(root, label, "empty");
+      root.querySelector("[data-project-grid]").innerHTML = "";
+      root.querySelector("[data-project-empty]").hidden = false;
+    };
+
+    const renderProjects = (root, projects) => {
+      const visibleProjects = projects.slice(0, 3).map(normalizeProject);
+      if (!visibleProjects.length) {
+        renderEmpty(root);
+        return;
+      }
+
+      setStatus(root, `已同步 ${visibleProjects.length} 条项目`, "ready");
+      root.querySelector("[data-project-empty]").hidden = true;
+
+      const grid = root.querySelector("[data-project-grid]");
+      grid.innerHTML = "";
+
+      visibleProjects.forEach((project, index) => {
+        const card = document.createElement("article");
+        card.className = "home-project-card";
+        card.dataset.projectStatus = project.status;
+
+        const tags = project.tags.length
+          ? project.tags.map((tag) => `<li>${escapeHtml(tag)}</li>`).join("")
+          : "<li>未分类</li>";
+
+        card.innerHTML = `
+          <div class="home-project-card__topline">
+            <span>TASK ${String(index + 1).padStart(2, "0")}</span>
+            <strong>${escapeHtml(statusLabel(project.status))}</strong>
+          </div>
+          <h3>${escapeHtml(project.title)}</h3>
+          <p>${escapeHtml(project.summary)}</p>
+          <div class="home-project-card__meter" role="progressbar" aria-label="${escapeHtml(project.title)}进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${project.progress}">
+            <i style="--project-progress: ${project.progress}%"></i>
+            <span>${project.progress}%</span>
+          </div>
+          <ul class="home-project-card__tags" aria-label="${escapeHtml(project.title)}标签">${tags}</ul>
+          <a class="home-project-card__link" href="${safeHref(project.href)}">
+            <span>查看档案</span>
+            <small>${escapeHtml(project.id)}</small>
+          </a>
+        `;
+        grid.append(card);
+      });
+    };
+
+    const hydrateProjects = async (root) => {
+      setStatus(root, "读取项目档案中", "loading");
+      try {
+        const response = await fetch(root.dataset.endpoint || "/api/projects", {
+          headers: { accept: "application/json" }
+        });
+        if (!response.ok) {
+          renderEmpty(root, "项目接口稍后重试");
+          return;
+        }
+        renderProjects(root, listFromPayload(await response.json()));
+      } catch {
+        renderEmpty(root, "项目接口稍后重试");
+      }
+    };
+
+    document.querySelectorAll("[data-home-projects]").forEach((root) => {
+      hydrateProjects(root);
+    });
+  })();
+</script>

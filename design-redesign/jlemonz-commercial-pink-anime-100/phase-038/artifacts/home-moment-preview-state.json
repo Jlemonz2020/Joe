@@ -1,0 +1,272 @@
+{
+  "baseUrl": "http://127.0.0.1:4451",
+  "edgePath": "/usr/bin/microsoft-edge",
+  "liveMomentItems": 1,
+  "liveReady": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-038/artifacts/screens/home-moment-live-390.png",
+      "state": {
+        "exists": true,
+        "state": "ready",
+        "rulesCount": 5,
+        "heading": "最近瞬间",
+        "statusText": "已贴好 1 条瞬间",
+        "emptyVisible": false,
+        "emptyText": "MOMENT MEMO ✦ 时间线暂时安静 还没有取到新的瞬间。先把粉色便签留在这里，等下一次折腾、灵感或小事贴上来。 去瞬间页",
+        "cardCount": 1,
+        "photoCount": 1,
+        "fourthMomentVisible": false,
+        "cards": [
+          {
+            "note": "NOTE 01",
+            "time": "05/31 20:40",
+            "kind": "生活",
+            "content": "目前已经完成前后端初步搭建，可以正常使用",
+            "tags": [
+              "维护"
+            ],
+            "linkHeight": 44,
+            "imageComplete": true,
+            "imageNaturalWidth": 1080,
+            "imageObjectFit": "contain"
+          }
+        ],
+        "pageOverflowX": false,
+        "statusAnimationName": "home-moment-status"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-038/artifacts/screens/home-moment-live-1280.png",
+      "state": {
+        "exists": true,
+        "state": "ready",
+        "rulesCount": 5,
+        "heading": "最近瞬间",
+        "statusText": "已贴好 1 条瞬间",
+        "emptyVisible": false,
+        "emptyText": "MOMENT MEMO ✦ 时间线暂时安静 还没有取到新的瞬间。先把粉色便签留在这里，等下一次折腾、灵感或小事贴上来。 去瞬间页",
+        "cardCount": 1,
+        "photoCount": 1,
+        "fourthMomentVisible": false,
+        "cards": [
+          {
+            "note": "NOTE 01",
+            "time": "05/31 20:40",
+            "kind": "生活",
+            "content": "目前已经完成前后端初步搭建，可以正常使用",
+            "tags": [
+              "维护"
+            ],
+            "linkHeight": 44,
+            "imageComplete": true,
+            "imageNaturalWidth": 1080,
+            "imageObjectFit": "contain"
+          }
+        ],
+        "pageOverflowX": false,
+        "statusAnimationName": "home-moment-status"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-038/artifacts/screens/home-moment-live-1920.png",
+      "state": {
+        "exists": true,
+        "state": "ready",
+        "rulesCount": 5,
+        "heading": "最近瞬间",
+        "statusText": "已贴好 1 条瞬间",
+        "emptyVisible": false,
+        "emptyText": "MOMENT MEMO ✦ 时间线暂时安静 还没有取到新的瞬间。先把粉色便签留在这里，等下一次折腾、灵感或小事贴上来。 去瞬间页",
+        "cardCount": 1,
+        "photoCount": 1,
+        "fourthMomentVisible": false,
+        "cards": [
+          {
+            "note": "NOTE 01",
+            "time": "05/31 20:40",
+            "kind": "生活",
+            "content": "目前已经完成前后端初步搭建，可以正常使用",
+            "tags": [
+              "维护"
+            ],
+            "linkHeight": 44,
+            "imageComplete": true,
+            "imageNaturalWidth": 1080,
+            "imageObjectFit": "contain"
+          }
+        ],
+        "pageOverflowX": false,
+        "statusAnimationName": "home-moment-status"
+      },
+      "pageErrors": []
+    }
+  ],
+  "fixture": {
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-038/artifacts/screens/home-moment-fixture-1280.png",
+    "state": {
+      "exists": true,
+      "state": "ready",
+      "rulesCount": 5,
+      "heading": "最近瞬间",
+      "statusText": "已贴好 3 条瞬间",
+      "emptyVisible": false,
+      "emptyText": "MOMENT MEMO ✦ 时间线暂时安静 还没有取到新的瞬间。先把粉色便签留在这里，等下一次折腾、灵感或小事贴上来。 去瞬间页",
+      "cardCount": 3,
+      "photoCount": 1,
+      "fourthMomentVisible": false,
+      "cards": [
+        {
+          "note": "NOTE 01",
+          "time": "06/06 16:30",
+          "kind": "生活",
+          "content": "把首页最近瞬间贴成拍立得，图片完整显示。",
+          "tags": [
+            "维护",
+            "图片",
+            "手帐"
+          ],
+          "linkHeight": 44,
+          "imageComplete": true,
+          "imageNaturalWidth": 1080,
+          "imageObjectFit": "contain"
+        },
+        {
+          "note": "NOTE 02",
+          "time": "06/06 05:20",
+          "kind": "项目",
+          "content": "Pi5 服务重启后，把命令和现象先贴在便签上。",
+          "tags": [
+            "Pi5",
+            "服务"
+          ],
+          "linkHeight": 44,
+          "imageComplete": null,
+          "imageNaturalWidth": null,
+          "imageObjectFit": null
+        },
+        {
+          "note": "NOTE 03",
+          "time": "06/05 17:10",
+          "kind": "碎片",
+          "content": "AI 帮我把排版问题拆成阶段，下一轮继续细调。",
+          "tags": [
+            "AI",
+            "排版"
+          ],
+          "linkHeight": 44,
+          "imageComplete": null,
+          "imageNaturalWidth": null,
+          "imageObjectFit": null
+        }
+      ],
+      "pageOverflowX": false,
+      "statusAnimationName": "home-moment-status"
+    }
+  },
+  "empty": {
+    "viewport": {
+      "width": 390,
+      "height": 900
+    },
+    "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-038/artifacts/screens/home-moment-empty-390.png",
+    "state": {
+      "exists": true,
+      "state": "empty",
+      "rulesCount": 5,
+      "heading": "最近瞬间",
+      "statusText": "时间线待补",
+      "emptyVisible": true,
+      "emptyText": "MOMENT MEMO ✦ 时间线暂时安静 还没有取到新的瞬间。先把粉色便签留在这里，等下一次折腾、灵感或小事贴上来。 去瞬间页",
+      "cardCount": 0,
+      "photoCount": 0,
+      "fourthMomentVisible": false,
+      "cards": [],
+      "pageOverflowX": false,
+      "statusAnimationName": "home-moment-status"
+    }
+  },
+  "reducedMotion": {
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-038/artifacts/screens/home-moment-reduced-motion-1280.png",
+    "state": {
+      "exists": true,
+      "state": "ready",
+      "rulesCount": 5,
+      "heading": "最近瞬间",
+      "statusText": "已贴好 3 条瞬间",
+      "emptyVisible": false,
+      "emptyText": "MOMENT MEMO ✦ 时间线暂时安静 还没有取到新的瞬间。先把粉色便签留在这里，等下一次折腾、灵感或小事贴上来。 去瞬间页",
+      "cardCount": 3,
+      "photoCount": 1,
+      "fourthMomentVisible": false,
+      "cards": [
+        {
+          "note": "NOTE 01",
+          "time": "06/06 16:30",
+          "kind": "生活",
+          "content": "把首页最近瞬间贴成拍立得，图片完整显示。",
+          "tags": [
+            "维护",
+            "图片",
+            "手帐"
+          ],
+          "linkHeight": 44,
+          "imageComplete": true,
+          "imageNaturalWidth": 1080,
+          "imageObjectFit": "contain"
+        },
+        {
+          "note": "NOTE 02",
+          "time": "06/06 05:20",
+          "kind": "项目",
+          "content": "Pi5 服务重启后，把命令和现象先贴在便签上。",
+          "tags": [
+            "Pi5",
+            "服务"
+          ],
+          "linkHeight": 44,
+          "imageComplete": null,
+          "imageNaturalWidth": null,
+          "imageObjectFit": null
+        },
+        {
+          "note": "NOTE 03",
+          "time": "06/05 17:10",
+          "kind": "碎片",
+          "content": "AI 帮我把排版问题拆成阶段，下一轮继续细调。",
+          "tags": [
+            "AI",
+            "排版"
+          ],
+          "linkHeight": 44,
+          "imageComplete": null,
+          "imageNaturalWidth": null,
+          "imageObjectFit": null
+        }
+      ],
+      "pageOverflowX": false,
+      "statusAnimationName": "none"
+    }
+  }
+}
