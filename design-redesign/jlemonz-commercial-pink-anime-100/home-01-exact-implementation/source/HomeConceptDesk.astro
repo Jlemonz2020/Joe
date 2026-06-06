@@ -1,0 +1,42 @@
+---
+const hotspots = [
+  { label: "首页", href: "/index.html", className: "home" },
+  { label: "瞬间", href: "/moments.html", className: "moments" },
+  { label: "笔记", href: "/archive.html", className: "notes" },
+  { label: "项目", href: "/projects.html", className: "projects" },
+  { label: "关于", href: "/about.html", className: "about" },
+  { label: "搜索", href: "/archive.html", className: "search" },
+  { label: "复盘档案", href: "/archive.html", className: "sync" },
+  { label: "现场线索", href: "/projects.html", className: "trace" },
+  { label: "日常碎片", href: "/moments.html", className: "daily" },
+  { label: "项目进行中", href: "/projects.html", className: "projectPanel" },
+  { label: "最近瞬间", href: "/moments.html", className: "momentPanel" },
+  { label: "Linux 分类", href: "/archive.html?category=Linux", className: "linux" },
+  { label: "硬件裸机", href: "/projects.html", className: "hardware" },
+  { label: "RTOS 分类", href: "/archive.html?category=RTOS", className: "rtos" },
+  { label: "生活瞬间", href: "/moments.html?kind=life", className: "life" }
+];
+---
+
+<section class="concept-exact" aria-labelledby="concept-exact-title">
+  <h1 id="concept-exact-title" class="sr-only">Jlemonz 粉色赛蕾手帐首页</h1>
+  <div class="concept-exact__scroll">
+    <div class="concept-exact__canvas">
+      <img
+        src="/assets/concepts/home-01-reference.png"
+        width="1672"
+        height="941"
+        alt="粉色赛蕾手帐风格的 Jlemonz 首页概念图，包含顶部导航、galgame 对话框、赛蕾陪伴卡、三张任务卡、项目、瞬间和分类入口。"
+        loading="eager"
+        decoding="async"
+      />
+      <nav class="concept-exact__hotspots" aria-label="首页概念图快捷入口">
+        {hotspots.map((hotspot) => (
+          <a class={`concept-hotspot concept-hotspot--${hotspot.className}`} href={hotspot.href}>
+            <span>{hotspot.label}</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,219 @@
+body[data-page="home"] {
+  min-height: 100vh;
+  background: #f8cbd8;
+}
+
+body[data-page="home"]::before,
+body[data-page="home"]::after {
+  display: none;
+}
+
+body[data-page="home"] .skip-link {
+  z-index: 5;
+}
+
+body[data-page="home"] .page-shell {
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  place-items: center;
+}
+
+.concept-exact {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+}
+
+.concept-exact__scroll {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  overflow: hidden;
+  overscroll-behavior-x: contain;
+  place-items: center;
+  scrollbar-color: rgba(240, 92, 149, 0.42) rgba(255, 255, 255, 0.42);
+}
+
+.concept-exact__canvas {
+  position: relative;
+  width: min(100vw, calc(100svh * 1672 / 941));
+  margin: 0 auto;
+  aspect-ratio: 1672 / 941;
+  overflow: hidden;
+}
+
+.concept-exact__canvas img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.concept-hotspot {
+  position: absolute;
+  display: block;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border-radius: 999px;
+  color: transparent;
+  text-decoration: none;
+}
+
+.concept-hotspot span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.concept-hotspot:focus-visible {
+  outline: 3px solid #8bdde7;
+  outline-offset: 2px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.concept-hotspot--home {
+  left: 18.6%;
+  top: 2.6%;
+  width: 8.4%;
+  height: 6.3%;
+}
+
+.concept-hotspot--moments {
+  left: 28.6%;
+  top: 3.1%;
+  width: 9.6%;
+  height: 5.4%;
+}
+
+.concept-hotspot--notes {
+  left: 39.3%;
+  top: 3.1%;
+  width: 9.1%;
+  height: 5.4%;
+}
+
+.concept-hotspot--projects {
+  left: 49.4%;
+  top: 3.1%;
+  width: 9.5%;
+  height: 5.4%;
+}
+
+.concept-hotspot--about {
+  left: 59.8%;
+  top: 3.1%;
+  width: 8.9%;
+  height: 5.4%;
+}
+
+.concept-hotspot--search {
+  left: 74.5%;
+  top: 3.2%;
+  width: 9.3%;
+  height: 5.2%;
+}
+
+.concept-hotspot--sync {
+  left: 7.1%;
+  top: 53.5%;
+  width: 20.2%;
+  height: 19.8%;
+}
+
+.concept-hotspot--trace {
+  left: 30.1%;
+  top: 53.5%;
+  width: 20.2%;
+  height: 19.8%;
+}
+
+.concept-hotspot--daily {
+  left: 52.6%;
+  top: 53.5%;
+  width: 20.2%;
+  height: 19.8%;
+}
+
+.concept-hotspot--projectPanel {
+  left: 5.5%;
+  top: 74.5%;
+  width: 31%;
+  height: 17.4%;
+  border-radius: 1.1rem;
+}
+
+.concept-hotspot--momentPanel {
+  left: 37.7%;
+  top: 74.5%;
+  width: 30.2%;
+  height: 17.4%;
+  border-radius: 1.1rem;
+}
+
+.concept-hotspot--linux {
+  left: 69.3%;
+  top: 79%;
+  width: 6.1%;
+  height: 11.2%;
+  border-radius: 0.8rem;
+}
+
+.concept-hotspot--hardware {
+  left: 76.8%;
+  top: 79%;
+  width: 6.9%;
+  height: 11.2%;
+  border-radius: 0.8rem;
+}
+
+.concept-hotspot--rtos {
+  left: 85.1%;
+  top: 79%;
+  width: 6.1%;
+  height: 11.2%;
+  border-radius: 0.8rem;
+}
+
+.concept-hotspot--life {
+  left: 93%;
+  top: 79%;
+  width: 5.9%;
+  height: 11.2%;
+  border-radius: 0.8rem;
+}
+
+@media (max-width: 760px) {
+  body[data-page="home"] .page-shell {
+    align-items: start;
+    padding: 0;
+  }
+
+  .concept-exact,
+  .concept-exact__scroll {
+    min-height: 100dvh;
+    place-items: start;
+  }
+
+  .concept-exact__scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .concept-exact__canvas {
+    width: 960px;
+    max-width: none;
+    margin-inline: 0;
+  }
+}
