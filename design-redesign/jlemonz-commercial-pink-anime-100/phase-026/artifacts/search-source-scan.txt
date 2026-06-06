@@ -1,0 +1,31 @@
+src/components/Header.astro:4:import SearchEntry from "./SearchEntry.astro";
+src/components/Header.astro:40:    <SearchEntry />
+src/layouts/BaseLayout.astro:10:import "../styles/search-entry.css";
+src/components/SearchEntry.astro:2:const inputId = "global-search-entry";
+src/components/SearchEntry.astro:5:<form class="search-entry" role="search" action="/archive.html" method="get" aria-label="资料检索入口" data-search-entry>
+src/components/SearchEntry.astro:7:  <span class="search-entry-status" aria-hidden="true">DATA</span>
+src/components/SearchEntry.astro:10:    class="search-entry-input"
+src/components/SearchEntry.astro:15:    enterkeyhint="search"
+src/components/SearchEntry.astro:17:  <button class="search-entry-submit" type="submit" aria-label="提交资料检索" title="资料检索">
+src/adapters/modelUtils.ts:61:  idOrSlug ? `/post.html?id=${encodeURIComponent(idOrSlug)}` : "/archive.html";
+src/styles/search-entry.css:1:.search-entry {
+src/styles/search-entry.css:22:.search-entry::before {
+src/styles/search-entry.css:31:.search-entry-status {
+src/styles/search-entry.css:42:.search-entry-input {
+src/styles/search-entry.css:54:.search-entry-input::placeholder {
+src/styles/search-entry.css:58:.search-entry-submit {
+src/styles/search-entry.css:76:.search-entry:focus-within {
+src/styles/search-entry.css:85:  .search-entry,
+src/styles/search-entry.css:86:  .search-entry-submit {
+src/styles/search-entry.css:94:  .search-entry:hover {
+src/styles/search-entry.css:100:  .search-entry {
+src/styles/search-entry.css:107:  .search-entry::before,
+src/styles/search-entry.css:108:  .search-entry-status,
+src/styles/search-entry.css:109:  .search-entry-input {
+src/styles/search-entry.css:115:  .search-entry {
+src/styles/search-entry.css:119:  .search-entry-input {
+src/styles/search-entry.css:125:  .search-entry {
+src/styles/search-entry.css:131:  .search-entry {
+src/data/searchEntryRules.ts:1:export const searchEntryRules = [
+src/data/legacyRoutes.ts:7:  "/archive.html",
+src/data/pageMeta.ts:20:    href: "/archive.html",

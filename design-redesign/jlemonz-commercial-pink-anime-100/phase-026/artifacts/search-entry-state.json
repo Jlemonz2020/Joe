@@ -1,0 +1,51 @@
+[
+  {
+    "label": "desktop-input-1440",
+    "role": "search",
+    "action": "/archive.html",
+    "method": "get",
+    "formLabel": "资料检索入口",
+    "inputName": "q",
+    "inputType": "search",
+    "inputVisible": true,
+    "submitLabel": "提交资料检索",
+    "submitWidth": 44,
+    "submitHeight": 43.999996185302734,
+    "formWidth": 230.390625,
+    "horizontalOverflow": false
+  },
+  {
+    "label": "desktop-submit",
+    "url": "http://127.0.0.1:4403/archive.html?q=Linux"
+  },
+  {
+    "label": "desktop-compact-1280",
+    "role": "search",
+    "action": "/archive.html",
+    "method": "get",
+    "formLabel": "资料检索入口",
+    "inputName": "q",
+    "inputType": "search",
+    "inputVisible": false,
+    "submitLabel": "提交资料检索",
+    "submitWidth": 44,
+    "submitHeight": 44,
+    "formWidth": 100,
+    "horizontalOverflow": false
+  },
+  {
+    "label": "mobile-initial",
+    "role": "search",
+    "action": "/archive.html",
+    "method": "get",
+    "formLabel": "资料检索入口",
+    "inputName": "q",
+    "inputType": "search",
+    "inputVisible": false,
+    "submitLabel": "提交资料检索",
+    "submitWidth": 44,
+    "submitHeight": 44,
+    "formWidth": 44,
+    "horizontalOverflow": false
+  }
+]

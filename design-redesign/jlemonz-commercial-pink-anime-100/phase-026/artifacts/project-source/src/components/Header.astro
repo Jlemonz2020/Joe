@@ -1,0 +1,58 @@
+---
+import { pages, type PageKey } from "../data/pageMeta";
+import { defaultTheme, switchableThemeIds, themeProfiles } from "../data/themeTokens";
+import SearchEntry from "./SearchEntry.astro";
+
+interface Props {
+  active: PageKey;
+}
+
+const { active } = Astro.props;
+const navEntries = Object.entries(pages) as [PageKey, (typeof pages)[PageKey]][];
+const switcherThemes = switchableThemeIds.map((id) => themeProfiles.find((theme) => theme.id === id)).filter(Boolean) as typeof themeProfiles;
+---
+
+<header class="site-header">
+  <a class="brand" href="/index.html" translate="no" aria-label="Jlemonz 首页">
+    <span class="brand-mark" aria-hidden="true">
+      <span>J</span>
+    </span>
+    <span class="brand-copy">
+      <strong>Jlemonz</strong>
+      <small>Sailei Pink Diary</small>
+    </span>
+    <span class="brand-badge" aria-hidden="true">SYNC</span>
+  </a>
+  <p class="header-whisper">
+    <span aria-hidden="true">✦</span>
+    <span>赛蕾：今日也把线索贴好。</span>
+  </p>
+  <nav class="nav-links" aria-label="主导航">
+    {navEntries.map(([key, page], index) => (
+      <a class:list={["nav-link", { active: key === active }]} href={page.href} aria-current={key === active ? "page" : undefined}>
+        <span class="nav-link-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+        <span class="nav-link-text">{page.nav}</span>
+        <span class="nav-spark" aria-hidden="true">✿</span>
+      </a>
+    ))}
+  </nav>
+  <div class="header-actions" aria-label="快捷入口">
+    <SearchEntry />
+    <div class="theme-switcher" role="group" aria-label="选择主题">
+      {switcherThemes.map((theme) => (
+        <button
+          class="theme-chip"
+          type="button"
+          data-theme-option
+          data-theme-id={theme.id}
+          aria-label={`切换到${theme.label}`}
+          aria-pressed={theme.id === defaultTheme ? "true" : "false"}
+          title={theme.label}
+        >
+          <span class:list={["theme-dot", `theme-dot--${theme.id}`]} aria-hidden="true"></span>
+          <span class="sr-only">{theme.label}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+</header>

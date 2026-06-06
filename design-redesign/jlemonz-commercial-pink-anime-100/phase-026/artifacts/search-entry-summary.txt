@@ -1,0 +1,4 @@
+desktop-input-1440: role=search action=/archive.html inputVisible=true submit=44x43.999996185302734 formWidth=230.390625 overflow=false
+desktop-submit: url=http://127.0.0.1:4403/archive.html?q=Linux
+desktop-compact-1280: role=search action=/archive.html inputVisible=false submit=44x44 formWidth=100 overflow=false
+mobile-initial: role=search action=/archive.html inputVisible=false submit=44x44 formWidth=44 overflow=false

@@ -1,0 +1,20 @@
+---
+const inputId = "global-search-entry";
+---
+
+<form class="search-entry" role="search" action="/archive.html" method="get" aria-label="资料检索入口" data-search-entry>
+  <label class="sr-only" for={inputId}>资料检索</label>
+  <span class="search-entry-status" aria-hidden="true">DATA</span>
+  <input
+    id={inputId}
+    class="search-entry-input"
+    type="search"
+    name="q"
+    placeholder="检索"
+    autocomplete="off"
+    enterkeyhint="search"
+  />
+  <button class="search-entry-submit" type="submit" aria-label="提交资料检索" title="资料检索">
+    <span aria-hidden="true">⌕</span>
+  </button>
+</form>
