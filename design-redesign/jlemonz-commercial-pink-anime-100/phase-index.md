@@ -26,7 +26,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 020 | 第一轮总审和冻结 | approved | `phase-020/` |
 | 021 | 全局背景系统 | approved | `phase-021/` |
 | 022 | 背景响应式和图像优化 | approved | `phase-022/` |
-| 023 | Header 粉色 HUD 顶栏 | pending | `phase-023/` |
+| 023 | Header 粉色 HUD 顶栏 | approved | `phase-023/` |
 | 024 | Header 移动端导航 | pending | `phase-024/` |
 | 025 | 主题切换系统 | pending | `phase-025/` |
 | 026 | 搜索入口组件 | pending | `phase-026/` |

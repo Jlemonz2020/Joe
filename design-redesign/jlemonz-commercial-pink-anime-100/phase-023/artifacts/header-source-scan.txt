@@ -1,0 +1,35 @@
+src/data/headerRules.ts:21:    guardrail: "Each item remains an anchor and the active page uses `aria-current=\"page\"`."
+src/data/headerRules.ts:26:    guardrail: "Icon-only buttons need `aria-label` and decorative glyphs stay `aria-hidden`."
+src/styles/header.css:1:.site-header {
+src/styles/header.css:24:.site-header::before,
+src/styles/header.css:25:.site-header::after {
+src/styles/header.css:31:.site-header::before {
+src/styles/header.css:40:.site-header::after {
+src/styles/header.css:51:.header-whisper,
+src/styles/header.css:109:.brand-badge {
+src/styles/header.css:113:.header-whisper {
+src/styles/header.css:128:.header-whisper span:first-child {
+src/styles/header.css:182:.nav-link-index {
+src/styles/header.css:192:.nav-spark {
+src/styles/header.css:200:.nav-link.active .nav-spark {
+src/styles/header.css:210:.header-tool {
+src/styles/header.css:226:  .site-header {
+src/styles/header.css:227:    grid-template-areas:
+src/styles/header.css:243:  .brand-badge {
+src/styles/header.css:256:  .header-whisper {
+src/styles/header.css:273:  .site-header {
+src/components/Header.astro:12:<header class="site-header">
+src/components/Header.astro:13:  <a class="brand" href="/index.html" translate="no" aria-label="Jlemonz 首页">
+src/components/Header.astro:14:    <span class="brand-mark" aria-hidden="true">
+src/components/Header.astro:21:    <span class="brand-badge" aria-hidden="true">SYNC</span>
+src/components/Header.astro:23:  <p class="header-whisper">
+src/components/Header.astro:24:    <span aria-hidden="true">✦</span>
+src/components/Header.astro:27:  <nav class="nav-links" aria-label="主导航">
+src/components/Header.astro:29:      <a class:list={["nav-link", { active: key === active }]} href={page.href} aria-current={key === active ? "page" : undefined}>
+src/components/Header.astro:30:        <span class="nav-link-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+src/components/Header.astro:32:        <span class="nav-spark" aria-hidden="true">✿</span>
+src/components/Header.astro:36:  <div class="header-actions" aria-label="快捷入口">
+src/components/Header.astro:37:    <button class="header-tool" type="button" aria-label="打开搜索">
+src/components/Header.astro:38:      <span aria-hidden="true">⌕</span>
+src/components/Header.astro:40:    <button class="header-tool" type="button" aria-label="切换主题">
+src/components/Header.astro:41:      <span aria-hidden="true">✿</span>

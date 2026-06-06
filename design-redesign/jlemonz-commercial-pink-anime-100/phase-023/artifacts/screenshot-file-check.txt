@@ -1,0 +1,4 @@
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-023/screens/index-1280.png: PNG image data, 1280 x 900, 8-bit/color RGB, non-interlaced
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-023/screens/index-1920.png: PNG image data, 1920 x 1080, 8-bit/color RGB, non-interlaced
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-023/screens/index-390.png:  PNG image data, 390 x 1100, 8-bit/color RGB, non-interlaced
+/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-023/screens/index-768.png:  PNG image data, 768 x 1024, 8-bit/color RGB, non-interlaced
