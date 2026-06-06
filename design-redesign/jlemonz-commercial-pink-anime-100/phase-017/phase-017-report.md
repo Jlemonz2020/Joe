@@ -89,8 +89,9 @@ Establish typography rules for titles, body copy, labels, timestamps, and galgam
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-017/`
-- Commit: pending.
-- Push: pending.
+- Commit: `cfb26fa phase-017: define typography system`.
+- Push: `origin/main` accepted `a128653..cfb26fa`.
+- Remote verification: `refs/heads/main` resolved to `cfb26fade0b5a178dbcf750cd429dbb17ccda511`.
 
 ## Next Gate
 
