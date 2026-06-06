@@ -18,7 +18,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 012 | 数据适配层设计 | approved | `phase-012/` |
 | 013 | 类型和数据模型 | approved | `phase-013/` |
 | 014 | 旧 URL 兼容方案 | approved | `phase-014/` |
-| 015 | 资产整理和版权边界 | pending | `phase-015/` |
+| 015 | 资产整理和版权边界 | approved | `phase-015/` |
 | 016 | 主题 token 系统 | pending | `phase-016/` |
 | 017 | 字体和排版系统 | pending | `phase-017/` |
 | 018 | 动效系统 | pending | `phase-018/` |

@@ -1,0 +1,7 @@
+dist/about.html
+dist/archive.html
+dist/index.html
+dist/moments.html
+dist/post.html
+dist/project.html
+dist/projects.html

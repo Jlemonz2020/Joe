@@ -1,0 +1,60 @@
+### /assets/brand/apple-touch-icon.png
+HTTP/1.1 200 OK
+
+### /assets/brand/favicon-192.png
+HTTP/1.1 200 OK
+
+### /assets/brand/favicon-32.png
+HTTP/1.1 200 OK
+
+### /assets/brand/jlemonz-logo.png
+HTTP/1.1 200 OK
+
+### /assets/sailei/amber-hero.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/aqua-hero-1600.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/avatar.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/hero-1100.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/hero-1600.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/image1.png
+HTTP/1.1 200 OK
+
+### /assets/sailei/image2.png
+HTTP/1.1 200 OK
+
+### /assets/sailei/light-1400.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/note-1.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/note-2.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/sailei-main.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/side-illustration.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/side-photo.jpg
+HTTP/1.1 200 OK
+
+### /assets/sailei/violet-hero-1600.jpg
+HTTP/1.1 200 OK
+
+### /assets/style.css
+HTTP/1.1 200 OK
+
+### /assets/app.js
+HTTP/1.1 200 OK
+
