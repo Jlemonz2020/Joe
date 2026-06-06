@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#fff6fa"><meta name="description" content="服务、硬件和页面改造都按任务档案整理，保留状态、进展和下一步。"><script>
+      (() => {
+        const storageKey = "jlemonz:theme:v1";
+        const themes = ["sailei-pink-diary", "sakura-light", "paper-milk"];
+        const fallback = "sailei-pink-diary";
+        let storedTheme = "";
+
+        try {
+          storedTheme = window.localStorage.getItem(storageKey) || "";
+        } catch {
+          storedTheme = "";
+        }
+
+        const theme = themes.includes(storedTheme) ? storedTheme : fallback;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.themeReady = "boot";
+      })();
+    </script><title>项目详情 - Jlemonz</title><link rel="stylesheet" href="/_astro/BaseLayout.BvWiJvFu.css"></head> <body data-page="projects"> <a class="skip-link" href="#main">跳到主要内容</a> <header class="site-header"> <a class="brand" href="/index.html" translate="no" aria-label="Jlemonz 首页"> <span class="brand-mark" aria-hidden="true"> <span>J</span> </span> <span class="brand-copy"> <strong>Jlemonz</strong> <small>Sailei Pink Diary</small> </span> <span class="brand-badge" aria-hidden="true">SYNC</span> </a> <p class="header-whisper"> <span aria-hidden="true">✦</span> <span>赛蕾：今日也把线索贴好。</span> </p> <nav class="nav-links" aria-label="主导航"> <a class="nav-link" href="/index.html"> <span class="nav-link-index" aria-hidden="true">01</span> <span class="nav-link-text">首页</span> <span class="nav-spark" aria-hidden="true">✿</span> </a><a class="nav-link" href="/moments.html"> <span class="nav-link-index" aria-hidden="true">02</span> <span class="nav-link-text">瞬间</span> <span class="nav-spark" aria-hidden="true">✿</span> </a><a class="nav-link" href="/archive.html"> <span class="nav-link-index" aria-hidden="true">03</span> <span class="nav-link-text">笔记</span> <span class="nav-spark" aria-hidden="true">✿</span> </a><a class="nav-link active" href="/projects.html" aria-current="page"> <span class="nav-link-index" aria-hidden="true">04</span> <span class="nav-link-text">项目</span> <span class="nav-spark" aria-hidden="true">✿</span> </a><a class="nav-link" href="/about.html"> <span class="nav-link-index" aria-hidden="true">05</span> <span class="nav-link-text">关于</span> <span class="nav-spark" aria-hidden="true">✿</span> </a> </nav> <div class="header-actions" aria-label="快捷入口"> <form class="search-entry" role="search" action="/archive.html" method="get" aria-label="资料检索入口" data-search-entry> <label class="sr-only" for="global-search-entry">资料检索</label> <span class="search-entry-status" aria-hidden="true">DATA</span> <input id="global-search-entry" class="search-entry-input" type="search" name="q" placeholder="检索" autocomplete="off" enterkeyhint="search"> <button class="ui-button ui-button--icon ui-button--tool search-entry-submit" type="submit" aria-label="提交资料检索" data-tooltip="资料检索" title="资料检索"> <span class="ui-icon" aria-hidden="true">⌕</span> </button> </form> <div class="theme-switcher" role="group" aria-label="选择主题"> <button class="ui-button ui-button--icon ui-button--swatch theme-chip" type="button" data-theme-option data-theme-id="sailei-pink-diary" data-tooltip="赛蕾粉色手帐" aria-label="切换到赛蕾粉色手帐" aria-pressed="true" title="赛蕾粉色手帐"> <span class="theme-dot theme-dot--sailei-pink-diary" aria-hidden="true"></span> <span class="sr-only">赛蕾粉色手帐</span> </button><button class="ui-button ui-button--icon ui-button--swatch theme-chip" type="button" data-theme-option data-theme-id="sakura-light" data-tooltip="樱花轻亮" aria-label="切换到樱花轻亮" aria-pressed="false" title="樱花轻亮"> <span class="theme-dot theme-dot--sakura-light" aria-hidden="true"></span> <span class="sr-only">樱花轻亮</span> </button><button class="ui-button ui-button--icon ui-button--swatch theme-chip" type="button" data-theme-option data-theme-id="paper-milk" data-tooltip="奶白纸页" aria-label="切换到奶白纸页" aria-pressed="false" title="奶白纸页"> <span class="theme-dot theme-dot--paper-milk" aria-hidden="true"></span> <span class="sr-only">奶白纸页</span> </button> </div> </div> </header> <main id="main" class="page-shell">  <section class="diary-card diary-card--glass empty-sailei empty-sailei--detail detail-mount" data-detail-kind="project" data-empty-api-path="/api/projects/" data-empty-tone="detail"> <span class="empty-ribbon" aria-hidden="true">DETAIL SLOT</span> <span class="empty-pin" aria-hidden="true">?</span> <div class="empty-copy"> <strong>项目详情</strong> <p data-detail-copy>这里会读取公开项目档案，保留评论、点赞和公开规则。</p> <p class="detail-mount__target" data-detail-target>链接参数会在这里显示。</p> </div> </section> <script>
+  (() => {
+    const search = new URLSearchParams(window.location.search);
+    const idOrSlug = search.get("id") || search.get("slug") || "";
+    document.querySelectorAll("[data-detail-kind]").forEach((node) => {
+      const mount = node;
+      const kind = mount.getAttribute("data-detail-kind") || "";
+      const target = mount.querySelector("[data-detail-target]");
+      if (!(target instanceof HTMLElement)) return;
+      if (!idOrSlug) {
+        target.textContent = "链接里没有 id 或 slug，先显示资料卡空位。";
+        return;
+      }
+      const apiPath = kind === "project"
+        ? `/api/projects/${encodeURIComponent(idOrSlug)}`
+        : `/api/posts/${encodeURIComponent(idOrSlug)}`;
+      mount.setAttribute("data-detail-id", idOrSlug);
+      mount.setAttribute("data-api-path", apiPath);
+      target.textContent = `已识别旧链接参数：${idOrSlug}`;
+    });
+  })();
+</script>  </main> <script>
+      (() => {
+        const storageKey = "jlemonz:theme:v1";
+        const themes = ["sailei-pink-diary", "sakura-light", "paper-milk"];
+        const fallback = "sailei-pink-diary";
+        const themeColors = {
+          "sailei-pink-diary": "#fff6fa",
+          "sakura-light": "#fff8fb",
+          "paper-milk": "#fffaf3"
+        };
+
+        const readTheme = () => {
+          try {
+            const saved = window.localStorage.getItem(storageKey);
+            return themes.includes(saved || "") ? saved : fallback;
+          } catch {
+            return fallback;
+          }
+        };
+
+        const saveTheme = (theme) => {
+          try {
+            window.localStorage.setItem(storageKey, theme);
+          } catch {
+            // localStorage can be unavailable in locked-down browsers; visual switching should still work.
+          }
+        };
+
+        const applyTheme = (theme, persist = true) => {
+          const safeTheme = themes.includes(theme) ? theme : fallback;
+          document.documentElement.dataset.theme = safeTheme;
+          document.documentElement.dataset.themeReady = "true";
+          document.body.dataset.theme = safeTheme;
+          document.querySelector('meta[name="theme-color"]')?.setAttribute("content", themeColors[safeTheme] || themeColors[fallback]);
+          document.querySelectorAll("[data-theme-option]").forEach((button) => {
+            const isActive = button.getAttribute("data-theme-id") === safeTheme;
+            button.setAttribute("aria-pressed", String(isActive));
+          });
+          if (persist) {
+            saveTheme(safeTheme);
+          }
+        };
+
+        document.querySelectorAll("[data-theme-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            applyTheme(button.getAttribute("data-theme-id") || fallback);
+          });
+        });
+
+        applyTheme(readTheme(), false);
+      })();
+    </script> </body> </html>

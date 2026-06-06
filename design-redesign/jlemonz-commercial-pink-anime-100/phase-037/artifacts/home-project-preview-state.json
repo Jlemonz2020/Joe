@@ -1,0 +1,343 @@
+{
+  "baseUrl": "http://127.0.0.1:4441",
+  "edgePath": "/usr/bin/microsoft-edge",
+  "liveProjects": {
+    "items": []
+  },
+  "empty": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-037/artifacts/screens/home-project-empty-390.png",
+      "state": {
+        "exists": true,
+        "state": "empty",
+        "rulesCount": 5,
+        "heading": "项目进行中",
+        "statusText": "项目档案待补",
+        "emptyVisible": true,
+        "emptyText": "PROJECT MEMO ◇ 项目档案暂时空着 还没有从后台取到项目。先把这个位置留成粉色任务板，等下一条服务或硬件记录进来。 去项目页",
+        "loadingCards": 0,
+        "cards": [],
+        "cardCount": 0,
+        "fourthProjectVisible": false,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-project-status"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-037/artifacts/screens/home-project-empty-1280.png",
+      "state": {
+        "exists": true,
+        "state": "empty",
+        "rulesCount": 5,
+        "heading": "项目进行中",
+        "statusText": "项目档案待补",
+        "emptyVisible": true,
+        "emptyText": "PROJECT MEMO ◇ 项目档案暂时空着 还没有从后台取到项目。先把这个位置留成粉色任务板，等下一条服务或硬件记录进来。 去项目页",
+        "loadingCards": 0,
+        "cards": [],
+        "cardCount": 0,
+        "fourthProjectVisible": false,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-project-status"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-037/artifacts/screens/home-project-empty-1920.png",
+      "state": {
+        "exists": true,
+        "state": "empty",
+        "rulesCount": 5,
+        "heading": "项目进行中",
+        "statusText": "项目档案待补",
+        "emptyVisible": true,
+        "emptyText": "PROJECT MEMO ◇ 项目档案暂时空着 还没有从后台取到项目。先把这个位置留成粉色任务板，等下一条服务或硬件记录进来。 去项目页",
+        "loadingCards": 0,
+        "cards": [],
+        "cardCount": 0,
+        "fourthProjectVisible": false,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-project-status"
+      },
+      "pageErrors": []
+    }
+  ],
+  "ready": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-037/artifacts/screens/home-project-ready-390.png",
+      "state": {
+        "exists": true,
+        "state": "ready",
+        "rulesCount": 5,
+        "heading": "项目进行中",
+        "statusText": "已同步 3 条项目",
+        "emptyVisible": false,
+        "emptyText": "PROJECT MEMO ◇ 项目档案暂时空着 还没有从后台取到项目。先把这个位置留成粉色任务板，等下一条服务或硬件记录进来。 去项目页",
+        "loadingCards": 0,
+        "cards": [
+          {
+            "title": "Pi5 服务面板",
+            "status": "进行中",
+            "summary": "把 Pi5 上的站点、接口和监控入口收成一张任务档案。",
+            "tags": [
+              "Pi5",
+              "服务",
+              "Linux"
+            ],
+            "href": "/project.html?id=pi5-panel",
+            "linkText": "查看档案 pi5-panel",
+            "linkHeight": 44,
+            "progress": "72"
+          },
+          {
+            "title": "赛蕾手帐改版",
+            "status": "计划中",
+            "summary": "把首页组件语言改成粉色贴纸、任务板和角色陪伴感。",
+            "tags": [
+              "前端",
+              "二次元",
+              "视觉"
+            ],
+            "href": "/project.html?id=sailei-diary",
+            "linkText": "查看档案 sailei-diary",
+            "linkHeight": 44,
+            "progress": "38"
+          },
+          {
+            "title": "硬件记录台",
+            "status": "暂停",
+            "summary": "把裸机、驱动和硬件折腾留下进度、状态和下一步。",
+            "tags": [
+              "硬件",
+              "调试",
+              "记录"
+            ],
+            "href": "/project.html?id=hardware-log",
+            "linkText": "查看档案 hardware-log",
+            "linkHeight": 44,
+            "progress": "15"
+          }
+        ],
+        "cardCount": 3,
+        "fourthProjectVisible": false,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-project-status"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-037/artifacts/screens/home-project-ready-1280.png",
+      "state": {
+        "exists": true,
+        "state": "ready",
+        "rulesCount": 5,
+        "heading": "项目进行中",
+        "statusText": "已同步 3 条项目",
+        "emptyVisible": false,
+        "emptyText": "PROJECT MEMO ◇ 项目档案暂时空着 还没有从后台取到项目。先把这个位置留成粉色任务板，等下一条服务或硬件记录进来。 去项目页",
+        "loadingCards": 0,
+        "cards": [
+          {
+            "title": "Pi5 服务面板",
+            "status": "进行中",
+            "summary": "把 Pi5 上的站点、接口和监控入口收成一张任务档案。",
+            "tags": [
+              "Pi5",
+              "服务",
+              "Linux"
+            ],
+            "href": "/project.html?id=pi5-panel",
+            "linkText": "查看档案 pi5-panel",
+            "linkHeight": 44,
+            "progress": "72"
+          },
+          {
+            "title": "赛蕾手帐改版",
+            "status": "计划中",
+            "summary": "把首页组件语言改成粉色贴纸、任务板和角色陪伴感。",
+            "tags": [
+              "前端",
+              "二次元",
+              "视觉"
+            ],
+            "href": "/project.html?id=sailei-diary",
+            "linkText": "查看档案 sailei-diary",
+            "linkHeight": 44,
+            "progress": "38"
+          },
+          {
+            "title": "硬件记录台",
+            "status": "暂停",
+            "summary": "把裸机、驱动和硬件折腾留下进度、状态和下一步。",
+            "tags": [
+              "硬件",
+              "调试",
+              "记录"
+            ],
+            "href": "/project.html?id=hardware-log",
+            "linkText": "查看档案 hardware-log",
+            "linkHeight": 44,
+            "progress": "15"
+          }
+        ],
+        "cardCount": 3,
+        "fourthProjectVisible": false,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-project-status"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-037/artifacts/screens/home-project-ready-1920.png",
+      "state": {
+        "exists": true,
+        "state": "ready",
+        "rulesCount": 5,
+        "heading": "项目进行中",
+        "statusText": "已同步 3 条项目",
+        "emptyVisible": false,
+        "emptyText": "PROJECT MEMO ◇ 项目档案暂时空着 还没有从后台取到项目。先把这个位置留成粉色任务板，等下一条服务或硬件记录进来。 去项目页",
+        "loadingCards": 0,
+        "cards": [
+          {
+            "title": "Pi5 服务面板",
+            "status": "进行中",
+            "summary": "把 Pi5 上的站点、接口和监控入口收成一张任务档案。",
+            "tags": [
+              "Pi5",
+              "服务",
+              "Linux"
+            ],
+            "href": "/project.html?id=pi5-panel",
+            "linkText": "查看档案 pi5-panel",
+            "linkHeight": 44,
+            "progress": "72"
+          },
+          {
+            "title": "赛蕾手帐改版",
+            "status": "计划中",
+            "summary": "把首页组件语言改成粉色贴纸、任务板和角色陪伴感。",
+            "tags": [
+              "前端",
+              "二次元",
+              "视觉"
+            ],
+            "href": "/project.html?id=sailei-diary",
+            "linkText": "查看档案 sailei-diary",
+            "linkHeight": 44,
+            "progress": "38"
+          },
+          {
+            "title": "硬件记录台",
+            "status": "暂停",
+            "summary": "把裸机、驱动和硬件折腾留下进度、状态和下一步。",
+            "tags": [
+              "硬件",
+              "调试",
+              "记录"
+            ],
+            "href": "/project.html?id=hardware-log",
+            "linkText": "查看档案 hardware-log",
+            "linkHeight": 44,
+            "progress": "15"
+          }
+        ],
+        "cardCount": 3,
+        "fourthProjectVisible": false,
+        "pageOverflowX": false,
+        "statusAnimationName": "home-project-status"
+      },
+      "pageErrors": []
+    }
+  ],
+  "reducedMotion": {
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-037/artifacts/screens/home-project-reduced-motion-1280.png",
+    "state": {
+      "exists": true,
+      "state": "ready",
+      "rulesCount": 5,
+      "heading": "项目进行中",
+      "statusText": "已同步 3 条项目",
+      "emptyVisible": false,
+      "emptyText": "PROJECT MEMO ◇ 项目档案暂时空着 还没有从后台取到项目。先把这个位置留成粉色任务板，等下一条服务或硬件记录进来。 去项目页",
+      "loadingCards": 0,
+      "cards": [
+        {
+          "title": "Pi5 服务面板",
+          "status": "进行中",
+          "summary": "把 Pi5 上的站点、接口和监控入口收成一张任务档案。",
+          "tags": [
+            "Pi5",
+            "服务",
+            "Linux"
+          ],
+          "href": "/project.html?id=pi5-panel",
+          "linkText": "查看档案 pi5-panel",
+          "linkHeight": 44,
+          "progress": "72"
+        },
+        {
+          "title": "赛蕾手帐改版",
+          "status": "计划中",
+          "summary": "把首页组件语言改成粉色贴纸、任务板和角色陪伴感。",
+          "tags": [
+            "前端",
+            "二次元",
+            "视觉"
+          ],
+          "href": "/project.html?id=sailei-diary",
+          "linkText": "查看档案 sailei-diary",
+          "linkHeight": 44,
+          "progress": "38"
+        },
+        {
+          "title": "硬件记录台",
+          "status": "暂停",
+          "summary": "把裸机、驱动和硬件折腾留下进度、状态和下一步。",
+          "tags": [
+            "硬件",
+            "调试",
+            "记录"
+          ],
+          "href": "/project.html?id=hardware-log",
+          "linkText": "查看档案 hardware-log",
+          "linkHeight": 44,
+          "progress": "15"
+        }
+      ],
+      "cardCount": 3,
+      "fourthProjectVisible": false,
+      "pageOverflowX": false,
+      "statusAnimationName": "none"
+    }
+  }
+}

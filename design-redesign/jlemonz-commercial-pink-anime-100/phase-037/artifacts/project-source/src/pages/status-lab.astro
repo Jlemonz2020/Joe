@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GalgameDialog from "../components/GalgameDialog.astro";
+import StatusSaileiState from "../components/StatusSaileiState.astro";
+import { statusStateCatalog } from "../data/statusStateCatalog";
+
+const states = Object.entries(statusStateCatalog);
+---
+
+<BaseLayout active="home" title="状态实验室" description="粉色赛蕾手帐的加载、错误、离线和超时状态样张。">
+  <GalgameDialog
+    title="状态实验室"
+    kicker="state lab"
+    lead="加载、错误、离线和超时都先变成柔和的赛蕾提醒，不把技术细节直接丢给读者。"
+  />
+  <section class="state-lab-grid" aria-label="状态组件样张">
+    {states.map(([state]) => <StatusSaileiState state={state} />)}
+  </section>
+</BaseLayout>

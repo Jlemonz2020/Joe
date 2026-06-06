@@ -1,0 +1,45 @@
+src/components/LegacyDetailMount.astro:38:        ? `/api/projects/${encodeURIComponent(idOrSlug)}`
+src/layouts/BaseLayout.astro:12:import "../styles/home-project-preview.css";
+src/adapters/apiPaths.ts:7:  projects: "/api/projects",
+src/adapters/apiPaths.ts:8:  projectDetail: "/api/projects/:idOrSlug",
+src/adapters/apiPaths.ts:16:  return `/api/projects/${encodeURIComponent(String(idOrSlug))}`;
+src/components/HomeProjectPreview.astro:3:import { homeProjectPreviewRules } from "../data/homeProjectPreviewRules";
+src/components/HomeProjectPreview.astro:6:const rulesCount = homeProjectPreviewRules.length;
+src/components/HomeProjectPreview.astro:9:<section class="home-project-preview" data-home-projects data-endpoint="/api/projects" data-rules-count={rulesCount} aria-labelledby="home-project-preview-title">
+src/components/HomeProjectPreview.astro:10:  <div class="home-project-preview__header">
+src/components/HomeProjectPreview.astro:12:      <p>PROJECT BOARD</p>
+src/components/HomeProjectPreview.astro:13:      <h2 id="home-project-preview-title">项目进行中</h2>
+src/components/HomeProjectPreview.astro:16:    <a class="home-project-preview__all" href="/projects.html">全部项目</a>
+src/components/HomeProjectPreview.astro:19:  <div class="home-project-preview__status" data-project-status aria-live="polite">
+src/components/HomeProjectPreview.astro:24:  <div class="home-project-preview__grid" data-project-grid aria-label="首页项目预览">
+src/components/HomeProjectPreview.astro:34:  <div class="home-project-preview__empty" data-project-empty hidden>
+src/components/HomeProjectPreview.astro:159:        const response = await fetch(root.dataset.endpoint || "/api/projects", {
+src/components/HomeProjectPreview.astro:172:    document.querySelectorAll("[data-home-projects]").forEach((root) => {
+src/styles/home-project-preview.css:1:.home-project-preview {
+src/styles/home-project-preview.css:7:.home-project-preview__header {
+src/styles/home-project-preview.css:14:.home-project-preview__header p,
+src/styles/home-project-preview.css:15:.home-project-preview__header h2,
+src/styles/home-project-preview.css:16:.home-project-preview__header span {
+src/styles/home-project-preview.css:20:.home-project-preview__header p {
+src/styles/home-project-preview.css:27:.home-project-preview__header h2 {
+src/styles/home-project-preview.css:33:.home-project-preview__header span {
+src/styles/home-project-preview.css:40:.home-project-preview__all {
+src/styles/home-project-preview.css:56:.home-project-preview__status {
+src/styles/home-project-preview.css:71:.home-project-preview__status i {
+src/styles/home-project-preview.css:79:.home-project-preview__grid {
+src/styles/home-project-preview.css:84:.home-project-preview[data-project-state="empty"] .home-project-preview__grid {
+src/styles/home-project-preview.css:88:.home-project-preview__empty {
+src/styles/home-project-preview.css:296:  .home-project-preview__status i {
+src/styles/home-project-preview.css:302:  .home-project-preview__header {
+src/styles/home-project-preview.css:306:  .home-project-preview__all {
+src/styles/home-project-preview.css:310:  .home-project-preview__grid {
+src/styles/home-project-preview.css:316:  .home-project-preview__grid {
+src/styles/home-project-preview.css:322:  .home-project-preview,
+src/styles/home-project-preview.css:323:  .home-project-preview *,
+src/styles/home-project-preview.css:324:  .home-project-preview *::before,
+src/styles/home-project-preview.css:325:  .home-project-preview *::after {
+src/pages/index.astro:6:import HomeProjectPreview from "../components/HomeProjectPreview.astro";
+src/pages/index.astro:13:  <HomeProjectPreview />
+src/data/legacyRoutes.ts:18:    return `/api/projects/${encodeURIComponent(idOrSlug)}`;
+src/data/homeProjectPreviewRules.ts:1:export const homeProjectPreviewRules = [
+src/data/homeProjectPreviewRules.ts:2:  "Fetch `/api/projects` on the client and render returned projects only.",

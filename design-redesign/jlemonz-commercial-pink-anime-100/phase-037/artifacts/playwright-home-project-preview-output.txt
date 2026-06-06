@@ -1,0 +1,23 @@
+Phase 037 home project preview verification
+baseUrl=http://127.0.0.1:4441
+edgePath=/usr/bin/microsoft-edge
+emptyViewports=390,1280,1920
+readyViewports=390,1280,1920
+liveProjectItems=0
+emptyCardCounts=390:0,1280:0,1920:0
+readyCardCounts=390:3,1280:3,1920:3
+readyLinksMinHeight=44.00
+reducedStatusAnimation=none
+pageOverflowX=false in all checked cases
+
+Starting server 1/1: npx astro preview --host 127.0.0.1 --port 4441
+Waiting for server on port 4441...
+Server ready on port 4441
+
+All 1 server(s) ready
+Running: node /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-037/artifacts/verify-home-project-preview.mjs
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped

@@ -1,0 +1,11 @@
+Phase 037 home project preview verification
+baseUrl=http://127.0.0.1:4441
+edgePath=/usr/bin/microsoft-edge
+emptyViewports=390,1280,1920
+readyViewports=390,1280,1920
+liveProjectItems=0
+emptyCardCounts=390:0,1280:0,1920:0
+readyCardCounts=390:3,1280:3,1920:3
+readyLinksMinHeight=44.00
+reducedStatusAnimation=none
+pageOverflowX=false in all checked cases
