@@ -16,7 +16,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 010 | 验收矩阵和截图标准 | approved | `phase-010/` |
 | 011 | Astro 项目骨架建立 | approved | `phase-011/` |
 | 012 | 数据适配层设计 | approved | `phase-012/` |
-| 013 | 类型和数据模型 | pending | `phase-013/` |
+| 013 | 类型和数据模型 | approved | `phase-013/` |
 | 014 | 旧 URL 兼容方案 | pending | `phase-014/` |
 | 015 | 资产整理和版权边界 | pending | `phase-015/` |
 | 016 | 主题 token 系统 | pending | `phase-016/` |

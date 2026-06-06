@@ -1,0 +1,7 @@
+src/adapters/apiPaths.ts
+src/adapters/client.ts
+src/adapters/fallbacks.ts
+src/adapters/index.ts
+src/adapters/modelUtils.ts
+src/adapters/normalizers.ts
+src/adapters/types.ts
