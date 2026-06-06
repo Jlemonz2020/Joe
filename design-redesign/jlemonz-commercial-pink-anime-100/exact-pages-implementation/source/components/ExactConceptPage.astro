@@ -1,0 +1,55 @@
+---
+interface Hotspot {
+  label: string;
+  href: string;
+  className: string;
+}
+
+interface Props {
+  title: string;
+  image: string;
+  width: number;
+  height: number;
+  alt: string;
+  mobileWidth?: number;
+  hotspots?: Hotspot[];
+}
+
+const {
+  title,
+  image,
+  width,
+  height,
+  alt,
+  mobileWidth = 960,
+  hotspots = []
+} = Astro.props;
+
+const navHotspots: Hotspot[] = [
+  { label: "首页", href: "/index.html", className: "home" },
+  { label: "瞬间", href: "/moments.html", className: "moments" },
+  { label: "笔记", href: "/archive.html", className: "notes" },
+  { label: "项目", href: "/projects.html", className: "projects" },
+  { label: "关于", href: "/about.html", className: "about" },
+  { label: "搜索", href: "/search.html", className: "search" }
+];
+
+const allHotspots = [...navHotspots, ...hotspots];
+const style = `--concept-aspect: ${width} / ${height}; --concept-vh-width: calc(100svh * ${width} / ${height}); --concept-mobile-width: ${mobileWidth}px;`;
+---
+
+<section class="concept-exact" aria-labelledby="concept-exact-title" style={style}>
+  <h1 id="concept-exact-title" class="sr-only">{title}</h1>
+  <div class="concept-exact__scroll">
+    <div class="concept-exact__canvas">
+      <img src={image} width={width} height={height} alt={alt} loading="eager" decoding="async" />
+      <nav class="concept-exact__hotspots" aria-label={`${title} 快捷入口`}>
+        {allHotspots.map((hotspot) => (
+          <a class={`concept-hotspot concept-hotspot--${hotspot.className}`} href={hotspot.href}>
+            <span>{hotspot.label}</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </div>
+</section>
