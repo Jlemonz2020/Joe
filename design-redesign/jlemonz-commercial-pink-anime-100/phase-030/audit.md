@@ -39,4 +39,5 @@ One mobile overlap issue was found during screenshot review: the cue tag sat too
 
 ## Commit Evidence
 
-Pending first push.
+- Phase commit: `b85037a6a17162502b35cb4b1479d4a0138effe5`
+- Remote verification: `git ls-remote origin refs/heads/main` returned `b85037a6a17162502b35cb4b1479d4a0138effe5`
