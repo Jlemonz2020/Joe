@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GalgameDialog from "../components/GalgameDialog.astro";
+import EmptySaileiState from "../components/EmptySaileiState.astro";
+import { pages } from "../data/pageMeta";
+---
+
+<BaseLayout active="moments" title="瞬间">
+  <GalgameDialog {...pages.moments} />
+  <section class="module-grid" aria-label="瞬间频道">
+    <article class="diary-card diary-card--tape panel"><h2>碎片</h2><p>短动态、随手灵感和今天的小火花。</p></article>
+    <article class="diary-card diary-card--tape panel"><h2>项目</h2><p>项目进度先贴一张便签，不必等长文整理完。</p></article>
+    <article class="diary-card diary-card--tape panel"><h2>生活</h2><p>轻一点的日常也可以成为时间线的一部分。</p></article>
+  </section>
+  <EmptySaileiState tone="moments" ribbon="MOMENT SLOT" title="便签纸还留着空位" body="下一次折腾冒出火花，就把它贴进时间线。" />
+</BaseLayout>

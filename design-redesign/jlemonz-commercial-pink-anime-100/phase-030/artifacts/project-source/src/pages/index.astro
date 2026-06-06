@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GalgameDialog from "../components/GalgameDialog.astro";
+import EmptySaileiState from "../components/EmptySaileiState.astro";
+import { pages } from "../data/pageMeta";
+---
+
+<BaseLayout active="home" title="Jlemonz">
+  <div class="hero-grid">
+    <GalgameDialog {...pages.home} />
+    <EmptySaileiState tone="hint" ribbon="SAILEI HINT" title="赛蕾提示" body="今天把线索贴好，明天回来还能接上。" />
+  </div>
+  <section class="module-grid" aria-label="首页模块">
+    <article class="diary-card diary-card--ticket panel"><h2>FILE 01 / SYNC</h2><p>把踩坑、命令和解决办法写清楚，下一次少绕一点路。</p></article>
+    <article class="diary-card diary-card--ticket panel"><h2>FILE 02 / TRACE</h2><p>系统、驱动和服务的线索先留住，问题没解完也有现场可回看。</p></article>
+    <article class="diary-card diary-card--ticket panel"><h2>FILE 03 / DAILY</h2><p>项目之外也有日常，轻一点的碎片也算进度。</p></article>
+  </section>
+</BaseLayout>

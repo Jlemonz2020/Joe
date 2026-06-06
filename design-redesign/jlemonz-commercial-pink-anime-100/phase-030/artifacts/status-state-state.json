@@ -1,0 +1,24 @@
+[
+  {
+    "name": "status-lab-1440",
+    "count": 4,
+    "overflow": false,
+    "states": [
+      "loading:正在同步手帐格",
+      "error:这张便签暂时贴不上",
+      "offline:网络像断开的丝带",
+      "timeout:同步等得有点久"
+    ]
+  },
+  {
+    "name": "status-lab-390",
+    "count": 4,
+    "overflow": false,
+    "states": [
+      "loading:正在同步手帐格",
+      "error:这张便签暂时贴不上",
+      "offline:网络像断开的丝带",
+      "timeout:同步等得有点久"
+    ]
+  }
+]

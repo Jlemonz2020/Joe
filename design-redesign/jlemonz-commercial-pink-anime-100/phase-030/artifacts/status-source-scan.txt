@@ -1,0 +1,25 @@
+src/components/StatusSaileiState.astro:2:import { statusStateCatalog, type StatusStateKind } from "../data/statusStateCatalog";
+src/components/StatusSaileiState.astro:13:const status = statusStateCatalog[state];
+src/components/StatusSaileiState.astro:22:  data-status-kind={state}
+src/components/StatusSaileiState.astro:24:  <span class="status-ribbon" aria-hidden="true">{ribbon ?? status.ribbon}</span>
+src/components/StatusSaileiState.astro:31:  <div class="status-copy">
+src/data/statusStateCatalog.ts:1:export const statusStateCatalog = {
+src/data/statusStateCatalog.ts:5:    title: "正在同步手帐格",
+src/data/statusStateCatalog.ts:17:    title: "网络像断开的丝带",
+src/data/statusStateCatalog.ts:28:export type StatusStateKind = keyof typeof statusStateCatalog;
+src/data/statusStateCatalog.ts:30:export const statusStateRules = [
+src/data/statusStateCatalog.ts:32:  "Use `data-status-kind` for loading, error, offline, and timeout verification.",
+src/styles/status-state.css:23:.status-ribbon,
+src/styles/status-state.css:26:.status-copy {
+src/styles/status-state.css:31:.status-ribbon {
+src/styles/status-state.css:95:.status-copy {
+src/styles/status-state.css:100:.status-copy strong {
+src/styles/status-state.css:105:.status-copy p {
+src/styles/status-state.css:152:  .status-ribbon {
+src/styles/status-state.css:159:  .status-copy {
+src/pages/status-lab.astro:4:import StatusSaileiState from "../components/StatusSaileiState.astro";
+src/pages/status-lab.astro:5:import { statusStateCatalog } from "../data/statusStateCatalog";
+src/pages/status-lab.astro:7:const states = Object.entries(statusStateCatalog);
+src/pages/status-lab.astro:10:<BaseLayout active="home" title="状态实验室" description="粉色赛蕾手帐的加载、错误、离线和超时状态样张。">
+src/pages/status-lab.astro:12:    title="状态实验室"
+src/pages/status-lab.astro:17:    {states.map(([state]) => <StatusSaileiState state={state} />)}
