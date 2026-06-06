@@ -43,7 +43,7 @@ Home page vertical rhythm should be refined in the dedicated home page phases. I
 
 ## GitHub Verification
 
-- First commit: pending.
-- Remote push: pending.
+- First commit: `95ecf3aab8fa31092669601d2f65612218adae9b`.
+- Remote push: confirmed by `git ls-remote origin refs/heads/main`.
+- Remote `main`: `95ecf3aab8fa31092669601d2f65612218adae9b`.
 - Verification commit: pending.
-

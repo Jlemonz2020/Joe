@@ -46,6 +46,6 @@ Approved. The mobile navigation is now compact, touchable, pink-diary styled, an
 ## GitHub Archive
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-024/`
-- Commit: pending first archive commit.
-- Push verification: pending.
-
+- Commit: `95ecf3aab8fa31092669601d2f65612218adae9b` (`phase-024: refine mobile header navigation`).
+- Push verification: remote `main` confirmed at `95ecf3aab8fa31092669601d2f65612218adae9b`.
+- Push range: `343840cd571fe81192aee65c31e0185bf264efe1..95ecf3aab8fa31092669601d2f65612218adae9b`.
