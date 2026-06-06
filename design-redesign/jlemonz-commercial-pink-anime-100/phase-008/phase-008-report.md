@@ -72,8 +72,8 @@ No screenshots were required in Phase 008 because the phase freezes design princ
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-008/`
-- Commit: pending before final verification.
-- Push: pending before final verification.
+- Commit: `8ff191d phase-008: freeze pink anime visual principles`.
+- Push: `origin/main` accepted `3207938..8ff191d`.
 
 ## Next Gate
 
