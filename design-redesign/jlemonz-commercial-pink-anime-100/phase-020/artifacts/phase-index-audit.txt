@@ -1,0 +1,23 @@
+Phase index approved lines:
+7:| 001 | 建立目标追踪总控台 | approved | `phase-001/` |
+8:| 002 | 线上站点基线采集 | approved | `phase-002/` |
+9:| 003 | Astro 重建可行性确认 | approved | `phase-003/` |
+10:| 004 | 信息架构重新定义 | approved | `phase-004/` |
+11:| 005 | 开源项目和热门视觉参考调研 | approved | `phase-005/` |
+12:| 006 | 生成四张粉色赛蕾概念图 | approved | `phase-006/` |
+13:| 007 | 概念图转实施提示词 | approved | `phase-007/` |
+14:| 008 | 商业级视觉设计原则冻结 | approved | `phase-008/` |
+15:| 009 | 性能预算和资源规范 | approved | `phase-009/` |
+16:| 010 | 验收矩阵和截图标准 | approved | `phase-010/` |
+17:| 011 | Astro 项目骨架建立 | approved | `phase-011/` |
+18:| 012 | 数据适配层设计 | approved | `phase-012/` |
+19:| 013 | 类型和数据模型 | approved | `phase-013/` |
+20:| 014 | 旧 URL 兼容方案 | approved | `phase-014/` |
+21:| 015 | 资产整理和版权边界 | approved | `phase-015/` |
+22:| 016 | 主题 token 系统 | approved | `phase-016/` |
+23:| 017 | 字体和排版系统 | approved | `phase-017/` |
+24:| 018 | 动效系统 | approved | `phase-018/` |
+25:| 019 | 可访问性和交互基线 | approved | `phase-019/` |
+
+Pending lines from 001-020:
+26:| 020 | 第一轮总审和冻结 | pending | `phase-020/` |

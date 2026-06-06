@@ -1,0 +1,77 @@
+package.json:2:  "name": "jlemonz-astro-pink-diary",
+src/components/LegacyDetailMount.astro:2:import { legacyDetailApiPath, type LegacyDetailKind } from "../data/legacyRoutes";
+src/components/LegacyDetailMount.astro:10:const { kind, title, fallbackBody } = Astro.props;
+src/components/LegacyDetailMount.astro:11:const emptyApiPath = legacyDetailApiPath(kind, "");
+src/components/Header.astro:8:const { active } = Astro.props;
+src/components/Header.astro:21:      <a class:list={["nav-link", { active: key === active }]} href={page.href} aria-current={key === active ? "page" : undefined}>
+src/components/GalgameDialog.astro:8:const { kicker, title, lead } = Astro.props;
+src/components/EmptySaileiState.astro:7:const { title, body } = Astro.props;
+src/data/assetRegistry.ts:49:    notes: "Best candidate for the fixed pink diary background after responsive positioning."
+src/data/assetRegistry.ts:121:    notes: "Use sparingly so the default site remains pink."
+src/data/assetRegistry.ts:138:    role: "Light paper-style background candidate",
+src/data/assetRegistry.ts:139:    notes: "Good fit for the paper-milk optional theme."
+src/adapters/modelUtils.ts:60:export const legacyPostHref = (idOrSlug: string): LegacyHref =>
+src/adapters/modelUtils.ts:63:export const legacyProjectHref = (idOrSlug: string): LegacyHref =>
+src/adapters/normalizers.ts:28:  legacyPostHref,
+src/adapters/normalizers.ts:29:  legacyProjectHref
+src/adapters/normalizers.ts:57:    href: legacyPostHref(itemId)
+src/adapters/normalizers.ts:75:    href: legacyProjectHref(itemId)
+src/adapters/normalizers.ts:97:    href: asText(item.href, legacyPostHref(itemId))
+src/data/motionRules.ts:25:    rule: "Keep all motion behind `prefers-reduced-motion` checks.",
+src/data/themeTokens.ts:1:export type ThemeId = "sailei-pink-diary" | "sakura-light" | "pink-neon-lite" | "paper-milk";
+src/data/themeTokens.ts:14:    id: "sailei-pink-diary",
+src/data/themeTokens.ts:18:    accentColors: ["sakura pink", "milk white", "aqua cyan", "soft gold"],
+src/data/themeTokens.ts:19:    reviewNotes: ["Default theme", "No black terminal mood", "Use Sailei asset as identity anchor"]
+src/data/themeTokens.ts:22:    id: "sakura-light",
+src/data/themeTokens.ts:26:    accentColors: ["sakura blush", "warm white", "soft lavender"],
+src/data/themeTokens.ts:30:    id: "pink-neon-lite",
+src/data/themeTokens.ts:34:    accentColors: ["neon pink", "aqua cyan", "lavender"],
+src/data/themeTokens.ts:38:    id: "paper-milk",
+src/data/themeTokens.ts:42:    accentColors: ["milk white", "paper cream", "soft rose"],
+src/data/themeTokens.ts:47:export const defaultTheme: ThemeId = "sailei-pink-diary";
+src/data/legacyRoutes.ts:3:export const legacyStaticRoutes = [
+src/data/legacyRoutes.ts:14:export const legacyDetailQueryKeys = ["id", "slug"] as const;
+src/data/legacyRoutes.ts:16:export function legacyDetailApiPath(kind: LegacyDetailKind, idOrSlug: string): string {
+src/data/interactionRules.ts:10:    requirement: "Use anchor elements and mark the current page with `aria-current`.",
+src/layouts/BaseLayout.astro:16:const { active, title = pages[active].title, description = pages[active].lead } = Astro.props;
+src/layouts/BaseLayout.astro:28:  <body data-page={active} data-theme="sailei-pink-diary">
+src/styles/interaction.css:52:.nav-link[aria-current="page"] {
+src/styles/interaction.css:53:  color: var(--rose-700);
+src/styles/themes.css:2:[data-theme="sailei-pink-diary"] {
+src/styles/themes.css:3:  --theme-name: "sailei-pink-diary";
+src/styles/themes.css:7:  --color-paper: #fff7ef;
+src/styles/themes.css:29:  --texture-paper:
+src/styles/themes.css:32:  --texture-paper-size: 26px 26px;
+src/styles/themes.css:42:[data-theme="sakura-light"] {
+src/styles/themes.css:43:  --theme-name: "sakura-light";
+src/styles/themes.css:47:  --color-paper: #fff8ed;
+src/styles/themes.css:68:[data-theme="pink-neon-lite"] {
+src/styles/themes.css:69:  --theme-name: "pink-neon-lite";
+src/styles/themes.css:73:  --color-paper: #fff5f7;
+src/styles/themes.css:95:[data-theme="paper-milk"] {
+src/styles/themes.css:96:  --theme-name: "paper-milk";
+src/styles/themes.css:100:  --color-paper: #fff7e7;
+src/styles/themes.css:122:  --pink-50: var(--color-page);
+src/styles/themes.css:123:  --pink-100: var(--color-page-soft);
+src/styles/themes.css:124:  --pink-200: var(--color-primary-soft);
+src/styles/themes.css:125:  --pink-500: var(--color-primary);
+src/styles/themes.css:126:  --rose-700: var(--color-primary-deep);
+src/styles/themes.css:127:  --milk: var(--color-surface);
+src/styles/themes.css:128:  --paper: var(--color-paper);
+src/styles/global.css:7:  background: var(--pink-50);
+src/styles/global.css:40:  background: var(--milk);
+src/styles/global.css:41:  color: var(--rose-700);
+src/styles/global.css:77:  color: var(--rose-700);
+src/styles/global.css:86:  background: var(--pink-200);
+src/styles/global.css:112:  color: var(--rose-700);
+src/styles/global.css:116:  background: var(--pink-100);
+src/styles/global.css:130:  background: var(--milk);
+src/styles/global.css:131:  color: var(--rose-700);
+src/styles/global.css:162:  color: var(--pink-500);
+src/styles/global.css:169:  color: var(--rose-700);
+src/styles/global.css:201:  color: var(--rose-700);
+src/styles/global.css:212:  color: var(--rose-700);
+src/styles/global.css:223:  background: var(--pink-100);
+src/styles/global.css:224:  color: var(--pink-500);
+src/styles/motion.css:11:@media (prefers-reduced-motion: no-preference) {
+src/styles/motion.css:50:@media (prefers-reduced-motion: reduce) {

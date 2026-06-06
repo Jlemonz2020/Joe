@@ -1,0 +1,8 @@
+about.html
+archive.html
+_astro/BaseLayout.CibUFkn6.css
+index.html
+moments.html
+post.html
+project.html
+projects.html
