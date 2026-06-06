@@ -13,8 +13,8 @@
 - [x] Screenshot widths cover 390, 768, 1280, 1920, 2560, and 3840.
 - [x] Regression severity rules are documented.
 - [x] Cleanup was performed.
-- [ ] GitHub commit succeeded.
-- [ ] GitHub push succeeded.
+- [x] GitHub commit succeeded: `26ec1d9 phase-010: define acceptance matrix`.
+- [x] GitHub push succeeded: `origin/main` accepted `cbc5e6e..26ec1d9`.
 
 ## Findings
 

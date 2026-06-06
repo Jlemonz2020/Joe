@@ -69,8 +69,8 @@ No screenshots were required in Phase 010. It defines the screenshot standard fo
 ## GitHub
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-010/`
-- Commit: pending before final verification.
-- Push: pending before final verification.
+- Commit: `26ec1d9 phase-010: define acceptance matrix`.
+- Push: `origin/main` accepted `cbc5e6e..26ec1d9`.
 
 ## Next Gate
 
