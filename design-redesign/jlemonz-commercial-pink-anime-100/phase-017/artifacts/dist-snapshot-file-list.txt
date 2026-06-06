@@ -1,0 +1,8 @@
+about.html
+archive.html
+_astro/BaseLayout.DxAJebQD.css
+index.html
+moments.html
+post.html
+project.html
+projects.html
