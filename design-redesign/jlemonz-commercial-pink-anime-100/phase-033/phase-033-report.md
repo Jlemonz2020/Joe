@@ -43,4 +43,7 @@ Approved. Hero layer depth is stronger, the fixed background remains stable, and
 
 ## GitHub Push Verification
 
-Pending first push.
+- Previous remote baseline: `801a0037938efbb0d4953b18d6cb6bcdfd2ccee0`
+- Phase commit: `f9df8fdd9b197e6f81f93e83fdddaa4ddb6b96f3`
+- Remote `main` after push: `f9df8fdd9b197e6f81f93e83fdddaa4ddb6b96f3`
+- Push status: verified
