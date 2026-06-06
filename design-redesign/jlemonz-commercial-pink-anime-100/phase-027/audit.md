@@ -51,7 +51,7 @@ Future content buttons should use `ui-button` before adding component-specific b
 
 ## GitHub Verification
 
-- First commit: pending.
-- Remote push: pending.
-- Verification record: pending.
-
+- First commit: `e2b4a580718fe7a062e95e4848c9132ca2dbc4c4`.
+- Remote push: confirmed by `git ls-remote origin refs/heads/main`.
+- Remote `main`: `e2b4a580718fe7a062e95e4848c9132ca2dbc4c4`.
+- Verification record: stored by the follow-up commit `phase-027: record push verification`.

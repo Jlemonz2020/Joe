@@ -49,6 +49,6 @@ Approved. Buttons now have a shared visual and accessibility foundation while pr
 ## GitHub Archive
 
 - Archive path: `design-redesign/jlemonz-commercial-pink-anime-100/phase-027/`
-- Commit: pending first archive commit.
-- Push verification: pending.
-
+- Commit: `e2b4a580718fe7a062e95e4848c9132ca2dbc4c4` (`phase-027: add reusable button system`).
+- Push verification: remote `main` confirmed at `e2b4a580718fe7a062e95e4848c9132ca2dbc4c4`.
+- Push range: `e826719a947dd1f20073a8a418819f06fe5ba776..e2b4a580718fe7a062e95e4848c9132ca2dbc4c4`.
