@@ -1,0 +1,178 @@
+---
+import EmptySaileiState from "./EmptySaileiState.astro";
+import { homeMomentPreviewRules } from "../data/homeMomentPreviewRules";
+
+const skeletonNotes = Array.from({ length: 2 });
+const rulesCount = homeMomentPreviewRules.length;
+---
+
+<section class="home-moment-preview" data-home-moments data-endpoint="/api/moments" data-rules-count={rulesCount} aria-labelledby="home-moment-preview-title">
+  <div class="home-moment-preview__header">
+    <div>
+      <p>MOMENT NOTES</p>
+      <h2 id="home-moment-preview-title">最近瞬间</h2>
+      <span>把今天的折腾、灵感和小事贴成一小段时间线。</span>
+    </div>
+    <a class="home-moment-preview__all" href="/moments.html">全部瞬间</a>
+  </div>
+
+  <div class="home-moment-preview__status" data-moment-status aria-live="polite">
+    <i></i>
+    <span>翻找时间线中</span>
+  </div>
+
+  <div class="home-moment-preview__grid" data-moment-grid aria-label="首页最近瞬间">
+    {skeletonNotes.map((_, index) => (
+      <article class="home-moment-card home-moment-card--loading" aria-hidden="true">
+        <span>NOTE 0{index + 1}</span>
+        <strong></strong>
+        <p></p>
+      </article>
+    ))}
+  </div>
+
+  <div class="home-moment-preview__empty" data-moment-empty hidden>
+    <EmptySaileiState
+      title="时间线暂时安静"
+      body="还没有取到新的瞬间。先把粉色便签留在这里，等下一次折腾、灵感或小事贴上来。"
+      tone="moments"
+      ribbon="MOMENT MEMO"
+      actionLabel="去瞬间页"
+      actionHref="/moments.html"
+    />
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const listFromPayload = (payload) => {
+      if (Array.isArray(payload)) return payload;
+      if (!payload || typeof payload !== "object") return [];
+      return [payload.items, payload.results, payload.rows, payload.data].find(Array.isArray) || [];
+    };
+
+    const text = (value, fallback = "") => {
+      if (value == null) return fallback;
+      const normalized = String(value).trim();
+      return normalized || fallback;
+    };
+
+    const escapeHtml = (value) => text(value).replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    })[char]);
+
+    const safeImageUrl = (value) => {
+      const url = text(value);
+      return /^\/(uploads|assets)\/[A-Za-z0-9/._%:-]+$/.test(url) ? url : "";
+    };
+
+    const formatMomentTime = (value) => {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "刚刚";
+      return new Intl.DateTimeFormat("zh-CN", {
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(date);
+    };
+
+    const kindLabel = (kind) => ({
+      life: "生活",
+      project: "项目",
+      fragment: "碎片"
+    })[kind] || kind || "碎片";
+
+    const normalizeMoment = (moment) => {
+      const item = moment && typeof moment === "object" ? moment : {};
+      return {
+        id: text(item.id, "moment"),
+        content: text(item.content, "这条瞬间还没有写内容。"),
+        kind: text(item.kind, "fragment"),
+        tags: Array.isArray(item.tags) ? item.tags.map((tag) => text(tag)).filter(Boolean).slice(0, 3) : [],
+        imageUrl: safeImageUrl(item.image_url || item.imageUrl),
+        createdAt: text(item.created_at || item.createdAt)
+      };
+    };
+
+    const setStatus = (root, label, state) => {
+      root.dataset.momentState = state;
+      root.querySelector("[data-moment-status] span").textContent = label;
+    };
+
+    const renderEmpty = (root, label = "时间线待补") => {
+      setStatus(root, label, "empty");
+      root.querySelector("[data-moment-grid]").innerHTML = "";
+      root.querySelector("[data-moment-empty]").hidden = false;
+    };
+
+    const renderMoments = (root, moments) => {
+      const visibleMoments = moments
+        .map(normalizeMoment)
+        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        .slice(0, 3);
+
+      if (!visibleMoments.length) {
+        renderEmpty(root);
+        return;
+      }
+
+      setStatus(root, `已贴好 ${visibleMoments.length} 条瞬间`, "ready");
+      root.querySelector("[data-moment-empty]").hidden = true;
+
+      const grid = root.querySelector("[data-moment-grid]");
+      grid.innerHTML = "";
+
+      visibleMoments.forEach((moment, index) => {
+        const card = document.createElement("article");
+        card.className = `home-moment-card${moment.imageUrl ? " home-moment-card--photo" : ""}`;
+        const tags = moment.tags.length
+          ? moment.tags.map((tag) => `<li>${escapeHtml(tag)}</li>`).join("")
+          : "<li>未标记</li>";
+        const image = moment.imageUrl
+          ? `<figure><img src="${moment.imageUrl}" alt="" loading="lazy" decoding="async" /></figure>`
+          : "";
+
+        card.innerHTML = `
+          <div class="home-moment-card__topline">
+            <span>NOTE ${String(index + 1).padStart(2, "0")}</span>
+            <time>${escapeHtml(formatMomentTime(moment.createdAt))}</time>
+          </div>
+          ${image}
+          <strong>${escapeHtml(kindLabel(moment.kind))}</strong>
+          <p>${escapeHtml(moment.content)}</p>
+          <ul class="home-moment-card__tags" aria-label="瞬间标签">${tags}</ul>
+          <a class="home-moment-card__link" href="/moments.html">
+            <span>看时间线</span>
+            <small>${escapeHtml(moment.id)}</small>
+          </a>
+        `;
+        grid.append(card);
+      });
+    };
+
+    const hydrateMoments = async (root) => {
+      setStatus(root, "翻找时间线中", "loading");
+      try {
+        const response = await fetch(root.dataset.endpoint || "/api/moments", {
+          headers: { accept: "application/json" }
+        });
+        if (!response.ok) {
+          renderEmpty(root, "时间线稍后重试");
+          return;
+        }
+        renderMoments(root, listFromPayload(await response.json()));
+      } catch {
+        renderEmpty(root, "时间线稍后重试");
+      }
+    };
+
+    document.querySelectorAll("[data-home-moments]").forEach((root) => {
+      hydrateMoments(root);
+    });
+  })();
+</script>

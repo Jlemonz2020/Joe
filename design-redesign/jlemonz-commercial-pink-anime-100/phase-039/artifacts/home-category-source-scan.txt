@@ -1,0 +1,52 @@
+src/components/HomeCategoryStickers.astro:2:import { homeCategoryRules } from "../data/homeCategoryRules";
+src/components/HomeCategoryStickers.astro:13:    label: "硬件/裸机",
+src/components/HomeCategoryStickers.astro:20:    label: "RTOS",
+src/components/HomeCategoryStickers.astro:23:    href: "/archive.html?category=RTOS",
+src/components/HomeCategoryStickers.astro:35:const rulesCount = homeCategoryRules.length;
+src/components/HomeCategoryStickers.astro:38:<section class="home-category-stickers" data-home-categories data-rules-count={rulesCount} aria-labelledby="home-category-title">
+src/components/HomeCategoryStickers.astro:39:  <div class="home-category-stickers__header">
+src/components/HomeCategoryStickers.astro:41:      <p>CATEGORY STICKERS</p>
+src/components/HomeCategoryStickers.astro:42:      <h2 id="home-category-title">分类入口</h2>
+src/components/HomeCategoryStickers.astro:47:  <div class="home-category-stickers__grid">
+src/components/HomeCategoryStickers.astro:49:      <a class="home-category-sticker" data-category-tone={category.tone} href={category.href}>
+src/components/HomeCategoryStickers.astro:50:        <span class="home-category-sticker__index">0{index + 1}</span>
+src/components/HomeCategoryStickers.astro:51:        <span class="home-category-sticker__code">{category.code}</span>
+src/layouts/BaseLayout.astro:14:import "../styles/home-category-stickers.css";
+src/pages/index.astro:8:import HomeCategoryStickers from "../components/HomeCategoryStickers.astro";
+src/pages/index.astro:17:  <HomeCategoryStickers />
+src/styles/home-category-stickers.css:1:.home-category-stickers {
+src/styles/home-category-stickers.css:6:.home-category-stickers__header {
+src/styles/home-category-stickers.css:12:.home-category-stickers__header p,
+src/styles/home-category-stickers.css:13:.home-category-stickers__header h2,
+src/styles/home-category-stickers.css:14:.home-category-stickers__header span {
+src/styles/home-category-stickers.css:18:.home-category-stickers__header p {
+src/styles/home-category-stickers.css:25:.home-category-stickers__header h2 {
+src/styles/home-category-stickers.css:30:.home-category-stickers__header span {
+src/styles/home-category-stickers.css:35:.home-category-stickers__grid {
+src/styles/home-category-stickers.css:40:.home-category-sticker {
+src/styles/home-category-stickers.css:61:.home-category-sticker[data-category-tone="linux"] {
+src/styles/home-category-stickers.css:66:.home-category-sticker[data-category-tone="hardware"] {
+src/styles/home-category-stickers.css:71:.home-category-sticker[data-category-tone="rtos"] {
+src/styles/home-category-stickers.css:76:.home-category-sticker[data-category-tone="life"] {
+src/styles/home-category-stickers.css:81:.home-category-sticker::before,
+src/styles/home-category-stickers.css:82:.home-category-sticker::after {
+src/styles/home-category-stickers.css:88:.home-category-sticker::before {
+src/styles/home-category-stickers.css:100:.home-category-sticker::after {
+src/styles/home-category-stickers.css:110:.home-category-sticker__index,
+src/styles/home-category-stickers.css:111:.home-category-sticker__code {
+src/styles/home-category-stickers.css:124:.home-category-sticker__index {
+src/styles/home-category-stickers.css:130:.home-category-sticker__code {
+src/styles/home-category-stickers.css:138:.home-category-sticker strong,
+src/styles/home-category-stickers.css:139:.home-category-sticker em {
+src/styles/home-category-stickers.css:145:.home-category-sticker strong {
+src/styles/home-category-stickers.css:151:.home-category-sticker em {
+src/styles/home-category-stickers.css:161:  .home-category-sticker {
+src/styles/home-category-stickers.css:168:  .home-category-sticker:hover {
+src/styles/home-category-stickers.css:178:  .home-category-stickers__grid {
+src/styles/home-category-stickers.css:184:  .home-category-stickers__grid {
+src/styles/home-category-stickers.css:190:  .home-category-sticker,
+src/styles/home-category-stickers.css:191:  .home-category-sticker *,
+src/styles/home-category-stickers.css:192:  .home-category-sticker *::before,
+src/styles/home-category-stickers.css:193:  .home-category-sticker *::after {
+src/data/homeCategoryRules.ts:1:export const homeCategoryRules = [
+src/data/homeCategoryRules.ts:2:  "Use exactly four homepage categories: Linux, hardware, RTOS, and life.",

@@ -1,0 +1,22 @@
+Phase 039 home category stickers verification
+baseUrl=http://127.0.0.1:4461
+edgePath=/usr/bin/microsoft-edge
+viewports=390,1280,1920
+categoryCounts=390:4,1280:4,1920:4
+labels=Linux|硬件/裸机|RTOS|生活
+minHeight=172.97
+reducedTransitionDuration=0.001s
+placeholderVisible=false
+pageOverflowX=false in all checked cases
+
+Starting server 1/1: npx astro preview --host 127.0.0.1 --port 4461
+Waiting for server on port 4461...
+Server ready on port 4461
+
+All 1 server(s) ready
+Running: node /home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-039/artifacts/verify-home-category-stickers.mjs
+
+
+Stopping 1 server(s)...
+Server 1 stopped
+All servers stopped

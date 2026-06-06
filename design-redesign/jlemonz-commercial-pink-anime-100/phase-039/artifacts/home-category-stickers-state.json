@@ -1,0 +1,193 @@
+{
+  "baseUrl": "http://127.0.0.1:4461",
+  "edgePath": "/usr/bin/microsoft-edge",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-039/artifacts/screens/home-category-stickers-390.png",
+      "state": {
+        "exists": true,
+        "rulesCount": 5,
+        "heading": "分类入口",
+        "count": 4,
+        "labels": [
+          "Linux",
+          "硬件/裸机",
+          "RTOS",
+          "生活"
+        ],
+        "codes": [
+          "SYS",
+          "BOARD",
+          "TASK",
+          "LIFE"
+        ],
+        "hrefs": [
+          "/archive.html?category=Linux",
+          "/projects.html",
+          "/archive.html?category=RTOS",
+          "/moments.html?kind=life"
+        ],
+        "heights": [
+          172.96875,
+          172.96875,
+          172.96875,
+          172.96875
+        ],
+        "widths": [
+          358,
+          358,
+          358,
+          358
+        ],
+        "placeholderVisible": false,
+        "pageOverflowX": false,
+        "transitionDuration": "0.18s, 0.18s, 0.18s"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-039/artifacts/screens/home-category-stickers-1280.png",
+      "state": {
+        "exists": true,
+        "rulesCount": 5,
+        "heading": "分类入口",
+        "count": 4,
+        "labels": [
+          "Linux",
+          "硬件/裸机",
+          "RTOS",
+          "生活"
+        ],
+        "codes": [
+          "SYS",
+          "BOARD",
+          "TASK",
+          "LIFE"
+        ],
+        "hrefs": [
+          "/archive.html?category=Linux",
+          "/projects.html",
+          "/archive.html?category=RTOS",
+          "/moments.html?kind=life"
+        ],
+        "heights": [
+          206.71875,
+          206.71875,
+          206.71875,
+          206.71875
+        ],
+        "widths": [
+          300,
+          300,
+          300,
+          300
+        ],
+        "placeholderVisible": false,
+        "pageOverflowX": false,
+        "transitionDuration": "0.18s, 0.18s, 0.18s"
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-039/artifacts/screens/home-category-stickers-1920.png",
+      "state": {
+        "exists": true,
+        "rulesCount": 5,
+        "heading": "分类入口",
+        "count": 4,
+        "labels": [
+          "Linux",
+          "硬件/裸机",
+          "RTOS",
+          "生活"
+        ],
+        "codes": [
+          "SYS",
+          "BOARD",
+          "TASK",
+          "LIFE"
+        ],
+        "hrefs": [
+          "/archive.html?category=Linux",
+          "/projects.html",
+          "/archive.html?category=RTOS",
+          "/moments.html?kind=life"
+        ],
+        "heights": [
+          180.328125,
+          180.328125,
+          180.328125,
+          180.328125
+        ],
+        "widths": [
+          428,
+          428,
+          428,
+          428
+        ],
+        "placeholderVisible": false,
+        "pageOverflowX": false,
+        "transitionDuration": "0.18s, 0.18s, 0.18s"
+      },
+      "pageErrors": []
+    }
+  ],
+  "reducedMotion": {
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "screenshot": "/home/jlemonz/Documents/Codex/2026-06-05/new-chat-2/work/github/Joe/design-redesign/jlemonz-commercial-pink-anime-100/phase-039/artifacts/screens/home-category-stickers-reduced-motion-1280.png",
+    "state": {
+      "exists": true,
+      "rulesCount": 5,
+      "heading": "分类入口",
+      "count": 4,
+      "labels": [
+        "Linux",
+        "硬件/裸机",
+        "RTOS",
+        "生活"
+      ],
+      "codes": [
+        "SYS",
+        "BOARD",
+        "TASK",
+        "LIFE"
+      ],
+      "hrefs": [
+        "/archive.html?category=Linux",
+        "/projects.html",
+        "/archive.html?category=RTOS",
+        "/moments.html?kind=life"
+      ],
+      "heights": [
+        206.71875,
+        206.71875,
+        206.71875,
+        206.71875
+      ],
+      "widths": [
+        300,
+        300,
+        300,
+        300
+      ],
+      "placeholderVisible": false,
+      "pageOverflowX": false,
+      "transitionDuration": "0.001s"
+    }
+  }
+}

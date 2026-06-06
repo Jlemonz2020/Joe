@@ -1,0 +1,57 @@
+---
+import { homeCategoryRules } from "../data/homeCategoryRules";
+
+const categories = [
+  {
+    label: "Linux",
+    code: "SYS",
+    body: "系统、服务和命令线索，先从这里翻。",
+    href: "/archive.html?category=Linux",
+    tone: "linux"
+  },
+  {
+    label: "硬件/裸机",
+    code: "BOARD",
+    body: "板子、驱动和底层折腾，留成硬件页签。",
+    href: "/projects.html",
+    tone: "hardware"
+  },
+  {
+    label: "RTOS",
+    code: "TASK",
+    body: "实时系统和调度笔记，慢慢补成资料夹。",
+    href: "/archive.html?category=RTOS",
+    tone: "rtos"
+  },
+  {
+    label: "生活",
+    code: "LIFE",
+    body: "项目之外的日常碎片，放轻一点也算记录。",
+    href: "/moments.html?kind=life",
+    tone: "life"
+  }
+] as const;
+
+const rulesCount = homeCategoryRules.length;
+---
+
+<section class="home-category-stickers" data-home-categories data-rules-count={rulesCount} aria-labelledby="home-category-title">
+  <div class="home-category-stickers__header">
+    <div>
+      <p>CATEGORY STICKERS</p>
+      <h2 id="home-category-title">分类入口</h2>
+      <span>把常翻的方向做成贴纸目录，点一下就进对应记录。</span>
+    </div>
+  </div>
+
+  <div class="home-category-stickers__grid">
+    {categories.map((category, index) => (
+      <a class="home-category-sticker" data-category-tone={category.tone} href={category.href}>
+        <span class="home-category-sticker__index">0{index + 1}</span>
+        <span class="home-category-sticker__code">{category.code}</span>
+        <strong>{category.label}</strong>
+        <em>{category.body}</em>
+      </a>
+    ))}
+  </div>
+</section>

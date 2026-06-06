@@ -1,0 +1,4 @@
+home-category-stickers-1280.png 361864 bytes
+home-category-stickers-1920.png 401729 bytes
+home-category-stickers-390.png 296889 bytes
+home-category-stickers-reduced-motion-1280.png 361864 bytes
