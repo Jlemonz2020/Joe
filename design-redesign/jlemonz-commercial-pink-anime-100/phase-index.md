@@ -10,7 +10,7 @@ Status legend: `pending`, `in-progress`, `review`, `approved`, `approved-with-fi
 | 004 | 信息架构重新定义 | approved | `phase-004/` |
 | 005 | 开源项目和热门视觉参考调研 | approved | `phase-005/` |
 | 006 | 生成四张粉色赛蕾概念图 | approved | `phase-006/` |
-| 007 | 概念图转实施提示词 | pending | `phase-007/` |
+| 007 | 概念图转实施提示词 | approved | `phase-007/` |
 | 008 | 商业级视觉设计原则冻结 | pending | `phase-008/` |
 | 009 | 性能预算和资源规范 | pending | `phase-009/` |
 | 010 | 验收矩阵和截图标准 | pending | `phase-010/` |
