@@ -7335,3 +7335,463 @@ body[data-footer-motion="none"] .site-footer-inner {
     max-height: none;
   }
 }
+
+/* Joe current version override: soft wine theme, unified background, interview page, responsive shell. */
+:root,
+:root[data-theme="wine"],
+:root[data-theme="white"],
+:root[data-theme="green"],
+:root[data-theme="sky"],
+:root[data-theme="sakura"],
+:root[data-theme="yellow"] {
+  color-scheme: light;
+  --bg: #f8eff2;
+  --bg-2: #fff9fa;
+  --panel: rgba(255, 255, 255, .86);
+  --panel-solid: #ffffff;
+  --field: rgba(151, 78, 96, .06);
+  --text: #3a2930;
+  --muted: rgba(58, 41, 48, .66);
+  --soft: rgba(58, 41, 48, .45);
+  --line: rgba(151, 78, 96, .14);
+  --line-strong: rgba(151, 78, 96, .25);
+  --accent: #a86676;
+  --cyan: #c99aaa;
+  --purple: #b88899;
+  --orange: #d8b2aa;
+  --brand-bg: linear-gradient(145deg, rgba(255, 255, 255, .95), rgba(168, 102, 118, .16));
+  --brand-border: color-mix(in srgb, var(--accent) 42%, #3d2a31 18%);
+  --brand-shadow: 0 12px 24px rgba(151, 78, 96, .13), inset 0 1px 0 rgba(255, 255, 255, .9);
+  --brand-filter: drop-shadow(0 2px 3px rgba(58, 41, 48, .12));
+  --shadow: 0 18px 42px rgba(151, 78, 96, .10);
+  --glow: 0 0 30px rgba(168, 102, 118, .16);
+  --sailei-image: url("/assets/sailei/violet-hero-1600.jpg");
+  --hero-position: center 50px;
+  --hero-size: min(100vw, 1488px) auto;
+  --hero-overlay-top: linear-gradient(180deg, rgba(248, 239, 242, .52), rgba(248, 239, 242, .92) 74%, var(--bg));
+  --hero-overlay-side: linear-gradient(90deg, rgba(248, 239, 242, .93), rgba(248, 239, 242, .54) 50%, rgba(248, 239, 242, .88));
+}
+
+body,
+:root[data-theme="wine"] body,
+:root[data-theme="white"] body,
+:root[data-theme="green"] body,
+:root[data-theme="sky"] body,
+:root[data-theme="sakura"] body,
+:root[data-theme="yellow"] body {
+  background:
+    var(--hero-overlay-top),
+    var(--hero-overlay-side),
+    var(--sailei-image) var(--hero-position) / var(--hero-size) no-repeat,
+    radial-gradient(circle at 76% 10%, rgba(168, 102, 118, .14), transparent 30rem),
+    radial-gradient(circle at 16% 24%, rgba(184, 136, 153, .12), transparent 28rem),
+    var(--bg) !important;
+  background-attachment: scroll, scroll, fixed, scroll, scroll, scroll;
+}
+
+.theme-switch,
+.theme-menu {
+  display: none !important;
+}
+
+.hero-bg {
+  opacity: 0 !important;
+  background: none !important;
+}
+
+.subpage::before,
+.subpage-hero::before,
+.subpage-hero::after {
+  content: none !important;
+}
+
+.subpage-hero {
+  min-height: auto !important;
+  padding: clamp(42px, 6vw, 76px) 0 clamp(22px, 4vw, 38px) !important;
+  margin-bottom: clamp(18px, 3vw, 30px) !important;
+  background: transparent !important;
+}
+
+body[data-page="archive"] .archive-search-card {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.site-header,
+.site-header.is-scrolled,
+:root[data-theme="wine"] .site-header,
+:root[data-theme="green"] .site-header,
+:root[data-theme="sky"] .site-header,
+:root[data-theme="sakura"] .site-header,
+:root[data-theme="yellow"] .site-header,
+:root[data-theme="wine"] .site-header.is-scrolled,
+:root[data-theme="green"] .site-header.is-scrolled,
+:root[data-theme="sky"] .site-header.is-scrolled,
+:root[data-theme="sakura"] .site-header.is-scrolled,
+:root[data-theme="yellow"] .site-header.is-scrolled {
+  grid-template-columns: minmax(180px, 300px) minmax(0, 1fr) auto !important;
+  grid-template-areas: "brand nav actions" !important;
+  gap: clamp(10px, 1.4vw, 18px) !important;
+  padding: 10px clamp(18px, 3vw, 42px) !important;
+  background: rgba(255, 249, 250, .58) !important;
+  border-bottom-color: rgba(151, 78, 96, .10) !important;
+  box-shadow: 0 10px 28px rgba(151, 78, 96, .045) !important;
+  backdrop-filter: blur(18px) saturate(132%);
+  -webkit-backdrop-filter: blur(18px) saturate(132%);
+}
+
+.site-header.is-scrolled,
+:root[data-theme="wine"] .site-header.is-scrolled,
+:root[data-theme="green"] .site-header.is-scrolled,
+:root[data-theme="sky"] .site-header.is-scrolled,
+:root[data-theme="sakura"] .site-header.is-scrolled,
+:root[data-theme="yellow"] .site-header.is-scrolled {
+  background: rgba(255, 249, 250, .70) !important;
+}
+
+.brand {
+  grid-area: brand !important;
+  justify-self: start !important;
+  width: min(100%, 300px) !important;
+  max-width: 300px !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.brand-copy,
+.brand-copy strong,
+.brand-copy small,
+.subpage-copy,
+.subpage-mini-card,
+.interview-status-card,
+.interview-side-card,
+.interview-board,
+.interview-topic-card {
+  min-width: 0 !important;
+}
+
+.brand-copy small {
+  max-width: min(20vw, 220px) !important;
+}
+
+.nav-links {
+  grid-area: nav !important;
+  justify-self: center !important;
+  align-self: center !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  grid-template-columns: none !important;
+  align-items: center !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  padding: 5px !important;
+  border-color: rgba(151, 78, 96, .16) !important;
+  background:
+    linear-gradient(135deg, rgba(168, 102, 118, .08), transparent 46%),
+    rgba(255, 255, 255, .38) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 12px 26px rgba(151, 78, 96, .08) !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  backdrop-filter: blur(14px) saturate(132%);
+  -webkit-backdrop-filter: blur(14px) saturate(132%);
+}
+
+.nav-links::-webkit-scrollbar,
+.hero-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-links a {
+  width: auto !important;
+  max-width: none !important;
+  flex: 0 0 auto !important;
+  flex-basis: auto !important;
+  padding: 8px 12px;
+}
+
+.nav-links a:hover,
+.nav-links a.is-active {
+  background: rgba(255, 255, 255, .56) !important;
+  box-shadow: inset 0 0 0 1px rgba(168, 102, 118, .28) !important;
+}
+
+.nav-actions {
+  grid-area: actions !important;
+  justify-self: end !important;
+  align-self: center !important;
+  min-width: 34px !important;
+}
+
+.interview-page .subpage-hero {
+  align-items: stretch;
+}
+
+.interview-status-card {
+  align-self: end;
+}
+
+.interview-status-card h2,
+.interview-side-card h2,
+.interview-topic-card h2 {
+  margin: 0 0 10px;
+  color: var(--text);
+}
+
+.interview-grid {
+  align-items: start;
+}
+
+.interview-board {
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.interview-topic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.interview-topic-card {
+  min-height: 158px;
+  padding: 18px;
+  border: 1px solid rgba(151, 78, 96, .13);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(168, 102, 118, .055), transparent 48%),
+    rgba(255, 255, 255, .52);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .62);
+}
+
+.interview-topic-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.interview-chip-row span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid rgba(151, 78, 96, .16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .42);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (min-width: 1181px) {
+  .split-hero.subpage-hero,
+  .interview-page .split-hero.subpage-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 380px) !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .site-header,
+  .site-header.is-scrolled {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas:
+      "brand actions"
+      "nav nav" !important;
+    gap: 8px 12px !important;
+    padding: 8px clamp(12px, 2.5vw, 22px) 10px !important;
+  }
+
+  .brand {
+    width: min(62vw, 620px) !important;
+    max-width: min(62vw, 620px) !important;
+  }
+
+  .brand-copy small {
+    max-width: min(54vw, 500px) !important;
+  }
+
+  .nav-links {
+    justify-self: center !important;
+    width: max-content !important;
+    max-width: 100% !important;
+  }
+
+  .subpage {
+    padding-top: 118px !important;
+  }
+
+  .subpage-hero,
+  .interview-page .subpage-hero {
+    width: min(1180px, calc(100% - 32px)) !important;
+    grid-template-columns: 1fr !important;
+    padding-top: clamp(42px, 6vw, 64px) !important;
+  }
+
+  .interview-status-card {
+    align-self: start !important;
+    width: 100% !important;
+  }
+
+  .content-grid,
+  .page-shell,
+  .interview-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sidebar {
+    position: static !important;
+  }
+}
+
+@media (max-width: 860px) {
+  .interview-topic-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .interview-topic-card {
+    min-height: auto !important;
+  }
+
+  .site-footer-inner {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body,
+  :root[data-theme="wine"] body,
+  :root[data-theme="white"] body,
+  :root[data-theme="green"] body,
+  :root[data-theme="sky"] body,
+  :root[data-theme="sakura"] body,
+  :root[data-theme="yellow"] body {
+    background-attachment: scroll, scroll, scroll, scroll, scroll, scroll !important;
+  }
+
+  .site-header,
+  .site-header.is-scrolled {
+    padding: 8px 10px 10px !important;
+  }
+
+  .brand {
+    width: min(58vw, 360px) !important;
+    max-width: min(58vw, 360px) !important;
+  }
+
+  .brand-mark {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 12px !important;
+  }
+
+  .brand-copy strong {
+    font-size: 16px !important;
+  }
+
+  .brand-copy small {
+    display: none !important;
+  }
+
+  .nav-links {
+    justify-self: stretch !important;
+    width: 100% !important;
+    padding: 4px !important;
+    gap: 4px !important;
+  }
+
+  .nav-links a {
+    min-width: auto !important;
+    padding: 7px 10px !important;
+    font-size: 13px !important;
+  }
+
+  .subpage {
+    padding-top: 112px !important;
+    padding-bottom: 56px !important;
+  }
+
+  .subpage-hero,
+  .interview-page .subpage-hero {
+    width: min(100% - 24px, 1180px) !important;
+    padding: 32px 0 22px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .page-hero .subpage-title,
+  .about-hero .subpage-title {
+    font-size: clamp(38px, 14vw, 58px) !important;
+    line-height: .96 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .subpage-hero .lead,
+  .about-hero.subpage-hero .lead {
+    max-width: 100% !important;
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+  }
+
+  .hero-chips {
+    width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding-bottom: 2px !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hero-chip {
+    flex: 0 0 auto !important;
+  }
+
+  .content-grid,
+  .page-shell,
+  .interview-grid {
+    width: min(100% - 24px, 1180px) !important;
+    gap: 18px !important;
+  }
+
+  .interview-board,
+  .interview-status-card,
+  .interview-side-card {
+    padding: 18px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  :root,
+  :root[data-theme="wine"],
+  :root[data-theme="white"],
+  :root[data-theme="green"],
+  :root[data-theme="sky"],
+  :root[data-theme="sakura"],
+  :root[data-theme="yellow"] {
+    --hero-position: center 76px;
+    --hero-size: auto min(56svh, 500px);
+  }
+
+  .brand {
+    width: min(52vw, 300px) !important;
+    max-width: min(52vw, 300px) !important;
+  }
+
+  .nav-links a {
+    padding: 7px 9px !important;
+    font-size: 12px !important;
+  }
+
+  .content-grid,
+  .page-shell,
+  .interview-grid,
+  .subpage-hero,
+  .interview-page .subpage-hero {
+    width: min(100% - 20px, 1180px) !important;
+  }
+
+  .interview-topic-card {
+    padding: 15px !important;
+  }
+}

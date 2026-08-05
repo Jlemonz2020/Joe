@@ -11,18 +11,18 @@ const savedTheme = requestedTheme || localStorage.getItem("theme");
 const headerSearches = document.querySelectorAll("[data-header-search]");
 const isVisualEditor = new URLSearchParams(window.location.search).get("editor") === "1";
 const themeAliases = {
-  dark: "white",
-  light: "white",
-  aqua: "white",
-  amber: "white",
+  dark: "wine",
+  light: "wine",
+  aqua: "wine",
+  amber: "wine",
   violet: "wine",
   sakura: "wine",
-  green: "white",
-  sky: "white",
-  yellow: "white"
+  green: "wine",
+  sky: "wine",
+  yellow: "wine",
+  white: "wine"
 };
 const themes = [
-  { id: "white", label: "白色纸页", color: "#8f8a84", themeColor: "#fbfaf7" },
   { id: "wine", label: "淡酒红", color: "#a86676", themeColor: "#f8eff2" }
 ];
 
@@ -42,7 +42,7 @@ const applyTheme = (themeId) => {
   });
 };
 
-applyTheme(savedTheme || "white");
+applyTheme("wine");
 
 document.querySelector(`[data-nav="${page}"]`)?.classList.add("is-active");
 
@@ -78,7 +78,7 @@ if (themeToggle) {
     });
   });
 
-  applyTheme(localStorage.getItem("theme") || "white");
+  applyTheme("wine");
 }
 
 const showSearch = () => {
