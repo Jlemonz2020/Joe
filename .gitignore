@@ -1,31 +1,51 @@
 # Local/editor state
 .DS_Store
 Thumbs.db
-.vs/
 .vscode/
 .idea/
-.ace-tool/
+.codex-tmp/
+*.local
 
-# Environment and secrets
+# Secrets and local configuration
 .env
 .env.*
 !.env.example
-ADMIN-CREDENTIALS.txt
+blog-backend/config/keys.env
+blog-backend/config/*.local.env
+!blog-backend/config/*.example.env
 blog-backend/.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+ADMIN-CREDENTIALS.txt
+**/secrets/
+private/
 
-# Dependencies and build output
+# Dependencies and generated output
 node_modules/
 dist/
-.cache/
 coverage/
 *.log
+*.tmp
+*.bak
+*.map
 
-# Runtime data kept on the Raspberry Pi
+# Runtime data: never commit production content or databases
 blog-backend/uploads/
 blog-backend/backups/
+blog-backend/data/
 blog-backend/public/admin/*
 !blog-backend/public/admin/.gitkeep
+*.sqlite
+*.sqlite3
+*.db
+*.sql
 
-# Python/helper cache
+# Generated reports and caches
+cache/
+tmp/
+outputs/
 __pycache__/
 *.pyc

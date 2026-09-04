@@ -1,48 +1,23 @@
 # 架构说明
 
-## 模块边界
+## 请求流
 
-`blog-redesign/` 是前台静态站点，页面通过 `assets/app.js` 请求后端 API 渲染文章、项目、瞬间、评论、点赞、搜索和 GitHub 贡献数据。前台只有展示和访客交互逻辑，不保存后台密钥。
+浏览器请求前台静态页面，页面脚本再访问后端公开 API。Nginx 负责静态资源、缓存头和反向代理；Node 服务负责内容读取、站点配置、后台鉴权、第三方数据快照和数据库写入。
 
-`blog-backend/` 是运行在树莓派上的 Node.js 服务，监听 `127.0.0.1:8097`。它负责公开 API、后台登录、内容维护、上传文件、搜索同步、评论点赞和可视化编辑数据发布。
+## 后端模块
 
-`blog-backend/admin-src/` 是后台管理端源码。构建命令会输出到 `blog-backend/public/admin/`，线上由后端在 `/admin` 下提供访问。
+- `src/server.js`：HTTP 路由、公开接口、管理接口、内容格式化和启动初始化。
+- `src/config.js`：从环境变量读取运行配置。
+- `src/db.js`：MySQL 连接池和参数化查询。
+- `src/redis.js`：轻量 Redis 缓存封装，缓存不可用时不阻断公开页面。
+- `src/auth.js`：管理员密码校验和会话签名。
+- `src/markdown.js`：Markdown 转 HTML 和纯文本提取。
+- `src/search.js`：可选的 Meilisearch 同步和站内搜索。
 
-`ops/pi-sites.conf` 是 Nginx 配置参考。Nginx 负责 TLS、静态前台、上传文件和反向代理。
+题库、文章、瞬间、项目和站点装修数据都存储在服务器数据库；前端不保存生产内容副本。
 
-## 数据流
+## 前端模块
 
-```text
-前台页面
-  -> /api/posts, /api/projects, /api/moments
-  -> /api/comments, /api/reactions
-  -> /api/search
+`blog-redesign/` 是无构建依赖的多页面前台。每个页面共享 `assets/app.js` 和 `assets/style.css`，页面加载后从 `/api/site/texts`、内容接口以及缓存快照接口获取最新展示数据。
 
-后台管理端
-  -> /admin/api/login
-  -> /admin/api/uploads
-  -> /admin/api/frontend-editor
-  -> /admin/api/frontend-editor/draft
-  -> /admin/api/frontend-editor/publish
-  -> /admin/api/frontend-editor/restore
-```
-
-主要数据存储：
-
-- MySQL：用户、分类、文章、项目、瞬间、评论、点赞、站点设置。
-- Redis：可选缓存和运行时状态。
-- Meilisearch：站内搜索索引。
-- 文件系统：上传文件在 `/data/blog-backend/uploads`，备份在 `/data/blog-backend/backups`。
-
-## 可视化编辑
-
-前台元素通过 `data-edit-target`、`data-text-key`、`data-layout-key` 等属性暴露可编辑目标。后台预览页会带上 `?editor=1`，前台脚本只在这个模式下启用编辑桥接。
-
-后台保存草稿不会直接影响正式页面；发布后才会写入前台配置或静态资源。恢复操作用于回到最近一次可用状态。
-
-## 安全边界
-
-- `.env`、`ADMIN-CREDENTIALS.txt`、上传文件和备份目录不进入 Git。
-- `/admin` 在 Nginx 层限制为本机和内网访问。
-- 后端只监听 `127.0.0.1`，公网入口统一走 Nginx。
-- 构建产物可以重新生成，不作为主要维护对象。
+`blog-backend/admin-src/` 是独立的 Vue 管理端源码。构建后输出到后端的 `public/admin/`，不把构建依赖和生产构建文件放入代码仓库。

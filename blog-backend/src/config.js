@@ -19,6 +19,7 @@ export function loadEnv(file = ".env") {
 }
 
 loadEnv(path.resolve(process.cwd(), ".env"));
+loadEnv(process.env.JOE_KEYS_FILE || path.resolve(process.cwd(), "config", "keys.env"));
 
 export const config = {
   env: process.env.NODE_ENV || "production",

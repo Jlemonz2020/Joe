@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Moments - Jlemonz</title>
-  <meta name="description" content="Jlemonz 的瞬间记录">
+  <title>Project Detail - Jlemonz</title>
+  <meta name="description" content="Jlemonz 的项目详情记录">
   <meta name="theme-color" content="#fbfaf7">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/assets/style.css?v=launch-20260824e">
   <script src="/assets/app.js?v=launch-20260824e" defer></script>
 </head>
-<body data-page="moments">
+<body data-page="projects">
   <header class="site-header" data-header>
     <a class="brand" href="/index.html" aria-label="Jlemonz 首页"><span class="brand-mark"><img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true"></span><span class="brand-copy"><strong>Jlemonz</strong><small data-quote-line>慢慢写，慢慢修。</small></span></a>
     <nav class="nav-links" aria-label="主导航">
@@ -26,12 +26,11 @@
   </header>
 
   <main class="subpage">
-    <section class="page-hero subpage-hero moments-hero">
-      <div class="subpage-copy">
-        <p class="eyebrow" data-text-key="moments.hero.kicker">瞬间碎片</p>
-        <h1 class="subpage-title" data-text-key="moments.hero.title">Moments</h1>
-        <p class="lead" data-text-key="moments.hero.lead">时间一点一点点的转
-                像一匹白马</p>
+    <section class="page-hero split-hero project-detail-hero">
+      <div>
+        <p class="eyebrow">project detail</p>
+        <h1 data-project-title>Project</h1>
+        <p class="lead" data-project-summary>正在读取项目记录。</p>
         <div class="moyu-widget subpage-moyu-inline" data-moyu-card aria-live="polite">
           <div class="moyu-widget-top">
             <span data-moyu-label>摸鱼办</span>
@@ -41,53 +40,45 @@
           <div class="moyu-meter" data-moyu-meter hidden><span data-moyu-meter-bar></span></div>
           <small data-moyu-body>加载今日摸鱼状态...</small>
         </div>
-        <div class="hero-chips" role="tablist" aria-label="瞬间分类" data-moment-kinds>
-          <button type="button" class="hero-chip active" data-filter="all" role="tab" aria-selected="true"><span class="hero-chip-btn"><strong>碎片</strong><span aria-hidden="true" class="hero-chip-glitch">碎片</span><small>灵机一动</small></span></button>
-          <button type="button" class="hero-chip" data-filter="project" role="tab" aria-selected="false"><span class="hero-chip-btn"><strong>痕迹</strong><span aria-hidden="true" class="hero-chip-glitch">痕迹</span><small>合理摸鱼</small></span></button>
-          <button type="button" class="hero-chip" data-filter="life" role="tab" aria-selected="false"><span class="hero-chip-btn"><strong>日常</strong><span aria-hidden="true" class="hero-chip-glitch">日常</span><small>是这样的</small></span></button>
-        </div>
       </div>
+      <aside class="desk-card project-meta-card">
+        <img class="detail-cover" data-project-cover hidden alt="">
+        <div class="tile-head"><span class="pin"></span><strong data-project-state>loading</strong></div>
+        <div class="rangeWrapper project-progress-kawaii" aria-label="项目进度 0%" style="--project-progress:0%">
+          <input class="kawaii" type="range" min="0" max="100" value="0" tabindex="-1" aria-hidden="true" data-project-progress>
+          <strong data-project-progress-text>0%</strong>
+        </div>
+        <time data-project-update>读取中</time>
+        <button class="like-button" type="button" data-like-target="" aria-label="给项目点赞">赞 <span data-like-count>0</span></button>
+      </aside>
     </section>
 
     <section class="content-grid wide-main">
-      <div class="main-column">
-        <div class="moment-list timeline" data-moment-list>
-          <div class="empty-state loading-placeholder">
-            <strong>正在读取瞬间</strong>
-            <span>后台发布的动态会自动显示在这里。</span>
-          </div>
-        </div>
-      </div>
+      <article class="desk-card article-body" data-project-content>
+        <p class="muted">正在加载项目详情。</p>
+      </article>
 
       <aside class="sidebar">
-        <section class="desk-card weather-side-card" data-weather-card aria-live="polite">
-          <div class="weather-card-head">
-            <p class="eyebrow">weather</p>
-            <button type="button" class="weather-locate-btn" data-weather-locate>定位</button>
-          </div>
-          <div class="weather-main">
-            <span class="weather-city" data-weather-city>定位中</span>
-            <strong data-weather-temp>--°</strong>
-            <p data-weather-text>正在读取城市天气...</p>
-          </div>
-          <div class="weather-range" data-weather-range>今日高低温 -- / --</div>
-          <div class="weather-metrics">
-            <span><small>体感</small><strong data-weather-feels>--°</strong></span>
-            <span><small>湿度</small><strong data-weather-humidity>--%</strong></span>
-            <span><small>风速</small><strong data-weather-wind>-- km/h</strong></span>
-          </div>
-          <small class="weather-updated" data-weather-updated>正在自动定位</small>
+        <section class="desk-card comment-card">
+          <p class="eyebrow">project comments</p>
+          <h2 data-text-key="detail.project.comments">项目评论</h2>
+          <form data-comment-form data-comment-target="">
+            <label class="uiverse-input compact">
+              <input name="author_name" type="text" placeholder=" " maxlength="80" required>
+              <span>昵称</span>
+            </label>
+            <label class="uiverse-input compact">
+              <input name="content" type="text" placeholder=" " maxlength="800" required>
+              <span>写一句评论...</span>
+            </label>
+            <button type="submit" class="primary-link slim">发送</button>
+          </form>
+          <div class="comment-list" data-comment-list data-comment-target=""></div>
         </section>
-        <section class="desk-card thinking-question-card" data-thinking-question-card aria-live="polite">
-          <div class="thinking-question-head">
-            <p class="eyebrow">mind gym</p>
-            <small data-thinking-updated>每日更新</small>
-          </div>
-          <h2>思考题</h2>
-          <p class="thinking-question-subtitle">每天一道锻炼思维的小题，适合摸鱼时想一想。</p>
-          <div class="thinking-question-list" data-thinking-question-list>
-            <article class="thinking-question-empty">思考题同步中...</article>
-          </div>
+        <section class="desk-card maintain-card">
+          <p class="eyebrow">note</p>
+          <h2 data-text-key="detail.project.rule.title">记录原则</h2>
+          <p data-text-key="detail.project.rule.body">项目详情页只写公开可复盘内容，不放管理入口、内网端口和敏感配置。</p>
         </section>
       </aside>
     </section>

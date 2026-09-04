@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>关于 - Jlemonz</title>
+  <title>About - Jlemonz</title>
   <meta name="description" content="关于 Jlemonz">
   <meta name="theme-color" content="#fbfaf7">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=brand-pink-polish-20260530">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=brand-pink-polish-20260530">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=brand-pink-polish-20260530">
-  <link rel="stylesheet" href="/assets/style.css?v=md-image-flow-20260531">
-  <script src="/assets/app.js?v=visual-editor-polish-20260531" defer></script>
+  <link rel="stylesheet" href="/assets/style.css?v=launch-20260824e">
+  <script src="/assets/app.js?v=launch-20260824e" defer></script>
 </head>
 <body data-page="about">
   <header class="site-header" data-header>
-    <a class="brand" href="/index.html" aria-label="Jlemonz 首页"><span class="brand-mark"><img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true"></span><span class="brand-copy"><strong>Jlemonz</strong><small data-quote-line>她路过我的生活，我把余光留到天黑。</small></span></a>
+    <a class="brand" href="/index.html" aria-label="Jlemonz 首页"><span class="brand-mark"><img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true"></span><span class="brand-copy"><strong>Jlemonz</strong><small data-quote-line>慢慢写，慢慢修。</small></span></a>
     <nav class="nav-links" aria-label="主导航">
       <a href="/index.html" data-nav="home" data-text-key="shared.nav.home">首页</a><a href="/moments.html" data-nav="moments" data-text-key="shared.nav.moments">瞬间</a><a href="/archive.html" data-nav="archive" data-text-key="shared.nav.archive">小记</a><a href="/projects.html" data-nav="projects" data-text-key="shared.nav.projects">项目</a><a href="/interview.html" data-nav="interview" data-text-key="shared.nav.interview">面试</a><a href="/about.html" data-nav="about" data-text-key="shared.nav.about">关于</a>
     </nav>
@@ -31,8 +31,10 @@
         <img class="about-avatar" src="/assets/sailei/avatar.jpg" alt="一方的头像" loading="lazy" data-profile-avatar data-edit-target="ui:profile:avatarUrl">
       </div>
       <div class="subpage-copy">
-        <p class="eyebrow" data-text-key="about.hero.kicker">about</p>
-        <h1 class="subpage-title" data-text-key="about.hero.title">关于</h1>
+        <p class="eyebrow" data-text-key="about.hero.kicker">关于我</p>
+        <h1 class="subpage-title" data-text-key="about.hero.title">About</h1>
+        <p class="lead" data-text-key="about.hero.lead">我好像做到了我想要的样子
+但却不能够再为你唱一首歌</p>
         <div class="moyu-widget subpage-moyu-inline" data-moyu-card aria-live="polite">
           <div class="moyu-widget-top">
             <span data-moyu-label>摸鱼办</span>
@@ -43,34 +45,40 @@
           <small data-moyu-body>加载今日摸鱼状态...</small>
         </div>
         <div class="hero-chips" aria-label="关于页状态" data-page-chips="about">
-          <span class="hero-chip"><span class="hero-chip-btn"><strong>Pi5</strong><span aria-hidden="true" class="hero-chip-glitch">Pi5</span><small>常驻服务</small></span></span>
-          <span class="hero-chip"><span class="hero-chip-btn"><strong>Linux</strong><span aria-hidden="true" class="hero-chip-glitch">Linux</span><small>边学边记</small></span></span>
-          <span class="hero-chip"><span class="hero-chip-btn"><strong>Blog</strong><span aria-hidden="true" class="hero-chip-glitch">Blog</span><small>长期整理</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>Ubuntu</strong><span aria-hidden="true" class="hero-chip-glitch">Ubuntu</span><small>系统基础</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>ROS</strong><span aria-hidden="true" class="hero-chip-glitch">ROS</span><small>机器人框架</small></span></span>
+          <span class="hero-chip"><span class="hero-chip-btn"><strong>FOC</strong><span aria-hidden="true" class="hero-chip-glitch">FOC</span><small>电机控制</small></span></span>
         </div>
       </div>
     </section>
 
     <section class="content-grid">
       <div class="main-column">
-        <article class="desk-card">
-          <p class="eyebrow">current</p>
-          <h2 data-text-key="about.current.title">当前状态</h2>
-          <div class="status-line"><span class="status-dot"></span><strong data-text-key="about.current.state">在线折腾</strong></div>
-          <p class="muted" data-text-key="about.current.body">本周主要在看 Linux 驱动和博客页面，也在把服务器的公开入口、备份和后台整理成长期可维护的状态。</p>
-        </article>
-
-        <article class="desk-card tool-card" data-edit-target="ui:about-stack-list">
-          <p class="eyebrow" data-text-key="about.stack.eyebrow">stack</p>
-          <h2 data-text-key="about.stack.title">站点后面会用到的东西</h2>
-          <div class="tool-grid" data-about-stack-items>
-            <span data-edit-target="ui:about-stack:database">PostgreSQL / MySQL 数据</span>
-            <span data-edit-target="ui:about-stack:redis">Redis 缓存</span>
-            <span data-edit-target="ui:about-stack:meilisearch">Meilisearch 搜索</span>
-            <span data-edit-target="ui:about-stack:markdown">Markdown 写作</span>
-            <span data-edit-target="ui:about-stack:nginx">Nginx 静态部署</span>
-            <span data-edit-target="ui:about-stack:backup">每日备份</span>
+        <article class="desk-card about-gallery-card" data-about-gallery>
+          <div class="about-gallery-head">
+            <div>
+              <p class="eyebrow">gallery</p>
+              <h2>Reze</h2>
+            </div>
+            <button type="button" class="about-gallery-open" data-about-gallery-open hidden aria-label="Open Reze Bank"><span></span><span></span><span></span><span></span><span>BANK</span></button>
+          </div>
+          <div class="about-gallery-grid" data-about-gallery-grid>
+            <div class="about-gallery-empty">后台添加图片链接后展示</div>
           </div>
         </article>
+        <div class="about-gallery-modal" data-about-gallery-modal hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="About gallery">
+          <button type="button" class="about-gallery-modal-backdrop" data-about-gallery-close aria-label="Close gallery"></button>
+          <div class="about-gallery-modal-panel">
+            <div class="about-gallery-modal-head">
+              <div>
+                <p class="eyebrow">gallery</p>
+                <h2>Reze Bank</h2>
+              </div>
+              <button type="button" class="about-gallery-close" data-about-gallery-close>Close</button>
+            </div>
+            <div class="about-gallery-modal-grid" data-about-gallery-modal-grid></div>
+          </div>
+        </div>
       </div>
 
       <aside class="sidebar">
@@ -96,7 +104,16 @@
           <p data-text-key="about.contact.body">公开页面只放普通联系入口，不放私有服务、管理入口或内部地址。</p>
           <a class="primary-link slim" href="mailto:hello@example.com">hello@example.com</a>
         </section>
-        <section class="desk-card side-illustration"><span class="image-card-label">side note</span></section>
+        <section class="desk-card breakup-music-card" data-breakup-music-card aria-live="polite">
+          <div class="breakup-music-head">
+            <p class="eyebrow">playlist</p>
+            <small data-breakup-music-updated>每日推荐</small>
+          </div>
+          <h2>DDV</h2>
+          <div class="breakup-music-list" data-breakup-music-list>
+            <article class="breakup-music-empty">歌单同步中...</article>
+          </div>
+        </section>
       </aside>
     </section>
   </main>
@@ -116,41 +133,31 @@
         <div class="floor"></div>
       </div>
     </div>
-    <div class="site-footer-inner">
-      <section class="footer-brand-block" aria-label="Jlemonz">
-        <a class="footer-brand-link" href="/index.html" aria-label="返回首页">
-          <img src="/assets/brand/jlemonz-logo.png?v=brand-pink-polish-20260530" alt="" aria-hidden="true">
-          <span>Jlemonz</span>
-        </a>
-        <p data-footer-brand-body>Linux、Pi5、项目和图文，慢慢归档。</p>
-        <div class="footer-tags" aria-label="站点标签" data-footer-tags>
-          <span>Pi5</span>
-          <span>Linux</span>
-          <span>图库</span>
+            <div class="site-footer-inner footer-ending">
+      <section class="footer-record-preview" aria-label="备案预览">
+        <p class="footer-record-kicker">record preview</p>
+        <h2>备案预留</h2>
+        <p>这里先放一小段站点说明：Jlemonz 用来记录 Ubuntu、ROS、FOC、项目、小记和瞬间。后期备案号、主体信息和公网说明都可以放在这里。</p>
+        <div class="footer-record-meta" aria-label="备案信息预留">
+          <span>备案号待补</span>
+          <span>Jlemonz &middot; 2026</span>
+          <span>slowly written</span>
         </div>
       </section>
-      <div class="footer-link-grid" data-footer-sections>
-        <nav class="footer-links" aria-label="友链">
-          <p>友链</p>
-          <a href="https://github.com/Jlemonz" target="_blank" rel="noreferrer"><span>GitHub</span></a>
-          <a href="/about.html#contact"><span>交换友链</span></a>
-        </nav>
-        <nav class="footer-links" aria-label="图库">
-          <p>图库</p>
-          <a href="/moments.html"><span>瞬间图文</span></a>
-          <a href="/projects.html"><span>项目图片</span></a>
-          <a href="/about.html#contact"><span>素材联系</span></a>
-        </nav>
-      </div>
+      <section class="footer-lyric-card" aria-label="页尾歌词">
+        <p class="footer-lyric-kicker">lyrics</p>
+        <blockquote data-footer-lyric>风从页面旁边经过<br><span>把今天翻到下一页</span></blockquote>
+        <small data-footer-lyric-note>footer note &middot; rotating</small>
+      </section>
     </div>
   </footer>
 
   <div class="search-modal" data-search-modal hidden>
     <div class="search-panel" role="dialog" aria-modal="true" aria-label="站内搜索">
       <button type="button" class="close-btn" data-search-close aria-label="关闭搜索">×</button>
-      <p class="eyebrow">search</p><h2 data-text-key="shared.search.title">找一条旧记录</h2>
-      <label class="uiverse-input search-input"><input type="search" placeholder=" " data-search-input><span data-text-key="shared.search.input">试试 Linux、服务器、博客、驱动学习...</span></label>
-      <div class="search-suggestions" data-search-results><a href="/projects.html">树莓派家庭服务器</a><a href="/moments.html">设备树绑定</a><a href="/archive.html">札记</a></div>
+      <p class="eyebrow">search</p><h2 data-text-key="shared.search.title">检索一条旧记录</h2>
+      <label class="uiverse-input search-input"><input type="search" placeholder=" " data-search-input><span data-text-key="shared.search.input">试试 Ubuntu、ROS、FOC、机器人项目...</span></label>
+      <div class="search-suggestions" data-search-results><a href="/projects.html">项目</a><a href="/archive.html">小记</a><a href="/interview.html">面试</a></div>
     </div>
   </div>
 </body>

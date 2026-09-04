@@ -1,96 +1,27 @@
 # 部署说明
 
-## 目标路径
-
-树莓派当前约定路径：
-
-| 内容 | 路径 |
-| --- | --- |
-| 后端 | `/data/blog-backend` |
-| 前台静态页面 | `/data/sites/blog/html` |
-| 上传文件 | `/data/blog-backend/uploads` |
-| 备份 | `/data/blog-backend/backups` |
-| Nginx 配置参考 | `ops/pi-sites.conf` |
-
-## 首次部署
-
-1. 安装 Node.js、MySQL、Redis、Meilisearch 和 Nginx。
-2. 同步后端源码到 `/data/blog-backend`。
-3. 根据 `.env.example` 创建 `/data/blog-backend/.env`，填写真实密码和密钥。
-4. 安装依赖并初始化数据库：
+## 环境变量
 
 ```bash
-cd /data/blog-backend
-npm install
+cp blog-backend/.env.example blog-backend/.env
+```
+
+将数据库、Redis、会话签名和管理员密码改为服务器专用值。不要把 `.env` 放进 Git，也不要把生产数据库复制进仓库。
+
+## 启动后端
+
+```bash
+cd blog-backend
+npm ci
 npm run admin:install
 npm run admin:build
-npm run init
+npm start
 ```
 
-5. 安装 systemd 服务：
+Node 服务默认监听 `127.0.0.1:8097`。启动时会检查并创建当前版本所需数据表；已有生产数据库不会随本仓库同步。
 
-```bash
-sudo cp /data/blog-backend/scripts/yifang-blog.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now yifang-blog
-```
+## Nginx
 
-6. 同步前台静态页面到 `/data/sites/blog/html`。
-7. 参考 `ops/pi-sites.conf` 配置 Nginx，然后检查并重载：
+`ops/nginx.conf` 是代理规则参考。部署时把其中的证书路径、静态根目录和上游服务名改成实际环境，不要把证书私钥提交到仓库。
 
-```bash
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
-## 日常发布
-
-后端发布：
-
-```bash
-cd /data/blog-backend
-git pull
-npm install
-npm run admin:build
-sudo systemctl restart yifang-blog
-```
-
-前台发布：
-
-```bash
-rsync -av --delete blog-redesign/ pi5@192.168.31.248:/data/sites/blog/html/
-```
-
-从本机同步后端时要排除运行时数据：
-
-```bash
-rsync -av --delete \
-  --exclude .env \
-  --exclude ADMIN-CREDENTIALS.txt \
-  --exclude node_modules \
-  --exclude uploads \
-  --exclude backups \
-  blog-backend/ pi5@192.168.31.248:/data/blog-backend/
-```
-
-## 服务端口
-
-- `8086`：网站 HTTPS 入口。
-- `8097`：Node 后端，仅监听本机。
-- `3306`：MySQL。
-- `6379`：Redis。
-- `7700`：Meilisearch。
-
-## 回滚
-
-代码回滚优先回到上一个 Git 提交，再重建后台并重启服务：
-
-```bash
-cd /data/blog-backend
-git log --oneline -5
-git checkout <commit>
-npm run admin:build
-sudo systemctl restart yifang-blog
-```
-
-如果涉及数据库或上传文件，先参考 [运维说明](operations.md) 的备份恢复流程。
+建议：HTML 使用 `no-store` 或短缓存；带内容哈希的 CSS、JS 使用长期缓存；上传目录单独代理并限制可接受的文件类型和大小。
